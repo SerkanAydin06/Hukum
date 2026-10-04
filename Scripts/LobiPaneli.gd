@@ -461,6 +461,21 @@ func lobi_arayuzunu_ciz():
 
 func _oyunu_baslat_istegi():
 	if multiplayer.is_server():
+		# Aynı anda seçim yapan iki oyuncu aynı rengi/medeniyeti alabiliyordu: son kez sunucuda kontrol et
+		var renkler = []
+		var medeniyetler = []
+		for id in lobi_verisi:
+			var v = lobi_verisi[id]
+			if not v.get("hazir_mi", false) or v.get("renk", "") == "" or v.get("medeniyet", "") == "":
+				_sistem_mesaji("❌ Herkes renk ve medeniyet seçip hazır olmalı!")
+				return
+			if v["renk"] in renkler or v["medeniyet"] in medeniyetler:
+				_sistem_mesaji("❌ İki oyuncu aynı rengi veya medeniyeti seçmiş! Biri değiştirmeli.")
+				return
+			renkler.append(v["renk"])
+			medeniyetler.append(v["medeniyet"])
+		# Oyun başladıktan sonra yeni oyuncu bağlanamasın
+		if multiplayer.multiplayer_peer: multiplayer.multiplayer_peer.refuse_new_connections = true
 		randomize()
 		oyuna_gecis_yap_rpc.rpc(lobi_verisi, randi())
 

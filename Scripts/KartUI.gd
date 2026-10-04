@@ -278,7 +278,7 @@ func _on_cope_at_pressed():
 			return
 			
 		if kart_index != -1 and kart_index < ana.deste.el.size():
-			ana.deste.el.remove_at(kart_index)
+			ana.deste.karti_elden_at(kart_index)
 			ana.secili_kart_index = -1
 			ana.arayuz.olay_yaz("[color=gray]🗑️ Kart çöpe atıldı.[/color]")
 			ana.deste._kart_gorsellerini_guncelle()
@@ -324,7 +324,7 @@ func _on_donustur_pressed():
 			
 			ana.aksiyon.karti_feda_et_rpc.rpc(oyuncu_ismi, feda_kaynagi)
 			
-			ana.deste.el.remove_at(kart_index)
+			ana.deste.karti_elden_at(kart_index)
 			ana.secili_kart_index = -1
 			ana.arayuz.olay_yaz("[color=gold]🪙 Kart dönüştürüldü ve 1 %s kazanıldı![/color]" % kazanilan_mesaj)
 			

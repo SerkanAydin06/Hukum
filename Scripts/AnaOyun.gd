@@ -38,6 +38,7 @@ var kurulabilir_hexler = []
 var kart_insa_modu_aktif = false
 
 var oyun_bitti = false
+var ayrilan_oyuncular = []   # oyundan kopan oyuncuların isimleri (sıraları atlanır)
 var savas_puanlari = {}   # 🟢 YENİ: isim -> int (savaş kazanma/kaybetme sayacı)
 const HEDEF_PUAN = 50
 
@@ -51,6 +52,8 @@ const HEDEF_PUAN = 50
 @onready var aksiyon = $AksiyonYonetici
 
 func _ready():
+	if multiplayer.is_server():
+		multiplayer.peer_disconnected.connect(_peer_ayrildi)
 	deste.desteleri_hazirla()
 	arayuz.ui_sinyallerini_bagla()
 	if Network.son_lobi_verisi.size() > 0:
@@ -119,6 +122,22 @@ func lobi_verisiyle_baslat(gelen_lobi_verisi: Dictionary):
 		# 🟢 DÜZELTME: "Kirmizi oyuncusunda" yazması yerine "[Gerçek İsim] oyuncusunda" yazar ve kendi rengine boyar
 		var renkli_isim_metni = "[color=#%s][b]%s[/b][/color]" % [ilk_renk_kodu, ilk_oyuncu]
 		arayuz.olay_yaz("[color=gold]⚔️ Oyun Başladı! Sıra %s oyuncusunda (%s).[/color]" % [renkli_isim_metni, medeniyetler_verisi[ilk_oyuncu]])
+
+# --- OYUNCU KOPMASI ---
+# Sunucu, kopan oyuncuyu herkese bildirir; sırası ondaysa oyun kilitlenmesin diye tur geçilir
+func _peer_ayrildi(id: int):
+	var idx = oyuncu_peer_idleri.find(id)
+	if idx != -1: oyuncu_ayrildi_rpc.rpc(oyuncular[idx])
+
+@rpc("authority", "call_local", "reliable")
+func oyuncu_ayrildi_rpc(isim: String):
+	if isim in ayrilan_oyuncular: return
+	ayrilan_oyuncular.append(isim)
+	arayuz.olay_yaz("[color=gray]🚪 %s oyundan ayrıldı.[/color]" % arayuz.renkli_isim(isim))
+	if savas.savas_aktif:
+		savas.savasi_iptal_et()
+	if oyuncular[aktif_sira] == isim and ayrilan_oyuncular.size() < oyuncular.size():
+		tur_ekonomi.turu_bitir()
 
 # --- RPC GÜVENLİĞİ ---
 # RPC'yi gönderen peer'ın oyuncu ismi ("" = tanınmayan peer)

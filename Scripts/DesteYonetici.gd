@@ -24,6 +24,13 @@ func karistir(dizi: Array) -> void:
 		dizi[i] = dizi[j]
 		dizi[j] = gecici
 
+# Kartı elden çıkarır; savaş kartıysa atılanlar destesine eklenmesi için herkese bildirir
+func karti_elden_at(idx: int) -> void:
+	var kart = el[idx]
+	el.remove_at(idx)
+	if kart.get("hedef", "") == "savas":
+		ana.aksiyon.savas_karti_atildi_rpc.rpc(kart)
+
 func desteleri_hazirla():
 	if Network.oyun_tohumu != 0:
 		rng.seed = Network.oyun_tohumu

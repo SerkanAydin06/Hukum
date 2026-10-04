@@ -33,7 +33,7 @@ func kart_kullan(idx):
 func kart_cope_at(idx):
 	if ana.aktif_sira != ana.benim_indexim: return
 	
-	ana.deste.el.remove_at(idx)
+	ana.deste.karti_elden_at(idx)
 	ana.secili_kart_index = -1
 	ana.kart_insa_modu_aktif = false # İşlem iptal olduğu için harita modunu kapat
 	
@@ -62,7 +62,7 @@ func karti_kaynaga_cevir(idx):
 	# Mevcut RPC yapını bozmamak için sadece türü gönderiyoruz
 	aksiyon.karti_feda_et_rpc.rpc(ana.oyuncular[ana.benim_indexim], kaynak)
 	
-	ana.deste.el.remove_at(idx)
+	ana.deste.karti_elden_at(idx)
 	ana.secili_kart_index = -1
 	ana.kart_insa_modu_aktif = false # Modu temizle
 	ana.harita.queue_redraw()

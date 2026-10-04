@@ -379,6 +379,13 @@ func savas_karti_cek_rpc(oyuncu_ismi):
 	ana.arayuz.olay_yaz("🃏 %s, kışladan bir [color=crimson]Savaş Kartı[/color] çekti." % ana.arayuz.renkli_isim(oyuncu_ismi))
 	ana.arayuz.arayuzu_guncelle()
 
+# Elden çöpe atılan / dönüştürülen savaş kartlarını herkesin atılanlar destesine ekler
+@rpc("any_peer", "call_local", "reliable")
+func savas_karti_atildi_rpc(kart: Dictionary):
+	if ana.rpc_gonderen_ismi() == "": return
+	if kart.get("hedef", "") == "savas":
+		ana.deste.atilan_savas_kartlari.append(kart)
+
 @rpc("any_peer", "call_local", "reliable")
 func oncu_uret_rpc(oyuncu_ismi, koordinat):
 	if not ana.rpc_sirada_mi(oyuncu_ismi) or ana.aktif_oyuncu_aksiyon_hakki <= 0: return
@@ -427,7 +434,8 @@ func savas_baslat_rpc(saldiran_idx, savunan_idx, bx, by, t_tipi = "normal", ozel
 			orjinal_savunucu = ana.binalar_verisi[hedef_koor]["sahip"]
 		else:
 			gercek_hedef_turu = "piyon"
-			orjinal_savunucu = ana.piyonlar[savunan_idx]["sahip"]
+			# savunan_idx -1 ise (öncüsüz düşman toprağı) piyonlar[-1] SON piyonu döndürürdü
+			orjinal_savunucu = ana.piyonlar[savunan_idx]["sahip"] if savunan_idx != -1 else ozel_savunan
 
 	ana.savas.savas_aktif = true
 	ana.savas.savas_piyon_saldiran = saldiran_idx
@@ -455,6 +463,8 @@ func savas_baslat_rpc(saldiran_idx, savunan_idx, bx, by, t_tipi = "normal", ozel
 func savas_hamlesi_yap_rpc(oyuncu_ismi, kartlar_array, lokal_idx_array):
 	if ana.rpc_gonderen_ismi() != oyuncu_ismi: return
 	ana.savas.secilen_savas_kartlari[oyuncu_ismi] = kartlar_array
+	# Savaşta kullanılan kartlar atılanlar destesine gider (savaş destesi bitince yeniden karıştırılır)
+	ana.deste.atilan_savas_kartlari.append_array(kartlar_array)
 	
 	if oyuncu_ismi == ana.oyuncular[ana.benim_indexim]:
 		lokal_idx_array.sort_custom(func(a, b): return a > b)

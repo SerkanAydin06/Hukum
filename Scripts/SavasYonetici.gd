@@ -29,7 +29,7 @@ var savas_resimleri = {
 	"Koçbaşı": "kocbasi", "Mancınık": "mancinik", "Büyük İskender": "iskender",
 	"Fatih Sultan Mehmet": "fatih", "Hannibal Barca": "hannibal", "Cengiz Han": "cengiz",
 	"Ragnar Lodbrok": "lodbrok", "Leonidas": "leonidas", "Belisarius": "belisarius",
-	"Thutmose III": "thutmose", "Selahaddin Eyyubi": "selahaddin", "Enrico Dandolo": "dondolo"
+	"Thutmose III": "thutmose", "Selahaddin Eyyubi": "selahaddin", "Enrico Dandolo": "dandolo"
 }
 
 var son_savas_paneli
@@ -516,6 +516,18 @@ func savas_cozumle(kartlar_dict: Dictionary, zar_saldiran: int, zar_savunan: int
 	if ana.arayuz.alt_orta_panel: ana.arayuz.alt_orta_panel.visible = true
 	if savas_eli_paneli: savas_eli_paneli.visible = false
 
+# Savaştaki bir oyuncu oyundan ayrılırsa savaşı sonuçsuz kapatır
+func savasi_iptal_et():
+	savas_aktif = false
+	secilen_savas_kartlari.clear()
+	zar_saldiran_deger = -1
+	zar_savunan_deger = -1
+	if son_savas_paneli: son_savas_paneli.visible = false
+	if ana.arayuz.alt_orta_panel: ana.arayuz.alt_orta_panel.visible = true
+	if savas_eli_paneli: savas_eli_paneli.visible = false
+	ana.arayuz.olay_yaz("[color=gray]⚔️ Savaş, taraflardan biri ayrıldığı için iptal edildi.[/color]")
+	ana.arayuz.arayuzu_guncelle()
+
 func _zar_bonusu_hesapla(taraf_kartlar: Array, taraf_saldiran_mi: bool) -> int:
 	var bonus = 0
 	for k in taraf_kartlar:
@@ -741,12 +753,21 @@ func _zar_at_basildi(saldiran_mi: bool):
 @rpc("any_peer", "call_local", "reliable")
 func zar_at_istegi_rpc(saldiran_mi: bool):
 	if not multiplayer.is_server(): return
+	# Her taraf yalnızca bir kez zar atabilir (aksi halde savaş birden fazla kez çözülür)
+	if saldiran_mi and zar_saldiran_deger != -1: return
+	if not saldiran_mi and zar_savunan_deger != -1: return
 	
 	var ilgili_isim = savas_ozel_saldiran if savas_piyon_saldiran == -1 else ana.piyonlar[savas_piyon_saldiran]["sahip"]
 	if not saldiran_mi:
-		var orjinal_sav = ana.binalar_verisi[savas_bina_koordinat]["sahip"] if savas_hedef_turu == "bina" and ana.binalar_verisi.has(savas_bina_koordinat) else savas_ozel_savunucu
+		var orjinal_sav = savas_ozel_savunucu
+		if savas_hedef_turu == "bina" and ana.binalar_verisi.has(savas_bina_koordinat):
+			orjinal_sav = ana.binalar_verisi[savas_bina_koordinat]["sahip"]
+		elif savas_hedef_turu == "piyon" and savas_piyon_savunan != -1 and savas_piyon_savunan < ana.piyonlar.size():
+			orjinal_sav = ana.piyonlar[savas_piyon_savunan]["sahip"]
 		ilgili_isim = ana.efendiler.get(orjinal_sav, orjinal_sav)
 	
+	if ana.rpc_gonderen_ismi() != ilgili_isim: return   # başkasının yerine zar atılamaz
+
 	var med = ana.medeniyetler_verisi.get(ilgili_isim, "")
 	var deger = randi_range(1, 6)
 	if med == "Osmanlı":

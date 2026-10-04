@@ -92,6 +92,10 @@ func _tur_butonuna_basildi():
 @rpc("any_peer", "call_local", "reliable")
 func sirayi_degistir_rpc():
 	if not ana.rpc_sirada_mi(): return
+	turu_bitir()
+
+# Aktif oyuncunun turunu kapatır (üretim/vergi) ve sırayı oyundan ayrılmamış bir sonraki oyuncuya verir
+func turu_bitir():
 	var bitiren_oyuncu = ana.oyuncular[ana.aktif_sira]
 	
 	if ana.ilk_tur_bitti or ana.sehir_merkezleri.get(bitiren_oyuncu, false):
@@ -115,11 +119,12 @@ func sirayi_degistir_rpc():
 		if efendisi != "" and vergi_logu != "":
 			ana.arayuz.olay_yaz("👑 [color=orange]Vasal Vergisi:[/color] %s, efendisine %s ödedi." % [ana.arayuz.renkli_isim(bitiren_oyuncu), vergi_logu])
 
-	ana.aktif_sira = (ana.aktif_sira + 1) % ana.oyuncular.size()
-	
-	if ana.aktif_sira == 0:
-		ana.ilk_tur_bitti = true
-		ana.tur_sayaci += 1
+	for _adim in range(ana.oyuncular.size()):
+		ana.aktif_sira = (ana.aktif_sira + 1) % ana.oyuncular.size()
+		if ana.aktif_sira == 0:
+			ana.ilk_tur_bitti = true
+			ana.tur_sayaci += 1
+		if not ana.oyuncular[ana.aktif_sira] in ana.ayrilan_oyuncular: break
 		
 	var aktif_oyuncu_ismi = ana.oyuncular[ana.aktif_sira]
 	ana.secili_kart_index = -1
