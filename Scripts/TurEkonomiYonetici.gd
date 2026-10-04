@@ -62,6 +62,10 @@ func _kaynak_sat(k_turu: String):
 func ticaret_yap_rpc(oyuncu_ismi, k_turu):
 	if not ana.rpc_sirada_mi(oyuncu_ismi): return
 	if not (k_turu in ["odun", "tas", "yiyecek"]) or ana.oyuncu_kaynaklari[oyuncu_ismi][k_turu] < 5: return
+	var pazar_var = false
+	for bina in ana.binalar_verisi.values():
+		if bina["sahip"] == oyuncu_ismi and bina["tur"] == "ticaret_merkezi": pazar_var = true
+	if not pazar_var: return
 	# 🟢 AP eksiltme satırı (ana.aktif_oyuncu_aksiyon_hakki -= 1) tamamen silindi!
 	ana.oyuncu_kaynaklari[oyuncu_ismi][k_turu] -= 5
 	ana.oyuncu_kaynaklari[oyuncu_ismi]["altin"] += 1
@@ -92,6 +96,7 @@ func _tur_butonuna_basildi():
 @rpc("any_peer", "call_local", "reliable")
 func sirayi_degistir_rpc():
 	if not ana.rpc_sirada_mi(): return
+	if not ana.sehir_merkezleri.get(ana.rpc_gonderen_ismi(), false): return
 	turu_bitir()
 
 # Aktif oyuncunun turunu kapatır (üretim/vergi) ve sırayı oyundan ayrılmamış bir sonraki oyuncuya verir
@@ -128,6 +133,8 @@ func turu_bitir():
 		
 	var aktif_oyuncu_ismi = ana.oyuncular[ana.aktif_sira]
 	ana.secili_kart_index = -1
+	ana.kart_insa_modu_aktif = false
+	ana.kurulabilir_hexler.clear()
 	ana.secili_piyon_index = -1
 	ana.aktif_oyuncu_aksiyon_hakki = 3 if ana.ilk_tur_bitti else 0
 	
@@ -138,3 +145,4 @@ func turu_bitir():
 		
 	ana.arayuz.arayuzu_guncelle()
 	ana.harita.queue_redraw()
+

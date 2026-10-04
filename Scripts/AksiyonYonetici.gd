@@ -58,21 +58,15 @@ func _unhandled_input(event):
 						ana.harita.queue_redraw()
 						return
 					
-					if ana.secili_kart_index != -1:
-						ana.secili_kart_index = -1
-						ana.deste._kart_gorsellerini_guncelle()
-						return
-					
-					if ana.kart_insa_modu_aktif:
+					if ana.secili_kart_index != -1 or ana.kart_insa_modu_aktif:
 						ana.secili_kart_index = -1
 						ana.kart_insa_modu_aktif = false
 						ana.kurulabilir_hexler.clear()
 						ana.deste._kart_gorsellerini_guncelle()
-						ana.arayuz.olay_yaz("[color=gray]İnşa modu iptal edildi.[/color]")
 						ana.arayuz.arayuzu_guncelle()
 						ana.harita.queue_redraw()
 						return
-						
+
 					if ana.insa_modu_aktif and not ana.sehir_merkezleri.get(k_isim, false):
 						ana.insa_modu_aktif = false
 						ana.secilen_baslangic_biyomu = ""
@@ -111,14 +105,12 @@ func _unhandled_input(event):
 				if k in ana.kurulabilir_hexler:
 					var kart = ana.deste.el[ana.secili_kart_index]
 					if ana.oyuncu_kaynaklari[k_isim]["odun"] >= kart["odun_maliyet"] and ana.oyuncu_kaynaklari[k_isim]["tas"] >= kart["tas_maliyet"]:
-						var oynanan_idx = ana.secili_kart_index
 						
 						if kart["hedef"] == "kendi_binasi": 
-							bina_yukselt_rpc.rpc(k_isim, k, kart["odun_maliyet"], kart["tas_maliyet"])
+							bina_yukselt_rpc.rpc(k_isim, k, kart["odun_maliyet"], kart["tas_maliyet"], ana.secili_kart_index)
 						else: 
-							kart_oyna_rpc.rpc(k_isim, kart["tur"], k, kart["odun_maliyet"], kart["tas_maliyet"])
+							kart_oyna_rpc.rpc(k_isim, kart["tur"], k, kart["odun_maliyet"], kart["tas_maliyet"], ana.secili_kart_index)
 						
-						ana.deste.el.remove_at(oynanan_idx)
 						ana.secili_kart_index = -1
 						ana.kart_insa_modu_aktif = false
 						ana.deste._kart_gorsellerini_guncelle()
@@ -239,9 +231,9 @@ func _hayir_basildi():
 	ana.arayuz.arayuzu_guncelle()
 
 @rpc("any_peer", "call_local", "reliable")
-func kesif_ve_hareket_rpc(p_idx, yeni_koor, biyom, k_isim):
+func kesif_ve_hareket_rpc(p_idx: int, yeni_koor: Vector2i, biyom: String, k_isim: String):
 	if not ana.rpc_sirada_mi(k_isim) or ana.aktif_oyuncu_aksiyon_hakki <= 0: return
-	if p_idx < 0 or p_idx >= ana.piyonlar.size() or ana.piyonlar[p_idx]["sahip"] != k_isim: return
+	if not _hareket_gecerli(p_idx, yeni_koor, k_isim) or ana.harita.kesfedilen_hexler.has(yeni_koor): return
 	if not (biyom in ["cim", "orman", "dag"]): return
 	ana.aktif_oyuncu_aksiyon_hakki -= 1
 	ana.oyuncu_kaynaklari[k_isim]["yiyecek"] = max(0, ana.oyuncu_kaynaklari[k_isim]["yiyecek"] - 1)
@@ -254,8 +246,12 @@ func kesif_ve_hareket_rpc(p_idx, yeni_koor, biyom, k_isim):
 	ana.harita.queue_redraw()
 
 @rpc("any_peer", "call_local", "reliable")
-func bina_kur_rpc(koordinat, sahip_isim, bina_turu, baslangic_biyomu = ""):
+func bina_kur_rpc(koordinat: Vector2i, sahip_isim: String, bina_turu: String, baslangic_biyomu: String = ""):
 	if not ana.rpc_sirada_mi(sahip_isim): return
+	if bina_turu != "sehir_merkezi" or ana.sehir_merkezleri.get(sahip_isim, false): return
+	if not ana.hex_gecerli_mi(koordinat) or ana.binalar_verisi.has(koordinat): return
+	if not baslangic_biyomu in ["cim", "orman", "dag"]: return
+	if ana.oyuncu_kaynaklari[sahip_isim]["odun"] < 10 or ana.oyuncu_kaynaklari[sahip_isim]["tas"] < 10: return
 	if baslangic_biyomu != "": ana.harita.kesfedilen_hexler[koordinat] = baslangic_biyomu
 	elif not ana.harita.kesfedilen_hexler.has(koordinat):
 		var biyomlar = ["cim", "cim", "cim", "orman", "orman", "dag"]
@@ -274,13 +270,18 @@ func bina_kur_rpc(koordinat, sahip_isim, bina_turu, baslangic_biyomu = ""):
 	ana.harita.queue_redraw()
 
 @rpc("any_peer", "call_local", "reliable")
-func bina_yukselt_rpc(sahip_isim, koordinat, mo, mt):
+func bina_yukselt_rpc(sahip_isim: String, koordinat: Vector2i, mo: int, mt: int, kart_idx: int = -1):
 	if not ana.rpc_sirada_mi(sahip_isim): return
 	if ana.aktif_sira >= ana.oyuncular.size() or ana.oyuncular[ana.aktif_sira] != sahip_isim: return
 	if ana.aktif_oyuncu_aksiyon_hakki <= 0: return
 	
 	# 🟢 YENİ: Asıl güvenlik kontrolü — seviye 3'ü asla geçemez
 	if not ana.binalar_verisi.has(koordinat): return
+	var kart = _kart_getir(sahip_isim, kart_idx)
+	var bina = ana.binalar_verisi[koordinat]
+	if bina["sahip"] != sahip_isim or kart.get("hedef") != "kendi_binasi": return
+	if kart.get("bina_turu") != "joker" and kart.get("bina_turu") != bina["tur"]: return
+	if not _kart_maliyeti_gecerli(sahip_isim, kart, mo, mt): return
 	if ana.binalar_verisi[koordinat].get("seviye", 1) >= 3:
 		ana.arayuz.olay_yaz("[color=light_coral]❌ Bu bina zaten maksimum (Seviye 3) seviyede![/color]")
 		return
@@ -289,6 +290,7 @@ func bina_yukselt_rpc(sahip_isim, koordinat, mo, mt):
 	ana.oyuncu_kaynaklari[sahip_isim]["odun"] = max(0, ana.oyuncu_kaynaklari[sahip_isim]["odun"] - mo)
 	ana.oyuncu_kaynaklari[sahip_isim]["tas"] = max(0, ana.oyuncu_kaynaklari[sahip_isim]["tas"] - mt)
 	ana.binalar_verisi[koordinat]["seviye"] += 1
+	_kart_tuket(sahip_isim, kart_idx)
 	var yeni_lvl = ana.binalar_verisi[koordinat]["seviye"]
 	var b_tur = ana.binalar_verisi[koordinat]["tur"].to_upper().replace("_"," ")
 	ana.arayuz.olay_yaz("🔺 %s, (%d, %d) konumundaki %s yapısını [color=gold]Seviye %d[/color]'a yükseltti!" % [ana.arayuz.renkli_isim(sahip_isim), koordinat.x, koordinat.y, b_tur, yeni_lvl])
@@ -296,9 +298,14 @@ func bina_yukselt_rpc(sahip_isim, koordinat, mo, mt):
 	ana.harita.queue_redraw()
 
 @rpc("any_peer", "call_local", "reliable")
-func piyon_hareket_rpc(p_idx, yeni_koor):
+func piyon_hareket_rpc(p_idx: int, yeni_koor: Vector2i):
 	if not ana.rpc_sirada_mi() or ana.aktif_oyuncu_aksiyon_hakki <= 0: return
-	if p_idx < 0 or p_idx >= ana.piyonlar.size() or ana.piyonlar[p_idx]["sahip"] != ana.rpc_gonderen_ismi(): return
+	var isim = ana.rpc_gonderen_ismi()
+	if not _hareket_gecerli(p_idx, yeni_koor, isim) or not ana.harita.kesfedilen_hexler.has(yeni_koor): return
+	if ana.kontrol_edilen_hexler.get(yeni_koor, isim) != isim: return
+	if ana.binalar_verisi.has(yeni_koor) and ana.binalar_verisi[yeni_koor]["sahip"] != isim: return
+	for p in ana.piyonlar:
+		if p["koordinat"] == yeni_koor and p["sahip"] != isim: return
 	ana.aktif_oyuncu_aksiyon_hakki -= 1
 	var sahip = ana.piyonlar[p_idx]["sahip"]
 	var eski_koor = ana.piyonlar[p_idx]["koordinat"]
@@ -310,15 +317,24 @@ func piyon_hareket_rpc(p_idx, yeni_koor):
 	ana.harita.queue_redraw()
 
 @rpc("any_peer", "call_local", "reliable")
-func kart_oyna_rpc(sahip_isim, kart_turu, koordinat, mo, mt):
+func kart_oyna_rpc(sahip_isim: String, kart_turu: String, koordinat: Vector2i, mo: int, mt: int, kart_idx: int = -1):
 	if not ana.rpc_sirada_mi(sahip_isim): return
 	if ana.aktif_sira >= ana.oyuncular.size() or ana.oyuncular[ana.aktif_sira] != sahip_isim: return
 	if ana.aktif_oyuncu_aksiyon_hakki <= 0: return
+
+	var kart = _kart_getir(sahip_isim, kart_idx)
+	if kart.get("hedef") != "harita" or kart.get("tur") != kart_turu: return
+	if not _kart_maliyeti_gecerli(sahip_isim, kart, mo, mt): return
+	if not ana.hex_gecerli_mi(koordinat) or ana.kontrol_edilen_hexler.get(koordinat) != sahip_isim or ana.binalar_verisi.has(koordinat): return
+	var biyom = ana.harita.kesfedilen_hexler.get(koordinat, "")
+	var gereken = "orman" if kart_turu == "oduncu_kampi" else "dag" if kart_turu == "tas_ocagi" else "cim"
+	if biyom != gereken: return
 
 	ana.aktif_oyuncu_aksiyon_hakki -= 1
 	ana.oyuncu_kaynaklari[sahip_isim]["odun"] = max(0, ana.oyuncu_kaynaklari[sahip_isim]["odun"] - mo)
 	ana.oyuncu_kaynaklari[sahip_isim]["tas"] = max(0, ana.oyuncu_kaynaklari[sahip_isim]["tas"] - mt)
 	ana.binalar_verisi[koordinat] = {"tur": kart_turu, "sahip": sahip_isim, "seviye": 1}
+	_kart_tuket(sahip_isim, kart_idx)
 	if kart_turu == "ev": ana.oyuncu_kaynaklari[sahip_isim]["max_nufus"] += 3
 	ana.arayuz.olay_yaz("🏗️ %s, (%d, %d) konumuna [color=aqua]%s[/color] kurdu." % [ana.arayuz.renkli_isim(sahip_isim), koordinat.x, koordinat.y, kart_turu.to_upper().replace("_"," ")])
 	ana.harita.gorus_haritasini_guncelle()
@@ -326,8 +342,15 @@ func kart_oyna_rpc(sahip_isim, kart_turu, koordinat, mo, mt):
 	ana.harita.queue_redraw()
 
 @rpc("any_peer", "call_local", "reliable")
-func hakimiyet_kur_rpc(oyuncu_ismi, koordinat):
+func hakimiyet_kur_rpc(oyuncu_ismi: String, koordinat: Vector2i):
 	if not ana.rpc_sirada_mi(oyuncu_ismi) or ana.aktif_oyuncu_aksiyon_hakki <= 0: return
+	if not ana.hex_gecerli_mi(koordinat) or ana.oyuncu_kaynaklari[oyuncu_ismi]["yiyecek"] < 3: return
+	var sahip = ana.kontrol_edilen_hexler.get(koordinat, "")
+	if sahip == oyuncu_ismi or ana.muttefik_mi(oyuncu_ismi, sahip) or not ana.hex_dosta_komsu_mu(koordinat, oyuncu_ismi): return
+	var kendi_oncusu = false
+	for p in ana.piyonlar:
+		if p["koordinat"] == koordinat and p["sahip"] == oyuncu_ismi: kendi_oncusu = true
+	if not kendi_oncusu: return
 	ana.aktif_oyuncu_aksiyon_hakki -= 1
 	ana.oyuncu_kaynaklari[oyuncu_ismi]["yiyecek"] = max(0, ana.oyuncu_kaynaklari[oyuncu_ismi]["yiyecek"] - 3)
 	ana.kontrol_edilen_hexler[koordinat] = oyuncu_ismi
@@ -336,14 +359,20 @@ func hakimiyet_kur_rpc(oyuncu_ismi, koordinat):
 	ana.harita.queue_redraw()
 
 @rpc("any_peer", "call_local", "reliable")
-func karti_feda_et_rpc(oyuncu_ismi, kaynak_turu):
-	if not ana.rpc_sirada_mi(oyuncu_ismi): return
-	if not (kaynak_turu in ["odun", "tas", "yiyecek", "altin"]): return
-	if ana.aktif_sira >= ana.oyuncular.size() or ana.oyuncular[ana.aktif_sira] != oyuncu_ismi: return
-	if ana.aktif_oyuncu_aksiyon_hakki <= 0: return
-
+func karti_feda_et_rpc(oyuncu_ismi: String, kaynak_turu: String, kart_idx: int = -1):
+	if not ana.rpc_sirada_mi(oyuncu_ismi) or ana.aktif_oyuncu_aksiyon_hakki <= 0: return
+	var kart = _kart_getir(oyuncu_ismi, kart_idx)
+	if kart.is_empty(): return
+	var izinli = ["odun"]
+	if kart.get("hedef") == "savas": izinli = ["altin"]
+	elif kart.get("tur") == "ticaret_merkezi": izinli = ["odun", "tas", "yiyecek"]
+	elif kart.get("tur") in ["tarla", "gelismis_sulama"]: izinli = ["yiyecek"]
+	elif kart.get("tur") in ["tas_ocagi", "derin_damarlar"]: izinli = ["tas"]
+	if not kaynak_turu in izinli: return
 	ana.aktif_oyuncu_aksiyon_hakki -= 1
 	ana.oyuncu_kaynaklari[oyuncu_ismi][kaynak_turu] += 1
+	_kart_tuket(oyuncu_ismi, kart_idx, true)
+	ana.arayuz.olay_yaz("♻️ %s, bir kartı 1 %s kaynağına dönüştürdü." % [ana.arayuz.renkli_isim(oyuncu_ismi), kaynak_turu.to_upper()])
 	ana.arayuz.arayuzu_guncelle()
 
 @rpc("any_peer", "call_local", "reliable")
@@ -352,6 +381,7 @@ func savas_karti_cek_rpc(oyuncu_ismi):
 	# tüm oyuncularda aynı olan veriye bakılır, yoksa oyuncuların oyun durumu ayrışır.
 	if not ana.rpc_sirada_mi(oyuncu_ismi) or ana.aktif_oyuncu_aksiyon_hakki <= 0: return
 
+	if _el_siniri_doldu(oyuncu_ismi, true): return
 	if ana.deste.savas_destesi.is_empty():
 		if ana.deste.atilan_savas_kartlari.is_empty():
 			ana.arayuz.olay_yaz("[color=light_coral]❌ Savaş Destesi tamamen bitti![/color]")
@@ -370,6 +400,7 @@ func savas_karti_cek_rpc(oyuncu_ismi):
 	ana.oyuncu_kaynaklari[oyuncu_ismi]["altin"] -= 3
 	
 	var cekilen = ana.deste.savas_destesi.pop_front()
+	ana.oyuncu_elleri[oyuncu_ismi].append(cekilen.duplicate(true))
 	if oyuncu_ismi == ana.oyuncular[ana.benim_indexim]: 
 		ana.deste.el.append(cekilen)
 		ana.deste.eldeki_kartlari_ciz()
@@ -381,14 +412,19 @@ func savas_karti_cek_rpc(oyuncu_ismi):
 
 # Elden çöpe atılan / dönüştürülen savaş kartlarını herkesin atılanlar destesine ekler
 @rpc("any_peer", "call_local", "reliable")
-func savas_karti_atildi_rpc(kart: Dictionary):
-	if ana.rpc_gonderen_ismi() == "": return
-	if kart.get("hedef", "") == "savas":
-		ana.deste.atilan_savas_kartlari.append(kart)
+func savas_karti_atildi_rpc(kart_idx: int):
+	var isim = ana.rpc_gonderen_ismi()
+	if not ana.rpc_sirada_mi(isim): return
+	if _kart_getir(isim, kart_idx).is_empty(): return
+	_kart_tuket(isim, kart_idx, true)
+	ana.arayuz.arayuzu_guncelle()
 
 @rpc("any_peer", "call_local", "reliable")
-func oncu_uret_rpc(oyuncu_ismi, koordinat):
+func oncu_uret_rpc(oyuncu_ismi: String, koordinat: Vector2i):
 	if not ana.rpc_sirada_mi(oyuncu_ismi) or ana.aktif_oyuncu_aksiyon_hakki <= 0: return
+	var bina = ana.binalar_verisi.get(koordinat, {})
+	if bina.get("tur") != "oncu_kampi" or bina.get("sahip") != oyuncu_ismi: return
+	if ana.oyuncu_kaynaklari[oyuncu_ismi]["yiyecek"] < 5: return
 	ana.aktif_oyuncu_aksiyon_hakki -= 1
 	ana.oyuncu_kaynaklari[oyuncu_ismi]["yiyecek"] = max(0, ana.oyuncu_kaynaklari[oyuncu_ismi]["yiyecek"] - 5)
 	ana.oyuncu_kaynaklari[oyuncu_ismi]["koylu"] += 1
@@ -399,8 +435,12 @@ func oncu_uret_rpc(oyuncu_ismi, koordinat):
 	ana.harita.queue_redraw()
 
 @rpc("any_peer", "call_local", "reliable")
-func aksiyon_karti_kullan_rpc(oyuncu_ismi, kart_turu):
+func aksiyon_karti_kullan_rpc(oyuncu_ismi: String, kart_turu: String, kart_idx: int = -1):
 	if not ana.rpc_sirada_mi(oyuncu_ismi) or ana.aktif_oyuncu_aksiyon_hakki <= 0: return
+	var kart = _kart_getir(oyuncu_ismi, kart_idx)
+	if kart.get("hedef") != "direkt" or kart.get("tur") != kart_turu: return
+	if not kart_turu in ["genisleme", "usta_isci"]: return
+	_kart_tuket(oyuncu_ismi, kart_idx)
 	ana.aktif_oyuncu_aksiyon_hakki -= 1
 	if kart_turu == "genisleme":
 		ana.oyuncu_kaynaklari[oyuncu_ismi]["koylu"] += 1
@@ -416,8 +456,39 @@ func aksiyon_karti_kullan_rpc(oyuncu_ismi, kart_turu):
 	ana.harita.queue_redraw()
 
 @rpc("any_peer", "call_local", "reliable")
-func savas_baslat_rpc(saldiran_idx, savunan_idx, bx, by, t_tipi = "normal", ozel_saldiran = "", ozel_savunan = ""):
+func savas_baslat_rpc(saldiran_idx: int, savunan_idx: int, bx: int, by: int, t_tipi: String = "normal", ozel_saldiran: String = "", ozel_savunan: String = ""):
 	if not ana.rpc_sirada_mi() or ana.aktif_oyuncu_aksiyon_hakki <= 0: return
+	var gonderen = ana.rpc_gonderen_ismi()
+	var hedef = Vector2i(bx, by)
+	var savunan = ""
+	if t_tipi == "isyan_buton":
+		if saldiran_idx != -1 or savunan_idx != -1 or ozel_saldiran != gonderen: return
+		if ana.efendiler.get(gonderen, "") != ozel_savunan or ozel_savunan == "": return
+		var kaynak = ana.oyuncu_kaynaklari[gonderen]
+		if kaynak["odun"] < 10 or kaynak["tas"] < 10 or kaynak["yiyecek"] < 10: return
+		savunan = ozel_savunan
+	else:
+		if not t_tipi in ["normal", "yagmala", "hukmet", "yikim"]: return
+		if not _hareket_gecerli(saldiran_idx, hedef, gonderen): return
+		var bina = ana.binalar_verisi.get(hedef, {})
+		if not bina.is_empty():
+			savunan = bina["sahip"]
+			if t_tipi == "normal": return
+			if t_tipi == "hukmet" and bina["tur"] != "sehir_merkezi": return
+			if t_tipi == "yikim" and bina["tur"] == "sehir_merkezi": return
+		else:
+			if t_tipi != "normal": return
+			savunan = ana.kontrol_edilen_hexler.get(hedef, "")
+		if savunan_idx >= 0:
+			if savunan_idx >= ana.piyonlar.size() or ana.piyonlar[savunan_idx]["koordinat"] != hedef: return
+			if not bina.is_empty() and ana.piyonlar[savunan_idx]["sahip"] != savunan: return
+			if bina.is_empty(): savunan = ana.piyonlar[savunan_idx]["sahip"]
+		elif savunan_idx != -1: return
+		if savunan == "" or ana.muttefik_mi(gonderen, savunan): return
+		if bina.is_empty(): ozel_savunan = savunan
+	var gercek_savunan = ana.efendiler.get(savunan, savunan)
+	if gercek_savunan not in ana.oyuncular or gercek_savunan in ana.ayrilan_oyuncular: return
+	if gercek_savunan == gonderen: return
 	print("🔍 DEBUG: savas_baslat_rpc çalıştı. t_tipi=", t_tipi, " bx,by=", bx, by, " saldiran_idx=", saldiran_idx)
 	ana.aktif_oyuncu_aksiyon_hakki -= 1
 	var saldiran_isim = ozel_saldiran if saldiran_idx == -1 else ana.piyonlar[saldiran_idx]["sahip"]
@@ -460,28 +531,47 @@ func savas_baslat_rpc(saldiran_idx, savunan_idx, bx, by, t_tipi = "normal", ozel
 	ana.arayuz.arayuzu_guncelle()
 
 @rpc("any_peer", "call_local", "reliable")
-func savas_hamlesi_yap_rpc(oyuncu_ismi, kartlar_array, lokal_idx_array):
-	if ana.rpc_gonderen_ismi() != oyuncu_ismi: return
-	ana.savas.secilen_savas_kartlari[oyuncu_ismi] = kartlar_array
-	# Savaşta kullanılan kartlar atılanlar destesine gider (savaş destesi bitince yeniden karıştırılır)
-	ana.deste.atilan_savas_kartlari.append_array(kartlar_array)
-	
-	if oyuncu_ismi == ana.oyuncular[ana.benim_indexim]:
-		lokal_idx_array.sort_custom(func(a, b): return a > b)
-		for idx in lokal_idx_array:
-			if idx != -1: ana.deste.el.remove_at(idx)
-		ana.deste._kart_gorsellerini_guncelle()
-			
+func savas_hamlesi_yap_rpc(oyuncu_ismi: String, kartlar_array: Array, lokal_idx_array: Array):
+	if not ana.savas.savas_aktif or ana.rpc_gonderen_ismi() != oyuncu_ismi: return
+	var taraflar = ana.savas.savas_taraflari()
+	if oyuncu_ismi not in taraflar or ana.savas.secilen_savas_kartlari.has(oyuncu_ismi): return
+	if kartlar_array.size() != lokal_idx_array.size() or kartlar_array.size() > 7: return
+	var dogrulanan = []
+	var gorulen = []
+	for i in range(lokal_idx_array.size()):
+		var idx = lokal_idx_array[i]
+		if typeof(idx) != TYPE_INT or idx in gorulen: return
+		var kart = _kart_getir(oyuncu_ismi, idx)
+		if kart.is_empty() or kart.get("hedef") != "savas" or kart != kartlar_array[i]: return
+		if kart.get("tur") in ["kocbasi", "mancinik"] and (ana.savas.savas_hedef_turu != "bina" or oyuncu_ismi != taraflar[0]): return
+		gorulen.append(idx)
+		dogrulanan.append(kart.duplicate(true))
+	ana.savas.secilen_savas_kartlari[oyuncu_ismi] = dogrulanan
 	if multiplayer.is_server() and ana.savas.secilen_savas_kartlari.size() == 2:
 		kartlari_ac_rpc.rpc(ana.savas.secilen_savas_kartlari)
 
 @rpc("authority", "call_local", "reliable")
-func kartlari_ac_rpc(kartlar_dict):
+func kartlari_ac_rpc(kartlar_dict: Dictionary):
+	if not ana.savas.savas_aktif or not ana.savas.son_kartlar_dict.is_empty(): return
+	var taraflar = ana.savas.savas_taraflari()
+	if kartlar_dict.size() != 2 or not kartlar_dict.has(taraflar[0]) or not kartlar_dict.has(taraflar[1]): return
+	# Reveal carries canonical cards from the server; fixed order also keeps discard shuffles identical.
+	for isim in taraflar:
+		var kartlar = kartlar_dict[isim]
+		var kalan_el = ana.oyuncu_elleri[isim].duplicate(true)
+		for kart in kartlar:
+			var idx = kalan_el.find(kart)
+			if idx == -1: return
+			kalan_el.remove_at(idx)
+	for isim in taraflar:
+		for kart in kartlar_dict[isim]:
+			_kart_tuket(isim, ana.oyuncu_elleri[isim].find(kart), true)
 	ana.savas.rakip_kartlari_goster(kartlar_dict)
-	ana.savas.zar_asamasini_baslat(kartlar_dict)   # ✅ otomatik zar atma YOK, sadece aşamayı başlatıyor
+	ana.savas.zar_asamasini_baslat(kartlar_dict)
 
 @rpc("authority", "call_local", "reliable")
 func savas_cozumle_rpc(kd, zar_sal, zar_sav):
+	if not ana.savas.savas_aktif: return
 	ana.savas.savas_cozumle(kd, zar_sal, zar_sav)
 	ana.secili_piyon_index = -1
 	ana.arayuz.arayuzu_guncelle()
@@ -490,9 +580,10 @@ func savas_cozumle_rpc(kd, zar_sal, zar_sav):
 @rpc("any_peer", "call_local", "reliable")
 func normal_kart_cek_rpc(oyuncu_ismi):
 	if not ana.rpc_sirada_mi(oyuncu_ismi) or ana.aktif_oyuncu_aksiyon_hakki <= 0: return
-	if ana.deste.normal_deste.is_empty(): return
+	if ana.deste.normal_deste.is_empty() or _el_siniri_doldu(oyuncu_ismi, false): return
 	ana.aktif_oyuncu_aksiyon_hakki -= 1
 	var cekilen = ana.deste.normal_deste.pop_front()
+	ana.oyuncu_elleri[oyuncu_ismi].append(cekilen.duplicate(true))
 	
 	if oyuncu_ismi == ana.oyuncular[ana.benim_indexim]:
 		ana.deste.el.append(cekilen)
@@ -538,3 +629,39 @@ func oyunu_bitir_rpc(kazanan_isim: String, puan: int):
 	ana.oyun_bitti = true
 	ana.arayuz.olay_yaz("🏆 [color=gold][b]OYUN BİTTİ! %s, %d puanla ZAFERE ULAŞTI![/b][/color]" % [ana.arayuz.renkli_isim(kazanan_isim), puan])
 	get_tree().paused = true   # 🟢 basit bir MVP: oyunu durdur, ekstra bir "kazanma ekranı" istersen ayrı konuşalım
+
+
+func _kart_getir(isim: String, idx: int) -> Dictionary:
+	var el = ana.oyuncu_elleri.get(isim, [])
+	return el[idx] if idx >= 0 and idx < el.size() else {}
+
+func _kart_tuket(isim: String, idx: int, savas_atigi: bool = false):
+	var kart = _kart_getir(isim, idx)
+	if kart.is_empty(): return
+	ana.oyuncu_elleri[isim].remove_at(idx)
+	if savas_atigi and kart.get("hedef") == "savas":
+		ana.deste.atilan_savas_kartlari.append(kart)
+	if isim == ana.oyuncular[ana.benim_indexim]:
+		ana.deste.el.remove_at(idx)
+
+func _el_siniri_doldu(isim: String, savas_karti: bool) -> bool:
+	var sayi = 0
+	for kart in ana.oyuncu_elleri.get(isim, []):
+		if (kart.get("hedef") == "savas") == savas_karti: sayi += 1
+	return sayi >= ana.deste.MAX_EL_LIMITI
+
+func _hareket_gecerli(p_idx: int, hedef: Vector2i, isim: String) -> bool:
+	if not ana.hex_gecerli_mi(hedef) or p_idx < 0 or p_idx >= ana.piyonlar.size(): return false
+	var p = ana.piyonlar[p_idx]
+	return p["sahip"] == isim and ana.harita.hex_komsu_mu(p["koordinat"], hedef) and ana.oyuncu_kaynaklari[isim]["yiyecek"] >= 1
+
+func _kart_maliyeti_gecerli(isim: String, kart: Dictionary, mo: int, mt: int) -> bool:
+	return not kart.is_empty() and mo == kart.get("odun_maliyet", -1) and mt == kart.get("tas_maliyet", -1) and mo >= 0 and mt >= 0 and ana.oyuncu_kaynaklari[isim]["odun"] >= mo and ana.oyuncu_kaynaklari[isim]["tas"] >= mt
+
+func _savas_kartlarini_iade_et(kartlar: Dictionary):
+	for isim in ana.savas.savas_taraflari():
+		for kart in kartlar.get(isim, []):
+			ana.oyuncu_elleri[isim].append(kart.duplicate(true))
+			var idx = ana.deste.atilan_savas_kartlari.rfind(kart)
+			if idx != -1: ana.deste.atilan_savas_kartlari.remove_at(idx)
+			if isim == ana.oyuncular[ana.benim_indexim]: ana.deste.el.append(kart.duplicate(true))

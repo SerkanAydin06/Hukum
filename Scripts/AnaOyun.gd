@@ -5,6 +5,7 @@ class_name AnaOyun
 var binalar_verisi = {}
 var piyonlar = []
 var oyuncular = [] 
+var oyuncu_elleri = {}
 var oyuncu_peer_idleri = []   # oyuncular[i] <-> oyuncu_peer_idleri[i]
 var aktif_sira = 0
 var benim_indexim = 0
@@ -91,6 +92,7 @@ func lobi_verisiyle_baslat(gelen_lobi_verisi: Dictionary):
 		
 		oyuncular.append(gercek_isim)
 		oyuncu_peer_idleri.append(id)
+		oyuncu_elleri[gercek_isim] = []
 		savas_puanlari[gercek_isim] = 0
 		
 		secilen_renkler[gercek_isim] = secilen_renk
@@ -134,7 +136,7 @@ func oyuncu_ayrildi_rpc(isim: String):
 	if isim in ayrilan_oyuncular: return
 	ayrilan_oyuncular.append(isim)
 	arayuz.olay_yaz("[color=gray]🚪 %s oyundan ayrıldı.[/color]" % arayuz.renkli_isim(isim))
-	if savas.savas_aktif:
+	if savas.savas_aktif and isim in savas.savas_taraflari():
 		savas.savasi_iptal_et()
 	if oyuncular[aktif_sira] == isim and ayrilan_oyuncular.size() < oyuncular.size():
 		tur_ekonomi.turu_bitir()
@@ -149,6 +151,7 @@ func rpc_gonderen_ismi() -> String:
 
 # Gönderen, sırası gelen oyuncu mu? (isim verilirse o isimle de eşleşmeli)
 func rpc_sirada_mi(isim: String = "") -> bool:
+	if oyun_bitti or savas.savas_aktif: return false
 	if aktif_sira >= oyuncular.size(): return false
 	var gonderen = rpc_gonderen_ismi()
 	var gecerli = gonderen != "" and gonderen == oyuncular[aktif_sira] and (isim == "" or isim == gonderen)
@@ -159,6 +162,9 @@ func rpc_sirada_mi(isim: String = "") -> bool:
 func rpc_sunucudan_mi() -> bool:
 	var gonderen = multiplayer.get_remote_sender_id()
 	return gonderen == 0 or gonderen == 1
+
+func hex_gecerli_mi(koor: Vector2i) -> bool:
+	return koor.x >= 0 and koor.x < harita.HARITA_GENISLIK and koor.y >= 0 and koor.y < harita.HARITA_YUKSEKLIK
 
 # Ortak Yardımcı Fonksiyonlar
 func muttefik_mi(isim1: String, isim2: String) -> bool:
@@ -175,3 +181,4 @@ func hex_dosta_komsu_mu(hedef_koor: Vector2i, sahip_isim: String) -> bool:
 		if kontrol_edilen_hexler[k] == sahip_isim:
 			if harita.hex_komsu_mu(k, hedef_koor): return true
 	return false
+
