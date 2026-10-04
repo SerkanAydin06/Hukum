@@ -98,12 +98,12 @@ var biyom_resimleri = {
 }
 
 var flama_resimleri = {
-	"Osmanlı": preload("res://Assets/flamalar/osmanli_flama.png"),
-	"Venedik": preload("res://Assets/flamalar/venedik_flama.png"),
-	"Mısır": preload("res://Assets/flamalar/misir_flama.png"),
-	"Moğol": preload("res://Assets/flamalar/mogol_flama.png"),
-	"Bizans": preload("res://Assets/flamalar/bizans_flama.png"),
-	"Viking": preload("res://Assets/flamalar/viking_flama.png")
+	"Osmanlı": preload("res://Assets/Flamalar/osmanli_flama.png"),
+	"Venedik": preload("res://Assets/Flamalar/venedik_flama.png"),
+	"Mısır": preload("res://Assets/Flamalar/misir_flama.png"),
+	"Moğol": preload("res://Assets/Flamalar/mogol_flama.png"),
+	"Bizans": preload("res://Assets/Flamalar/bizans_flama.png"),
+	"Viking": preload("res://Assets/Flamalar/viking_flama.png")
 }
 
 var dosya_isimleri = {
@@ -562,7 +562,7 @@ func sag_paneli_guncelle(koordinat: Vector2i):
 				
 		if b_tur == "sehir_merkezi":
 			var med_dosya = dosya_isimleri.get(medeniyet_adi, "osmanli")
-			resim_yolu = "res://Assets/Resimler/sehirmerkezleri/sehirmerkezi_%s.png" % med_dosya
+			resim_yolu = "res://Assets/Resimler/Sehirmerkezleri/sehirmerkezi_%s.png" % med_dosya
 		else:
 			var b_dosya = "ticaret_merkezi"
 			if b_tur == "oduncu_kampi": b_dosya = "oduncu"

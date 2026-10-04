@@ -139,24 +139,10 @@ func skor_guncelle():
 				puan_lbl.text = "%d ⭐" % puan
 				
 			# 🟢 YENİ: Puan hedefe ulaştıysa kazanma kontrolü (sadece sunucu tetiklesin)
-			if puan >= ana.HEDEF_PUAN and multiplayer.is_server():
+			if puan >= ana.HEDEF_PUAN and multiplayer.is_server() and not ana.oyun_bitti:
 				ana.aksiyon.oyunu_bitir_rpc.rpc(oyuncu_ismi, puan)
 		else:
 			satir.visible = false
 
 func _kaynak_hesapla(sahip: String) -> Dictionary:
-	var ham = {"odun": 0, "tas": 0, "yiyecek": 0, "altin": 0}
-	for koor in ana.binalar_verisi:
-		var b = ana.binalar_verisi[koor]
-		if b["sahip"] == sahip:
-			var lvl = b.get("seviye", 1)
-			match b["tur"]:
-				"sehir_merkezi":
-					var biyom = ana.harita.kesfedilen_hexler.get(koor, "")
-					if biyom == "cim": ham["yiyecek"] += lvl
-					elif biyom == "orman": ham["odun"] += lvl
-					elif biyom == "dag": ham["tas"] += lvl
-				"tarla": ham["yiyecek"] += lvl
-				"oduncu_kampi": ham["odun"] += lvl
-				"tas_ocagi": ham["tas"] += lvl
-	return ham
+	return ana.tur_ekonomi.bina_uretimi(sahip)

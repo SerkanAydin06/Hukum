@@ -27,12 +27,12 @@ var piyon_resimleri = {
 }
 
 var sehir_merkezi_resimleri = {
-	"Osmanlı": preload("res://Assets/Resimler/sehirmerkezleri/sehirmerkezi_osmanli.png"),
-	"Venedik": preload("res://Assets/Resimler/sehirmerkezleri/sehirmerkezi_venedik.png"),
-	"Mısır": preload("res://Assets/Resimler/sehirmerkezleri/sehirmerkezi_misir.png"),
-	"Moğol": preload("res://Assets/Resimler/sehirmerkezleri/sehirmerkezi_mogol.png"),
-	"Bizans": preload("res://Assets/Resimler/sehirmerkezleri/sehirmerkezi_bizans.png"),
-	"Viking": preload("res://Assets/Resimler/sehirmerkezleri/sehirmerkezi_viking.png")
+	"Osmanlı": preload("res://Assets/Resimler/Sehirmerkezleri/sehirmerkezi_osmanli.png"),
+	"Venedik": preload("res://Assets/Resimler/Sehirmerkezleri/sehirmerkezi_venedik.png"),
+	"Mısır": preload("res://Assets/Resimler/Sehirmerkezleri/sehirmerkezi_misir.png"),
+	"Moğol": preload("res://Assets/Resimler/Sehirmerkezleri/sehirmerkezi_mogol.png"),
+	"Bizans": preload("res://Assets/Resimler/Sehirmerkezleri/sehirmerkezi_bizans.png"),
+	"Viking": preload("res://Assets/Resimler/Sehirmerkezleri/sehirmerkezi_viking.png")
 }
 
 # --- SEVİYE GÖRSELLERİ ---

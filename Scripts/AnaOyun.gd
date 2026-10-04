@@ -5,6 +5,7 @@ class_name AnaOyun
 var binalar_verisi = {}
 var piyonlar = []
 var oyuncular = [] 
+var oyuncu_peer_idleri = []   # oyuncular[i] <-> oyuncu_peer_idleri[i]
 var aktif_sira = 0
 var benim_indexim = 0
 var oyuncu_profil_no = {}
@@ -36,6 +37,7 @@ var tur_sayaci = 1
 var kurulabilir_hexler = []
 var kart_insa_modu_aktif = false
 
+var oyun_bitti = false
 var savas_puanlari = {}   # 🟢 YENİ: isim -> int (savaş kazanma/kaybetme sayacı)
 const HEDEF_PUAN = 50
 
@@ -67,6 +69,7 @@ func _ready():
 
 func lobi_verisiyle_baslat(gelen_lobi_verisi: Dictionary):
 	oyuncular.clear()
+	oyuncu_peer_idleri.clear()
 	var peer_idleri = gelen_lobi_verisi.keys()
 	peer_idleri.sort()
 	
@@ -75,9 +78,16 @@ func lobi_verisiyle_baslat(gelen_lobi_verisi: Dictionary):
 		
 		# 🟢 DÜZELTME: Oyuncunun gerçek adını alıyoruz, renk adını değil!
 		var gercek_isim = o_veri.get("isim", "Oyuncu " + str(id).left(4))
+		# Aynı isimli oyuncular birbirinin verisini ezmesin (peer sırası her client'ta aynı)
+		var temel_isim = gercek_isim
+		var ek = 2
+		while gercek_isim in oyuncular:
+			gercek_isim = "%s (%d)" % [temel_isim, ek]
+			ek += 1
 		var secilen_renk = o_veri.get("renk", "Beyaz")
 		
 		oyuncular.append(gercek_isim)
+		oyuncu_peer_idleri.append(id)
 		savas_puanlari[gercek_isim] = 0
 		
 		secilen_renkler[gercek_isim] = secilen_renk
@@ -109,6 +119,27 @@ func lobi_verisiyle_baslat(gelen_lobi_verisi: Dictionary):
 		# 🟢 DÜZELTME: "Kirmizi oyuncusunda" yazması yerine "[Gerçek İsim] oyuncusunda" yazar ve kendi rengine boyar
 		var renkli_isim_metni = "[color=#%s][b]%s[/b][/color]" % [ilk_renk_kodu, ilk_oyuncu]
 		arayuz.olay_yaz("[color=gold]⚔️ Oyun Başladı! Sıra %s oyuncusunda (%s).[/color]" % [renkli_isim_metni, medeniyetler_verisi[ilk_oyuncu]])
+
+# --- RPC GÜVENLİĞİ ---
+# RPC'yi gönderen peer'ın oyuncu ismi ("" = tanınmayan peer)
+func rpc_gonderen_ismi() -> String:
+	var gonderen = multiplayer.get_remote_sender_id()
+	if gonderen == 0: gonderen = multiplayer.get_unique_id()
+	var idx = oyuncu_peer_idleri.find(gonderen)
+	return oyuncular[idx] if idx != -1 else ""
+
+# Gönderen, sırası gelen oyuncu mu? (isim verilirse o isimle de eşleşmeli)
+func rpc_sirada_mi(isim: String = "") -> bool:
+	if aktif_sira >= oyuncular.size(): return false
+	var gonderen = rpc_gonderen_ismi()
+	var gecerli = gonderen != "" and gonderen == oyuncular[aktif_sira] and (isim == "" or isim == gonderen)
+	if not gecerli: push_warning("Geçersiz RPC reddedildi (gönderen: %s, sıra: %s)" % [gonderen, oyuncular[aktif_sira]])
+	return gecerli
+
+# Gönderen sunucu mu?
+func rpc_sunucudan_mi() -> bool:
+	var gonderen = multiplayer.get_remote_sender_id()
+	return gonderen == 0 or gonderen == 1
 
 # Ortak Yardımcı Fonksiyonlar
 func muttefik_mi(isim1: String, isim2: String) -> bool:

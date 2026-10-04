@@ -56,7 +56,8 @@ func oyuncu_verisini_guncelle(veri:Dictionary):
 	secili_renk = veri["renk"]
 	renkleri_guncelle()
 	
-	var yol = "res://Assets/Hukumdarlar/%s_hukumdar.png" % veri["medeniyet"]
+	var dosya_adlari = {"Osmanlı": "osmanli", "Venedik": "venedik", "Mısır": "misir", "Moğol": "mogol", "Bizans": "bizans", "Viking": "viking"}
+	var yol = "res://Assets/SeciliHukumdar/secili_%s.png" % dosya_adlari.get(veri["medeniyet"], "")
 	if ResourceLoader.exists(yol):
 		hukumdar.texture = load(yol)
 	else:
@@ -77,5 +78,5 @@ func bos_slot():
 	hukumdar.texture = null
 	
 	# 🟢 DEĞİŞEN KISIM: Boş slot durumu
-	hazir_ikon.texture = load("res://hazirdegil.png")
+	hazir_ikon.texture = load("res://Assets/Resimler/hazirdegil.png")
 	hazir_ikon.modulate = Color(1, 1, 1, 0.4) # Boş slotta ikon biraz saydam ve soluk dursun

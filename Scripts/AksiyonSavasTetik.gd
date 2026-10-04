@@ -173,6 +173,16 @@ func _tetikle_bina_saldiri_vazgec(): # (%BinaVazgecBtn)
 func _savas_karti_cek():
 	if ana.aktif_sira != ana.benim_indexim or ana.aktif_oyuncu_aksiyon_hakki <= 0: return
 	var k_isim = ana.oyuncular[ana.benim_indexim]
+	var savas_karti_sayisi = 0
+	for kart in ana.deste.el:
+		if kart.get("hedef") == "savas":
+			savas_karti_sayisi += 1
+	if savas_karti_sayisi >= ana.deste.MAX_EL_LIMITI:
+		ana.arayuz.olay_yaz("[color=light_coral]❌ Elinde zaten maksimum (7) Savaş Kartı var![/color]")
+		return
+	if ana.oyuncu_kaynaklari[k_isim]["altin"] < 3:
+		ana.arayuz.olay_yaz("[color=light_coral]❌ Savaş kartı çekmek için 3 Altın gerekli![/color]")
+		return
 	aksiyon.savas_karti_cek_rpc.rpc(k_isim)
 	ana.arayuz.panel_yukari_cik()
 	

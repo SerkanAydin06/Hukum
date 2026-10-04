@@ -3,25 +3,29 @@ class_name TurEkonomiYonetici
 
 @onready var ana = get_parent() as AnaOyun
 
-func _oyuncu_net_uretimini_hesapla(isim: String) -> Dictionary:
-	var net_u = {"odun": 0, "tas": 0, "yiyecek": 0, "altin": 0}
-	var ham_u = {"odun": 0, "tas": 0, "yiyecek": 0, "altin": 0}
-	var kesinti_u = {"odun": 0, "tas": 0, "yiyecek": 0, "altin": 0}   # 🟢 YENİ
-	
+# Bir oyuncunun binalarının tur başı ham üretimi (vergi öncesi). Tek kaynak: her yer bunu kullanır.
+func bina_uretimi(isim: String) -> Dictionary:
+	var u = {"odun": 0, "tas": 0, "yiyecek": 0, "altin": 0}
 	for koor in ana.binalar_verisi:
 		var b = ana.binalar_verisi[koor]
-		if b["sahip"] == isim:
-			var lvl = b.get("seviye", 1)
-			match b["tur"]:
-				"sehir_merkezi":
-					var biyom = ana.harita.kesfedilen_hexler.get(koor, "")
-					if biyom == "cim": ham_u["yiyecek"] += lvl
-					elif biyom == "orman": ham_u["odun"] += lvl
-					elif biyom == "dag": ham_u["tas"] += lvl
-				"tarla": ham_u["yiyecek"] += lvl
-				"oduncu_kampi": ham_u["odun"] += lvl
-				"tas_ocagi": ham_u["tas"] += lvl
-				
+		if b["sahip"] != isim: continue
+		var lvl = b.get("seviye", 1)
+		match b["tur"]:
+			"sehir_merkezi":
+				var biyom = ana.harita.kesfedilen_hexler.get(koor, "")
+				if biyom == "cim": u["yiyecek"] += lvl
+				elif biyom == "orman": u["odun"] += lvl
+				elif biyom == "dag": u["tas"] += lvl
+			"tarla": u["yiyecek"] += lvl
+			"oduncu_kampi": u["odun"] += lvl
+			"tas_ocagi": u["tas"] += lvl
+	return u
+
+func _oyuncu_net_uretimini_hesapla(isim: String) -> Dictionary:
+	var net_u = {"odun": 0, "tas": 0, "yiyecek": 0, "altin": 0}
+	var ham_u = bina_uretimi(isim)
+	var kesinti_u = {"odun": 0, "tas": 0, "yiyecek": 0, "altin": 0}   # 🟢 YENİ
+	
 	var efendim = ana.efendiler.get(isim, "")
 	for k in ham_u:
 		if ham_u[k] > 0:
@@ -34,20 +38,7 @@ func _oyuncu_net_uretimini_hesapla(isim: String) -> Dictionary:
 				
 	for v in ana.efendiler:
 		if ana.efendiler[v] == isim:
-			var v_ham = {"odun": 0, "tas": 0, "yiyecek": 0, "altin": 0}
-			for koor in ana.binalar_verisi:
-				var b = ana.binalar_verisi[koor]
-				if b["sahip"] == v:
-					var lvl = b.get("seviye", 1)
-					match b["tur"]:
-						"sehir_merkezi":
-							var biyom = ana.harita.kesfedilen_hexler.get(koor, "")
-							if biyom == "cim": v_ham["yiyecek"] += lvl
-							elif biyom == "orman": v_ham["odun"] += lvl
-							elif biyom == "dag": v_ham["tas"] += lvl
-						"tarla": v_ham["yiyecek"] += lvl
-						"oduncu_kampi": v_ham["odun"] += lvl
-						"tas_ocagi": v_ham["tas"] += lvl
+			var v_ham = bina_uretimi(v)
 			for k in v_ham:
 				if v_ham[k] > 0:
 					net_u[k] += int(v_ham[k] / 2)
@@ -69,6 +60,8 @@ func _kaynak_sat(k_turu: String):
 
 @rpc("any_peer", "call_local", "reliable")
 func ticaret_yap_rpc(oyuncu_ismi, k_turu):
+	if not ana.rpc_sirada_mi(oyuncu_ismi): return
+	if not (k_turu in ["odun", "tas", "yiyecek"]) or ana.oyuncu_kaynaklari[oyuncu_ismi][k_turu] < 5: return
 	# 🟢 AP eksiltme satırı (ana.aktif_oyuncu_aksiyon_hakki -= 1) tamamen silindi!
 	ana.oyuncu_kaynaklari[oyuncu_ismi][k_turu] -= 5
 	ana.oyuncu_kaynaklari[oyuncu_ismi]["altin"] += 1
@@ -98,24 +91,11 @@ func _tur_butonuna_basildi():
 
 @rpc("any_peer", "call_local", "reliable")
 func sirayi_degistir_rpc():
+	if not ana.rpc_sirada_mi(): return
 	var bitiren_oyuncu = ana.oyuncular[ana.aktif_sira]
 	
 	if ana.ilk_tur_bitti or ana.sehir_merkezleri.get(bitiren_oyuncu, false):
-		var uretim = {"odun": 0, "tas": 0, "yiyecek": 0, "altin": 0}
-		for koor in ana.binalar_verisi:
-			var b = ana.binalar_verisi[koor]
-			if b["sahip"] == bitiren_oyuncu:
-				var lvl = b.get("seviye", 1)
-				match b["tur"]:
-					"sehir_merkezi":
-						var biyom = ana.harita.kesfedilen_hexler.get(koor, "")
-						if biyom == "cim": uretim["yiyecek"] += lvl
-						elif biyom == "orman": uretim["odun"] += lvl
-						elif biyom == "dag": uretim["tas"] += lvl
-					"tarla": uretim["yiyecek"] += lvl
-					"oduncu_kampi": uretim["odun"] += lvl
-					"tas_ocagi": uretim["tas"] += lvl
-					
+		var uretim = bina_uretimi(bitiren_oyuncu)
 		var efendisi = ana.efendiler.get(bitiren_oyuncu, "")
 		var vergi_logu = ""
 		
