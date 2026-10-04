@@ -1,0 +1,157 @@
+[gd_scene load_steps=22 format=3 uid="uid://cnw132ilhw7gg"]
+
+[ext_resource type="Script" uid="uid://byvgh2w1n2fj1" path="res://Scripts/OyuncuSlot.gd" id="1_pfmru"]
+[ext_resource type="Texture2D" uid="uid://dvyrs8qv5ddk0" path="res://Assets/Resimler/Renkler/kirmizi1.png" id="2_dbh7s"]
+[ext_resource type="Texture2D" uid="uid://buw5rwyfjfbm3" path="res://Assets/Resimler/Renkler/kirmizi3.png" id="3_f7peb"]
+[ext_resource type="Texture2D" uid="uid://s3in5xkitjnb" path="res://Assets/Resimler/Renkler/kirmizi2.png" id="4_80o37"]
+[ext_resource type="Texture2D" uid="uid://bun1rouuqff2t" path="res://Assets/Resimler/Renkler/kilitli.png" id="5_ae75v"]
+[ext_resource type="Texture2D" uid="uid://bstwcfsb5w0p6" path="res://Assets/Resimler/Renkler/mavi1.png" id="6_6ktu0"]
+[ext_resource type="Texture2D" uid="uid://bwaklis3mnsbd" path="res://Assets/Resimler/Renkler/mavi3.png" id="7_pfmru"]
+[ext_resource type="Texture2D" uid="uid://ci6nh85hnvlx8" path="res://Assets/Resimler/Renkler/mavi2.png" id="8_5iukw"]
+[ext_resource type="Texture2D" uid="uid://bwtth81pr2t6e" path="res://Assets/Resimler/Renkler/yesil1.png" id="10_rjgo5"]
+[ext_resource type="Texture2D" uid="uid://cqds1y4pogik7" path="res://Assets/Resimler/Renkler/yesil3.png" id="11_x5b5v"]
+[ext_resource type="Texture2D" uid="uid://gthdeapvoatb" path="res://Assets/Resimler/Renkler/yesil2.png" id="12_3ywc6"]
+[ext_resource type="Texture2D" uid="uid://b8h0f4wlbaeav" path="res://Assets/Resimler/Renkler/sari1.png" id="13_hcpgg"]
+[ext_resource type="Texture2D" uid="uid://ceg5h6icouu1c" path="res://Assets/Resimler/Renkler/sari2.png" id="14_sk6mj"]
+[ext_resource type="Texture2D" uid="uid://bs8ylucj1cauv" path="res://Assets/Resimler/Renkler/sari3.png" id="14_x5b5v"]
+[ext_resource type="Texture2D" uid="uid://d2ituytj7fcot" path="res://Assets/Resimler/Renkler/mor1.png" id="16_vqviv"]
+[ext_resource type="Texture2D" uid="uid://dysvpsmi42tko" path="res://Assets/Resimler/Renkler/mor3.png" id="17_dixhm"]
+[ext_resource type="Texture2D" uid="uid://bufa0l4f3q8dv" path="res://Assets/Resimler/Renkler/mor2.png" id="18_x5boa"]
+[ext_resource type="Texture2D" uid="uid://bi55s0ijjxjf2" path="res://Assets/Resimler/Renkler/cam1.png" id="19_o3aio"]
+[ext_resource type="Texture2D" uid="uid://g5i4k3qd54x5" path="res://Assets/Resimler/Renkler/cam3.png" id="20_r2p3a"]
+[ext_resource type="Texture2D" uid="uid://dijj1eshkijuc" path="res://Assets/Resimler/Renkler/cam2.png" id="21_54j8f"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pfmru"]
+
+[node name="OyuncuSlot" type="PanelContainer"]
+custom_minimum_size = Vector2(500, 0)
+offset_right = 800.0
+offset_bottom = 120.0
+script = ExtResource("1_pfmru")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Control2" type="Control" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HazirIkon" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="HukumdarResmi" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+texture_filter = 3
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+expand_mode = 2
+stretch_mode = 5
+
+[node name="OyuncuBilgi" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+alignment = 1
+
+[node name="OyuncuIsmi" type="Label" parent="MarginContainer/HBoxContainer/OyuncuBilgi"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.70980394, 0.70980394, 0, 1)
+text = "Oyuncu"
+horizontal_alignment = 1
+
+[node name="SeciliMedeniyetBaslik" type="Label" parent="MarginContainer/HBoxContainer/OyuncuBilgi"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.70980394, 0.70980394, 0, 1)
+theme_override_font_sizes/font_size = 12
+text = "Medeniyet Yok"
+horizontal_alignment = 1
+
+[node name="RenkKutusu" type="HBoxContainer" parent="MarginContainer/HBoxContainer/OyuncuBilgi"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Kirmizi" type="TextureButton" parent="MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("2_dbh7s")
+texture_pressed = ExtResource("3_f7peb")
+texture_hover = ExtResource("4_80o37")
+texture_disabled = ExtResource("5_ae75v")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Mavi" type="TextureButton" parent="MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("6_6ktu0")
+texture_pressed = ExtResource("7_pfmru")
+texture_hover = ExtResource("8_5iukw")
+texture_disabled = ExtResource("5_ae75v")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Yesil" type="TextureButton" parent="MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("10_rjgo5")
+texture_pressed = ExtResource("11_x5b5v")
+texture_hover = ExtResource("12_3ywc6")
+texture_disabled = ExtResource("5_ae75v")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Sari" type="TextureButton" parent="MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("13_hcpgg")
+texture_pressed = ExtResource("14_x5b5v")
+texture_hover = ExtResource("14_sk6mj")
+texture_disabled = ExtResource("5_ae75v")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Mor" type="TextureButton" parent="MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("16_vqviv")
+texture_pressed = ExtResource("17_dixhm")
+texture_hover = ExtResource("18_x5boa")
+texture_disabled = ExtResource("5_ae75v")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="CamGobegi" type="TextureButton" parent="MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu"]
+material = SubResource("ShaderMaterial_pfmru")
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("19_o3aio")
+texture_pressed = ExtResource("20_r2p3a")
+texture_hover = ExtResource("21_54j8f")
+texture_disabled = ExtResource("5_ae75v")
+ignore_texture_size = true
+stretch_mode = 5

@@ -1,0 +1,65 @@
+[gd_scene load_steps=3 format=3 uid="uid://bg8v14ellylmx"]
+
+[ext_resource type="Script" uid="uid://b6xtfkqk8mih3" path="res://renkli_harita.gd" id="2_01s61"]
+[ext_resource type="Script" uid="uid://wxq0ttebmdf" path="res://camera_2d.gd" id="2_epbyo"]
+
+[node name="RenkliHarita" type="Node2D"]
+script = ExtResource("2_01s61")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("2_epbyo")
+
+[node name="OyunArayuzu" type="CanvasLayer" parent="."]
+
+[node name="UstPanel" type="Panel" parent="OyunArayuzu"]
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+
+[node name="KaynakYazisi" type="Label" parent="OyunArayuzu/UstPanel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="PuanPaneli" type="Panel" parent="OyunArayuzu"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -100.0
+offset_bottom = 100.0
+grow_horizontal = 0
+
+[node name="PuanYazisi" type="Label" parent="OyunArayuzu/PuanPaneli"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="AltKisim" type="Control" parent="OyunArayuzu"]
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -66.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="KartAlani" type="HBoxContainer" parent="OyunArayuzu/AltKisim"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 8.0
+
+[node name="Kart1" type="Button" parent="OyunArayuzu/AltKisim/KartAlani"]
+layout_mode = 2
+
+[node name="Kart2" type="Button" parent="OyunArayuzu/AltKisim/KartAlani"]
+layout_mode = 2
+
+[node name="Kart3" type="Button" parent="OyunArayuzu/AltKisim/KartAlani"]
+layout_mode = 2
+
+[node name="InsaButonu" type="Button" parent="OyunArayuzu/AltKisim"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0

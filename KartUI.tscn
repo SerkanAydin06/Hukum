@@ -1,0 +1,426 @@
+[gd_scene load_steps=20 format=3 uid="uid://bw8px6p24kd84"]
+
+[ext_resource type="Script" uid="uid://btlg8uc618swk" path="res://Scripts/KartUI.gd" id="1_n03og"]
+[ext_resource type="Texture2D" uid="uid://4fo04xhmp6uc" path="res://Assets/Resimler/komutanlar/thutmose.png" id="2_hacd5"]
+[ext_resource type="FontFile" uid="uid://dw26wlrb3m40k" path="res://fonts/NotoSans-Bold.ttf" id="3_rdoqt"]
+[ext_resource type="Texture2D" uid="uid://bu14q8obxfdfs" path="res://Assets/Resimler/askerler/agirpiyade.png" id="5_2rrbt"]
+[ext_resource type="FontFile" uid="uid://bpvl3a0f6oacc" path="res://fonts/Cinzel-SemiBold.ttf" id="8_ln508"]
+[ext_resource type="Texture2D" uid="uid://brajrq6u28sgx" path="res://Assets/Resimler/kartresimleri/oduncu.png" id="10_agild"]
+[ext_resource type="Texture2D" uid="uid://cslxf2byejwf2" path="res://Assets/Resimler/buton_mor1.png" id="12_04tws"]
+[ext_resource type="Texture2D" uid="uid://bha53w4adg5du" path="res://Assets/Resimler/kartresimleri/baltalaribileme.png" id="12_ivyi6"]
+[ext_resource type="Texture2D" uid="uid://df1vhflpvkcil" path="res://Assets/Resimler/buton_mor3.png" id="13_rjqjw"]
+[ext_resource type="Texture2D" uid="uid://rehf5uo5k60u" path="res://Assets/Resimler/buton_mor2.png" id="14_f64j5"]
+[ext_resource type="Texture2D" uid="uid://c00y1wcgr3m76" path="res://Assets/Resimler/buton_mor4.png" id="15_p80ip"]
+[ext_resource type="Texture2D" uid="uid://bnipqc6koa6hq" path="res://Assets/Resimler/buton_saldir1.png" id="16_h3ird"]
+[ext_resource type="Texture2D" uid="uid://dp3ett437f7bp" path="res://Assets/Resimler/buton_saldir3.png" id="17_8nvki"]
+[ext_resource type="Texture2D" uid="uid://bdlm1ti628yiu" path="res://Assets/Resimler/buton_saldir2.png" id="18_8q3af"]
+[ext_resource type="Texture2D" uid="uid://cdfq313g117ac" path="res://Assets/Resimler/buton_saldir4.png" id="19_yb46m"]
+[ext_resource type="Texture2D" uid="uid://c4p4giaqahd4b" path="res://Assets/Resimler/buton_saldiriIptal1.png" id="20_l2wiy"]
+[ext_resource type="Texture2D" uid="uid://bsaistoncbtc0" path="res://Assets/Resimler/buton_saldiriIptal3.png" id="21_oaots"]
+[ext_resource type="Texture2D" uid="uid://3v0xjm8dmjon" path="res://Assets/Resimler/buton_saldiriIptal2.png" id="22_ju6j0"]
+[ext_resource type="Texture2D" uid="uid://dr1e301iw5kh3" path="res://Assets/Resimler/buton_saldiriIptal4.png" id="23_ppqm3"]
+
+[node name="KartUI" type="TextureButton"]
+custom_minimum_size = Vector2(150, 240)
+offset_right = 150.0
+offset_bottom = 240.0
+script = ExtResource("1_n03og")
+
+[node name="KomutanGorunumu" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 150.0
+offset_bottom = 240.0
+
+[node name="Komutan" type="TextureRect" parent="KomutanGorunumu"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_hacd5")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="KomutanGuc" type="Label" parent="KomutanGorunumu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 60.0
+offset_top = 156.0
+offset_right = 87.0
+offset_bottom = 190.0
+theme_override_colors/font_color = Color(0.11372549, 0.88235295, 0, 1)
+theme_override_fonts/font = ExtResource("3_rdoqt")
+theme_override_font_sizes/font_size = 24
+text = "10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="KomutanIsim" type="Label" parent="KomutanGorunumu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 15.0
+offset_top = 9.0
+offset_right = 133.0
+offset_bottom = 26.0
+theme_override_colors/font_color = Color(0.11372549, 0.88235295, 0, 1)
+theme_override_fonts/font = ExtResource("3_rdoqt")
+theme_override_font_sizes/font_size = 12
+text = "KOMUTAN"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="KomutanAciklama" type="RichTextLabel" parent="KomutanGorunumu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 14.0
+offset_top = 193.0
+offset_right = 139.0
+offset_bottom = 228.0
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.11372549, 0.88235295, 0, 1)
+theme_override_fonts/normal_font = ExtResource("3_rdoqt")
+theme_override_font_sizes/normal_font_size = 10
+theme_override_font_sizes/bold_font_size = 10
+theme_override_font_sizes/bold_italics_font_size = 10
+theme_override_font_sizes/italics_font_size = 10
+theme_override_font_sizes/mono_font_size = 10
+bbcode_enabled = true
+fit_content = true
+horizontal_alignment = 1
+
+[node name="SavasGorunumu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Asker" type="TextureRect" parent="SavasGorunumu"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_2rrbt")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Guc" type="Label" parent="SavasGorunumu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 62.0
+offset_top = 144.0
+offset_right = 89.0
+offset_bottom = 178.0
+theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
+theme_override_fonts/font = ExtResource("3_rdoqt")
+theme_override_font_sizes/font_size = 24
+text = "10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AskerIsim" type="Label" parent="SavasGorunumu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 15.0
+offset_top = 9.0
+offset_right = 133.0
+offset_bottom = 26.0
+theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
+theme_override_fonts/font = ExtResource("3_rdoqt")
+theme_override_font_sizes/font_size = 12
+text = "SAVAŞ"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Aciklama" type="RichTextLabel" parent="SavasGorunumu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 13.0
+offset_top = 181.0
+offset_right = 137.0
+offset_bottom = 227.0
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
+theme_override_fonts/normal_font = ExtResource("3_rdoqt")
+theme_override_font_sizes/normal_font_size = 10
+theme_override_font_sizes/bold_font_size = 10
+theme_override_font_sizes/bold_italics_font_size = 10
+theme_override_font_sizes/italics_font_size = 10
+theme_override_font_sizes/mono_font_size = 10
+bbcode_enabled = true
+fit_content = true
+horizontal_alignment = 1
+
+[node name="InsaGorunumu" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InsaResim" type="TextureRect" parent="InsaGorunumu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 150.0
+offset_bottom = 240.0
+mouse_filter = 2
+texture = ExtResource("10_agild")
+expand_mode = 1
+
+[node name="BinaAciklama" type="RichTextLabel" parent="InsaGorunumu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 12.0
+offset_top = 197.0
+offset_right = 137.0
+offset_bottom = 225.0
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("3_rdoqt")
+theme_override_font_sizes/normal_font_size = 10
+theme_override_font_sizes/bold_font_size = 10
+theme_override_font_sizes/bold_italics_font_size = 10
+theme_override_font_sizes/italics_font_size = 10
+theme_override_font_sizes/mono_font_size = 10
+bbcode_enabled = true
+fit_content = true
+horizontal_alignment = 1
+
+[node name="BinaBaslik" type="Label" parent="InsaGorunumu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 14.0
+offset_top = 8.0
+offset_right = 134.0
+offset_bottom = 28.0
+theme_override_fonts/font = ExtResource("3_rdoqt")
+theme_override_font_sizes/font_size = 12
+text = "İNŞA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InsaOdun" type="Label" parent="InsaGorunumu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 21.0
+offset_top = 174.0
+offset_right = 40.0
+offset_bottom = 196.0
+theme_override_fonts/font = ExtResource("8_ln508")
+theme_override_font_sizes/font_size = 14
+text = "2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InsaTas" type="Label" parent="InsaGorunumu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 78.0
+offset_top = 176.0
+offset_right = 98.0
+offset_bottom = 196.0
+theme_override_fonts/font = ExtResource("8_ln508")
+theme_override_font_sizes/font_size = 14
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GelisimGorunumu" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GelisimResim" type="TextureRect" parent="GelisimGorunumu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 150.0
+offset_bottom = 240.0
+mouse_filter = 2
+texture = ExtResource("12_ivyi6")
+expand_mode = 1
+
+[node name="GelisimAciklama" type="RichTextLabel" parent="GelisimGorunumu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 13.0
+offset_top = 193.0
+offset_right = 137.0
+offset_bottom = 222.0
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("3_rdoqt")
+theme_override_font_sizes/normal_font_size = 10
+theme_override_font_sizes/bold_font_size = 10
+theme_override_font_sizes/bold_italics_font_size = 10
+theme_override_font_sizes/italics_font_size = 10
+theme_override_font_sizes/mono_font_size = 10
+bbcode_enabled = true
+fit_content = true
+horizontal_alignment = 1
+
+[node name="GelisimBaslik" type="Label" parent="GelisimGorunumu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 14.0
+offset_top = 7.0
+offset_right = 135.0
+offset_bottom = 29.0
+theme_override_fonts/font = ExtResource("3_rdoqt")
+theme_override_font_sizes/font_size = 12
+text = "GELİŞİM"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GelisimOdun" type="Label" parent="GelisimGorunumu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 22.0
+offset_top = 171.0
+offset_right = 39.0
+offset_bottom = 193.0
+theme_override_fonts/font = ExtResource("8_ln508")
+theme_override_font_sizes/font_size = 14
+text = "2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GelisimTas" type="Label" parent="GelisimGorunumu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 79.0
+offset_top = 171.0
+offset_right = 97.0
+offset_bottom = 193.0
+theme_override_fonts/font = ExtResource("8_ln508")
+theme_override_font_sizes/font_size = 14
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Parlama" type="ReferenceRect" parent="."]
+visible = false
+custom_minimum_size = Vector2(150, 240)
+layout_mode = 0
+offset_right = 150.0
+offset_bottom = 240.0
+mouse_filter = 2
+border_color = Color(1, 0.76862746, 0, 1)
+border_width = 3.0
+editor_only = false
+
+[node name="SecimHBox" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -59.0
+offset_top = -50.0
+offset_right = 241.0
+
+[node name="KullanBtn" type="TextureButton" parent="SecimHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("12_04tws")
+texture_pressed = ExtResource("13_rjqjw")
+texture_hover = ExtResource("14_f64j5")
+texture_disabled = ExtResource("15_p80ip")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="SecimHBox/KullanBtn"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.5
+offset_top = -7.0
+offset_right = 20.5
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
+theme_override_fonts/font = ExtResource("3_rdoqt")
+theme_override_font_sizes/font_size = 14
+text = "KULLAN"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DonusturBtn" type="TextureButton" parent="SecimHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("16_h3ird")
+texture_pressed = ExtResource("17_8nvki")
+texture_hover = ExtResource("18_8q3af")
+texture_disabled = ExtResource("19_yb46m")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="SecimHBox/DonusturBtn"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -28.5
+offset_top = -7.0
+offset_right = 28.5
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
+theme_override_fonts/font = ExtResource("3_rdoqt")
+theme_override_font_sizes/font_size = 14
+text = "DÖNÜŞTÜR"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CopeAtBtn" type="TextureButton" parent="SecimHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("20_l2wiy")
+texture_pressed = ExtResource("21_oaots")
+texture_hover = ExtResource("22_ju6j0")
+texture_disabled = ExtResource("23_ppqm3")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="SecimHBox/CopeAtBtn"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.5
+offset_top = -7.0
+offset_right = 20.5
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
+theme_override_fonts/font = ExtResource("3_rdoqt")
+theme_override_font_sizes/font_size = 14
+text = "ÇÖPE AT"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,0 +1,127 @@
+extends Node2D
+class_name AnaOyun
+
+# --- ORTAK VERİ YAPILARI ---
+var binalar_verisi = {}
+var piyonlar = []
+var oyuncular = [] 
+var aktif_sira = 0
+var benim_indexim = 0
+var oyuncu_profil_no = {}
+var oyuncu_renkleri = {
+	"Beyaz": Color.WHITE, "Kirmizi": Color.RED, "Mavi": Color.BLUE,
+	"Sari": Color.YELLOW, "Yesil": Color.GREEN, "Mor": Color.PURPLE, "CamGobegi": Color.CYAN
+}
+
+var sehir_merkezleri = {}
+var puanlar = {}
+var oyuncu_kaynaklari = {}
+var kontrol_edilen_hexler = {}
+var efendiler = {}
+var odenen_vergiler = {} 
+var medeniyetler_verisi = {} 
+
+# 🟢 YENİ: Oyuncuların isimleriyle eşleşen renklerini tutacağımız sözlük
+var secilen_renkler = {}
+
+var bekleyen_onay = ""
+var secilen_baslangic_biyomu = ""
+var secili_kart_index = -1
+var secili_piyon_index = -1
+var aktif_oyuncu_aksiyon_hakki = 0
+var ilk_tur_bitti = false
+var insa_modu_aktif = false
+var gecici_koordinat = Vector2i(-1, -1)
+var tur_sayaci = 1
+var kurulabilir_hexler = []
+var kart_insa_modu_aktif = false
+
+var savas_puanlari = {}   # 🟢 YENİ: isim -> int (savaş kazanma/kaybetme sayacı)
+const HEDEF_PUAN = 50
+
+# --- ALT SİSTEM BAĞLANTILARI ---
+@onready var deste = %DesteYonetici
+@onready var savas = %SavasYonetici
+@onready var harita = $Harita
+
+@onready var arayuz = $ArayuzYonetici
+@onready var tur_ekonomi = $TurEkonomiYonetici
+@onready var aksiyon = $AksiyonYonetici
+
+func _ready():
+	deste.desteleri_hazirla()
+	arayuz.ui_sinyallerini_bagla()
+	if Network.son_lobi_verisi.size() > 0:
+		lobi_verisiyle_baslat(Network.son_lobi_verisi)
+	else:
+		var test_veri = {
+			multiplayer.get_unique_id(): {
+				"isim": Global.oyuncu_ismi, 
+				"renk": "Beyaz", 
+				"medeniyet": "Osmanlı", 
+				"hazir": true,
+				"profil_no": Global.profil_no 
+			}
+		}
+		lobi_verisiyle_baslat(test_veri)
+
+func lobi_verisiyle_baslat(gelen_lobi_verisi: Dictionary):
+	oyuncular.clear()
+	var peer_idleri = gelen_lobi_verisi.keys()
+	peer_idleri.sort()
+	
+	for id in peer_idleri:
+		var o_veri = gelen_lobi_verisi[id]
+		
+		# 🟢 DÜZELTME: Oyuncunun gerçek adını alıyoruz, renk adını değil!
+		var gercek_isim = o_veri.get("isim", "Oyuncu " + str(id).left(4))
+		var secilen_renk = o_veri.get("renk", "Beyaz")
+		
+		oyuncular.append(gercek_isim)
+		savas_puanlari[gercek_isim] = 0
+		
+		secilen_renkler[gercek_isim] = secilen_renk
+		
+		medeniyetler_verisi[gercek_isim] = o_veri.get("medeniyet", "")
+		oyuncu_profil_no[gercek_isim] = o_veri.get("profil_no", 1)
+		sehir_merkezleri[gercek_isim] = false
+		puanlar[gercek_isim] = 0
+		oyuncu_kaynaklari[gercek_isim] = {"odun": 18, "tas": 18, "yiyecek": 10, "altin": 3, "koylu": 0, "max_nufus": 3}
+		odenen_vergiler[gercek_isim] = {"odun": 0, "tas": 0, "yiyecek": 0, "altin": 0}
+		
+	benim_indexim = peer_idleri.find(multiplayer.get_unique_id())
+	if benim_indexim == -1:
+		push_error("KRİTİK HATA: Bu client'ın peer ID'si (%d) lobi verisinde bulunamadı! Oyuncu listesi: %s" % [multiplayer.get_unique_id(), str(peer_idleri)])
+		return
+		
+	arayuz.arayuzu_guncelle()
+	
+	# 🟢 YENİ EKLENEN KISIM: Oyun başlarken harita görüşünü ilk kez hesaplatıyoruz
+	if harita and harita.has_method("gorus_haritasini_guncelle"):
+		harita.gorus_haritasini_guncelle()
+		harita.queue_redraw()
+	# --------------------------------------------------------------------------
+	
+	if oyuncular.size() > 0:
+		var ilk_oyuncu = oyuncular[0]
+		var ilk_renk_kodu = oyuncu_renkleri[secilen_renkler[ilk_oyuncu]].to_html(false)
+		
+		# 🟢 DÜZELTME: "Kirmizi oyuncusunda" yazması yerine "[Gerçek İsim] oyuncusunda" yazar ve kendi rengine boyar
+		var renkli_isim_metni = "[color=#%s][b]%s[/b][/color]" % [ilk_renk_kodu, ilk_oyuncu]
+		arayuz.olay_yaz("[color=gold]⚔️ Oyun Başladı! Sıra %s oyuncusunda (%s).[/color]" % [renkli_isim_metni, medeniyetler_verisi[ilk_oyuncu]])
+
+# Ortak Yardımcı Fonksiyonlar
+func muttefik_mi(isim1: String, isim2: String) -> bool:
+	if isim1 == isim2: return true
+	var e1 = efendiler.get(isim1, "")
+	var e2 = efendiler.get(isim2, "")
+	if e1 != "" and e1 == isim2: return true
+	if e2 != "" and e2 == isim1: return true
+	if e1 != "" and e1 == e2: return true
+	return false
+
+func hex_dosta_komsu_mu(hedef_koor: Vector2i, sahip_isim: String) -> bool:
+	for k in kontrol_edilen_hexler:
+		if kontrol_edilen_hexler[k] == sahip_isim:
+			if harita.hex_komsu_mu(k, hedef_koor): return true
+	return false

@@ -1,0 +1,448 @@
+[gd_scene load_steps=9 format=3 uid="uid://bcmqnrdk4ed8g"]
+
+[ext_resource type="Script" uid="uid://bm58xq0ihy5q3" path="res://Scripts/AnaMenu.gd" id="1_vrd54"]
+[ext_resource type="Script" uid="uid://d0mfi0q1kggqi" path="res://Scripts/LobiPaneli.gd" id="2_8um48"]
+[ext_resource type="Texture2D" uid="uid://c1ts5kt30s8di" path="res://Assets/Resimler/arkaplanlar/9 Tem 2026 16_08_09.png" id="2_tasn4"]
+[ext_resource type="Texture2D" uid="uid://vwxfvctyo5gv" path="res://Assets/Resimler/arkaplanlar/9 Tem 2026 15_59_02.png" id="4_tasn4"]
+[ext_resource type="PackedScene" uid="uid://cnw132ilhw7gg" path="res://OyuncuSlotu.tscn" id="4_x7584"]
+[ext_resource type="Texture2D" uid="uid://dtlspxmrstmri" path="res://Assets/Resimler/lobi.png" id="5_f82qg"]
+[ext_resource type="PackedScene" uid="uid://02vy2e0gw62j" path="res://MedeniyetKart.tscn" id="6_4p5mt"]
+[ext_resource type="Texture2D" uid="uid://ch3lsisdhvq68" path="res://Assets/Resimler/baslat.png" id="8_qgv2o"]
+
+[node name="AnaMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vrd54")
+
+[node name="AnaMenuPaneli" type="Panel" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ArkaPlan" type="TextureRect" parent="AnaMenuPaneli"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_tasn4")
+stretch_mode = 5
+
+[node name="PanelBaslik" type="PanelContainer" parent="AnaMenuPaneli"]
+custom_minimum_size = Vector2(500, 200)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="MarginBaslik" type="MarginContainer" parent="AnaMenuPaneli/PanelBaslik"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Baslik" type="Label" parent="AnaMenuPaneli/PanelBaslik/MarginBaslik"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "CANIM KIZIM LİYA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelMenu" type="PanelContainer" parent="AnaMenuPaneli"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginMenu" type="MarginContainer" parent="AnaMenuPaneli/PanelMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxMenu" type="VBoxContainer" parent="AnaMenuPaneli/PanelMenu/MarginMenu"]
+layout_mode = 2
+alignment = 1
+
+[node name="IPGiris" type="LineEdit" parent="AnaMenuPaneli/PanelMenu/MarginMenu/VBoxMenu"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="KurBtn" type="Button" parent="AnaMenuPaneli/PanelMenu/MarginMenu/VBoxMenu"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Oyun Kur (Host)"
+
+[node name="BaglanBtn" type="Button" parent="AnaMenuPaneli/PanelMenu/MarginMenu/VBoxMenu"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Oyuna Bağlan (Join)"
+
+[node name="LobiPaneli" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_8um48")
+
+[node name="ArkaPlan" type="TextureRect" parent="LobiPaneli"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_tasn4")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="AnaMargin" type="MarginContainer" parent="LobiPaneli"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LobiPaneli/AnaMargin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Lobi" type="TextureRect" parent="LobiPaneli/AnaMargin/VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+texture = ExtResource("5_f82qg")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="AnaHBox" type="HBoxContainer" parent="LobiPaneli/AnaMargin/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="SolVBox" type="VBoxContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="OyuncuVBox" type="VBoxContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SolVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="OyuncuSlotu1" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SolVBox/OyuncuVBox" instance=ExtResource("4_x7584")]
+layout_mode = 2
+
+[node name="OyuncuSlotu2" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SolVBox/OyuncuVBox" instance=ExtResource("4_x7584")]
+layout_mode = 2
+
+[node name="OyuncuSlotu3" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SolVBox/OyuncuVBox" instance=ExtResource("4_x7584")]
+layout_mode = 2
+
+[node name="OyuncuSlotu4" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SolVBox/OyuncuVBox" instance=ExtResource("4_x7584")]
+layout_mode = 2
+
+[node name="OyuncuSlotu5" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SolVBox/OyuncuVBox" instance=ExtResource("4_x7584")]
+layout_mode = 2
+
+[node name="OyuncuSlotu6" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SolVBox/OyuncuVBox" instance=ExtResource("4_x7584")]
+layout_mode = 2
+
+[node name="SohbetPaneli" type="PanelContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SolVBox"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SolVBox/SohbetPaneli"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxSohbet" type="VBoxContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SolVBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="SohbetGecmisi" type="RichTextLabel" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SolVBox/VBoxSohbet"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+fit_content = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SolVBox/VBoxSohbet"]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="SohbetGirdisi" type="LineEdit" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SolVBox/VBoxSohbet/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GonderBtn" type="Button" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SolVBox/VBoxSohbet/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.70980394, 0.70980394, 0, 1)
+text = ">"
+
+[node name="SagVBox" type="VBoxContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="MedeniyetSecimPaneli" type="PanelContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox"]
+layout_mode = 2
+
+[node name="MarginMedeniyetSecim" type="MarginContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetSecimPaneli"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxMedeniyetSecim" type="VBoxContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetSecimPaneli/MarginMedeniyetSecim"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Label" type="Label" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetSecimPaneli/MarginMedeniyetSecim/VBoxMedeniyetSecim"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.70980394, 0.70980394, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "MEDENİYET SEÇİMİ"
+horizontal_alignment = 1
+
+[node name="MedeniyetButonlariKutusu" type="HBoxContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetSecimPaneli/MarginMedeniyetSecim/VBoxMedeniyetSecim"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 240)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="OsmanliKart" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetSecimPaneli/MarginMedeniyetSecim/VBoxMedeniyetSecim/MedeniyetButonlariKutusu" instance=ExtResource("6_4p5mt")]
+custom_minimum_size = Vector2(120, 240)
+layout_mode = 2
+
+[node name="VenedikKart" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetSecimPaneli/MarginMedeniyetSecim/VBoxMedeniyetSecim/MedeniyetButonlariKutusu" instance=ExtResource("6_4p5mt")]
+custom_minimum_size = Vector2(120, 240)
+layout_mode = 2
+medeniyet = "Venedik"
+
+[node name="BizansKart" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetSecimPaneli/MarginMedeniyetSecim/VBoxMedeniyetSecim/MedeniyetButonlariKutusu" instance=ExtResource("6_4p5mt")]
+custom_minimum_size = Vector2(120, 240)
+layout_mode = 2
+medeniyet = "Bizans"
+
+[node name="MisirKart" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetSecimPaneli/MarginMedeniyetSecim/VBoxMedeniyetSecim/MedeniyetButonlariKutusu" instance=ExtResource("6_4p5mt")]
+custom_minimum_size = Vector2(120, 240)
+layout_mode = 2
+medeniyet = "Mısır"
+
+[node name="MogolKart" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetSecimPaneli/MarginMedeniyetSecim/VBoxMedeniyetSecim/MedeniyetButonlariKutusu" instance=ExtResource("6_4p5mt")]
+custom_minimum_size = Vector2(120, 240)
+layout_mode = 2
+medeniyet = "Moğol"
+
+[node name="VikingKart" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetSecimPaneli/MarginMedeniyetSecim/VBoxMedeniyetSecim/MedeniyetButonlariKutusu" instance=ExtResource("6_4p5mt")]
+custom_minimum_size = Vector2(120, 240)
+layout_mode = 2
+medeniyet = "Viking"
+
+[node name="MedeniyetPanel" type="PanelContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginMedeniyet" type="MarginContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxMedeniyet" type="HBoxContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel/MarginMedeniyet"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginHikaye" type="MarginContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel/MarginMedeniyet/VBoxMedeniyet"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="TextureRect" type="TextureRect" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel/MarginMedeniyet/VBoxMedeniyet/MarginHikaye"]
+modulate = Color(1, 1, 1, 0.39215687)
+show_behind_parent = true
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel/MarginMedeniyet/VBoxMedeniyet/MarginHikaye"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel/MarginMedeniyet/VBoxMedeniyet/MarginHikaye/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="HSeparator2" type="HSeparator" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel/MarginMedeniyet/VBoxMedeniyet/MarginHikaye/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="BaslikHikaye" type="Label" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel/MarginMedeniyet/VBoxMedeniyet/MarginHikaye/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.70980394, 0.70980394, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "MEDENİYET"
+horizontal_alignment = 1
+
+[node name="AltBaslikHikaye" type="Label" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel/MarginMedeniyet/VBoxMedeniyet/MarginHikaye/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72156864, 0.6627451, 0.47843137, 1)
+theme_override_font_sizes/font_size = 20
+text = "Alt Başlık"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel/MarginMedeniyet/VBoxMedeniyet/MarginHikaye/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HikayeYazisi" type="RichTextLabel" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel/MarginMedeniyet/VBoxMedeniyet/MarginHikaye/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 16
+theme_override_font_sizes/bold_font_size = 16
+theme_override_font_sizes/bold_italics_font_size = 16
+theme_override_font_sizes/italics_font_size = 16
+theme_override_font_sizes/mono_font_size = 16
+bbcode_enabled = true
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel/MarginMedeniyet/VBoxMedeniyet/MarginHikaye/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HSeparator3" type="HSeparator" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel/MarginMedeniyet/VBoxMedeniyet/MarginHikaye/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="BaslikBonus" type="Label" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel/MarginMedeniyet/VBoxMedeniyet/MarginHikaye/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.70980394, 0.70980394, 0, 1)
+text = "PASİF GÜÇ"
+horizontal_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel/MarginMedeniyet/VBoxMedeniyet/MarginHikaye/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="BonusYazisi" type="RichTextLabel" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel/MarginMedeniyet/VBoxMedeniyet/MarginHikaye/VBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 14
+theme_override_font_sizes/bold_font_size = 14
+theme_override_font_sizes/bold_italics_font_size = 14
+theme_override_font_sizes/italics_font_size = 14
+theme_override_font_sizes/mono_font_size = 14
+bbcode_enabled = true
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginBonus" type="MarginContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel/MarginMedeniyet/VBoxMedeniyet"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxAyarlar" type="HBoxContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel/MarginMedeniyet/VBoxMedeniyet/MarginBonus"]
+layout_mode = 2
+
+[node name="VBoxAyarlar" type="VBoxContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel/MarginMedeniyet/VBoxMedeniyet/MarginBonus/HBoxAyarlar"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Baslik" type="Label" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel/MarginMedeniyet/VBoxMedeniyet/MarginBonus/HBoxAyarlar/VBoxAyarlar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.70980394, 0.70980394, 0, 1)
+text = "OYUN AYARLARI"
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel/MarginMedeniyet/VBoxMedeniyet/MarginBonus/HBoxAyarlar/VBoxAyarlar"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ButonlarPaneli" type="PanelContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Butonlar" type="HBoxContainer" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="HazirBtn" type="Button" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/Butonlar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 70)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.70980394, 0.70980394, 0, 1)
+text = "Hazır Ol"
+
+[node name="BaslatBtn" type="Button" parent="LobiPaneli/AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/Butonlar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 70)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.70980394, 0.70980394, 0, 1)
+icon = ExtResource("8_qgv2o")
+icon_alignment = 1
+expand_icon = true

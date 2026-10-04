@@ -1,0 +1,33 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Hukum"
+run/main_scene="uid://bcmqnrdk4ed8g"
+config/features=PackedStringArray("4.5", "Forward Plus")
+
+[autoload]
+
+Network="*res://Scripts/Network.gd"
+Global="*res://Scripts/Global.gd"
+SceneTransition="*res://Scripts/SahneGecisleri.gd"
+SesYoneticisi="*res://Scripts/SesYoneticisi.gd"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/mode=3
+window/stretch/mode="canvas_items"
+
+[rendering]
+
+environment/defaults/default_clear_color=Color(0.1657694, 0.31232345, 0.45846826, 1)
