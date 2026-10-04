@@ -201,7 +201,7 @@ func karti_doldur(veri: Dictionary, idx: int):
 				var yol = "res://Assets/Resimler/kartresimleri/%s.png" % dosya_adi
 				insa_resim.texture = load(yol) if ResourceLoader.exists(yol) else null
 			else:
-				insa_resim.texture = null
+				insa_resim.texture = load("res://Assets/Resimler/oncu/oncu_osmanli.png") if tur == "oncu_kampi" else null
 
 func _on_kart_pressed():
 	if dogrudan_savas_modu:
@@ -288,49 +288,5 @@ func _on_cope_at_pressed():
 func _on_donustur_pressed():
 	var ana = find_parent("AnaOyun")
 	if ana and "aksiyon" in ana:
-		if ana.aktif_sira != ana.benim_indexim or not ana.ilk_tur_bitti:
-			ana.arayuz.olay_yaz("[color=light_coral]❌ Sıra senin değil![/color]")
-			return
-			
-		if kart_index != -1 and kart_index < ana.deste.el.size() and ana.aktif_oyuncu_aksiyon_hakki > 0:
-			var oyuncu_ismi = ana.oyuncular[ana.benim_indexim]
-			var kart = ana.deste.el[kart_index]
-			
-			kart_turu = kart.get("tur", kart.get("turu", "")).to_lower()
-			kart_hedefi = kart.get("hedef", "")
-			
-			var feda_kaynagi = "odun"
-			var kazanilan_mesaj = "Odun"
-			
-			if kart_hedefi == "savas":
-				feda_kaynagi = "altin"
-				kazanilan_mesaj = "Altın"
-			elif kart_turu == "ticaret_merkezi":
-				var rastgele_kaynaklar = ["odun", "tas", "yiyecek"]
-				feda_kaynagi = rastgele_kaynaklar.pick_random()
-				kazanilan_mesaj = "Rastgele Kaynak (%s)" % feda_kaynagi.to_upper()
-			elif kart_turu in ["tarla", "gelismis_sulama"]:
-				feda_kaynagi = "yiyecek"
-				kazanilan_mesaj = "Yiyecek"
-			elif kart_turu in ["tas_ocagi", "derin_damarlar"]:
-				feda_kaynagi = "tas"
-				kazanilan_mesaj = "Taş"
-			elif kart_turu in ["oduncu_kampi", "baltalari_bileme"]:
-				feda_kaynagi = "odun"
-				kazanilan_mesaj = "Odun"
-			else:
-				feda_kaynagi = kart.get("feda_kaynak", "odun")
-				kazanilan_mesaj = feda_kaynagi.to_upper()
-			
-			ana.aksiyon.karti_feda_et_rpc.rpc(oyuncu_ismi, feda_kaynagi)
-			
-			ana.deste.karti_elden_at(kart_index)
-			ana.secili_kart_index = -1
-			ana.arayuz.olay_yaz("[color=gold]🪙 Kart dönüştürüldü ve 1 %s kazanıldı![/color]" % kazanilan_mesaj)
-			
-			ana.deste._kart_gorsellerini_guncelle()
-			ana.arayuz.arayuzu_guncelle()
-			secim_yap(false)
-			
-		elif ana.aktif_oyuncu_aksiyon_hakki <= 0:
-			ana.arayuz.olay_yaz("[color=light_coral]❌ Kartı dönüştürmek için AP (Aksiyon Puanı) gerekli![/color]")
+		ana.aksiyon.kart_modul.karti_kaynaga_cevir(kart_index)
+		secim_yap(false)

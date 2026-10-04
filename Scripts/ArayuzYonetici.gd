@@ -398,11 +398,14 @@ func arayuzu_guncelle():
 		
 	if oncu_uret_btn: 
 		oncu_uret_btn.visible = true
-		oncu_uret_btn.disabled = ap_yok or not sehir_kuruldu_mu
+		var kamp_var = false
+		for bina in ana.binalar_verisi.values():
+			if bina["sahip"] == k_isim and bina["tur"] == "oncu_kampi": kamp_var = true
+		oncu_uret_btn.disabled = ap_yok or not kamp_var or k["yiyecek"] < 5
 		
 	if ticaret_btn: 
 		ticaret_btn.visible = true
-		ticaret_btn.disabled = ap_yok or not tic_var
+		ticaret_btn.disabled = not sira_bende_mi or savas_var_mi or not tic_var
 
 	if savas_deste_btn: savas_deste_btn.disabled = (not sehir_kuruldu_mu) or kart_secili_mi
 	if insa_deste_btn: insa_deste_btn.disabled = (not sehir_kuruldu_mu) or kart_secili_mi
@@ -559,6 +562,8 @@ func sag_paneli_guncelle(koordinat: Vector2i):
 				uretim_metni = "+%d Taş Üretimi" % lvl
 			"ticaret_merkezi":
 				uretim_metni = "Ekonomik Ticaret Merkezi"
+			"oncu_kampi":
+				uretim_metni = "Öncü Üretimi: 5 Yiyecek + 1 AP"
 				
 		if b_tur == "sehir_merkezi":
 			var med_dosya = dosya_isimleri.get(medeniyet_adi, "osmanli")
@@ -569,6 +574,8 @@ func sag_paneli_guncelle(koordinat: Vector2i):
 			elif b_tur == "tas_ocagi": b_dosya = "tasocagi"
 			elif b_tur == "tarla": b_dosya = "tarla"
 			resim_yolu = "res://Assets/Resimler/binalar/%s.png" % b_dosya
+			if b_tur == "oncu_kampi":
+				resim_yolu = "res://Assets/Resimler/oncu/oncu_%s.png" % dosya_isimleri.get(medeniyet_adi, "osmanli")
 			
 	else:
 		isim_metni = biyom_isim
@@ -710,3 +717,4 @@ func _hakimiyet_vazgec_basildi():
 	ana.arayuz.olay_yaz("[color=gray]Hakimiyet kurma işlemi iptal edildi.[/color]")
 	ana.arayuz.arayuzu_guncelle()
 	ana.harita.queue_redraw()
+

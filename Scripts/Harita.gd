@@ -326,6 +326,14 @@ func _draw():
 				elif tur == "tas_ocagi": draw_circle(m, 12.0, r)
 				elif tur == "tarla": draw_rect(Rect2(m - Vector2(12,12), Vector2(24,24)), r, false, 2.0)
 
+		elif b["tur"] == "oncu_kampi":
+			var med = ana_oyun.medeniyetler_verisi.get(b["sahip"], "Osmanlı")
+			var kamp_ikonu = piyon_resimleri.get(med)
+			draw_circle(m, 27.0, Color(r.r, r.g, r.b, 0.35) * renk_filtresi)
+			if kamp_ikonu:
+				draw_texture_rect(kamp_ikonu, Rect2(m - Vector2(22, 22), Vector2(44, 44)), false, renk_filtresi)
+			draw_string(ThemeDB.fallback_font, m + Vector2(-22, 36), "KAMP", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, renk_filtresi)
+
 	# 🟢 3. ÖNCÜLER (PİYONLAR) ÇİZİLİYOR
 	var piyon_gruplari = {}
 	for i in range(ana_oyun.piyonlar.size()):
@@ -442,3 +450,4 @@ func hex_mesafesi(a: Vector2i, b: Vector2i) -> int:
 	var r2 = b.y
 	var s2 = -q2 - r2
 	return int(max(abs(q1 - q2), max(abs(r1 - r2), abs(s1 - s2))))
+

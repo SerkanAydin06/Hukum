@@ -26,10 +26,8 @@ func karistir(dizi: Array) -> void:
 
 # Kartı elden çıkarır; savaş kartıysa atılanlar destesine eklenmesi için herkese bildirir
 func karti_elden_at(idx: int) -> void:
-	var kart = el[idx]
-	el.remove_at(idx)
-	if kart.get("hedef", "") == "savas":
-		ana.aksiyon.savas_karti_atildi_rpc.rpc(kart)
+	if idx < 0 or idx >= el.size(): return
+	ana.aksiyon.savas_karti_atildi_rpc.rpc(idx)
 
 func desteleri_hazirla():
 	if Network.oyun_tohumu != 0:
@@ -93,13 +91,14 @@ func desteleri_hazirla():
 	karistir(savas_destesi)
 
 	# ==========================================
-	# 2. İNŞA VE GELİŞİM DESTESİ HAVUZU (100 Kart)
+	# 2. İNŞA VE GELİŞİM DESTESİ HAVUZU (110 Kart)
 	# ==========================================
 	var insa_havuz = [
 		{"tur": "oduncu_kampi", "kategori": "🏗️ İNŞA", "isim": "Oduncu Kampı", "hedef": "harita", "odun_maliyet": 4, "tas_maliyet": 0, "tanim": "Ormana kurulur. Her tur odun üretir."},
 		{"tur": "tas_ocagi", "kategori": "🏗️ İNŞA", "isim": "Taş Ocağı", "hedef": "harita", "odun_maliyet": 8, "tas_maliyet": 2, "tanim": "Dağa kurulur. Her tur taş üretir."},
 		{"tur": "tarla", "kategori": "🏗️ İNŞA", "isim": "Tarla", "hedef": "harita", "odun_maliyet": 6, "tas_maliyet": 0, "tanim": "Çimene kurulur. Her tur yiyecek üretir."},
-		{"tur": "ticaret_merkezi", "kategori": "🏗️ İNŞA", "isim": "Ticaret Merkezi", "hedef": "harita", "odun_maliyet": 12, "tas_maliyet": 12, "tanim": "Pazar menüsünü açar. (Nadir)"}
+		{"tur": "ticaret_merkezi", "kategori": "🏗️ İNŞA", "isim": "Ticaret Merkezi", "hedef": "harita", "odun_maliyet": 12, "tas_maliyet": 12, "tanim": "Pazar menüsünü açar. (Nadir)"},
+		{"tur": "oncu_kampi", "kategori": "🏗️ İNŞA", "isim": "Öncü Kampı", "hedef": "harita", "odun_maliyet": 6, "tas_maliyet": 2, "tanim": "Çimene kurulur. 5 yiyecek ve 1 AP ile Öncü yetiştirir."}
 	]
 	
 	var gelisim_havuz = [
@@ -112,6 +111,7 @@ func desteleri_hazirla():
 	for i in range(20): normal_deste.append(insa_havuz[1].duplicate())
 	for i in range(20): normal_deste.append(insa_havuz[2].duplicate())
 	for i in range(10): normal_deste.append(insa_havuz[3].duplicate())
+	for i in range(10): normal_deste.append(insa_havuz[4].duplicate())
 	
 	for i in range(10): normal_deste.append(gelisim_havuz[0].duplicate())
 	for i in range(10): normal_deste.append(gelisim_havuz[1].duplicate())
@@ -221,3 +221,4 @@ func kart_tiklandi(idx: int):
 	
 	# 🟢 YENİ EKLENEN SATIR: Karta tıklandığında arayüzü güncelle ki Deste butonları "Disabled" görsele geçsin!
 	ana.arayuz.arayuzu_guncelle()
+

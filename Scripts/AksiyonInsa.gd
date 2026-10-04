@@ -27,7 +27,7 @@ func _kurulabilir_hexleri_hesapla(kart):
 	if hedef == "kendi_binasi":
 		for koor in ana.binalar_verisi:
 			var b = ana.binalar_verisi[koor]
-			if b["sahip"] == k_isim and b["tur"] == kart.get("bina_turu", ""):
+			if b["sahip"] == k_isim and b.get("seviye", 1) < 3 and (kart.get("bina_turu") == "joker" or b["tur"] == kart.get("bina_turu", "")):
 				ana.kurulabilir_hexler.append(koor)
 	
 	# Eğer bu bir sıfırdan inşa kartıysa
@@ -35,7 +35,7 @@ func _kurulabilir_hexleri_hesapla(kart):
 		var istenen_biyom = ""
 		if tur == "oduncu_kampi": istenen_biyom = "orman"
 		elif tur == "tas_ocagi": istenen_biyom = "dag"
-		elif tur == "tarla": istenen_biyom = "cim"
+		elif tur in ["tarla", "oncu_kampi", "ev", "kisla", "ticaret_merkezi"]: istenen_biyom = "cim"
 		
 		# Kendi kontrolümüzdeki topraklara bakıyoruz
 		for koor in ana.kontrol_edilen_hexler:
@@ -65,8 +65,7 @@ func _kart_ve_harita_etkilesimi(k, k_isim):
 			ana.arayuz.olay_yaz("[color=light_coral]❌ Yetersiz Kaynak! Gerekli: %d 🌲, %d 🪨[/color]" % [kart["odun_maliyet"], kart["tas_maliyet"]])
 			return
 
-		aksiyon.bina_yukselt_rpc.rpc(k_isim, k, kart["odun_maliyet"], kart["tas_maliyet"])
-		ana.deste.el.remove_at(ana.secili_kart_index)
+		aksiyon.bina_yukselt_rpc.rpc(k_isim, k, kart["odun_maliyet"], kart["tas_maliyet"], ana.secili_kart_index)
 		ana.secili_kart_index = -1
 		
 	elif kart["hedef"] == "harita":
@@ -92,9 +91,9 @@ func _kart_ve_harita_etkilesimi(k, k_isim):
 			ana.arayuz.olay_yaz("[color=light_coral]❌ Yetersiz Kaynak! Gerekli: %d 🌲, %d 🪨[/color]" % [kart["odun_maliyet"], kart["tas_maliyet"]])
 			return
 			
-		aksiyon.kart_oyna_rpc.rpc(k_isim, kart["tur"], k, kart["odun_maliyet"], kart["tas_maliyet"])
-		ana.deste.el.remove_at(ana.secili_kart_index)
+		aksiyon.kart_oyna_rpc.rpc(k_isim, kart["tur"], k, kart["odun_maliyet"], kart["tas_maliyet"], ana.secili_kart_index)
 		ana.secili_kart_index = -1
 		
 	ana.arayuz.arayuzu_guncelle()
 	ana.harita.queue_redraw()
+

@@ -45,13 +45,8 @@ func _piyon_hareket_aksiyon(k, k_isim):
 		var b_isim = b_tur.to_upper().replace("_", " ")
 		var b_lvl = ana.binalar_verisi[k].get("seviye", 1)
 		
-		var biyom = ana.harita.kesfedilen_hexler.get(k, "cim")
-		var def_degeri = 5 if biyom == "dag" else 2 if biyom == "orman" else 0
-		if b_tur == "sehir_merkezi":
-			def_degeri += 3 + ((b_lvl - 1) * 2)
-		else:
-			def_degeri += 1
-		
+		var def_degeri = ana.savas.savunma_gucu(k)
+
 		var b_panel = ana.arayuz.get_node_or_null("%BinaSaldiriPaneli")
 		if b_panel:
 			var lbl_sahip = ana.arayuz.get_node_or_null("%BinaSahip")
@@ -234,3 +229,4 @@ func _isyan_onaylandi():
 	var efendim = ana.efendiler.get(k_isim, "")
 	aksiyon.savas_baslat_rpc.rpc(-1, -1, -1, -1, "isyan_buton", k_isim, efendim)
 	if ana.arayuz.isyan_onay_paneli: ana.arayuz.isyan_onay_paneli.visible = false
+

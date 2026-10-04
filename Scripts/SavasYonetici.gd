@@ -92,6 +92,7 @@ func savas_panelini_guncelle():
 	secilen_benim_kartlar.clear()
 	secilen_benim_nodelar.clear()
 	kendi_kilitledi_mi = false
+	son_kartlar_dict.clear()
 	benim_slot_on_eki = "OyuncuKart" if _ben_saldiran_miyim() else "RakipKart"
 	
 	_slot_tiklama_baglantilarini_kur()
@@ -101,7 +102,7 @@ func savas_panelini_guncelle():
 	benim_onayla_btn = onayla_atak_btn if ben_saldiran else onayla_defans_btn
 	
 	if onayla_atak_btn: onayla_atak_btn.visible = ben_saldiran
-	if onayla_defans_btn: onayla_defans_btn.visible = not ben_saldiran
+	if onayla_defans_btn: onayla_defans_btn.visible = _ben_savasta_miyim() and not ben_saldiran
 	
 	if benim_onayla_btn:
 		benim_onayla_btn.disabled = false
@@ -117,7 +118,7 @@ func savas_panelini_guncelle():
 	if son_savas_paneli: son_savas_paneli.visible = true
 	
 	if ana.arayuz.alt_orta_panel: ana.arayuz.alt_orta_panel.visible = false
-	if savas_eli_paneli: savas_eli_paneli.visible = true
+	if savas_eli_paneli: savas_eli_paneli.visible = _ben_savasta_miyim()
 	
 	zar_saldiran_deger = -1
 	zar_savunan_deger = -1
@@ -164,12 +165,35 @@ func _karti_iptal_et(dizi_index: int):
 	_oyuncu_slotlarini_guncelle()
 	ana.arayuz.olay_yaz("↩️ Kart geri alındı.")
 
+func savas_taraflari() -> Array:
+	var saldiran = savas_ozel_saldiran
+	if savas_piyon_saldiran >= 0 and savas_piyon_saldiran < ana.piyonlar.size():
+		saldiran = ana.piyonlar[savas_piyon_saldiran]["sahip"]
+	var savunan = savas_ozel_savunucu
+	if savas_hedef_turu == "bina" and ana.binalar_verisi.has(savas_bina_koordinat):
+		savunan = ana.binalar_verisi[savas_bina_koordinat]["sahip"]
+	elif savas_hedef_turu == "piyon" and savas_piyon_savunan >= 0 and savas_piyon_savunan < ana.piyonlar.size():
+		savunan = ana.piyonlar[savas_piyon_savunan]["sahip"]
+	return [saldiran, ana.efendiler.get(savunan, savunan)]
+
+func _ben_savasta_miyim() -> bool:
+	return ana.oyuncular[ana.benim_indexim] in savas_taraflari()
+
+func savunma_gucu(koor: Vector2i) -> int:
+	var biyom = ana.harita.kesfedilen_hexler.get(koor, "")
+	var guc = 5 if biyom == "dag" else 2 if biyom == "orman" else 0
+	var bina = ana.binalar_verisi.get(koor, {})
+	if not bina.is_empty():
+		guc += 3 + (bina.get("seviye", 1) - 1) * 2 if bina["tur"] == "sehir_merkezi" else 1
+	return guc
+
 func _ben_saldiran_miyim() -> bool:
 	var ben = ana.oyuncular[ana.benim_indexim]
 	var saldiran_isim = savas_ozel_saldiran if savas_piyon_saldiran == -1 else ana.piyonlar[savas_piyon_saldiran]["sahip"]
 	return ben == saldiran_isim
 
 func _savas_elini_doldur():
+	if not _ben_savasta_miyim(): return
 	if not savas_eli_hbox:
 		print("❌ HATA: %SavasEli bulunamadı! Node ismini/unique name'ini kontrol et.")
 		return
@@ -205,13 +229,16 @@ func _kart_texture_getir(kart: Dictionary) -> Texture2D:
 	return null
 
 func savas_kart_sec_ve_yerlestir(kart: Dictionary, idx: int, kart_ui_node: Node):
+	if not savas_aktif or not _ben_savasta_miyim() or kendi_kilitledi_mi: return
+	if idx < 0 or idx >= ana.deste.el.size() or idx in secilen_benim_idxler: return
+	if kart != ana.deste.el[idx] or kart.get("hedef") != "savas": return
 	if secilen_benim_kartlar.size() >= 7:
 		ana.arayuz.olay_yaz("En fazla 7 kart seçebilirsin.")
 		return
 	
 	# 🟢 YENİ: Kuşatma birimleri (Koçbaşı, Mancınık) sadece bina/şehir saldırısında kullanılabilir
 	var tur = kart.get("tur", "")
-	if (tur == "kocbasi" or tur == "mancinik") and savas_hedef_turu != "bina":
+	if (tur == "kocbasi" or tur == "mancinik") and (savas_hedef_turu != "bina" or not _ben_saldiran_miyim()):
 		ana.arayuz.olay_yaz("⚠️ [color=orange]%s yalnızca şehir veya bina saldırılarında kullanılabilir![/color]" % kart.get("isim", "Bu birim"))
 		return
 	
@@ -258,6 +285,7 @@ func _slot_bilgi_etiketi_guncelle(slot: TextureRect, kart: Dictionary):
 	lbl.visible = true
 
 func _onayla_basildi():
+	if not savas_aktif or not _ben_savasta_miyim() or kendi_kilitledi_mi: return
 	kendi_kilitledi_mi = true
 	if benim_onayla_btn:
 		benim_onayla_btn.disabled = true
@@ -271,6 +299,7 @@ func _onayla_basildi():
 
 @rpc("any_peer", "call_local", "reliable")
 func taraf_kilitlendi_rpc(saldiran_mi: bool):
+	if not savas_aktif or ana.rpc_gonderen_ismi() != savas_taraflari()[0 if saldiran_mi else 1]: return
 	var lbl_ismi = "%SecilenKartGucAtak" if saldiran_mi else "%SecilenKartGucDefans"
 	var lbl = ana.arayuz.get_node_or_null(lbl_ismi)
 	if lbl: lbl.text = "Kartlar Seçildi"
@@ -278,8 +307,7 @@ func taraf_kilitlendi_rpc(saldiran_mi: bool):
 func rakip_kartlari_goster(kartlar_dict: Dictionary):
 	var ben = ana.oyuncular[ana.benim_indexim]
 	var saldiran_ismi = savas_ozel_saldiran if savas_piyon_saldiran == -1 else ana.piyonlar[savas_piyon_saldiran]["sahip"]
-	var orjinal_savunucu = ana.piyonlar[savas_piyon_savunan]["sahip"] if savas_piyon_savunan != -1 else savas_ozel_savunucu
-	var savunucu_ismi = ana.efendiler.get(orjinal_savunucu, orjinal_savunucu)
+	var savunucu_ismi = savas_taraflari()[1]
 	
 	var r_ismi = savunucu_ismi if ben == saldiran_ismi else saldiran_ismi
 	var rakip_kartlar = kartlar_dict.get(r_ismi, [])
@@ -474,7 +502,7 @@ func savas_cozumle(kartlar_dict: Dictionary, zar_saldiran: int, zar_savunan: int
 	var savunan_zar_bonus = _zar_bonusu_hesapla(savunan_kartlar_c, false)        # 🟢 YENİ
 	
 	var saldiran_toplam = saldiran_kart_gucu + zar_saldiran + saldiran_zar_bonus   # 🟢 DEĞİŞTİ
-	var savunan_toplam = savunan_kart_gucu + zar_savunan + savunan_zar_bonus       # 🟢 DEĞİŞTİ
+	var savunan_toplam = savunan_kart_gucu + zar_savunan + savunan_zar_bonus + savunma_gucu(savas_bina_koordinat)       # 🟢 DEĞİŞTİ
 	
 	# Eşitlikte savunan kazanır (savunma avantajı)
 	var saldiran_kazandi = saldiran_toplam > savunan_toplam
@@ -506,6 +534,7 @@ func savas_cozumle(kartlar_dict: Dictionary, zar_saldiran: int, zar_savunan: int
 	
 	# --- 5. TEMİZLİK ---
 	savas_aktif = false
+	ana.harita.gorus_haritasini_guncelle()
 	ana.harita.queue_redraw()
 
 	await get_tree().create_timer(4.0).timeout
@@ -518,8 +547,14 @@ func savas_cozumle(kartlar_dict: Dictionary, zar_saldiran: int, zar_savunan: int
 
 # Savaştaki bir oyuncu oyundan ayrılırsa savaşı sonuçsuz kapatır
 func savasi_iptal_et():
+	if not savas_aktif: return
+	ana.aksiyon._savas_kartlarini_iade_et(son_kartlar_dict)
 	savas_aktif = false
 	secilen_savas_kartlari.clear()
+	son_kartlar_dict.clear()
+	kendi_kilitledi_mi = false
+	secilen_benim_idxler.clear()
+	secilen_benim_kartlar.clear()
 	zar_saldiran_deger = -1
 	zar_savunan_deger = -1
 	if son_savas_paneli: son_savas_paneli.visible = false
@@ -737,10 +772,11 @@ func zar_asamasini_baslat(kartlar_dict: Dictionary):
 		atak_zar_at_btn.visible = ben_saldiran
 		atak_zar_at_btn.disabled = false
 	if defans_zar_at_btn:
-		defans_zar_at_btn.visible = not ben_saldiran
+		defans_zar_at_btn.visible = _ben_savasta_miyim() and not ben_saldiran
 		defans_zar_at_btn.disabled = false
 
 func _zar_at_basildi(saldiran_mi: bool):
+	if not savas_aktif or not _ben_savasta_miyim(): return
 	if saldiran_mi != _ben_saldiran_miyim(): return   # sadece kendi rolüne ait butona basabilir
 	
 	if saldiran_mi:
@@ -752,7 +788,7 @@ func _zar_at_basildi(saldiran_mi: bool):
 
 @rpc("any_peer", "call_local", "reliable")
 func zar_at_istegi_rpc(saldiran_mi: bool):
-	if not multiplayer.is_server(): return
+	if not multiplayer.is_server() or not savas_aktif or son_kartlar_dict.size() != 2: return
 	# Her taraf yalnızca bir kez zar atabilir (aksi halde savaş birden fazla kez çözülür)
 	if saldiran_mi and zar_saldiran_deger != -1: return
 	if not saldiran_mi and zar_savunan_deger != -1: return
@@ -838,3 +874,4 @@ func _paneli_tam_sifirla():
 	
 	var defans_bonus = ana.arayuz.get_node_or_null("%DefansBonus")
 	if defans_bonus: defans_bonus.text = ""
+

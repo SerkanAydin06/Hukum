@@ -41,42 +41,27 @@ func kart_cope_at(idx):
 	ana.arayuz.arayuzu_guncelle()
 
 func karti_kaynaga_cevir(idx):
-	if ana.aktif_sira != ana.benim_indexim or ana.aktif_oyuncu_aksiyon_hakki <= 0: return
-	
+	if ana.aktif_sira != ana.benim_indexim or ana.aktif_oyuncu_aksiyon_hakki <= 0 or ana.savas.savas_aktif: return
+	if idx < 0 or idx >= ana.deste.el.size(): return
 	var kart = ana.deste.el[idx]
-	var tur = kart.get("tur", "")
-	var kaynak = "altin" # Varsayılan kaynak
-	
-	# 🟢 2. DEĞİŞİKLİK: Kart türüne göre spesifik kaynak belirleme
-	if tur in ["oduncu_kampi", "up_oduncu"]:
-		kaynak = "odun"
-	elif tur in ["tas_ocagi", "up_tas"]:
-		kaynak = "tas"
-	elif tur in ["tarla", "up_tarla"]:
-		kaynak = "yiyecek"
-	elif tur == "ticaret_merkezi":
-		kaynak = "altin"
-	elif kart.get("hedef") == "savas":
-		kaynak = "yiyecek" # Savaş/Asker kartları feda edilirse asker erzağı (yiyecek) gelir
-		
-	# Mevcut RPC yapını bozmamak için sadece türü gönderiyoruz
-	aksiyon.karti_feda_et_rpc.rpc(ana.oyuncular[ana.benim_indexim], kaynak)
-	
-	ana.deste.karti_elden_at(idx)
+	var kaynak = "odun"
+	if kart.get("hedef") == "savas": kaynak = "altin"
+	elif kart.get("tur") == "ticaret_merkezi": kaynak = ["odun", "tas", "yiyecek"].pick_random()
+	elif kart.get("tur") in ["tarla", "gelismis_sulama"]: kaynak = "yiyecek"
+	elif kart.get("tur") in ["tas_ocagi", "derin_damarlar"]: kaynak = "tas"
+	aksiyon.karti_feda_et_rpc.rpc(ana.oyuncular[ana.benim_indexim], kaynak, idx)
 	ana.secili_kart_index = -1
-	ana.kart_insa_modu_aktif = false # Modu temizle
+	ana.kart_insa_modu_aktif = false
+	ana.kurulabilir_hexler.clear()
 	ana.harita.queue_redraw()
-	
-	var emoji = "🪙" if kaynak == "altin" else "🌲" if kaynak == "odun" else "🪨" if kaynak == "tas" else "🌾"
-	ana.arayuz.olay_yaz("[color=gold]♻️ Kart dönüştürüldü! Kazanılan: 1 %s %s[/color]" % [emoji, kaynak.to_upper()])
 	ana.arayuz.arayuzu_guncelle()
 
 func _secili_karti_direkt_kullan():
 	var kart = ana.deste.el[ana.secili_kart_index]
-	aksiyon.aksiyon_karti_kullan_rpc.rpc(ana.oyuncular[ana.benim_indexim], kart["tur"])
+	aksiyon.aksiyon_karti_kullan_rpc.rpc(ana.oyuncular[ana.benim_indexim], kart["tur"], ana.secili_kart_index)
 	
-	ana.deste.el.remove_at(ana.secili_kart_index)
 	ana.secili_kart_index = -1
 	ana.kart_insa_modu_aktif = false
 	
 	ana.harita.queue_redraw()
+
