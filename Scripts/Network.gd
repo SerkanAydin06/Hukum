@@ -7,6 +7,8 @@ const MAX_PLAYERS = 6
 var son_lobi_verisi = {} 
 var peer = ENetMultiplayerPeer.new()
 var ortak_sifre = 0
+# Sunucunun belirlediği ortak tohum: tüm oyuncularda destelerin aynı sırayla karışmasını sağlar
+var oyun_tohumu: int = 0
 
 func _ready():
 	multiplayer.peer_connected.connect(_on_player_connected)

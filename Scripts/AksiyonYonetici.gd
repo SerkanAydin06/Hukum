@@ -351,7 +351,7 @@ func savas_karti_cek_rpc(oyuncu_ismi):
 			ana.arayuz.olay_yaz("[color=light_coral]❌ Savaş Destesi tamamen bitti![/color]")
 			return
 		ana.deste.savas_destesi = ana.deste.atilan_savas_kartlari.duplicate(true)
-		ana.deste.savas_destesi.shuffle()
+		ana.deste.karistir(ana.deste.savas_destesi)
 		ana.deste.atilan_savas_kartlari.clear()
 		ana.arayuz.olay_yaz("[color=yellow]🔄 Savaş Destesi bittiği için atılan kartlar yeniden karıştırıldı![/color]")
 

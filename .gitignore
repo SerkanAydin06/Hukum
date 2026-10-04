@@ -14,3 +14,10 @@ export_credentials.cfg
 .mono/
 data_*/
 mono_crash.*.json
+
+# Godot editor temp/backup saves
+*.tmp
+
+# Windows binaries do not belong in the project
+*.exe
+*.winmd

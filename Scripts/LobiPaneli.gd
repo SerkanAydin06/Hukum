@@ -461,9 +461,11 @@ func lobi_arayuzunu_ciz():
 
 func _oyunu_baslat_istegi():
 	if multiplayer.is_server():
-		oyuna_gecis_yap_rpc.rpc(lobi_verisi)
+		randomize()
+		oyuna_gecis_yap_rpc.rpc(lobi_verisi, randi())
 
 @rpc("authority", "call_local", "reliable")
-func oyuna_gecis_yap_rpc(son_lobi_verisi: Dictionary):
+func oyuna_gecis_yap_rpc(son_lobi_verisi: Dictionary, tohum: int = 0):
 	Network.son_lobi_verisi = son_lobi_verisi
+	Network.oyun_tohumu = tohum
 	get_tree().change_scene_to_file("res://AnaOyun.tscn")

@@ -5,6 +5,8 @@ var normal_deste = []
 var savas_destesi = []
 var atilan_savas_kartlari = [] 
 var el = []
+# Ortak tohumlu RNG: deste karıştırmaları her oyuncuda aynı sonucu verir
+var rng = RandomNumberGenerator.new()
 const MAX_EL_LIMITI = 7 
 
 @onready var ana = get_parent()
@@ -15,7 +17,18 @@ var son_el_durumu = []
 var son_sira_bende_mi = false
 var son_ap_var_mi = false
 
+func karistir(dizi: Array) -> void:
+	for i in range(dizi.size() - 1, 0, -1):
+		var j = rng.randi_range(0, i)
+		var gecici = dizi[i]
+		dizi[i] = dizi[j]
+		dizi[j] = gecici
+
 func desteleri_hazirla():
+	if Network.oyun_tohumu != 0:
+		rng.seed = Network.oyun_tohumu
+	else:
+		rng.randomize()
 	# ==========================================
 	# 1. YENİ SAVAŞ DESTESİ HAVUZU
 	# ==========================================
@@ -70,7 +83,7 @@ func desteleri_hazirla():
 	for i in range(10): savas_destesi.append(savas_havuz[19].duplicate()) # Koçbaşı (10)
 	for i in range(10): savas_destesi.append(savas_havuz[20].duplicate()) # Mancınık (10)
 	
-	savas_destesi.shuffle()
+	karistir(savas_destesi)
 
 	# ==========================================
 	# 2. İNŞA VE GELİŞİM DESTESİ HAVUZU (100 Kart)
@@ -97,7 +110,7 @@ func desteleri_hazirla():
 	for i in range(10): normal_deste.append(gelisim_havuz[1].duplicate())
 	for i in range(10): normal_deste.append(gelisim_havuz[2].duplicate())
 	
-	normal_deste.shuffle()
+	karistir(normal_deste)
 	
 func _ap_ile_normal_kart_cek():
 	if ana.aktif_sira != ana.benim_indexim or not ana.ilk_tur_bitti: return
