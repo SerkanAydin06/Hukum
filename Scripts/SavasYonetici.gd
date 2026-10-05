@@ -1,6 +1,7 @@
 extends Node
 
 var savas_aktif = false
+var sonuc_gosteriliyor = false
 var savas_hedef_turu = ""
 var savas_tipi = "normal"
 var savas_piyon_saldiran = -1
@@ -17,7 +18,9 @@ var secilen_benim_nodelar: Array = []
 var kendi_kilitledi_mi: bool = false
 var benim_slot_on_eki: String = ""
 var medeniyet_savas_bonuslari = {
-	"Osmanlı": "🔥 Topçu Bataryaları: Zarlar asla 1 gelmez!"
+	"Osmanlı": "🔥 Topçu Bataryaları: Zarlar asla 1 gelmez!",
+	"Bizans": "🏛️ Saray Entrikaları: 1 veya 2 zarında rakibin toplam gücü %50 azalır.",
+	"Viking": "🪙 Kuzeyin Gazabı: Kazanılan savaş başına +5 Altın."
 }
 @onready var ana = get_parent()
 
@@ -174,7 +177,7 @@ func savas_taraflari() -> Array:
 		savunan = ana.binalar_verisi[savas_bina_koordinat]["sahip"]
 	elif savas_hedef_turu == "piyon" and savas_piyon_savunan >= 0 and savas_piyon_savunan < ana.piyonlar.size():
 		savunan = ana.piyonlar[savas_piyon_savunan]["sahip"]
-	return [saldiran, ana.efendiler.get(savunan, savunan)]
+	return [saldiran, ana.koruyucu_efendi(savunan)]
 
 func _ben_savasta_miyim() -> bool:
 	return ana.oyuncular[ana.benim_indexim] in savas_taraflari()
@@ -469,7 +472,18 @@ func _bonus_aciklama_olustur(taraf_kartlar: Array, rakip_kartlar: Array, taraf_s
 		return "Aktif bonus yok"
 	return "\n".join(satirlar)
 
+# İki Bizans bonusu da aynı, azaltılmamış toplamlar üzerinden hesaplanır.
+func medeniyet_guc_bonuslari(sal_toplam: int, sav_toplam: int, sal_isim: String, sav_isim: String, sal_zar: int, sav_zar: int) -> Array:
+	var sal_son = sal_toplam
+	var sav_son = sav_toplam
+	if ana.medeniyetler_verisi.get(sal_isim, "") == "Bizans" and sal_zar in [1, 2]:
+		sav_son = int(ceil(sav_toplam / 2.0))
+	if ana.medeniyetler_verisi.get(sav_isim, "") == "Bizans" and sav_zar in [1, 2]:
+		sal_son = int(ceil(sal_toplam / 2.0))
+	return [sal_son, sav_son]
+
 func savas_cozumle(kartlar_dict: Dictionary, zar_saldiran: int, zar_savunan: int):
+	if not savas_aktif or sonuc_gosteriliyor: return
 	# --- 1. TARAFLARI BELİRLE ---
 	var saldiran_isim = savas_ozel_saldiran if savas_piyon_saldiran == -1 else ana.piyonlar[savas_piyon_saldiran]["sahip"]
 
@@ -489,7 +503,7 @@ func savas_cozumle(kartlar_dict: Dictionary, zar_saldiran: int, zar_savunan: int
 			orjinal_savunucu = savas_ozel_savunucu
 
 	# Efendi koruması: savunan aslında bir vasalsa, gerçekte savaşan onun efendisidir
-	var savunan_isim = ana.efendiler.get(orjinal_savunucu, orjinal_savunucu)
+	var savunan_isim = ana.koruyucu_efendi(orjinal_savunucu)
 
 	# --- 2. GÜÇ HESAPLA (Kart Gücü + Zar) ---
 	var saldiran_kartlar_c = kartlar_dict.get(saldiran_isim, [])
@@ -504,6 +518,9 @@ func savas_cozumle(kartlar_dict: Dictionary, zar_saldiran: int, zar_savunan: int
 	var saldiran_toplam = saldiran_kart_gucu + zar_saldiran + saldiran_zar_bonus   # 🟢 DEĞİŞTİ
 	var savunan_toplam = savunan_kart_gucu + zar_savunan + savunan_zar_bonus + savunma_gucu(savas_bina_koordinat)       # 🟢 DEĞİŞTİ
 	
+	var bonuslu = medeniyet_guc_bonuslari(saldiran_toplam, savunan_toplam, saldiran_isim, savunan_isim, zar_saldiran, zar_savunan)
+	saldiran_toplam = bonuslu[0]
+	savunan_toplam = bonuslu[1]
 	# Eşitlikte savunan kazanır (savunma avantajı)
 	var saldiran_kazandi = saldiran_toplam > savunan_toplam
 
@@ -530,6 +547,11 @@ func savas_cozumle(kartlar_dict: Dictionary, zar_saldiran: int, zar_savunan: int
 		ana.savas_puanlari[savunan_isim] += 1
 		ana.savas_puanlari[saldiran_isim] -= 1
 	
+	var kazanan = saldiran_isim if saldiran_kazandi else savunan_isim
+	if ana.medeniyetler_verisi.get(kazanan, "") == "Viking":
+		ana.oyuncu_kaynaklari[kazanan]["altin"] += 5
+		ana.arayuz.olay_yaz("🪙 %s, Kuzeyin Gazabı ile 5 Altın kazandı." % ana.arayuz.renkli_isim(kazanan))
+	sonuc_gosteriliyor = true
 	ana.arayuz.arayuzu_guncelle()
 	
 	# --- 5. TEMİZLİK ---
@@ -544,6 +566,8 @@ func savas_cozumle(kartlar_dict: Dictionary, zar_saldiran: int, zar_savunan: int
 	# 🟢 YENİ: Normal alt panele geri dön
 	if ana.arayuz.alt_orta_panel: ana.arayuz.alt_orta_panel.visible = true
 	if savas_eli_paneli: savas_eli_paneli.visible = false
+	sonuc_gosteriliyor = false
+	ana.arayuz.arayuzu_guncelle()
 
 # Savaştaki bir oyuncu oyundan ayrılırsa savaşı sonuçsuz kapatır
 func savasi_iptal_et():
@@ -593,7 +617,7 @@ func _hex_sahiplik_guncelle(hedef_koor: Vector2i, saldiran_isim: String) -> bool
 func _sonucu_uygula_piyon(saldiran_kazandi: bool, saldiran_isim: String, orjinal_savunucu: String):
 	if saldiran_kazandi:
 		ana.arayuz.olay_yaz("⚔️ [color=lime]ZAFER![/color] %s savaşı kazandı!" % ana.arayuz.renkli_isim(saldiran_isim))
-		_piyonu_eve_isinla(savas_piyon_savunan)
+		_bolgedeki_dusmanlari_geri_cek(saldiran_isim)
 		
 		var ele_gecirildi = _hex_sahiplik_guncelle(savas_bina_koordinat, saldiran_isim)
 		
@@ -615,10 +639,11 @@ func _sonucu_uygula_bina(saldiran_kazandi: bool, saldiran_isim: String, orjinal_
 		return
 
 	# --- Saldıran kazandı ---
-	_piyonu_eve_isinla(savas_piyon_savunan)
+	_bolgedeki_dusmanlari_geri_cek(saldiran_isim)
 
 	match savas_tipi:
 		"hukmet":
+			if not ana.vasallik_gecerli_mi(orjinal_savunucu, saldiran_isim): return
 			ana.efendiler[orjinal_savunucu] = saldiran_isim
 			ana.arayuz.olay_yaz("👑 [color=gold]HÜKÜMDARLIK KURULDU![/color] %s, %s'i vasalı yaptı!" % [ana.arayuz.renkli_isim(saldiran_isim), ana.arayuz.renkli_isim(orjinal_savunucu)])
 			# 🟢 Şehir merkezi asla el değiştirmez, öncü de saldırdığı yerde kalır — burada hiçbir hex/piyon işlemi YOK (bilerek)
@@ -689,7 +714,7 @@ func _isim_ve_medeniyet_guncelle():
 		"isyan_soyut":
 			orjinal_savunucu = savas_ozel_savunucu
 	
-	var savunan_isim = ana.efendiler.get(orjinal_savunucu, orjinal_savunucu)
+	var savunan_isim = ana.koruyucu_efendi(orjinal_savunucu)
 	
 	var atak_isim_lbl = ana.arayuz.get_node_or_null("%AtakIsim")
 	if atak_isim_lbl: atak_isim_lbl.text = saldiran_isim
@@ -723,6 +748,12 @@ func _sehir_merkezi_konumu_bul(isim: String) -> Vector2i:
 			return koor
 	return Vector2i(-1, -1)
 
+func _bolgedeki_dusmanlari_geri_cek(saldiran_isim: String):
+	for i in range(ana.piyonlar.size()):
+		var p = ana.piyonlar[i]
+		if p["koordinat"] == savas_bina_koordinat and not ana.muttefik_mi(saldiran_isim, p["sahip"]):
+			_piyonu_eve_isinla(i)
+
 func _piyonu_eve_isinla(piyon_index: int):
 	if piyon_index == -1 or piyon_index >= ana.piyonlar.size(): return
 	var isim = ana.piyonlar[piyon_index]["sahip"]
@@ -747,7 +778,7 @@ func zar_asamasini_baslat(kartlar_dict: Dictionary):
 			orjinal_savunucu = ana.piyonlar[savas_piyon_savunan]["sahip"] if (savas_piyon_savunan != -1 and savas_piyon_savunan < ana.piyonlar.size()) else savas_ozel_savunucu
 		"isyan_soyut":
 			orjinal_savunucu = savas_ozel_savunucu
-	var savunan_isim = ana.efendiler.get(orjinal_savunucu, orjinal_savunucu)
+	var savunan_isim = ana.koruyucu_efendi(orjinal_savunucu)
 	
 	# 🟢 DÜZELTİLDİ: Kartları önce al, gücü BONUSLARLA BİRLİKTE hesapla
 	var saldiran_kartlar_z = kartlar_dict.get(saldiran_isim, [])
@@ -800,7 +831,7 @@ func zar_at_istegi_rpc(saldiran_mi: bool):
 			orjinal_sav = ana.binalar_verisi[savas_bina_koordinat]["sahip"]
 		elif savas_hedef_turu == "piyon" and savas_piyon_savunan != -1 and savas_piyon_savunan < ana.piyonlar.size():
 			orjinal_sav = ana.piyonlar[savas_piyon_savunan]["sahip"]
-		ilgili_isim = ana.efendiler.get(orjinal_sav, orjinal_sav)
+		ilgili_isim = ana.koruyucu_efendi(orjinal_sav)
 	
 	if ana.rpc_gonderen_ismi() != ilgili_isim: return   # başkasının yerine zar atılamaz
 
@@ -874,4 +905,5 @@ func _paneli_tam_sifirla():
 	
 	var defans_bonus = ana.arayuz.get_node_or_null("%DefansBonus")
 	if defans_bonus: defans_bonus.text = ""
+
 

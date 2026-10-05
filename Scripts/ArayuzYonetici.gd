@@ -362,7 +362,7 @@ func arayuzu_guncelle():
 	var so_acik = savas_onay_paneli and savas_onay_paneli.visible
 	var bs_acik = bina_saldiri_paneli and bina_saldiri_paneli.visible
 	
-	var savas_var_mi = ana.savas.savas_aktif or isyan_ekrani_acik or so_acik or bs_acik
+	var savas_var_mi = ana.savas.savas_aktif or ana.savas.sonuc_gosteriliyor or isyan_ekrani_acik or so_acik or bs_acik
 	var sehir_kuruldu_mu = ana.sehir_merkezleri.get(k_isim, false)
 	
 	if alt_orta_panel:
@@ -380,6 +380,13 @@ func arayuzu_guncelle():
 	if kurulum_paneli:
 		kurulum_paneli.visible = (sira_bende_mi and not sehir_kuruldu_mu and not ana.insa_modu_aktif and not savas_var_mi)
 
+	var tic_maliyet = ana.tur_ekonomi.ticaret_maliyeti(k_isim)
+	if ticaret_paneli:
+		var pazar_basligi = ticaret_paneli.get_node_or_null("MarginContainer/VBoxContainer/Label")
+		if pazar_basligi: pazar_basligi.text = "⚖️ PAZAR YERİ (%d Kaynak = 1 Altın)" % tic_maliyet
+	if odun_sat_btn: odun_sat_btn.text = "%d Odun ➔ 1 Altın" % tic_maliyet
+	if tas_sat_btn: tas_sat_btn.text = "%d Taş ➔ 1 Altın" % tic_maliyet
+	if yiyecek_sat_btn: yiyecek_sat_btn.text = "%d Yiyecek ➔ 1 Altın" % tic_maliyet
 	var tic_var = false
 	for koor in ana.binalar_verisi:
 		if ana.binalar_verisi[koor]["sahip"] == k_isim and ana.binalar_verisi[koor]["tur"] == "ticaret_merkezi": 
@@ -473,35 +480,19 @@ func sag_paneli_guncelle(koordinat: Vector2i):
 	var hex_resim = get_node_or_null("%HexResim")
 	var secili_isim = get_node_or_null("%SeciliIsim")
 
-	if not ana.harita.kesfedilen_hexler.has(koordinat):
-		var gorus_mesafe = ana.harita.gorus_haritasi.get(koordinat, 3)
-		var bulutsuz = ana.harita.bulutsuz_hexler.has(koordinat)
-		
-		if gorus_mesafe >= 3 and not bulutsuz:
-			if arazi_label: arazi_label.text = "Sisli Arazi"
-			if sahip_label: sahip_label.text = "-"
-			if bina_label: bina_label.text = "-"
-			if uretim_bilgi: uretim_bilgi.text = "-"
-			if savunma_bonus: savunma_bonus.text = "-"
-			if secili_isim: secili_isim.text = "Sisli Bölge"
-			if hex_resim:
-				var yol = "res://Assets/Resimler/hex/sis.png"
-				if ResourceLoader.exists(yol): hex_resim.texture = load(yol)
-				else: hex_resim.texture = null
-			return
-		else:
-			if arazi_label: arazi_label.text = "Keşfedilmemiş"
-			if sahip_label: sahip_label.text = "-"
-			if bina_label: bina_label.text = "-"
-			if uretim_bilgi: uretim_bilgi.text = "-"
-			if savunma_bonus: savunma_bonus.text = "-"
-			if secili_isim: secili_isim.text = "Keşfedilmemiş Bölge"
-			if hex_resim:
-				var yol = "res://Assets/Resimler/hex/kapali_hex.png"
-				if ResourceLoader.exists(yol): hex_resim.texture = load(yol)
-				else: hex_resim.texture = null
-			return
-		
+	if not ana.harita.hex_gorunur_mu(koordinat) or not ana.harita.kesfedilen_hexler.has(koordinat):
+		var sisli = not ana.harita.hex_gorunur_mu(koordinat)
+		if arazi_label: arazi_label.text = "Sisli Arazi" if sisli else "Keşfedilmemiş"
+		if sahip_label: sahip_label.text = "-"
+		if bina_label: bina_label.text = "-"
+		if uretim_bilgi: uretim_bilgi.text = "-"
+		if savunma_bonus: savunma_bonus.text = "-"
+		if secili_isim: secili_isim.text = "Sisli Bölge" if sisli else "Keşfedilmemiş Bölge"
+		if hex_resim:
+			var yol = "res://Assets/Resimler/hex/sis.png" if sisli else "res://Assets/Resimler/hex/kapali_hex.png"
+			hex_resim.texture = load(yol) if ResourceLoader.exists(yol) else null
+		return
+
 	var biyom = ana.harita.kesfedilen_hexler[koordinat]
 	var biyom_isim = "Çimenlik Arazi" if biyom == "cim" else "Ormanlık Arazi" if biyom == "orman" else "Dağlık Arazi" if biyom == "dag" else biyom
 	if arazi_label: arazi_label.text = biyom_isim
@@ -555,11 +546,11 @@ func sag_paneli_guncelle(koordinat: Vector2i):
 				elif biyom == "orman": uretim_metni = "+%d Odun Üretimi" % lvl
 				elif biyom == "dag": uretim_metni = "+%d Taş Üretimi" % lvl
 			"tarla":
-				uretim_metni = "+%d Yiyecek Üretimi" % lvl
+				uretim_metni = "+%d Yiyecek Üretimi" % (lvl + (1 if ana.medeniyetler_verisi.get(b["sahip"], "") == "Moğol" else 0))
 			"oduncu_kampi":
 				uretim_metni = "+%d Odun Üretimi" % lvl
 			"tas_ocagi":
-				uretim_metni = "+%d Taş Üretimi" % lvl
+				uretim_metni = "+%d Taş Üretimi" % (lvl + (1 if ana.medeniyetler_verisi.get(b["sahip"], "") == "Mısır" else 0))
 			"ticaret_merkezi":
 				uretim_metni = "Ekonomik Ticaret Merkezi"
 			"oncu_kampi":
@@ -717,4 +708,5 @@ func _hakimiyet_vazgec_basildi():
 	ana.arayuz.olay_yaz("[color=gray]Hakimiyet kurma işlemi iptal edildi.[/color]")
 	ana.arayuz.arayuzu_guncelle()
 	ana.harita.queue_redraw()
+
 

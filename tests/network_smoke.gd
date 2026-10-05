@@ -4,6 +4,7 @@ const Fixtures = preload("res://regressions.gd")
 class NetworkGame extends AnaOyun:
 	func _ready(): pass
 
+var lobby
 var game: NetworkGame
 var peer = ENetMultiplayerPeer.new()
 var client_id = 0
@@ -31,6 +32,10 @@ func check(condition: bool, message: String):
 @rpc("authority", "call_local", "reliable")
 func configure(id: int):
 	client_id = id
+	var fixtures = Fixtures.new()
+	lobby = fixtures.make_lobby()
+	fixtures.free()
+	add_child(lobby)
 	game = NetworkGame.new()
 	game.name = "AnaOyun"
 	for spec in [["Harita", Fixtures.MapStub.new()], ["ArayuzYonetici", Fixtures.UIStub.new()],
@@ -64,6 +69,8 @@ func configure(id: int):
 @rpc("any_peer", "call_remote", "reliable")
 func client_ready():
 	if not is_host or multiplayer.get_remote_sender_id() != client_id: return
+	lobby.lobi_bilgisi_gonder_rpc.rpc(1, "A", "Kirmizi", "Osmanlı", true, 1)
+	lobby.lobi_bilgisi_gonder_rpc.rpc(client_id, "B", "Mavi", "Venedik", true, 2)
 	game.aksiyon.normal_kart_cek_rpc.rpc("A")
 	game.aksiyon.kart_oyna_rpc.rpc("A", "oncu_kampi", Vector2i(0, 0), 6, 2, 0)
 	game.tur_ekonomi.sirayi_degistir_rpc.rpc()
@@ -71,6 +78,11 @@ func client_ready():
 
 @rpc("authority", "call_remote", "reliable")
 func client_turn():
+	check(lobby.lobi_verisi[1]["isim"] == "A" and lobby.lobi_verisi[client_id]["isim"] == "B", "Trusted host lobby snapshots replicated")
+	lobby.lobi_bilgisi_gonder_rpc.rpc(1, "Forged", "Yesil", "Mısır", true, 3)
+	lobby.lobi_bilgisi_gonder_rpc.rpc(client_id, "B2", "Mavi", "Venedik", true, 2)
+	lobby.sohbet_mesaji_al_rpc.rpc(1, "Forged chat")
+	lobby.sohbet_mesaji_al_rpc.rpc(client_id, "Valid chat")
 	check(game.aktif_sira == 1, "Client received host turn advancement")
 	check(game.binalar_verisi.has(Vector2i(0, 0)), "Host construction replicated")
 	check(game.oyuncu_elleri["A"].is_empty(), "Host card consumption replicated")
@@ -85,6 +97,8 @@ func client_turn():
 @rpc("any_peer", "call_remote", "reliable")
 func report(client_failed: bool):
 	if not is_host or multiplayer.get_remote_sender_id() != client_id: return
+	check(lobby.lobi_verisi[1]["isim"] == "A" and lobby.lobi_verisi[client_id]["isim"] == "B2", "Host rejects spoofed lobby identity and accepts real client update")
+	check(not "Forged chat" in lobby.sohbet_gecmisi.get_parsed_text() and "Valid chat" in lobby.sohbet_gecmisi.get_parsed_text(), "Chat sender identity validated")
 	check(not client_failed, "Client checks passed")
 	check(game.oyuncu_kaynaklari["A"]["odun"] == 24, "Host build cost charged once")
 	check(game.oyuncu_kaynaklari["B"]["odun"] == 31, "Client resource gain replicated")
@@ -100,3 +114,4 @@ func report(client_failed: bool):
 func finish(host_failed: bool):
 	print("HUKUM ENET CLIENT: " + ("FAIL" if failed or host_failed else "PASS"))
 	get_tree().quit(1 if failed or host_failed else 0)
+

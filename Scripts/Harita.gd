@@ -114,6 +114,9 @@ func gorus_haritasini_guncelle():
 				if min_mesafe <= 2:
 					bulutsuz_hexler[hex] = true
 
+func hex_gorunur_mu(koor: Vector2i) -> bool:
+	return gorus_haritasi.get(koor, 3) < 3 or bulutsuz_hexler.has(koor)
+
 func _draw():
 	var zaman = Time.get_ticks_msec() / 1000.0
 	var bulut_hizi = Vector2(-0.025, 0.0)
@@ -149,7 +152,7 @@ func _draw():
 				uv_ler.append(Vector2(0.5 + (offset.x / sqrt(3.0)), 0.5 + (offset.y / 2.0)))
 				bulut_uv_ler.append((dunya_noktasi * bulut_olcegi) + bulut_kaymasi)
 			
-			if kesfedilen_hexler.has(koor):
+			if hex_gorunur_mu(koor) and kesfedilen_hexler.has(koor):
 				var biyom = kesfedilen_hexler[koor]
 				var hex_rengi = RENK_CIM if biyom == "cim" else RENK_ORMAN if biyom == "orman" else RENK_DAG
 				
@@ -450,4 +453,5 @@ func hex_mesafesi(a: Vector2i, b: Vector2i) -> int:
 	var r2 = b.y
 	var s2 = -q2 - r2
 	return int(max(abs(q1 - q2), max(abs(r1 - r2), abs(s1 - s2))))
+
 

@@ -474,7 +474,7 @@ func savas_baslat_rpc(saldiran_idx: int, savunan_idx: int, bx: int, by: int, t_t
 		if not bina.is_empty():
 			savunan = bina["sahip"]
 			if t_tipi == "normal": return
-			if t_tipi == "hukmet" and bina["tur"] != "sehir_merkezi": return
+			if t_tipi == "hukmet" and (bina["tur"] != "sehir_merkezi" or not ana.vasallik_gecerli_mi(savunan, gonderen)): return
 			if t_tipi == "yikim" and bina["tur"] == "sehir_merkezi": return
 		else:
 			if t_tipi != "normal": return
@@ -486,7 +486,7 @@ func savas_baslat_rpc(saldiran_idx: int, savunan_idx: int, bx: int, by: int, t_t
 		elif savunan_idx != -1: return
 		if savunan == "" or ana.muttefik_mi(gonderen, savunan): return
 		if bina.is_empty(): ozel_savunan = savunan
-	var gercek_savunan = ana.efendiler.get(savunan, savunan)
+	var gercek_savunan = ana.koruyucu_efendi(savunan)
 	if gercek_savunan not in ana.oyuncular or gercek_savunan in ana.ayrilan_oyuncular: return
 	if gercek_savunan == gonderen: return
 	print("🔍 DEBUG: savas_baslat_rpc çalıştı. t_tipi=", t_tipi, " bx,by=", bx, by, " saldiran_idx=", saldiran_idx)
@@ -518,7 +518,7 @@ func savas_baslat_rpc(saldiran_idx: int, savunan_idx: int, bx: int, by: int, t_t
 	ana.savas.savas_ozel_savunucu = ozel_savunan
 	ana.savas.secilen_savas_kartlari.clear()
 	
-	var efendi_korumasi = ana.efendiler.get(orjinal_savunucu, orjinal_savunucu)
+	var efendi_korumasi = ana.koruyucu_efendi(orjinal_savunucu)
 	
 	if t_tipi == "isyan_buton":
 		ana.arayuz.olay_yaz("🔥 [color=red]BAĞIMSIZLIK SAVAŞI![/color] %s, efendisi %s'e isyan bayrağı çekti!" % [ana.arayuz.renkli_isim(saldiran_isim), ana.arayuz.renkli_isim(orjinal_savunucu)])
@@ -665,3 +665,4 @@ func _savas_kartlarini_iade_et(kartlar: Dictionary):
 			var idx = ana.deste.atilan_savas_kartlari.rfind(kart)
 			if idx != -1: ana.deste.atilan_savas_kartlari.remove_at(idx)
 			if isim == ana.oyuncular[ana.benim_indexim]: ana.deste.el.append(kart.duplicate(true))
+

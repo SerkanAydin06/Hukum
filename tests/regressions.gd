@@ -9,6 +9,9 @@ class MapStub extends Node:
 	const HARITA_GENISLIK = 16
 	const HARITA_YUKSEKLIK = 12
 	var kesfedilen_hexler = {}
+	var gorus_haritasi = {}
+	var bulutsuz_hexler = {}
+	func hex_gorunur_mu(k): return gorus_haritasi.get(k, 3) < 3 or bulutsuz_hexler.has(k)
 	func hex_komsu_mu(a: Vector2i, b: Vector2i) -> bool:
 		return a.distance_to(b) == 1
 	func gorus_haritasini_guncelle(): pass
@@ -23,9 +26,27 @@ class UIStub extends Node:
 	var puan_konteyner = null
 	var hakimiyet_paneli = null
 	func olay_yaz(_mesaj): pass
-	func arayuzu_guncelle(): pass
+	var battle_states = []
+	func arayuzu_guncelle():
+		var b = get_parent().savas
+		battle_states.append(b.savas_aktif or b.sonuc_gosteriliyor)
 	func renkli_isim(isim): return isim
 	func panel_yukari_cik(): pass
+
+class LobbyFixture extends LobiPaneli:
+	func _ready(): pass
+	func lobi_arayuzunu_ciz(): pass
+
+func make_lobby() -> LobbyFixture:
+	var lobby = LobbyFixture.new()
+	lobby.name = "Lobi"
+	for key in ["SohbetGecmisi", "SohbetGirdisi", "GonderBtn", "OyuncuVBox", "MedeniyetButonlariKutusu", "HikayeYazisi", "BonusYazisi", "HazirBtn", "BaslatBtn", "IptalBtn", "LobidenCikBtn", "BaslikHikaye", "AltBaslikHikaye"]:
+		var child = RichTextLabel.new() if key == "SohbetGecmisi" else Node.new()
+		child.name = key
+		lobby.add_child(child)
+		child.owner = lobby
+		child.unique_name_in_owner = true
+	return lobby
 
 var game: TestGame
 var battle
@@ -85,6 +106,7 @@ func reset_state():
 	game.sender = "A"
 	game.ilk_tur_bitti = true
 	battle.savas_aktif = false
+	battle.sonuc_gosteriliyor = false
 	battle.savas_piyon_saldiran = 0
 	battle.savas_piyon_savunan = 1
 	battle.savas_hedef_turu = "piyon"
@@ -109,6 +131,8 @@ func run_tests():
 			var script = load("res://Scripts/" + file)
 			check(script != null and script.can_instantiate(), "Godot compiles " + file)
 	setup()
+	await run_new_regressions()
+	reset_state()
 	await get_tree().process_frame
 	var soldier = {"hedef": "savas", "tur": "piyade", "isim": "Piyade", "guc": 1}
 	var siege = {"hedef": "savas", "tur": "kocbasi", "isim": "Koçbaşı", "guc": 7}
@@ -220,3 +244,106 @@ func run_tests():
 	await get_tree().create_timer(4.1).timeout
 	game.free()
 	get_tree().quit(1 if failures else 0)
+
+
+func run_new_regressions():
+	var lobby = make_lobby()
+	get_tree().root.add_child(lobby)
+	check(not lobby.lobi_istegi_gecerli_mi(2, 1, "A", "Kirmizi", "Osmanlı", true, 1), "Lobby sender cannot impersonate host")
+	check(not lobby.lobi_istegi_gecerli_mi(2, 3, "C", "Mavi", "Mısır", true, 1), "Lobby sender cannot impersonate another client")
+	check(lobby.lobi_istegi_gecerli_mi(2, 2, "B", "Mavi", "Mısır", true, 2), "Lobby accepts own valid update")
+	check(lobby.lobi_istegi_gecerli_mi(1, 2, "B", "Mavi", "Mısır", true, 2), "Lobby accepts trusted host snapshots")
+	check(not lobby.lobi_istegi_gecerli_mi(2, 2, "B", "Geçersiz", "Mısır", true, 2), "Unknown lobby colors rejected")
+	check(not lobby.lobi_istegi_gecerli_mi(2, 2, "B", "Mavi", "Yok", true, 2), "Unknown civilization rejected")
+	check(not lobby.lobi_istegi_gecerli_mi(2, 2, "B", "Mavi", "Mısır", true, 99), "Unknown profile rejected")
+	lobby.free()
+	reset_state()
+	game.medeniyetler_verisi["A"] = "Mısır"
+	game.binalar_verisi[Vector2i(0, 0)] = {"tur": "tas_ocagi", "sahip": "A", "seviye": 1}
+	game.binalar_verisi[Vector2i(0, 1)] = {"tur": "tas_ocagi", "sahip": "A", "seviye": 3}
+	check(game.tur_ekonomi.bina_uretimi("A")["tas"] == 6, "Egypt adds one stone per quarry, independent of level")
+	game.efendiler = {"A": "B"}
+	check(game.tur_ekonomi._oyuncu_net_uretimini_hesapla("A")["net"]["tas"] == 3, "Egypt production bonus is included before vassal tax")
+	game.medeniyetler_verisi["A"] = "Moğol"
+	for b in game.binalar_verisi.values(): b["tur"] = "tarla"
+	check(game.tur_ekonomi.bina_uretimi("A")["yiyecek"] == 6, "Mongol adds one food per farm")
+	reset_state()
+	game.binalar_verisi[Vector2i(0, 0)] = {"tur": "ticaret_merkezi", "sahip": "A", "seviye": 1}
+	game.oyuncu_kaynaklari["A"]["odun"] = 4
+	game.tur_ekonomi.ticaret_yap_rpc("A", "odun")
+	check(game.oyuncu_kaynaklari["A"]["altin"] == 30, "Non-Venetian cannot trade four resources")
+	game.medeniyetler_verisi["A"] = "Venedik"
+	game.tur_ekonomi.ticaret_yap_rpc("A", "odun")
+	check(game.oyuncu_kaynaklari["A"]["odun"] == 0 and game.oyuncu_kaynaklari["A"]["altin"] == 31, "Venice trades exactly four resources")
+	reset_state()
+	game.medeniyetler_verisi["A"] = "Bizans"
+	check(battle.medeniyet_guc_bonuslari(10, 12, "A", "B", 2, 6) == [10, 6], "Byzantine attacker low roll halves opposing total")
+	check(battle.medeniyet_guc_bonuslari(10, 12, "B", "A", 6, 1) == [5, 12], "Byzantine defender low roll halves opposing total")
+	check(battle.medeniyet_guc_bonuslari(10, 12, "A", "B", 3, 6) == [10, 12], "Byzantine high roll has no reduction")
+	check(battle.medeniyet_guc_bonuslari(11, 13, "A", "A", 1, 2) == [6, 7], "Both Byzantine reductions apply simultaneously, rounding up")
+	reset_state()
+	game.efendiler = {"B": "A", "C": "B"}
+	check(game.muttefik_mi("A", "C") and game.koruyucu_efendi("C") == "A", "Entire vassal chain shares alliance and protection")
+	check(not game.vasallik_gecerli_mi("A", "C"), "Vassal cycle rejected")
+	game.piyonlar[0]["sahip"] = "C"
+	game.piyonlar[1]["sahip"] = "A"
+	game.binalar_verisi[Vector2i(1, 0)] = {"tur": "sehir_merkezi", "sahip": "A", "seviye": 1}
+	game.sender = "C"
+	game.aktif_sira = 2
+	actions.savas_baslat_rpc(0, 1, 1, 0, "hukmet")
+	check(not battle.savas_aktif and game.aktif_oyuncu_aksiyon_hakki == 3, "Nested vassal cannot attack supreme lord or spend AP")
+	battle._sonucu_uygula_bina(true, "C", "A")
+	check(not game.efendiler.has("A"), "Combat outcome cannot introduce vassal cycle")
+	reset_state()
+	game.binalar_verisi[Vector2i(1, 1)] = {"tur": "sehir_merkezi", "sahip": "B", "seviye": 1}
+	game.piyonlar.append({"sahip": "B", "koordinat": Vector2i(1, 0)})
+	game.kontrol_edilen_hexler[Vector2i(1, 0)] = "B"
+	battle._sonucu_uygula_piyon(true, "A", "B")
+	check(game.piyonlar[0]["koordinat"] == Vector2i(1, 0) and game.piyonlar[1]["koordinat"] == Vector2i(1, 1) and game.piyonlar[2]["koordinat"] == Vector2i(1, 1), "All defeated pioneers retreat before attacker occupies conquered land")
+	reset_state()
+	var real_map = load("res://Scripts/Harita.gd").new()
+	check(not real_map.hex_gorunur_mu(Vector2i(15, 11)), "Production fog hides unseen tiles")
+	real_map.gorus_haritasi[Vector2i(15, 11)] = 2
+	check(real_map.hex_gorunur_mu(Vector2i(15, 11)), "Production fog reveals sight-radius edge")
+	real_map.gorus_haritasi[Vector2i(15, 11)] = 20
+	real_map.bulutsuz_hexler[Vector2i(15, 11)] = true
+	check(real_map.hex_gorunur_mu(Vector2i(15, 11)), "Production fog preserves exploration memory")
+	real_map.free()
+	var ui = load("res://Scripts/ArayuzYonetici.gd").new()
+	ui.ana = game
+	var labels = {}
+	for key in ["AraziLabel", "SahipLabel", "BinaLabel", "UretimBilgi", "SavunmaBonus", "SeciliIsim"]:
+		var label = Label.new()
+		label.name = key
+		ui.add_child(label)
+		label.owner = ui
+		label.unique_name_in_owner = true
+		labels[key] = label
+	var hidden = Vector2i(15, 11)
+	game.harita.kesfedilen_hexler[hidden] = "orman"
+	game.harita.gorus_haritasi[hidden] = 20
+	game.binalar_verisi[hidden] = {"tur": "sehir_merkezi", "sahip": "B", "seviye": 3}
+	ui.sag_paneli_guncelle(hidden)
+	check(labels["AraziLabel"].text == "Sisli Arazi" and labels["SahipLabel"].text == "-" and labels["BinaLabel"].text == "-", "Fog hides global discoveries, owner and buildings")
+	game.harita.gorus_haritasi[hidden] = 1
+	ui.sag_paneli_guncelle(hidden)
+	check(labels["AraziLabel"].text == "Ormanlık Arazi" and labels["SahipLabel"].text == "Bizans", "Visible explored tile shows details")
+	game.harita.gorus_haritasi[hidden] = 20
+	game.harita.bulutsuz_hexler[hidden] = true
+	ui.sag_paneli_guncelle(hidden)
+	check(labels["AraziLabel"].text == "Ormanlık Arazi", "Previously seen tile remains available to inspect")
+	ui.free()
+	for winner in ["A", "B"]:
+		reset_state()
+		game.medeniyetler_verisi = {"A": "Osmanlı", "B": "Osmanlı", "C": "Mısır"}
+		game.medeniyetler_verisi[winner] = "Viking"
+		game.binalar_verisi[Vector2i(0, 1)] = {"tur": "sehir_merkezi", "sahip": "A", "seviye": 1}
+		game.binalar_verisi[Vector2i(1, 1)] = {"tur": "sehir_merkezi", "sahip": "B", "seviye": 1}
+		battle.savas_aktif = true
+		battle.savas_cozumle({"A": [], "B": []}, 6 if winner == "A" else 1, 1 if winner == "A" else 6)
+		check(game.oyuncu_kaynaklari[winner]["altin"] == 35, "Viking winner gets five gold for " + winner)
+		battle.savas_cozumle({"A": [], "B": []}, 6, 1)
+		check(game.oyuncu_kaynaklari[winner]["altin"] == 35, "Repeated resolution cannot award Viking gold twice")
+		check(battle.sonuc_gosteriliyor and not game.rpc_sirada_mi(), "Result display blocks new actions")
+		await get_tree().create_timer(4.1).timeout
+		check(not battle.sonuc_gosteriliyor and not game.arayuz.battle_states.back(), "Result closes and refreshes unlocked controls")

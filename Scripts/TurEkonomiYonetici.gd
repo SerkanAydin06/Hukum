@@ -10,15 +10,16 @@ func bina_uretimi(isim: String) -> Dictionary:
 		var b = ana.binalar_verisi[koor]
 		if b["sahip"] != isim: continue
 		var lvl = b.get("seviye", 1)
+		var med = ana.medeniyetler_verisi.get(isim, "")
 		match b["tur"]:
 			"sehir_merkezi":
 				var biyom = ana.harita.kesfedilen_hexler.get(koor, "")
 				if biyom == "cim": u["yiyecek"] += lvl
 				elif biyom == "orman": u["odun"] += lvl
 				elif biyom == "dag": u["tas"] += lvl
-			"tarla": u["yiyecek"] += lvl
+			"tarla": u["yiyecek"] += lvl + (1 if med == "Moğol" else 0)
 			"oduncu_kampi": u["odun"] += lvl
-			"tas_ocagi": u["tas"] += lvl
+			"tas_ocagi": u["tas"] += lvl + (1 if med == "Mısır" else 0)
 	return u
 
 func _oyuncu_net_uretimini_hesapla(isim: String) -> Dictionary:
@@ -45,6 +46,9 @@ func _oyuncu_net_uretimini_hesapla(isim: String) -> Dictionary:
 					
 	return {"net": net_u, "ham": ham_u, "kesinti": kesinti_u}   # 🟢 DEĞİŞTİ: artık 3 parçalı dict
 
+func ticaret_maliyeti(isim: String) -> int:
+	return 4 if ana.medeniyetler_verisi.get(isim, "") == "Venedik" else 5
+
 func _kaynak_sat(k_turu: String):
 	# 🟢 AP kontrolü kaldırıldı, artık sadece sıra bende mi diye bakıyoruz
 	if ana.aktif_sira != ana.benim_indexim:
@@ -52,25 +56,27 @@ func _kaynak_sat(k_turu: String):
 		return
 		
 	var k_isim = ana.oyuncular[ana.benim_indexim]
-	if ana.oyuncu_kaynaklari[k_isim][k_turu] >= 5:
+	var maliyet = ticaret_maliyeti(k_isim)
+	if ana.oyuncu_kaynaklari[k_isim][k_turu] >= maliyet:
 		ticaret_yap_rpc.rpc(k_isim, k_turu)
 	else:
 		var n = "Odun" if k_turu == "odun" else "Taş" if k_turu == "tas" else "Yiyecek"
-		ana.arayuz.olay_yaz("[color=light_coral]❌ Yetersiz kaynak! Altın alabilmek için en az 5 %s gerekli.[/color]" % n)
+		ana.arayuz.olay_yaz("[color=light_coral]❌ Yetersiz kaynak! Altın alabilmek için en az %d %s gerekli.[/color]" % [maliyet, n])
 
 @rpc("any_peer", "call_local", "reliable")
 func ticaret_yap_rpc(oyuncu_ismi, k_turu):
 	if not ana.rpc_sirada_mi(oyuncu_ismi): return
-	if not (k_turu in ["odun", "tas", "yiyecek"]) or ana.oyuncu_kaynaklari[oyuncu_ismi][k_turu] < 5: return
+	var maliyet = ticaret_maliyeti(oyuncu_ismi)
+	if not (k_turu in ["odun", "tas", "yiyecek"]) or ana.oyuncu_kaynaklari[oyuncu_ismi][k_turu] < maliyet: return
 	var pazar_var = false
 	for bina in ana.binalar_verisi.values():
 		if bina["sahip"] == oyuncu_ismi and bina["tur"] == "ticaret_merkezi": pazar_var = true
 	if not pazar_var: return
 	# 🟢 AP eksiltme satırı (ana.aktif_oyuncu_aksiyon_hakki -= 1) tamamen silindi!
-	ana.oyuncu_kaynaklari[oyuncu_ismi][k_turu] -= 5
+	ana.oyuncu_kaynaklari[oyuncu_ismi][k_turu] -= maliyet
 	ana.oyuncu_kaynaklari[oyuncu_ismi]["altin"] += 1
 	var emoji = "🌲" if k_turu == "odun" else "🪨" if k_turu == "tas" else "🌾"
-	ana.arayuz.olay_yaz("⚖️ %s, tüccarlara 5 %s %s vererek [color=gold]1 🪙 Altın[/color] kazandı." % [ana.arayuz.renkli_isim(oyuncu_ismi), emoji, k_turu.to_upper()])
+	ana.arayuz.olay_yaz("⚖️ %s, tüccarlara %d %s %s vererek [color=gold]1 🪙 Altın[/color] kazandı." % [ana.arayuz.renkli_isim(oyuncu_ismi), maliyet, emoji, k_turu.to_upper()])
 	ana.arayuz.arayuzu_guncelle()
 
 func _tur_butonuna_basildi():
@@ -145,4 +151,5 @@ func turu_bitir():
 		
 	ana.arayuz.arayuzu_guncelle()
 	ana.harita.queue_redraw()
+
 

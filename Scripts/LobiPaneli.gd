@@ -1,4 +1,5 @@
 extends Control
+class_name LobiPaneli
 
 var lobi_verisi = {}
 var is_updating = false
@@ -159,7 +160,9 @@ func _mesaj_gonder():
 
 @rpc("any_peer", "call_local", "reliable")
 func sohbet_mesaji_al_rpc(gonderen_id: int, mesaj: String):
-	if not sohbet_gecmisi: return
+	var gonderen = multiplayer.get_remote_sender_id()
+	if gonderen == 0: gonderen = multiplayer.get_unique_id()
+	if gonderen_id != gonderen or not sohbet_gecmisi: return
 	
 	# 🟢 DEĞİŞİKLİK: Ağdan gelen gerçek profil ismini kullanıyoruz
 	var oyuncu_ismi = "Oyuncu " + str(gonderen_id).left(4)
@@ -274,7 +277,10 @@ func _hazir_butonuna_basildi():
 
 @rpc("any_peer", "call_local", "reliable")
 func lobi_bilgisi_gonder_rpc(peer_id: int, isim: String, renk: String, medeniyet: String, hazir_mi: bool, profil_no: int):   # 🟢 YENİ PARAM
-	if not lobi_verisi.has(peer_id): 
+	var gonderen = multiplayer.get_remote_sender_id()
+	if gonderen == 0: gonderen = multiplayer.get_unique_id()
+	if not lobi_istegi_gecerli_mi(gonderen, peer_id, isim, renk, medeniyet, hazir_mi, profil_no): return
+	if not lobi_verisi.has(peer_id):
 		lobi_verisi[peer_id] = {"ilk_mesaj_gosterildi": false}
 		
 	lobi_verisi[peer_id]["isim"] = isim
@@ -288,6 +294,14 @@ func lobi_bilgisi_gonder_rpc(peer_id: int, isim: String, renk: String, medeniyet
 		lobi_verisi[peer_id]["ilk_mesaj_gosterildi"] = true
 		
 	lobi_arayuzunu_ciz()
+
+func lobi_istegi_gecerli_mi(gonderen: int, peer_id: int, isim: String, renk: String, medeniyet: String, hazir_mi: bool, profil_no: int) -> bool:
+	if peer_id <= 0 or (gonderen != 1 and gonderen != peer_id): return false
+	if isim.strip_edges().is_empty() or isim.length() > 16 or "[" in isim or "]" in isim: return false
+	if renk != "" and renk not in secilebilir_renkler: return false
+	if medeniyet != "" and not medeniyet_bilgileri.has(medeniyet): return false
+	if hazir_mi and (renk == "" or medeniyet == ""): return false
+	return profil_no >= 1 and profil_no <= 8
 
 func _oyuncu_baglandi(id: int):
 	if not lobi_verisi.has(id):
@@ -466,7 +480,7 @@ func _oyunu_baslat_istegi():
 		var medeniyetler = []
 		for id in lobi_verisi:
 			var v = lobi_verisi[id]
-			if not v.get("hazir_mi", false) or v.get("renk", "") == "" or v.get("medeniyet", "") == "":
+			if not lobi_istegi_gecerli_mi(1, id, v.get("isim", ""), v.get("renk", ""), v.get("medeniyet", ""), true, v.get("profil_no", 1)) or not v.get("hazir_mi", false):
 				_sistem_mesaji("❌ Herkes renk ve medeniyet seçip hazır olmalı!")
 				return
 			if v["renk"] in renkler or v["medeniyet"] in medeniyetler:
@@ -484,3 +498,4 @@ func oyuna_gecis_yap_rpc(son_lobi_verisi: Dictionary, tohum: int = 0):
 	Network.son_lobi_verisi = son_lobi_verisi
 	Network.oyun_tohumu = tohum
 	get_tree().change_scene_to_file("res://AnaOyun.tscn")
+

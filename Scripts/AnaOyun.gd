@@ -151,7 +151,7 @@ func rpc_gonderen_ismi() -> String:
 
 # Gönderen, sırası gelen oyuncu mu? (isim verilirse o isimle de eşleşmeli)
 func rpc_sirada_mi(isim: String = "") -> bool:
-	if oyun_bitti or savas.savas_aktif: return false
+	if oyun_bitti or savas.savas_aktif or savas.sonuc_gosteriliyor: return false
 	if aktif_sira >= oyuncular.size(): return false
 	var gonderen = rpc_gonderen_ismi()
 	var gecerli = gonderen != "" and gonderen == oyuncular[aktif_sira] and (isim == "" or isim == gonderen)
@@ -167,18 +167,34 @@ func hex_gecerli_mi(koor: Vector2i) -> bool:
 	return koor.x >= 0 and koor.x < harita.HARITA_GENISLIK and koor.y >= 0 and koor.y < harita.HARITA_YUKSEKLIK
 
 # Ortak Yardımcı Fonksiyonlar
+# Vasal zincirinin en üstündeki hükümdar; bozuk kayıtlar sonsuz döngü oluşturmaz.
+func koruyucu_efendi(isim: String) -> String:
+	var gorulen = []
+	var mevcut = isim
+	while efendiler.get(mevcut, "") != "":
+		if mevcut in gorulen: return isim
+		gorulen.append(mevcut)
+		mevcut = efendiler[mevcut]
+	return mevcut
+
 func muttefik_mi(isim1: String, isim2: String) -> bool:
-	if isim1 == isim2: return true
-	var e1 = efendiler.get(isim1, "")
-	var e2 = efendiler.get(isim2, "")
-	if e1 != "" and e1 == isim2: return true
-	if e2 != "" and e2 == isim1: return true
-	if e1 != "" and e1 == e2: return true
-	return false
+	if isim1 == "" or isim2 == "": return false
+	return koruyucu_efendi(isim1) == koruyucu_efendi(isim2)
+
+func vasallik_gecerli_mi(vasal: String, efendi: String) -> bool:
+	if vasal not in oyuncular or efendi not in oyuncular or vasal == efendi: return false
+	var gorulen = []
+	var mevcut = efendi
+	while mevcut != "":
+		if mevcut == vasal or mevcut in gorulen: return false
+		gorulen.append(mevcut)
+		mevcut = efendiler.get(mevcut, "")
+	return true
 
 func hex_dosta_komsu_mu(hedef_koor: Vector2i, sahip_isim: String) -> bool:
 	for k in kontrol_edilen_hexler:
 		if kontrol_edilen_hexler[k] == sahip_isim:
 			if harita.hex_komsu_mu(k, hedef_koor): return true
 	return false
+
 
