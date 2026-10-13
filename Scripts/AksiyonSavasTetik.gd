@@ -20,8 +20,7 @@ func _piyon_hareket_aksiyon(k, k_isim):
 		return
 		
 	if not ana.harita.kesfedilen_hexler.has(k):
-		var biyomlar = ["cim", "cim", "cim", "orman", "orman", "dag"]
-		aksiyon.kesif_ve_hareket_rpc.rpc(ana.secili_piyon_index, k, biyomlar.pick_random(), k_isim)
+		aksiyon.kesif_ve_hareket_rpc.rpc(ana.secili_piyon_index, k, k_isim)
 		return
 		
 	# 🟢 1. BİNA SALDIRISI (%BinaSaldiriPaneli)

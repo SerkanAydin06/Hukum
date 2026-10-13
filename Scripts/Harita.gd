@@ -61,18 +61,33 @@ var gorus_haritasi = {}
 var bulutsuz_hexler = {}
 @onready var ana_oyun = get_parent()
 
+const ANIMASYON_KARE_HIZI = 30.0
+var _cizim_birikimi := 0.0
+
 func _ready():
 	texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 
+# Tüm eşler aynı oyun tohumu + koordinat için aynı araziyi üretir.
+# İstemcinin önerdiği biyoma güvenilmez.
+func biyom_belirle(koor: Vector2i) -> String:
+	var rastgele = RandomNumberGenerator.new()
+	rastgele.seed = int(Network.oyun_tohumu) ^ (koor.x * 73856093) ^ (koor.y * 19349663)
+	var biyomlar = ["cim", "cim", "cim", "orman", "orman", "dag"]
+	return biyomlar[rastgele.randi_range(0, biyomlar.size() - 1)]
+
 func kesif_yap(koor: Vector2i):
 	if not kesfedilen_hexler.has(koor):
-		var biyomlar = ["cim", "cim", "cim", "orman", "orman", "dag"]
-		kesfedilen_hexler[koor] = biyomlar.pick_random()
+		kesfedilen_hexler[koor] = biyom_belirle(koor)
 		gorus_haritasini_guncelle()
 		queue_redraw()
 
-func _process(_delta):
-	queue_redraw()
+# Harita çizimi animasyon içeriyor, bu yüzden tamamen kapatılmaz.
+# 30 Hz sınırı, yüksek FPS ekranlarda gereksiz yeniden çizimi azaltır.
+func _process(delta):
+	_cizim_birikimi += delta
+	if _cizim_birikimi >= 1.0 / ANIMASYON_KARE_HIZI:
+		_cizim_birikimi = fmod(_cizim_birikimi, 1.0 / ANIMASYON_KARE_HIZI)
+		queue_redraw()
 
 func gorus_haritasini_guncelle():
 	gorus_haritasi.clear()

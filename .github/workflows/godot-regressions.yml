@@ -1,0 +1,46 @@
+name: Godot regressions
+
+on:
+  pull_request:
+    paths:
+      - 'Scripts/**'
+      - 'tests/**'
+      - '*.tscn'
+      - 'project.godot'
+      - '.github/workflows/godot-regressions.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'Scripts/**'
+      - 'tests/**'
+      - '*.tscn'
+      - 'project.godot'
+      - '.github/workflows/godot-regressions.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: godot-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check project asset references
+        run: python3 tests/check_project.py
+      - name: Install verified Godot 4.7.2
+        shell: bash
+        run: |
+          curl --fail --location --retry 2 --silent --show-error \
+            -o /tmp/godot.zip \
+            https://github.com/godotengine/godot-builds/releases/download/4.7.2-stable/Godot_v4.7.2-stable_linux.x86_64.zip
+          echo 'cadd3204e728a35d3f13adb7fd0d7902636b79f6b95c40c265eb73b6c35329e4  /tmp/godot.zip' | sha256sum -c -
+          unzip -q /tmp/godot.zip -d /tmp
+          chmod +x /tmp/Godot_v4.7.2-stable_linux.x86_64
+      - name: Run gameplay and ENet regressions
+        run: python3 tests/run_regressions.py /tmp/Godot_v4.7.2-stable_linux.x86_64

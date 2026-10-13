@@ -230,7 +230,9 @@ func _on_kur_btn_pressed() -> void:
 	kur_btn.disabled = true
 	baglan_btn.disabled = true
 
-	Network.host_game()
+	if not Network.host_game():
+		_baglanti_basarisiz()
+		return
 
 	_lobi_sahnesine_gec()
 
@@ -250,7 +252,8 @@ func _on_baglan_btn_pressed() -> void:
 
 	print("Bağlanılıyor... Sunucu aranıyor.")
 
-	Network.join_game(ip)
+	if not Network.join_game(ip):
+		_baglanti_basarisiz()
 
 func _sunucuya_baglanildi() -> void:
 	print("✅ Bağlantı başarılı! Lobiye geçiliyor.")

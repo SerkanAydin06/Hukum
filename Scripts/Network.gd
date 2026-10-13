@@ -17,25 +17,29 @@ func _ready():
 	multiplayer.connection_failed.connect(_on_connected_fail)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
-func host_game():
+func host_game() -> bool:
 	var error = peer.create_server(PORT, MAX_PLAYERS)
 	if error != OK:
-		print("Sunucu kurulamadı: ", error)
-		return
+		push_warning("Sunucu kurulamadı: %s" % error)
+		baglantiyi_kapat()
+		return false
 	multiplayer.multiplayer_peer = peer
-	
+
 	randomize()
 	ortak_sifre = randi()
 	print("Sunucu kuruldu! Port: ", PORT)
+	return true
 
-func join_game(ip_address: String):
+func join_game(ip_address: String) -> bool:
 	if ip_address == "": ip_address = DEFAULT_IP
 	var error = peer.create_client(ip_address, PORT)
 	if error != OK:
-		print("Sunucuya bağlanılamadı: ", error)
-		return
+		push_warning("Sunucuya bağlanılamadı: %s" % error)
+		baglantiyi_kapat()
+		return false
 	multiplayer.multiplayer_peer = peer
 	print("Sunucuya bağlanılıyor: ", ip_address)
+	return true
 
 # Bağlantı Durumu Sinyalleri
 func _on_player_connected(id): print("Bağlanan ID: ", id)

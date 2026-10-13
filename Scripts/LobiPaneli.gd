@@ -379,7 +379,7 @@ func lobi_arayuzunu_ciz():
 			# 🟢 Bayrak Resmi Ataması (Medeniyete göre değişir)
 			if bayrak_resmi:
 				if med != "":
-					var by_yolu = "res://Assets/Bayraklar/" + med + "_bayrak.png"
+					var by_yolu = "res://Assets/Flamalar/" + med_dosya_isimleri.get(med, "") + "_flama.png"
 					if ResourceLoader.exists(by_yolu): bayrak_resmi.texture = load(by_yolu)
 					else: bayrak_resmi.texture = null
 				else:
