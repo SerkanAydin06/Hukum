@@ -1,5 +1,7 @@
 extends TextureButton
 
+const ONCU_KAMPI_RESMI = preload("res://Assets/Resimler/kartresimleri/oncukampi.svg")
+
 # --- SAVAŞ GÖRÜNÜMÜ NODELARI ---
 @onready var savas_gorunumu = $SavasGorunumu if has_node("SavasGorunumu") else null
 @onready var savas_arkaplan = $SavasGorunumu/Arkaplan if has_node("SavasGorunumu/Arkaplan") else null
@@ -196,12 +198,16 @@ func karti_doldur(veri: Dictionary, idx: int):
 		
 		if insa_resim:
 			var tur = veri.get("tur", "")
-			var dosya_adi = insa_gelisim_resimleri.get(tur, "")
-			if dosya_adi != "":
-				var yol = "res://Assets/Resimler/kartresimleri/%s.png" % dosya_adi
-				insa_resim.texture = load(yol) if ResourceLoader.exists(yol) else null
+			if tur == "oncu_kampi":
+				# Birim piyonu değil, kampa özel inşa kartı illüstrasyonu.
+				insa_resim.texture = ONCU_KAMPI_RESMI
 			else:
-				insa_resim.texture = load("res://Assets/Resimler/oncu/oncu_osmanli.png") if tur == "oncu_kampi" else null
+				var dosya_adi = insa_gelisim_resimleri.get(tur, "")
+				if dosya_adi != "":
+					var yol = "res://Assets/Resimler/kartresimleri/%s.png" % dosya_adi
+					insa_resim.texture = load(yol) if ResourceLoader.exists(yol) else null
+				else:
+					insa_resim.texture = null
 
 func _on_kart_pressed():
 	if dogrudan_savas_modu:

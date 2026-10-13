@@ -132,6 +132,17 @@ func run_tests():
 			var script = load("res://Scripts/" + file)
 			check(script != null and script.can_instantiate(), "Godot compiles " + file)
 	setup()
+	# Verify the actual Godot SVG import and card texture assignment, not only a file path.
+	var oncu_kart = load("res://Scripts/KartUI.gd").new()
+	var oncu_kart_resmi = TextureRect.new()
+	oncu_kart_resmi.name = "InsaResim"
+	oncu_kart.add_child(oncu_kart_resmi)
+	oncu_kart_resmi.owner = oncu_kart
+	oncu_kart_resmi.unique_name_in_owner = true
+	get_tree().root.add_child(oncu_kart)
+	oncu_kart.karti_doldur({"tur": "oncu_kampi", "hedef": "harita", "isim": "Öncü Kampı"}, 0)
+	check(oncu_kart.insa_resim == oncu_kart_resmi and oncu_kart_resmi.texture != null and oncu_kart_resmi.texture.resource_path.ends_with("oncukampi.svg"), "Pioneer camp card loads its own illustration")
+	oncu_kart.free()
 	await run_new_regressions()
 	reset_state()
 	await get_tree().process_frame
