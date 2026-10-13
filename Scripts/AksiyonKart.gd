@@ -64,4 +64,3 @@ func _secili_karti_direkt_kullan():
 	ana.kart_insa_modu_aktif = false
 	
 	ana.harita.queue_redraw()
-

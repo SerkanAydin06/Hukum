@@ -221,4 +221,3 @@ func kart_tiklandi(idx: int):
 	
 	# 🟢 YENİ EKLENEN SATIR: Karta tıklandığında arayüzü güncelle ki Deste butonları "Disabled" görsele geçsin!
 	ana.arayuz.arayuzu_guncelle()
-

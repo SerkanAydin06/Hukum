@@ -151,5 +151,3 @@ func turu_bitir():
 		
 	ana.arayuz.arayuzu_guncelle()
 	ana.harita.queue_redraw()
-
-

@@ -96,4 +96,3 @@ func _kart_ve_harita_etkilesimi(k, k_isim):
 		
 	ana.arayuz.arayuzu_guncelle()
 	ana.harita.queue_redraw()
-

@@ -229,4 +229,3 @@ func _isyan_onaylandi():
 	var efendim = ana.efendiler.get(k_isim, "")
 	aksiyon.savas_baslat_rpc.rpc(-1, -1, -1, -1, "isyan_buton", k_isim, efendim)
 	if ana.arayuz.isyan_onay_paneli: ana.arayuz.isyan_onay_paneli.visible = false
-

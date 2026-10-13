@@ -708,5 +708,3 @@ func _hakimiyet_vazgec_basildi():
 	ana.arayuz.olay_yaz("[color=gray]Hakimiyet kurma işlemi iptal edildi.[/color]")
 	ana.arayuz.arayuzu_guncelle()
 	ana.harita.queue_redraw()
-
-

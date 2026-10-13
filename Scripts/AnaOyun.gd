@@ -196,5 +196,3 @@ func hex_dosta_komsu_mu(hedef_koor: Vector2i, sahip_isim: String) -> bool:
 		if kontrol_edilen_hexler[k] == sahip_isim:
 			if harita.hex_komsu_mu(k, hedef_koor): return true
 	return false
-
-
