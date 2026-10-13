@@ -29,9 +29,16 @@ renderer/rendering_method="gl_compatibility"
 ''')
     (target / "KartUI.tscn").write_text('[gd_scene format=3]\n[node name="KartUI" type="Control"]\n')
     (target / "runner.tscn").write_text('[gd_scene load_steps=2 format=3]\n[ext_resource type="Script" path="res://regressions.gd" id="1"]\n[node name="Regressions" type="Node"]\nscript = ExtResource("1")\n')
+    # Keep the one real SVG under test; other art is intentionally excluded.
+    camp_art = pathlib.Path("Assets/Resimler/kartresimleri/oncukampi.svg")
+    (target / camp_art.parent).mkdir(parents=True)
+    shutil.copy(ROOT / camp_art, target / camp_art)
     for source in SCRIPTS:
-        # Texture preloads are fixture-only placeholders; production scripts stay unchanged.
-        text = re.sub(r'preload\(\s*"res://Assets/[^"\n]+"\s*\)', 'null', source.read_text())
+        def replace_asset_preload(match):
+            return match.group(0) if "res://Assets/Resimler/kartresimleri/oncukampi.svg" in match.group(0) else "null"
+
+        text = re.sub(r'preload\(\s*"res://Assets/[^"\n]+"\s*\)',
+                      replace_asset_preload, source.read_text())
         (target / "Scripts" / source.name).write_text(text)
     shutil.copy(ROOT / "tests" / "regressions.gd", target)
     binary = sys.argv[1] if len(sys.argv) > 1 else "godot"
