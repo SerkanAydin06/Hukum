@@ -4,6 +4,7 @@ const HARITA_GENISLIK = 16
 const HARITA_YUKSEKLIK = 12
 const HEX_RADIUS = 55.0
 const HEX_BOSLUK = 2.0
+const ONCU_KAMPI_CADIRI = preload("res://Assets/Resimler/kartresimleri/oncukampi_cadir.svg")
 
 const RENK_CIM = Color(0.38, 0.72, 0.38)
 const RENK_ORMAN = Color(0.18, 0.44, 0.22)
@@ -345,11 +346,9 @@ func _draw():
 				elif tur == "tarla": draw_rect(Rect2(m - Vector2(12,12), Vector2(24,24)), r, false, 2.0)
 
 		elif b["tur"] == "oncu_kampi":
-			var med = ana_oyun.medeniyetler_verisi.get(b["sahip"], "Osmanlı")
-			var kamp_ikonu = piyon_resimleri.get(med)
+			# Bina artık hareketli Öncü piyonu ile karışmaz; çadır görseli kullanılır.
 			draw_circle(m, 27.0, Color(r.r, r.g, r.b, 0.35) * renk_filtresi)
-			if kamp_ikonu:
-				draw_texture_rect(kamp_ikonu, Rect2(m - Vector2(22, 22), Vector2(44, 44)), false, renk_filtresi)
+			draw_texture_rect_region(ONCU_KAMPI_CADIRI, Rect2(m - Vector2(25, 25), Vector2(50, 50)), Rect2(75, 133, 155, 165), renk_filtresi)
 			draw_string(ThemeDB.fallback_font, m + Vector2(-22, 36), "KAMP", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, renk_filtresi)
 
 	# 🟢 3. ÖNCÜLER (PİYONLAR) ÇİZİLİYOR

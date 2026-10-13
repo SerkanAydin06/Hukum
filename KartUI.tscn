@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bw8px6p24kd84"]
+[gd_scene load_steps=21 format=3 uid="uid://bw8px6p24kd84"]
 
 [ext_resource type="Script" uid="uid://btlg8uc618swk" path="res://Scripts/KartUI.gd" id="1_n03og"]
 [ext_resource type="Texture2D" uid="uid://4fo04xhmp6uc" path="res://Assets/Resimler/komutanlar/thutmose.png" id="2_hacd5"]
@@ -19,6 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://bsaistoncbtc0" path="res://Assets/Resimler/buton_saldiriIptal3.png" id="21_oaots"]
 [ext_resource type="Texture2D" uid="uid://3v0xjm8dmjon" path="res://Assets/Resimler/buton_saldiriIptal2.png" id="22_ju6j0"]
 [ext_resource type="Texture2D" uid="uid://dr1e301iw5kh3" path="res://Assets/Resimler/buton_saldiriIptal4.png" id="23_ppqm3"]
+[ext_resource type="Texture2D" path="res://Assets/Resimler/kartresimleri/oncukampi_cadir.svg" id="24_camp"]
 
 [node name="KartUI" type="TextureButton"]
 custom_minimum_size = Vector2(150, 240)
@@ -178,6 +179,16 @@ offset_right = 150.0
 offset_bottom = 240.0
 mouse_filter = 2
 texture = ExtResource("10_agild")
+expand_mode = 1
+
+[node name="OncuKampiDetay" type="TextureRect" parent="InsaGorunumu"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_right = 150.0
+offset_bottom = 240.0
+mouse_filter = 2
+texture = ExtResource("24_camp")
 expand_mode = 1
 
 [node name="BinaAciklama" type="RichTextLabel" parent="InsaGorunumu"]

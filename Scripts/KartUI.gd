@@ -1,6 +1,6 @@
 extends TextureButton
 
-const ONCU_KAMPI_RESMI = preload("res://Assets/Resimler/kartresimleri/oncukampi.svg")
+const ONCU_KAMPI_KART_ZEMINI = preload("res://Assets/Resimler/kartresimleri/oduncu.png")
 
 # --- SAVAŞ GÖRÜNÜMÜ NODELARI ---
 @onready var savas_gorunumu = $SavasGorunumu if has_node("SavasGorunumu") else null
@@ -21,6 +21,7 @@ const ONCU_KAMPI_RESMI = preload("res://Assets/Resimler/kartresimleri/oncukampi.
 @onready var insa_gorunumu = $InsaGorunumu if has_node("InsaGorunumu") else null
 @onready var insa_arkaplan = $InsaGorunumu/Arkaplan if has_node("InsaGorunumu/Arkaplan") else null
 @onready var insa_resim = get_node_or_null("%InsaResim")        # 🟢 DEĞİŞTİ
+@onready var oncu_kampi_detay = get_node_or_null("%OncuKampiDetay")
 @onready var bina_baslik_lbl = get_node_or_null("%BinaBaslik")   # 🟢 DEĞİŞTİ
 @onready var bina_aciklama_lbl = get_node_or_null("%BinaAciklama")   # 🟢 DEĞİŞTİ
 @onready var insa_odun_lbl = get_node_or_null("%InsaOdun")       # 🟢 DEĞİŞTİ
@@ -51,7 +52,7 @@ var savas_resimleri = {
 	"Koçbaşı": "kocbasi", "Mancınık": "mancinik", "Büyük İskender": "iskender",
 	"Fatih Sultan Mehmet": "fatih", "Hannibal Barca": "hannibal", "Cengiz Han": "cengiz",
 	"Ragnar Lodbrok": "lodbrok", "Leonidas": "leonidas", "Belisarius": "belisarius",
-	"Thutmose III": "thutmose", "Selahaddin Eyyubi": "selahaddin", "Enrico Dandolo": "dondolo"
+	"Thutmose III": "thutmose", "Selahaddin Eyyubi": "selahaddin", "Enrico Dandolo": "dandolo"
 }
 
 # İNŞA VE GELİŞİM KARTLARI RESİM EŞLEŞTİRME SÖZLÜĞÜ
@@ -112,6 +113,8 @@ func karti_doldur(veri: Dictionary, idx: int):
 	kart_index = idx
 	kart_hedefi = veri.get("hedef", "")
 	kart_turu = veri.get("tur", "")
+	if oncu_kampi_detay:
+		oncu_kampi_detay.visible = kart_turu == "oncu_kampi" and kart_hedefi == "harita"
 	
 	var orj_isim = veri.get("isim", veri.get("tur", "Bilinmeyen")) 
 	var gosterilecek_isim = orj_isim.to_upper().replace("_", " ")
@@ -199,8 +202,8 @@ func karti_doldur(veri: Dictionary, idx: int):
 		if insa_resim:
 			var tur = veri.get("tur", "")
 			if tur == "oncu_kampi":
-				# Birim piyonu değil, kampa özel inşa kartı illüstrasyonu.
-				insa_resim.texture = ONCU_KAMPI_RESMI
+				# Aynı yeşil inşa kartı şablonu, üzerine kamp çadırı illüstrasyonu.
+				insa_resim.texture = ONCU_KAMPI_KART_ZEMINI
 			else:
 				var dosya_adi = insa_gelisim_resimleri.get(tur, "")
 				if dosya_adi != "":

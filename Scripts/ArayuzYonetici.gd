@@ -560,13 +560,19 @@ func sag_paneli_guncelle(koordinat: Vector2i):
 			var med_dosya = dosya_isimleri.get(medeniyet_adi, "osmanli")
 			resim_yolu = "res://Assets/Resimler/Sehirmerkezleri/sehirmerkezi_%s.png" % med_dosya
 		else:
-			var b_dosya = "ticaret_merkezi"
-			if b_tur == "oduncu_kampi": b_dosya = "oduncu"
-			elif b_tur == "tas_ocagi": b_dosya = "tasocagi"
-			elif b_tur == "tarla": b_dosya = "tarla"
-			resim_yolu = "res://Assets/Resimler/binalar/%s.png" % b_dosya
-			if b_tur == "oncu_kampi":
-				resim_yolu = "res://Assets/Resimler/oncu/oncu_%s.png" % dosya_isimleri.get(medeniyet_adi, "osmanli")
+			# Bina görselleri dosya adlarında seviye taşır (oduncu1.png vb.).
+			match b_tur:
+				"oduncu_kampi":
+					resim_yolu = "res://Assets/Resimler/binalar/oduncu%d.png" % clampi(lvl, 1, 3)
+				"tas_ocagi":
+					resim_yolu = "res://Assets/Resimler/binalar/tasocagi%d.png" % clampi(lvl, 1, 3)
+				"tarla":
+					resim_yolu = "res://Assets/Resimler/binalar/tarla%d.png" % clampi(lvl, 1, 3)
+				"oncu_kampi":
+					resim_yolu = "res://Assets/Resimler/kartresimleri/oncukampi_cadir.svg"
+				"ticaret_merkezi":
+					# Ayrı bina spritesi henüz yok; boş panel yerine mevcut kart sanatı.
+					resim_yolu = "res://Assets/Resimler/kartresimleri/ticaretmerkezi.png"
 			
 	else:
 		isim_metni = biyom_isim

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="246" height="393" viewBox="0 0 246 393">
+<defs>
+ <linearGradient id="canvasL" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d2b58a"/><stop offset=".36" stop-color="#b29571"/><stop offset=".8" stop-color="#66513b"/><stop offset="1" stop-color="#3e3026"/></linearGradient>
+ <linearGradient id="canvasR" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#927653"/><stop offset=".35" stop-color="#bba078"/><stop offset=".65" stop-color="#7c6248"/><stop offset="1" stop-color="#2c281f"/></linearGradient>
+ <linearGradient id="roof" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b9a485"/><stop offset=".6" stop-color="#635441"/><stop offset="1" stop-color="#30281f"/></linearGradient>
+ <linearGradient id="pole" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#37261c"/><stop offset=".55" stop-color="#916b41"/><stop offset="1" stop-color="#31241a"/></linearGradient>
+ <radialGradient id="light"><stop stop-color="#cdaf78" stop-opacity=".4"/><stop offset="1" stop-color="#e0b172" stop-opacity="0"/></radialGradient>
+</defs>
+<ellipse cx="148" cy="262" rx="78" ry="17" fill="#130e08" opacity=".34"/>
+<path d="M93 250L119 235L142 254L164 237L202 263L173 275L110 271Z" fill="#483a23" opacity=".68"/>
+<path d="M72 213L96 197L107 205L83 220Z" fill="#5c452a" stroke="#241c15" stroke-width="2"/>
+<path d="M81 213L95 205L102 210L88 219Z" fill="#826441"/>
+<path d="M112 251L147 151L205 258L188 263L136 258Z" fill="#1c1915" opacity=".85"/>
+<path d="M147 145L92 241L102 255L147 170L183 252L212 259L147 145Z" fill="url(#canvasL)" stroke="#493927" stroke-width="2.1"/>
+<path d="M148 149L207 256L188 255L152 176L143 255L124 257Z" fill="url(#canvasR)" stroke="#554732" stroke-width="1.5"/>
+<path d="M146 146L122 256L137 255L151 188L158 254L173 259Z" fill="url(#roof)" opacity=".65"/>
+<path d="M148 145L94 242L102 257L148 153L212 262" stroke="#e2c9a2" stroke-width="2.2" fill="none" opacity=".65"/>
+<path d="M148 147L147 266" stroke="#382b1d" stroke-width="2.1" opacity=".8"/>
+<path d="M103 256L83 267M208 258L223 270" stroke="#b1a078" stroke-width="1.4"/>
+<path d="M81 266L80 278M223 269L225 281" stroke="#443322" stroke-width="3.2"/>
+<path d="M132 179Q118 218 108 247M157 182Q167 219 183 247M161 202L199 254" fill="none" stroke="#322a20" stroke-width="1.6" opacity=".5"/>
+<path d="M136 184Q123 218 121 251M162 198Q176 228 194 254" fill="none" stroke="#f2d4a4" stroke-width="1.5" opacity=".25"/>
+<path d="M90 270L91 171M91 171L91 135" stroke="url(#pole)" stroke-width="4"/>
+<path d="M91 137L127 147L95 167Z" fill="#73362a" stroke="#241912" stroke-width="2"/>
+<path d="M95 143L117 149" stroke="#b98753" stroke-width="1.4"/>
+<path d="M171 271L205 265L224 270L190 278Z" fill="#9a7046" stroke="#2e2015" stroke-width="1.5"/>
+<path d="M190 278L224 270V289L190 298Z" fill="#57402a" stroke="#211710" stroke-width="1.5"/>
+<path d="M171 271L190 278V298L171 286Z" fill="#8a6741" stroke="#261b12" stroke-width="1.5"/>
+<path d="M179 274L179 290M195 280L216 274M194 292L218 284" stroke="#ae8759" stroke-width="2" opacity=".7"/>
+<ellipse cx="156" cy="259" rx="62" ry="22" fill="url(#light)"/>
+</svg>
