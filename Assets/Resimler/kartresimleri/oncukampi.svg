@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="960" viewBox="0 0 600 960">
+  <defs>
+    <linearGradient id="parchment" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c5a46a"/>
+      <stop offset=".42" stop-color="#8f6a3c"/>
+      <stop offset="1" stop-color="#513922"/>
+    </linearGradient>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#415557"/>
+      <stop offset=".5" stop-color="#88917d"/>
+      <stop offset="1" stop-color="#c6a16d"/>
+    </linearGradient>
+    <linearGradient id="earth" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#837049"/>
+      <stop offset="1" stop-color="#332f21"/>
+    </linearGradient>
+    <linearGradient id="tent" x1="0" y1="0" x2="1" y2=".9">
+      <stop offset="0" stop-color="#d3b887"/>
+      <stop offset=".48" stop-color="#977448"/>
+      <stop offset="1" stop-color="#4c3828"/>
+    </linearGradient>
+    <linearGradient id="tentroof" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6c2925"/>
+      <stop offset=".55" stop-color="#a34f33"/>
+      <stop offset="1" stop-color="#3d2727"/>
+    </linearGradient>
+    <linearGradient id="wood" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#332418"/>
+      <stop offset=".4" stop-color="#92653a"/>
+      <stop offset=".7" stop-color="#694422"/>
+      <stop offset="1" stop-color="#2c2118"/>
+    </linearGradient>
+    <radialGradient id="fire" cx=".5" cy=".55" r=".6">
+      <stop offset="0" stop-color="#f9d875" stop-opacity=".9"/>
+      <stop offset=".46" stop-color="#db823e" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#da753a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vignette" cx=".5" cy=".46" r=".73">
+      <stop offset=".5" stop-color="#281d1a" stop-opacity="0"/>
+      <stop offset="1" stop-color="#150f10" stop-opacity=".63"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Carved border and the parchment-backed illustration -->
+  <rect width="600" height="960" rx="26" fill="#241a17"/>
+  <rect x="11" y="11" width="578" height="938" rx="23" fill="url(#parchment)" stroke="#d6ab58" stroke-width="6"/>
+  <rect x="28" y="27" width="544" height="906" rx="14" fill="#382d23" stroke="#4b2d1b" stroke-width="3"/>
+  <rect x="37" y="111" width="526" height="598" fill="url(#sky)"/>
+
+  <!-- Hill line and distant woods -->
+  <path d="M37 395 Q118 327 212 392 T389 371 T563 375 V710 H37Z" fill="#6d7760" opacity=".85"/>
+  <path d="M37 454 Q137 396 228 457 T416 424 T563 443 V710 H37Z" fill="#4d624e"/>
+  <g fill="#324639" opacity=".84">
+    <path d="M37 474 67 288 95 474ZM76 483 110 306 147 483ZM125 488 161 270 204 488Z"/>
+    <path d="M397 480 432 282 470 480ZM449 476 488 316 523 476ZM492 492 540 283 563 489Z"/>
+  </g>
+  <g stroke="#293a31" stroke-width="7" opacity=".8">
+    <path d="M69 390V509M113 390V509M164 390V509M432 384V508M487 405V513M538 405V513"/>
+  </g>
+
+  <!-- Palisade around the pioneer base -->
+  <path d="M55 543 55 408 64 391 73 408 73 546 M75 543 75 398 84 381 94 397 94 544 M95 543 95 404 105 385 115 404 115 546 M117 543 117 411 126 392 137 410 137 543 M139 543 139 418 148 399 159 418 159 543 M161 543 161 426 170 407 180 425 180 543" fill="url(#wood)" stroke="#271b16" stroke-width="3"/>
+  <path d="M416 547 416 425 428 405 439 425 439 549 M441 546 441 411 452 391 463 411 463 549 M465 551 465 403 476 382 488 403 488 553 M490 553 490 399 501 380 513 399 513 553 M515 555 515 420 526 401 538 420 538 556" fill="url(#wood)" stroke="#271b16" stroke-width="3"/>
+  <path d="M59 468H180M416 469H536" stroke="#241e17" stroke-width="18"/>
+  <path d="M59 468H180M416 469H536" stroke="#98704a" stroke-width="9"/>
+
+  <!-- Hilltop guard tower, distinct from the pawn character -->
+  <path d="M116 484 129 319 144 319 153 488" fill="#35271d" stroke="#2b211a" stroke-width="8"/>
+  <path d="M124 342 153 342 151 356 121 356Z" fill="#9d7140"/>
+  <path d="M106 332 165 332 160 293 111 293Z" fill="#67452f" stroke="#31201a" stroke-width="6"/>
+  <path d="M101 301 136 259 173 301Z" fill="#572b29" stroke="#d1a367" stroke-width="5"/>
+  <path d="M137 261V200" stroke="#382a20" stroke-width="7"/>
+  <path d="M140 203 197 222 144 244Z" fill="#ab4b33" stroke="#e2b771" stroke-width="4"/>
+
+  <!-- Distant supporting canvas tent -->
+  <path d="M390 526 455 398 525 533Z" fill="#9c7a52" stroke="#473424" stroke-width="7"/>
+  <path d="M455 398 455 532 522 533Z" fill="#624831"/>
+  <path d="M412 518 454 449 477 521Z" fill="#3b2b24"/>
+
+  <!-- Earth, stone path, and stakes in front -->
+  <path d="M37 533 Q135 489 231 538 T414 526 T563 524 V706 H37Z" fill="url(#earth)"/>
+  <path d="M201 562 Q296 542 390 564 L457 708 H144Z" fill="#a08c64" opacity=".53"/>
+  <path d="M277 613 345 615 371 651 241 650Z" fill="#4e4936" opacity=".46"/>
+  <path d="M238 672 391 662 421 703 H198Z" fill="#c0a477" opacity=".29"/>
+
+  <!-- Main command pavilion, red canvas roof with hanging panels -->
+  <path d="M179 573 299 333 421 576Z" fill="url(#tent)" stroke="#32251c" stroke-width="9"/>
+  <path d="M300 338 423 577 316 573Z" fill="#69492f"/>
+  <path d="M163 558 300 319 438 558 410 579 302 378 193 582Z" fill="url(#tentroof)" stroke="#4b261f" stroke-width="8"/>
+  <path d="M182 554 301 354 417 555" fill="none" stroke="#d4a365" stroke-width="8"/>
+  <path d="M276 562 300 457 327 564Z" fill="#1c211f"/>
+  <path d="M260 568 300 453 300 572Z" fill="#49301f"/>
+  <path d="M304 451 343 570 316 567Z" fill="#503621"/>
+  <path d="M300 318V245" stroke="#33261d" stroke-width="8"/>
+  <path d="M306 247 367 270 307 291Z" fill="#ba6c3c" stroke="#e6bd74" stroke-width="4"/>
+  <path d="M196 563 173 624 M408 562 427 628" stroke="#d3b78b" stroke-width="5"/>
+  <circle cx="172" cy="625" r="9" fill="#3d3021"/>
+  <circle cx="428" cy="628" r="9" fill="#3d3021"/>
+
+  <!-- Provision crates and barrel: clear 'camp' rather than 'unit' silhouette -->
+  <path d="M59 600 117 589 140 615 77 628Z" fill="#a47745" stroke="#3b291b" stroke-width="7"/>
+  <path d="M77 628 140 615 140 672 80 688Z" fill="#604126" stroke="#3b291b" stroke-width="7"/>
+  <path d="M83 644 130 631 M81 672 129 645" stroke="#bf965a" stroke-width="6"/>
+  <rect x="452" y="582" width="57" height="89" rx="13" fill="#755132" stroke="#33241b" stroke-width="7"/>
+  <path d="M452 603Q480 621 509 603M453 651Q479 668 508 649" fill="none" stroke="#c4a579" stroke-width="9"/>
+
+  <!-- Small central campfire with embers -->
+  <ellipse cx="334" cy="637" rx="124" ry="91" fill="url(#fire)"/>
+  <path d="M317 666 363 636 M312 643 357 669" stroke="#482b20" stroke-width="16" stroke-linecap="round"/>
+  <path d="M336 647 Q306 616 335 580 Q325 614 346 611 Q365 584 356 559 Q402 626 348 650Z" fill="#dc6a2f"/>
+  <path d="M339 648 Q322 622 344 595 Q343 622 362 612 Q364 637 339 648Z" fill="#ffd074"/>
+  <g fill="#f2bf64">
+    <circle cx="392" cy="601" r="4"/><circle cx="303" cy="573" r="3"/>
+    <circle cx="365" cy="570" r="3"/><circle cx="281" cy="609" r="3"/>
+  </g>
+
+  <!-- Existing UI overlays title, material costs, and description here -->
+  <rect x="37" y="30" width="526" height="84" fill="#34281f"/>
+  <path d="M44 104 H554" stroke="#b98d50" stroke-width="4"/>
+  <rect x="37" y="694" width="526" height="235" fill="#322820"/>
+  <path d="M44 693 H554" stroke="#d2a257" stroke-width="6"/>
+  <path d="M56 706 H547 V787 H56Z" fill="#4c3927" stroke="#8a6034" stroke-width="3"/>
+  <circle cx="112" cy="746" r="34" fill="#2b231d" stroke="#b69153" stroke-width="5"/>
+  <circle cx="337" cy="746" r="34" fill="#2b231d" stroke="#b69153" stroke-width="5"/>
+  <path d="M64 801H535" stroke="#a98145" stroke-width="3"/>
+  <rect x="42" y="807" width="514" height="111" rx="10" fill="#44382b"/>
+  <rect x="42" y="807" width="514" height="111" rx="10" fill="#9b815d" opacity=".13"/>
+  <rect x="35" y="28" width="530" height="901" rx="14" fill="url(#vignette)"/>
+  <rect x="31" y="30" width="538" height="898" rx="15" fill="none" stroke="#b58c51" stroke-width="4"/>
+  <path d="M43 52V38H57M557 52V38H543M43 908V922H57M557 908V922H543" stroke="#e0bd73" stroke-width="6" fill="none"/>
+</svg>
