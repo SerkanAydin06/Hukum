@@ -139,9 +139,17 @@ func run_tests():
 	oncu_kart.add_child(oncu_kart_resmi)
 	oncu_kart_resmi.owner = oncu_kart
 	oncu_kart_resmi.unique_name_in_owner = true
+	var cadir = TextureRect.new()
+	cadir.name = "OncuKampiDetay"
+	oncu_kart.add_child(cadir)
+	cadir.owner = oncu_kart
+	cadir.unique_name_in_owner = true
+	cadir.texture = load("res://Assets/Resimler/kartresimleri/oncukampi_cadir.svg")
 	get_tree().root.add_child(oncu_kart)
 	oncu_kart.karti_doldur({"tur": "oncu_kampi", "hedef": "harita", "isim": "Öncü Kampı"}, 0)
-	check(oncu_kart.insa_resim == oncu_kart_resmi and oncu_kart_resmi.texture != null and oncu_kart_resmi.texture.resource_path.ends_with("oncukampi.svg"), "Pioneer camp card loads its own illustration")
+	check(oncu_kart.insa_resim == oncu_kart_resmi and oncu_kart_resmi.texture != null and cadir.visible and cadir.texture != null and oncu_kart_resmi.texture.resource_path.ends_with("oduncu.png"), "Pioneer camp preserves frame and overlays campsite tent")
+	oncu_kart.karti_doldur({"tur": "tarla", "hedef": "harita", "isim": "Tarla"}, 1)
+	check(not cadir.visible, "Pioneer camp overlay hides on other construction cards")
 	oncu_kart.free()
 	await run_new_regressions()
 	reset_state()

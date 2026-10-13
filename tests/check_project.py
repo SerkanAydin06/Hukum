@@ -25,7 +25,7 @@ for node in ("AtakZarSonucu", "DefansZarSonucu"):
 
 # Pioneer Camp must use a distinct card illustration, not a civilization unit sprite.
 CARD_UI = (ROOT / "Scripts/KartUI.gd").read_text(encoding="utf-8")
-CAMP_ART = ROOT / "Assets/Resimler/kartresimleri/oncukampi.svg"
+CAMP_ART = ROOT / "Assets/Resimler/kartresimleri/oncukampi_cadir.svg"
 if not CAMP_ART.is_file():
     MISSING.append("Pioneer Camp card illustration is missing")
 else:
@@ -35,8 +35,16 @@ else:
             MISSING.append("Pioneer Camp illustration is not SVG")
     except ET.ParseError:
         MISSING.append("Pioneer Camp illustration has invalid SVG XML")
-if 'preload("res://Assets/Resimler/kartresimleri/oncukampi.svg")' not in CARD_UI:
-    MISSING.append("Pioneer Camp art is not imported in the card UI")
+CARD_SCENE = (ROOT / "KartUI.tscn").read_text(encoding="utf-8")
+if 'OncuKampiDetay' not in CARD_SCENE or 'oncukampi_cadir.svg' not in CARD_SCENE:
+    MISSING.append("Pioneer Camp card art overlay is missing in KartUI.tscn")
+if 'ONCU_KAMPI_KART_ZEMINI' not in CARD_UI or 'oncu_kampi_detay.visible' not in CARD_UI:
+    MISSING.append("Pioneer Camp must retain construction card frame and show tent overlay")
+if '"Enrico Dandolo": "dandolo"' not in CARD_UI:
+    MISSING.append("Enrico Dandolo commander image name must match dandolo.png")
+PANEL = (ROOT / "Scripts/ArayuzYonetici.gd").read_text(encoding="utf-8")
+if "binalar/oduncu%d.png" not in PANEL or "binalar/tasocagi%d.png" not in PANEL or "binalar/tarla%d.png" not in PANEL:
+    MISSING.append("Building detail panel must use level-suffixed image names")
 if 'oncu_osmanli.png' in CARD_UI:
     MISSING.append("Card UI still falls back to Osmanli pioneer unit sprite")
 
