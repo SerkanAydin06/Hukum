@@ -231,10 +231,10 @@ func _hayir_basildi():
 	ana.arayuz.arayuzu_guncelle()
 
 @rpc("any_peer", "call_local", "reliable")
-func kesif_ve_hareket_rpc(p_idx: int, yeni_koor: Vector2i, biyom: String, k_isim: String):
+func kesif_ve_hareket_rpc(p_idx: int, yeni_koor: Vector2i, k_isim: String):
 	if not ana.rpc_sirada_mi(k_isim) or ana.aktif_oyuncu_aksiyon_hakki <= 0: return
 	if not _hareket_gecerli(p_idx, yeni_koor, k_isim) or ana.harita.kesfedilen_hexler.has(yeni_koor): return
-	if not (biyom in ["cim", "orman", "dag"]): return
+	var biyom = ana.harita.biyom_belirle(yeni_koor)
 	ana.aktif_oyuncu_aksiyon_hakki -= 1
 	ana.oyuncu_kaynaklari[k_isim]["yiyecek"] = max(0, ana.oyuncu_kaynaklari[k_isim]["yiyecek"] - 1)
 	ana.harita.kesfedilen_hexler[yeni_koor] = biyom

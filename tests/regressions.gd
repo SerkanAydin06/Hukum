@@ -14,6 +14,7 @@ class MapStub extends Node:
 	func hex_gorunur_mu(k): return gorus_haritasi.get(k, 3) < 3 or bulutsuz_hexler.has(k)
 	func hex_komsu_mu(a: Vector2i, b: Vector2i) -> bool:
 		return a.distance_to(b) == 1
+	func biyom_belirle(_koor: Vector2i) -> String: return "orman"
 	func gorus_haritasini_guncelle(): pass
 	func queue_redraw(): pass
 	func tiklanan_hexi_bul(_pos): return Vector2i(0, 0)
@@ -182,8 +183,13 @@ func run_tests():
 	reset_state()
 	actions.piyon_hareket_rpc(0, Vector2i(15, 11))
 	check(game.piyonlar[0]["koordinat"] == Vector2i(0, 0) and game.aktif_oyuncu_aksiyon_hakki == 3, "Distant movement rejected without charging AP")
-	actions.kesif_ve_hareket_rpc(0, Vector2i(-1, 0), "cim", "A")
+	actions.kesif_ve_hareket_rpc(0, Vector2i(-1, 0), "A")
 	check(game.aktif_oyuncu_aksiyon_hakki == 3, "Out-of-bounds exploration rejected")
+	reset_state()
+	game.harita.kesfedilen_hexler.erase(Vector2i(1, 0))
+	actions.kesif_ve_hareket_rpc(0, Vector2i(1, 0), "A")
+	check(game.harita.kesfedilen_hexler.get(Vector2i(1, 0)) == "orman" and game.aktif_oyuncu_aksiyon_hakki == 2, "Exploration uses map biome rather than client-selected data")
+	reset_state()
 	game.oyuncu_kaynaklari["A"]["yiyecek"] = 0
 	actions.piyon_hareket_rpc(0, Vector2i(1, 0))
 	check(game.aktif_oyuncu_aksiyon_hakki == 3, "Movement requires food")
@@ -302,6 +308,12 @@ func run_new_regressions():
 	check(game.piyonlar[0]["koordinat"] == Vector2i(1, 0) and game.piyonlar[1]["koordinat"] == Vector2i(1, 1) and game.piyonlar[2]["koordinat"] == Vector2i(1, 1), "All defeated pioneers retreat before attacker occupies conquered land")
 	reset_state()
 	var real_map = load("res://Scripts/Harita.gd").new()
+	Network.oyun_tohumu = 1973
+	var beklenen_biyom = real_map.biyom_belirle(Vector2i(4, 7))
+	check(beklenen_biyom in ["cim", "orman", "dag"] and beklenen_biyom == real_map.biyom_belirle(Vector2i(4, 7)), "Per-hex terrain is deterministic")
+	real_map.kesif_yap(Vector2i(4, 7))
+	check(real_map.kesfedilen_hexler[Vector2i(4, 7)] == beklenen_biyom, "Exploration matches deterministic terrain")
+	Network.oyun_tohumu = 0
 	check(not real_map.hex_gorunur_mu(Vector2i(15, 11)), "Production fog hides unseen tiles")
 	real_map.gorus_haritasi[Vector2i(15, 11)] = 2
 	check(real_map.hex_gorunur_mu(Vector2i(15, 11)), "Production fog reveals sight-radius edge")

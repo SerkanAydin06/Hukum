@@ -854,12 +854,9 @@ func zar_sonucu_yayinla_rpc(saldiran_mi: bool, deger: int):
 		var lbl2 = ana.arayuz.get_node_or_null("%DefansZarSonucu")
 		if lbl2: lbl2.text = str(deger)
 	
-	var zar_resim_ismi = "%OyuncuZar" if saldiran_mi else "%DefansZar"
-	var zar_resim = ana.arayuz.get_node_or_null(zar_resim_ismi)
-	if zar_resim:
-		var yol = "res://Assets/Resimler/zarlar/zar_%d.png" % deger
-		if ResourceLoader.exists(yol): zar_resim.texture = load(yol)
-	
+	# Sahnedeki AtakZarSonucu / DefansZarSonucu etiketleri sonucu gösterir.
+	# Artık var olmayan zar resimlerine veya var olmayan TextureRect düğümlerine erişilmez.
+
 	# 🟢 İkisi de zar attıysa çözümlemeyi başlat (sadece sunucu tetikler)
 	if zar_saldiran_deger != -1 and zar_savunan_deger != -1 and multiplayer.is_server():
 		ana.aksiyon.savas_cozumle_rpc.rpc(son_kartlar_dict, zar_saldiran_deger, zar_savunan_deger)
