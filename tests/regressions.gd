@@ -33,6 +33,8 @@ class UIStub extends Node:
 		battle_states.append(b.savas_aktif or b.sonuc_gosteriliyor)
 	func renkli_isim(isim): return isim
 	func panel_yukari_cik(): pass
+	var result = []
+	func sonuc_ekranini_goster(isim, puan): result = [isim, puan]
 
 class LobbyFixture extends LobiPaneli:
 	func _ready(): pass
@@ -101,6 +103,8 @@ func reset_state():
 	game.harita.kesfedilen_hexler = {Vector2i(0, 0): "cim", Vector2i(1, 0): "orman"}
 	game.efendiler = {}
 	game.ayrilan_oyuncular = []
+	game.oyun_bitti = false
+	game.savas_puanlari = {}
 	game.aktif_sira = 0
 	game.benim_indexim = 0
 	game.aktif_oyuncu_aksiyon_hakki = 3
@@ -121,6 +125,7 @@ func reset_state():
 	battle.kendi_kilitledi_mi = false
 	deck.el = []
 	deck.atilan_savas_kartlari = []
+	deck.atilan_insa_kartlari = []
 
 func hand(isim: String, cards: Array):
 	game.oyuncu_elleri[isim] = cards.duplicate(true)
@@ -151,6 +156,7 @@ func run_tests():
 	oncu_kart.karti_doldur({"tur": "tarla", "hedef": "harita", "isim": "Tarla"}, 1)
 	check(not cadir.visible, "Pioneer camp overlay hides on other construction cards")
 	oncu_kart.free()
+	await run_completion_regressions()
 	await run_new_regressions()
 	reset_state()
 	await get_tree().process_frame
@@ -378,3 +384,43 @@ func run_new_regressions():
 		check(battle.sonuc_gosteriliyor and not game.rpc_sirada_mi(), "Result display blocks new actions")
 		await get_tree().create_timer(4.1).timeout
 		check(not battle.sonuc_gosteriliyor and not game.arayuz.battle_states.back(), "Result closes and refreshes unlocked controls")
+
+
+func run_completion_regressions():
+	reset_state()
+	game.binalar_verisi[Vector2i(0, 0)] = {"tur": "sehir_merkezi", "sahip": "A", "seviye": 3}
+	game.binalar_verisi[Vector2i(0, 1)] = {"tur": "tarla", "sahip": "A", "seviye": 3}
+	game.efendiler = {"B": "A"}
+	game.savas_puanlari = {"A": 2}
+	check(game.puan_hesapla("A") == 16, "Canonical score combines land, buildings, vassals and battles without city points")
+	game.puanlari_guncelle()
+	check(game.puanlar["A"] == 16, "Score dictionary is synchronized")
+	game.savas_puanlari["A"] = 25
+	game.zaferi_kontrol_et()
+	check(game.oyun_bitti and game.arayuz.result[0] == "A" and not get_tree().paused, "Victory opens result UI without freezing navigation")
+	var resources = game.oyuncu_kaynaklari.duplicate(true)
+	actions.normal_kart_cek_rpc("A")
+	check(game.oyuncu_kaynaklari == resources and not game.rpc_sirada_mi(), "Finished game rejects further actions")
+	reset_state()
+	game.sehir_merkezleri["A"] = false
+	actions.bina_kur_rpc(Vector2i(1, 0), "A", "sehir_merkezi", "dag")
+	check(game.binalar_verisi.is_empty() and game.harita.kesfedilen_hexler[Vector2i(1, 0)] == "orman", "City cannot overwrite discovered land or another pioneer")
+	actions.bina_kur_rpc(Vector2i(5, 5), "A", "sehir_merkezi", "dag")
+	check(game.binalar_verisi.has(Vector2i(5, 5)) and game.oyuncu_kaynaklari["A"]["odun"] == 20, "City can be founded on a fresh tile")
+	reset_state()
+	var card = {"hedef": "harita", "tur": "tarla", "isim": "Tarla"}
+	hand("A", [card])
+	deck.normal_deste.clear()
+	actions.savas_karti_atildi_rpc(0)
+	check(deck.atilan_insa_kartlari.size() == 1 and deck.el.is_empty(), "Discarded construction card enters recycle pile")
+	actions.normal_kart_cek_rpc("A")
+	check(deck.el == [card] and deck.atilan_insa_kartlari.is_empty() and game.aktif_oyuncu_aksiyon_hakki == 2, "Empty construction deck recycles and charges one AP")
+	deck.desteleri_hazirla()
+	deck.desteleri_hazirla()
+	check(deck.normal_deste.size() == 110 and deck.savas_destesi.size() == 100, "Repeated deck initialization does not duplicate cards")
+	Network.son_lobi_verisi = {1: {"isim": "Old"}}
+	Network.oyun_tohumu = 42
+	Network.baglantiyi_kapat()
+	check(Network.son_lobi_verisi.is_empty() and Network.oyun_tohumu == 0, "Disconnect clears stale match state")
+	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
+	reset_state()

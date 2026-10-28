@@ -33,6 +33,7 @@ renderer/rendering_method="gl_compatibility"
     art_paths = [
         pathlib.Path("Assets/Resimler/kartresimleri/oncukampi_cadir.svg"),
         pathlib.Path("Assets/Resimler/kartresimleri/oduncu.png"),
+        *[p.relative_to(ROOT) for p in (ROOT / "Assets/Audio/UI").glob("*.wav")],
     ]
     for asset in art_paths:
         (target / asset.parent).mkdir(parents=True, exist_ok=True)
@@ -51,7 +52,7 @@ renderer/rendering_method="gl_compatibility"
                                 capture_output=True, text=True, timeout=60)
         output = result.stdout + result.stderr
         print(output)
-        if result.returncode or "SCRIPT ERROR" in output or "Parse Error" in output:
+        if result.returncode or "SCRIPT ERROR" in output or "Parse Error" in output or "ERROR:" in output:
             raise SystemExit(result.returncode or 1)
 
     # Exercise actual ENet sender IDs, RPC replication and atomic card consumption.
@@ -71,7 +72,8 @@ renderer/rendering_method="gl_compatibility"
         finally:
             if client.poll() is None: client.kill()
         print(server_log + client_log)
-        if server.returncode or client.returncode or "SCRIPT ERROR" in server_log + client_log or "HUKUM ENET SMOKE: PASS" not in server_log:
+        if server.returncode or client.returncode or "ERROR:" in server_log + client_log or "HUKUM ENET SMOKE: PASS" not in server_log:
             raise SystemExit(1)
     finally:
         if server.poll() is None: server.kill()
+

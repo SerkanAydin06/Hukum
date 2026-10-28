@@ -3,6 +3,7 @@ class_name DesteYonetici
 
 var normal_deste = []
 var savas_destesi = []
+var atilan_insa_kartlari = []
 var atilan_savas_kartlari = [] 
 var el = []
 # Ortak tohumlu RNG: deste karıştırmaları her oyuncuda aynı sonucu verir
@@ -30,6 +31,12 @@ func karti_elden_at(idx: int) -> void:
 	ana.aksiyon.savas_karti_atildi_rpc.rpc(idx)
 
 func desteleri_hazirla():
+	normal_deste.clear()
+	savas_destesi.clear()
+	atilan_insa_kartlari.clear()
+	atilan_savas_kartlari.clear()
+	el.clear()
+	son_el_durumu.clear()
 	if Network.oyun_tohumu != 0:
 		rng.seed = Network.oyun_tohumu
 	else:
@@ -123,7 +130,7 @@ func _ap_ile_normal_kart_cek():
 	if ana.aktif_sira != ana.benim_indexim or not ana.ilk_tur_bitti: return
 	
 	if ana.aktif_oyuncu_aksiyon_hakki > 0:
-		if normal_deste.size() > 0:
+		if not normal_deste.is_empty() or not atilan_insa_kartlari.is_empty():
 			var insa_karti_sayisi = 0
 			for kart in el: 
 				if kart.get("hedef") != "savas":
@@ -221,3 +228,4 @@ func kart_tiklandi(idx: int):
 	
 	# 🟢 YENİ EKLENEN SATIR: Karta tıklandığında arayüzü güncelle ki Deste butonları "Disabled" görsele geçsin!
 	ana.arayuz.arayuzu_guncelle()
+

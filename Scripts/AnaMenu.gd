@@ -84,7 +84,21 @@ var gecici_profil_no := -1
 # ==========================================
 # BAŞLANGIÇ VE BAĞLANTILAR
 # ==========================================
+var baglanti_durumu: Label
+var baglanti_sayaci := 0
+var oyun_menusu
+
 func _ready() -> void:
+	oyun_menusu = load("res://Scripts/OyunMenu.gd").new()
+	add_child(oyun_menusu)
+	%AyarlarBtn.pressed.connect(oyun_menusu.ayarlari_ac)
+	%TekOyuncuBtn.pressed.connect(_alistirma_ac)
+	baglanti_durumu = Label.new()
+	baglanti_durumu.position = Vector2(220, 22)
+	baglanti_durumu.add_theme_font_size_override("font_size", 22)
+	add_child(baglanti_durumu)
+	baglanti_durumu.text = Network.son_baglanti_mesaji
+	Network.son_baglanti_mesaji = ""
 	# Başlangıç görünümleri
 	hbox_menu_ana.visible = true
 	hbox_menu_coklu.visible = false
@@ -209,6 +223,12 @@ func _cok_oyunculu_menu_ac() -> void:
 
 
 func _ana_menuye_don() -> void:
+	baglanti_sayaci += 1
+	Network.baglantiyi_kapat()
+	kur_btn.disabled = false
+	baglan_btn.disabled = false
+	ip_giris.editable = true
+	baglanti_durumu.text = ""
 	if ip_giris:
 		ip_giris.release_focus()
 
@@ -243,25 +263,32 @@ func _on_baglan_btn_pressed() -> void:
 		ip = "127.0.0.1"
 
 	if not ip.is_valid_ip_address():
-		print("❌ BAĞLANTI HATASI: Geçersiz IP adresi!")
+		baglanti_durumu.text = "Geçersiz IP adresi. Örnek: 192.168.1.10"
 		return
 
 	kur_btn.disabled = true
 	baglan_btn.disabled = true
 	ip_giris.editable = false
 
-	print("Bağlanılıyor... Sunucu aranıyor.")
+	baglanti_durumu.text = "Sunucuya bağlanılıyor…"
 
 	if not Network.join_game(ip):
 		_baglanti_basarisiz()
+	else:
+		baglanti_sayaci += 1
+		var deneme = baglanti_sayaci
+		await get_tree().create_timer(12.0).timeout
+		if deneme == baglanti_sayaci and baglan_btn.disabled: _baglanti_basarisiz()
 
 func _sunucuya_baglanildi() -> void:
+	baglanti_sayaci += 1
 	print("✅ Bağlantı başarılı! Lobiye geçiliyor.")
 
 	_lobi_sahnesine_gec()
 
 func _baglanti_basarisiz() -> void:
-	print("❌ HATA: Sunucu bulunamadı veya bağlantı kurulamadı!")
+	baglanti_sayaci += 1
+	baglanti_durumu.text = "Bağlantı kurulamadı. IP adresini ve sunucuyu kontrol edin."
 
 	Network.baglantiyi_kapat()
 
@@ -387,6 +414,7 @@ func _profil_kaydet() -> void:
 	if gecici_profil_no != -1:
 		Global.profil_no_ata(gecici_profil_no)
 
+	Global.profili_kaydet()
 	_arayuzu_guncelle()
 	isim_giris_kutusu.release_focus()
 	
@@ -528,3 +556,16 @@ func _oyuncu_adi_enter_ile_kaydet(
 ) -> void:
 	if not kaydet_btn.disabled:
 		_profil_kaydet()
+
+
+func _alistirma_ac():
+	oyun_menusu._temizle("TEK OYUNCULU ALIŞTIRMA")
+	oyun_menusu._metin("Rakipsiz bir haritada şehir kurmayı, keşfi, üretimi ve kartları öğren. 50 puana ulaşarak tamamla. Bu modda yapay zekâ rakip yoktur; savaş için çok oyunculu oda kullan.")
+	oyun_menusu._buton("Alıştırmayı başlat", _alistirma_baslat)
+	oyun_menusu._buton("Geri", oyun_menusu.perde.hide)
+
+func _alistirma_baslat():
+	Network.baglantiyi_kapat()
+	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
+	Network.oyun_tohumu = randi()
+	SceneTransition.go_to("res://AnaOyun.tscn")

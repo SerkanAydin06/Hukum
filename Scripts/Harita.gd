@@ -55,7 +55,7 @@ var tasocagi_resimleri = {
 	3: preload("res://Assets/Resimler/binalar/tasocagi3.png")
 }
 
-var bina_resimleri = {}
+var bina_resimleri = {"ticaret_merkezi": preload("res://Assets/Resimler/binalar/ticaret_merkezi.png")}
 
 var kesfedilen_hexler = {}
 var gorus_haritasi = {}
@@ -319,7 +319,7 @@ func _draw():
 				draw_rect(Rect2(m - Vector2(15,15), Vector2(30,30)), r)
 				draw_rect(Rect2(m - Vector2(15,15), Vector2(30,30)), Color.BLACK * renk_filtresi, false, 2.0)
 				
-		elif b["tur"] in ["oduncu_kampi", "tas_ocagi", "tarla"]:
+		elif b["tur"] in ["oduncu_kampi", "tas_ocagi", "tarla", "ticaret_merkezi"]:
 			var b_resim = null
 			var tur = b["tur"]
 			var seviye = b.get("seviye", 1)
@@ -467,3 +467,4 @@ func hex_mesafesi(a: Vector2i, b: Vector2i) -> int:
 	var r2 = b.y
 	var s2 = -q2 - r2
 	return int(max(abs(q1 - q2), max(abs(r1 - r2), abs(s1 - s2))))
+

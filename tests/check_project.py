@@ -1,5 +1,6 @@
 """Fast filesystem/scene contract checks; no Godot binary or paid service required."""
 from pathlib import Path
+import re
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -48,6 +49,15 @@ if "binalar/oduncu%d.png" not in PANEL or "binalar/tasocagi%d.png" not in PANEL 
 if 'oncu_osmanli.png' in CARD_UI:
     MISSING.append("Card UI still falls back to Osmanli pioneer unit sprite")
 
+# Check every literal resource reference, including art/shaders/audio in scenes.
+for source in list(ROOT.glob("*.tscn")) + list((ROOT / "Scripts").glob("*.gd")):
+    for reference in re.findall(r'"res://([^"\n]+)"', source.read_text(encoding="utf-8")):
+        if "%" in reference or reference.endswith("/"):
+            continue  # dynamically assembled references are covered by runtime tests
+        if not (ROOT / reference).exists():
+            MISSING.append(f"{source.relative_to(ROOT)}: {reference}")
+
 if MISSING:
     raise SystemExit("Project asset/scene checks failed:\n- " + "\n- ".join(MISSING))
 print("HUKUM project checks: PASS")
+

@@ -4,6 +4,7 @@ const PORT = 7777
 const DEFAULT_IP = "127.0.0.1"
 const MAX_PLAYERS = 6
 
+var son_baglanti_mesaji = ""
 var son_lobi_verisi = {} 
 var peer = ENetMultiplayerPeer.new()
 var ortak_sifre = 0
@@ -47,19 +48,21 @@ func _on_player_disconnected(id): print("Kopan ID: ", id)
 func _on_connected_ok(): print("Sunucuya başarıyla bağlandık!")
 func _on_connected_fail(): print("Bağlantı reddedildi!")
 func _on_server_disconnected():
-	print("Sunucu ile bağlantı kesildi!")
+	son_baglanti_mesaji = "Sunucu bağlantısı kesildi. Yeni bir oda kurabilir veya tekrar bağlanabilirsiniz."
+	get_tree().paused = false
 	baglantiyi_kapat()
 	get_tree().change_scene_to_file("res://AnaMenu.tscn")
 
 func reset_network():
-	if peer.get_connection_status() != MultiplayerPeer.CONNECTION_DISCONNECTED:
-		peer.close()
-	multiplayer.multiplayer_peer = null
-	peer = ENetMultiplayerPeer.new()
+	baglantiyi_kapat()
 
 func baglantiyi_kapat():
+	son_lobi_verisi.clear()
+	oyun_tohumu = 0
+	ortak_sifre = 0
 	if multiplayer.multiplayer_peer != null:
 		multiplayer.multiplayer_peer.close()
 		multiplayer.multiplayer_peer = null
 		
 	peer = ENetMultiplayerPeer.new()
+
