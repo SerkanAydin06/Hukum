@@ -20,7 +20,7 @@ func _piyon_hareket_aksiyon(k, k_isim):
 		return
 		
 	if not ana.harita.kesfedilen_hexler.has(k):
-		aksiyon.kesif_ve_hareket_rpc.rpc(ana.secili_piyon_index, k, k_isim)
+		ana.istek("aksiyon", "kesif_ve_hareket_rpc", [ana.secili_piyon_index, k, k_isim])
 		return
 		
 	# 🟢 1. BİNA SALDIRISI (%BinaSaldiriPaneli)
@@ -117,7 +117,7 @@ func _piyon_hareket_aksiyon(k, k_isim):
 			s_panel.visible = true
 	else:
 		# Piyon da yok, bina da yok, düşman toprağı da değil -> Normal Hareket
-		aksiyon.piyon_hareket_rpc.rpc(ana.secili_piyon_index, k)
+		ana.istek("aksiyon", "piyon_hareket_rpc", [ana.secili_piyon_index, k])
 		
 	ana.arayuz.arayuzu_guncelle()
 
@@ -129,7 +129,7 @@ func _piyon_hareket_aksiyon(k, k_isim):
 func _tetikle_saldiri(): # (%SaldirBtn)
 	var s_panel = ana.arayuz.get_node_or_null("%SavasOnayPaneli")
 	if s_panel: s_panel.visible = false
-	aksiyon.savas_baslat_rpc.rpc(ana.secili_piyon_index, ana.savas.savas_piyon_savunan, ana.savas.savas_bina_koordinat.x, ana.savas.savas_bina_koordinat.y, "normal", ana.oyuncular[ana.benim_indexim], ana.savas.savas_ozel_savunucu)
+	ana.istek("aksiyon", "savas_baslat_rpc", [ana.secili_piyon_index, ana.savas.savas_piyon_savunan, ana.savas.savas_bina_koordinat.x, ana.savas.savas_bina_koordinat.y, "normal", ana.oyuncular[ana.benim_indexim], ana.savas.savas_ozel_savunucu])
 
 func _tetikle_savas_iptal(): # (%SaldiriIptalBtn)
 	var s_panel = ana.arayuz.get_node_or_null("%SavasOnayPaneli")
@@ -140,17 +140,17 @@ func _tetikle_savas_iptal(): # (%SaldiriIptalBtn)
 func _tetikle_yagmala(): # (%BinaYagmalaBtn)
 	var b_panel = ana.arayuz.get_node_or_null("%BinaSaldiriPaneli")
 	if b_panel: b_panel.visible = false
-	aksiyon.savas_baslat_rpc.rpc(ana.secili_piyon_index, ana.savas.savas_piyon_savunan, ana.savas.savas_bina_koordinat.x, ana.savas.savas_bina_koordinat.y, "yagmala")
+	ana.istek("aksiyon", "savas_baslat_rpc", [ana.secili_piyon_index, ana.savas.savas_piyon_savunan, ana.savas.savas_bina_koordinat.x, ana.savas.savas_bina_koordinat.y, "yagmala"])
 
 func _tetikle_hukmet(): # (%BinaHukmetBtn)
 	var b_panel = ana.arayuz.get_node_or_null("%BinaSaldiriPaneli")
 	if b_panel: b_panel.visible = false
-	aksiyon.savas_baslat_rpc.rpc(ana.secili_piyon_index, ana.savas.savas_piyon_savunan, ana.savas.savas_bina_koordinat.x, ana.savas.savas_bina_koordinat.y, "hukmet")
+	ana.istek("aksiyon", "savas_baslat_rpc", [ana.secili_piyon_index, ana.savas.savas_piyon_savunan, ana.savas.savas_bina_koordinat.x, ana.savas.savas_bina_koordinat.y, "hukmet"])
 
 func _tetikle_yikim(): # (%BinaYikBtn)
 	var b_panel = ana.arayuz.get_node_or_null("%BinaSaldiriPaneli")
 	if b_panel: b_panel.visible = false
-	aksiyon.savas_baslat_rpc.rpc(ana.secili_piyon_index, ana.savas.savas_piyon_savunan, ana.savas.savas_bina_koordinat.x, ana.savas.savas_bina_koordinat.y, "yikim")
+	ana.istek("aksiyon", "savas_baslat_rpc", [ana.secili_piyon_index, ana.savas.savas_piyon_savunan, ana.savas.savas_bina_koordinat.x, ana.savas.savas_bina_koordinat.y, "yikim"])
 
 func _tetikle_bina_saldiri_vazgec(): # (%BinaVazgecBtn)
 	var b_panel = ana.arayuz.get_node_or_null("%BinaSaldiriPaneli")
@@ -176,7 +176,7 @@ func _savas_karti_cek():
 	if ana.oyuncu_kaynaklari[k_isim]["altin"] < 3:
 		ana.arayuz.olay_yaz("[color=light_coral]❌ Savaş kartı çekmek için 3 Altın gerekli![/color]")
 		return
-	aksiyon.savas_karti_cek_rpc.rpc_id(1, k_isim)
+	ana.istek("aksiyon", "savas_karti_cek_rpc", [k_isim])
 	ana.arayuz.panel_yukari_cik()
 	
 func _oncu_uret_istegi():
@@ -189,7 +189,7 @@ func _oncu_uret_istegi():
 				s_koor = k
 				break
 		if s_koor != Vector2i(-1, -1): 
-			aksiyon.oncu_uret_rpc.rpc(ben, s_koor)
+			ana.istek("aksiyon", "oncu_uret_rpc", [ben, s_koor])
 		else: 
 			ana.arayuz.olay_yaz("[color=light_coral]❌ Öncü Kampı bulunamadı![/color]")
 	else:
@@ -200,7 +200,7 @@ func _hakimiyet_kur_istegi():
 	var k_isim = ana.oyuncular[ana.benim_indexim]
 	if ana.oyuncu_kaynaklari[k_isim]["yiyecek"] >= 3:
 		var p_koor = ana.piyonlar[ana.secili_piyon_index]["koordinat"]
-		aksiyon.hakimiyet_kur_rpc.rpc(k_isim, p_koor)
+		ana.istek("aksiyon", "hakimiyet_kur_rpc", [k_isim, p_koor])
 		ana.secili_piyon_index = -1
 		ana.arayuz.arayuzu_guncelle()
 	else:
@@ -225,5 +225,5 @@ func _isyan_btn_basildi():
 func _isyan_onaylandi():
 	var k_isim = ana.oyuncular[ana.benim_indexim]
 	var efendim = ana.efendiler.get(k_isim, "")
-	aksiyon.savas_baslat_rpc.rpc(-1, -1, -1, -1, "isyan_buton", k_isim, efendim)
+	ana.istek("aksiyon", "savas_baslat_rpc", [-1, -1, -1, -1, "isyan_buton", k_isim, efendim])
 	if ana.arayuz.isyan_onay_paneli: ana.arayuz.isyan_onay_paneli.visible = false

@@ -201,7 +201,7 @@ func run_tests():
 	actions.savas_hamlesi_yap_rpc("A", [forged], [0])
 	check(battle.secilen_savas_kartlari.is_empty(), "Forged card strength rejected")
 	hand("B", [soldier])
-	actions.kartlari_ac_rpc({"A": [soldier], "B": [soldier]})
+	actions.kartlari_ac_rpc({"A": [soldier], "B": [soldier]}, {"A": [0], "B": [0]})
 	check(deck.el.is_empty() and deck.atilan_savas_kartlari.size() == 2, "Reveal consumes both hands once")
 	battle.savasi_iptal_et()
 	check(deck.el.size() == 1 and game.oyuncu_elleri["B"].size() == 1 and deck.atilan_savas_kartlari.is_empty(), "Cancellation after reveal refunds both hands")
@@ -338,6 +338,13 @@ func run_new_regressions():
 	check(beklenen_biyom in ["cim", "orman", "dag"] and beklenen_biyom == real_map.biyom_belirle(Vector2i(4, 7)), "Per-hex terrain is deterministic")
 	real_map.kesif_yap(Vector2i(4, 7))
 	check(real_map.kesfedilen_hexler[Vector2i(4, 7)] == beklenen_biyom, "Exploration matches deterministic terrain")
+	var diger_harita = load("res://Scripts/Harita.gd").new()
+	var farkli = false
+	for x in range(16):
+		for y in range(12):
+			if real_map.biyom_belirle(Vector2i(x, y)) != diger_harita.biyom_belirle(Vector2i(x, y)): farkli = true
+	check(farkli, "Terrain is not derivable from the shared match seed")
+	diger_harita.free()
 	Network.oyun_tohumu = 0
 	check(not real_map.hex_gorunur_mu(Vector2i(15, 11)), "Production fog hides unseen tiles")
 	real_map.gorus_haritasi[Vector2i(15, 11)] = 2

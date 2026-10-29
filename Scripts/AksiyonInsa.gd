@@ -65,7 +65,7 @@ func _kart_ve_harita_etkilesimi(k, k_isim):
 			ana.arayuz.olay_yaz("[color=light_coral]❌ Yetersiz Kaynak! Gerekli: %d 🌲, %d 🪨[/color]" % [kart["odun_maliyet"], kart["tas_maliyet"]])
 			return
 
-		aksiyon.bina_yukselt_rpc.rpc(k_isim, k, kart["odun_maliyet"], kart["tas_maliyet"], ana.secili_kart_index)
+		ana.istek("aksiyon", "bina_yukselt_rpc", [k_isim, k, kart["odun_maliyet"], kart["tas_maliyet"], ana.secili_kart_index])
 		ana.secili_kart_index = -1
 		
 	elif kart["hedef"] == "harita":
@@ -91,7 +91,7 @@ func _kart_ve_harita_etkilesimi(k, k_isim):
 			ana.arayuz.olay_yaz("[color=light_coral]❌ Yetersiz Kaynak! Gerekli: %d 🌲, %d 🪨[/color]" % [kart["odun_maliyet"], kart["tas_maliyet"]])
 			return
 			
-		aksiyon.kart_oyna_rpc.rpc(k_isim, kart["tur"], k, kart["odun_maliyet"], kart["tas_maliyet"], ana.secili_kart_index)
+		ana.istek("aksiyon", "kart_oyna_rpc", [k_isim, kart["tur"], k, kart["odun_maliyet"], kart["tas_maliyet"], ana.secili_kart_index])
 		ana.secili_kart_index = -1
 		
 	ana.arayuz.arayuzu_guncelle()

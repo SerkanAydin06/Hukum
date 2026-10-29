@@ -11,7 +11,8 @@ var savas_ozel_saldiran = ""
 var savas_ozel_savunucu = "" 
 var savas_eli_paneli
 var savas_eli_hbox
-var secilen_savas_kartlari = {} 
+var secilen_savas_kartlari = {}   # yalnızca sunucuda dolar; kartlar açılana kadar gizlidir
+var secilen_savas_idxleri = {}
 var secilen_benim_idxler = []
 var secilen_benim_kartlar = []
 var secilen_benim_nodelar: Array = []
@@ -91,6 +92,7 @@ func savas_panelini_guncelle():
 	_isim_ve_medeniyet_guncelle()
 	
 	secilen_savas_kartlari.clear()
+	secilen_savas_idxleri.clear()
 	secilen_benim_idxler.clear()
 	secilen_benim_kartlar.clear()
 	secilen_benim_nodelar.clear()
@@ -295,14 +297,14 @@ func _onayla_basildi():
 		if benim_onayla_btn is Button:
 			benim_onayla_btn.text = "RAKİP BEKLENİYOR..."
 	
-	taraf_kilitlendi_rpc.rpc(_ben_saldiran_miyim())
 		
 	var ben = ana.oyuncular[ana.benim_indexim]
-	ana.aksiyon.savas_hamlesi_yap_rpc.rpc(ben, secilen_benim_kartlar, secilen_benim_idxler)
+	ana.istek("aksiyon", "savas_hamlesi_yap_rpc", [ben, secilen_benim_kartlar, secilen_benim_idxler])
 
-@rpc("any_peer", "call_local", "reliable")
+# Sunucu, bir tarafın kartlarını kilitlediğini (kartları açıklamadan) duyurur.
+@rpc("authority", "call_local", "reliable")
 func taraf_kilitlendi_rpc(saldiran_mi: bool):
-	if not savas_aktif or ana.rpc_gonderen_ismi() != savas_taraflari()[0 if saldiran_mi else 1]: return
+	if not savas_aktif: return
 	var lbl_ismi = "%SecilenKartGucAtak" if saldiran_mi else "%SecilenKartGucDefans"
 	var lbl = ana.arayuz.get_node_or_null(lbl_ismi)
 	if lbl: lbl.text = "Kartlar Seçildi"
@@ -567,6 +569,7 @@ func savasi_iptal_et():
 	ana.aksiyon._savas_kartlarini_iade_et(son_kartlar_dict)
 	savas_aktif = false
 	secilen_savas_kartlari.clear()
+	secilen_savas_idxleri.clear()
 	son_kartlar_dict.clear()
 	kendi_kilitledi_mi = false
 	secilen_benim_idxler.clear()
@@ -807,9 +810,8 @@ func _zar_at_basildi(saldiran_mi: bool):
 	else:
 		if defans_zar_at_btn: defans_zar_at_btn.disabled = true
 	
-	zar_at_istegi_rpc.rpc_id(1, saldiran_mi)   # 🟢 Sadece sunucuya istek gönderilir, zar burada atılmaz
+	ana.istek("savas", "zar_at_istegi_rpc", [saldiran_mi])   # 🟢 Sadece sunucuya istek gönderilir, zar burada atılmaz
 
-@rpc("any_peer", "call_local", "reliable")
 func zar_at_istegi_rpc(saldiran_mi: bool):
 	if not multiplayer.is_server() or not savas_aktif or son_kartlar_dict.size() != 2: return
 	# Her taraf yalnızca bir kez zar atabilir (aksi halde savaş birden fazla kez çözülür)

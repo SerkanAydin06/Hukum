@@ -63,7 +63,8 @@ func configure(id: int):
 	game.ilk_tur_bitti = true
 	game.aktif_oyuncu_aksiyon_hakki = 3
 	var camp = {"hedef": "harita", "tur": "oncu_kampi", "odun_maliyet": 6, "tas_maliyet": 2}
-	game.deste.normal_deste = [camp.duplicate(true), camp.duplicate(true)]
+	game.deste.normal_deste = [camp.duplicate(true), camp.duplicate(true), camp.duplicate(true)]
+	game.deste.normal_kalan = 3
 	if not is_host: client_ready.rpc_id(1)
 
 @rpc("any_peer", "call_remote", "reliable")
@@ -71,9 +72,10 @@ func client_ready():
 	if not is_host or multiplayer.get_remote_sender_id() != client_id: return
 	lobby.lobi_bilgisi_gonder_rpc.rpc(1, "A", "Kirmizi", "Osmanlı", true, 1)
 	lobby.lobi_bilgisi_gonder_rpc.rpc(client_id, "B", "Mavi", "Venedik", true, 2)
-	game.aksiyon.normal_kart_cek_rpc.rpc("A")
-	game.aksiyon.kart_oyna_rpc.rpc("A", "oncu_kampi", Vector2i(0, 0), 6, 2, 0)
-	game.tur_ekonomi.sirayi_degistir_rpc.rpc()
+	game.istek("aksiyon", "normal_kart_cek_rpc", ["A"])
+	game.istek("aksiyon", "normal_kart_cek_rpc", ["A"])
+	game.istek("aksiyon", "kart_oyna_rpc", ["A", "oncu_kampi", Vector2i(0, 0), 6, 2, 0])
+	game.istek("tur_ekonomi", "sirayi_degistir_rpc", [])
 	client_turn.rpc_id(client_id)
 
 @rpc("authority", "call_remote", "reliable")
@@ -85,18 +87,27 @@ func client_turn():
 	lobby.sohbet_mesaji_al_rpc.rpc(client_id, "Valid chat")
 	check(game.aktif_sira == 1, "Client received host turn advancement")
 	check(game.binalar_verisi.has(Vector2i(0, 0)), "Host construction replicated")
-	check(game.oyuncu_elleri["A"].is_empty(), "Host card consumption replicated")
-	game.aksiyon.normal_kart_cek_rpc.rpc_id(1, "B")
+	var host_eli = game.oyuncu_elleri["A"]
+	check(host_eli.size() == 1 and host_eli[0].get("gizli", false), "Host's unplayed card stays hidden from the client")
+	check(game.deste.normal_kalan == 1 and game.deste.normal_deste.size() == 2, "Client tracks deck size and unseen cards only")
+	game.aksiyon.kart_oyna_rpc("A", "oncu_kampi", Vector2i(1, 0), 6, 2, 0)
+	check(not game.binalar_verisi.has(Vector2i(1, 0)), "Client cannot apply moves without the server")
+	game.istek("aksiyon", "normal_kart_cek_rpc", ["B"])
 	check(game.deste.el.is_empty(), "Client cannot deal itself a card")
-	for i in range(100):
-		if game.deste.el.size() == 1: break
-		await get_tree().process_frame
-	check(game.deste.el.size() == 1, "Server deals the client its card")
-	game.aksiyon.karti_feda_et_rpc.rpc("B", "odun", 0)
-	game.aksiyon.oncu_uret_rpc.rpc("A", Vector2i(0, 0))
-	game.tur_ekonomi.sirayi_degistir_rpc.rpc()
+	await _bekle(func(): return game.deste.el.size() == 1)
+	check(game.deste.el.size() == 1 and game.deste.normal_kalan == 0 and game.deste.normal_deste.size() == 1, "Server deals the client its own card")
+	game.istek("aksiyon", "karti_feda_et_rpc", ["B", "odun", 0])
+	game.istek("aksiyon", "oncu_uret_rpc", ["A", Vector2i(0, 0)])
+	game.istek_rpc.rpc_id(1, "deste", "desteleri_hazirla", [])
+	game.istek("tur_ekonomi", "sirayi_degistir_rpc", [])
+	await _bekle(func(): return game.aktif_sira == 0)
 	check(game.oyuncu_kaynaklari["B"]["odun"] == 31 and game.deste.el.is_empty(), "Client sacrifice consumed exactly one card")
 	report.rpc_id(1, failed)
+
+func _bekle(kosul: Callable):
+	for i in range(300):
+		if kosul.call(): return
+		await get_tree().process_frame
 
 @rpc("any_peer", "call_remote", "reliable")
 func report(client_failed: bool):
@@ -108,6 +119,7 @@ func report(client_failed: bool):
 	check(game.oyuncu_kaynaklari["B"]["odun"] == 31, "Client resource gain replicated")
 	check(game.oyuncu_elleri["B"].is_empty(), "Client hand consumption replicated")
 	check(game.piyonlar.is_empty(), "Spoofed producer identity rejected on host")
+	check(game.deste.normal_deste.is_empty() and game.oyuncu_elleri["A"].size() == 1, "Unlisted server request ignored")
 	check(game.aktif_sira == 0 and game.aktif_oyuncu_aksiyon_hakki == 3, "Both peers advanced back to host consistently")
 	print("HUKUM ENET SMOKE: " + ("FAIL" if failed else "PASS"))
 	finish.rpc_id(client_id, failed)

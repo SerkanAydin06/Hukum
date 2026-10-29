@@ -149,11 +149,89 @@ func oyuncu_ayrildi_rpc(isim: String):
 	if oyuncular[aktif_sira] == isim and ayrilan_oyuncular.size() < oyuncular.size():
 		tur_ekonomi.turu_bitir()
 
+# --- SUNUCU SIRALI HAMLELER ---
+# Oyuncular hamlelerini doğrudan birbirine göndermez. İstek sunucuya gider;
+# sunucu bütün bilgiyle (eller, deste, harita) hamleyi önce kendinde çalıştırır.
+# Kabul ederse aynı hamleyi, açılması gereken bilgilerle (oynanan kart, keşfedilen
+# biyom) birlikte herkese aynı sırayla uygulatır. Böylece rakip elleri gizli kalır
+# ve hiçbir eş durumu sunucudan önce değiştiremez.
+const SIRALI_HAMLELER = {
+	"aksiyon": ["kesif_ve_hareket_rpc", "bina_kur_rpc", "bina_yukselt_rpc", "piyon_hareket_rpc",
+		"kart_oyna_rpc", "hakimiyet_kur_rpc", "karti_feda_et_rpc", "savas_karti_atildi_rpc",
+		"oncu_uret_rpc", "aksiyon_karti_kullan_rpc", "savas_baslat_rpc"],
+	"tur_ekonomi": ["ticaret_yap_rpc", "sirayi_degistir_rpc"],
+}
+# Yalnızca sunucuda çalışan, sonucunu kendi yayınlayan istekler.
+const SUNUCU_ISTEKLERI = {
+	"aksiyon": ["normal_kart_cek_rpc", "savas_karti_cek_rpc", "savas_hamlesi_yap_rpc"],
+	"savas": ["zar_at_istegi_rpc"],
+}
+const ISTEK_ARGUMAN_SINIRI = 8
+
+var _relay_gonderen := 0     # işlenen hamlenin sahibi peer (0 = hamle işlenmiyor)
+var islem_ek := {}           # sunucunun hamleyle birlikte açıkladığı bilgiler
+var islem_kabul := false     # hamle işleyicisi bütün kontrolleri geçti mi
+
+# Arayüzün kullandığı tek giriş: hamleyi sunucuya gönderir.
+func istek(yonetici: String, metod: String, args: Array = []):
+	if multiplayer.is_server():
+		_istegi_isle(multiplayer.get_unique_id(), yonetici, metod, args)
+	else:
+		istek_rpc.rpc_id(1, yonetici, metod, args)
+
+@rpc("any_peer", "call_remote", "reliable")
+func istek_rpc(yonetici: String, metod: String, args: Array):
+	if not multiplayer.is_server(): return
+	_istegi_isle(multiplayer.get_remote_sender_id(), yonetici, metod, args)
+
+func _istek_hedefi(yonetici: String, metod: String, args: Array) -> Node:
+	var sirali = SIRALI_HAMLELER.get(yonetici, []).has(metod)
+	if not sirali and not SUNUCU_ISTEKLERI.get(yonetici, []).has(metod): return null
+	var hedef = get(yonetici)
+	if not hedef is Node or not hedef.has_method(metod): return null
+	if args.size() > min(ISTEK_ARGUMAN_SINIRI, hedef.get_method_argument_count(metod)): return null
+	return hedef
+
+func _istegi_isle(peer: int, yonetici: String, metod: String, args: Array):
+	if oyuncu_peer_idleri.find(peer) == -1: return
+	var hedef = _istek_hedefi(yonetici, metod, args)
+	if hedef == null: return
+	_hamleyi_calistir(peer, hedef, metod, args, {})
+	if islem_kabul and SIRALI_HAMLELER.get(yonetici, []).has(metod):
+		hamle_uygula_rpc.rpc(peer, yonetici, metod, args, islem_ek.duplicate(true))
+	islem_ek = {}
+
+@rpc("authority", "call_remote", "reliable")
+func hamle_uygula_rpc(peer: int, yonetici: String, metod: String, args: Array, ek: Dictionary):
+	if not SIRALI_HAMLELER.get(yonetici, []).has(metod): return
+	var hedef = _istek_hedefi(yonetici, metod, args)
+	if hedef == null: return
+	_hamleyi_calistir(peer, hedef, metod, args, ek)
+	if not islem_kabul:
+		push_warning("Sunucunun onayladığı hamle bu eşte uygulanamadı: %s" % metod)
+	islem_ek = {}
+
+func _hamleyi_calistir(peer: int, hedef: Node, metod: String, args: Array, ek: Dictionary):
+	_relay_gonderen = peer
+	islem_ek = ek
+	islem_kabul = false
+	hedef.callv(metod, args)
+	_relay_gonderen = 0
+
+# Sunucu, belirli bir oyuncunun eşine özel veri göndermek için kullanır.
+func oyuncu_peer_id(isim: String) -> int:
+	var idx = oyuncular.find(isim)
+	return oyuncu_peer_idleri[idx] if idx != -1 and idx < oyuncu_peer_idleri.size() else 0
+
 # --- RPC GÜVENLİĞİ ---
-# RPC'yi gönderen peer'ın oyuncu ismi ("" = tanınmayan peer)
+# Hamlenin sahibi oyuncunun ismi ("" = tanınmayan veya doğrudan gönderilmiş çağrı).
+# Ağdan doğrudan gelen çağrılar kabul edilmez; hamleler yalnızca sunucu sırasıyla işlenir.
+# Sunucunun kendi yerel çağrısı (tek oyunculu alıştırma, testler) geçerlidir.
 func rpc_gonderen_ismi() -> String:
-	var gonderen = multiplayer.get_remote_sender_id()
-	if gonderen == 0: gonderen = multiplayer.get_unique_id()
+	var gonderen = _relay_gonderen
+	if gonderen == 0:
+		if multiplayer.get_remote_sender_id() != 0 or not multiplayer.is_server(): return ""
+		gonderen = multiplayer.get_unique_id()
 	var idx = oyuncu_peer_idleri.find(gonderen)
 	return oyuncular[idx] if idx != -1 else ""
 
@@ -219,6 +297,12 @@ func puan_hesapla(isim: String) -> int:
 		if efendi == isim: toplam += 5
 	return toplam + savas_puanlari.get(isim, 0) * 2
 
+var _zafer_bekliyor := false
+
+func _zaferi_yayinla(isim: String, puan: int):
+	_zafer_bekliyor = false
+	if not oyun_bitti: aksiyon.oyunu_bitir_rpc.rpc(isim, puan)
+
 func puanlari_guncelle():
 	for isim in oyuncular: puanlar[isim] = puan_hesapla(isim)
 
@@ -227,5 +311,11 @@ func zaferi_kontrol_et():
 	if not multiplayer.is_server() or oyun_bitti: return
 	for isim in oyuncular:
 		if isim not in ayrilan_oyuncular and puanlar[isim] >= HEDEF_PUAN:
-			aksiyon.oyunu_bitir_rpc.rpc(isim, puanlar[isim])
+			# Hamle işlenirken zafer, hamlenin kendisinden sonra yayınlanmalı.
+			if _relay_gonderen != 0:
+				if not _zafer_bekliyor:
+					_zafer_bekliyor = true
+					call_deferred("_zaferi_yayinla", isim, puanlar[isim])
+			else:
+				aksiyon.oyunu_bitir_rpc.rpc(isim, puanlar[isim])
 			return

@@ -68,11 +68,13 @@ var _cizim_birikimi := 0.0
 func _ready():
 	texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 
-# Tüm eşler aynı oyun tohumu + koordinat için aynı araziyi üretir.
-# İstemcinin önerdiği biyoma güvenilmez.
+# Arazi yalnızca sunucunun gizli tohumundan üretilir ve keşifle açıklanır.
+# Ortak oyun tohumu kullanılmaz; istemciler keşfedilmemiş araziyi hesaplayamaz.
+var gizli_harita_tohumu := randi()
+
 func biyom_belirle(koor: Vector2i) -> String:
 	var rastgele = RandomNumberGenerator.new()
-	rastgele.seed = int(Network.oyun_tohumu) ^ (koor.x * 73856093) ^ (koor.y * 19349663)
+	rastgele.seed = gizli_harita_tohumu ^ (koor.x * 73856093) ^ (koor.y * 19349663)
 	var biyomlar = ["cim", "cim", "cim", "orman", "orman", "dag"]
 	return biyomlar[rastgele.randi_range(0, biyomlar.size() - 1)]
 

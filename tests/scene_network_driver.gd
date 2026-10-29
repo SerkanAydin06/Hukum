@@ -71,7 +71,7 @@ func exercise():
 	await get_tree().create_timer(0.4).timeout
 	check(reports.size() == game.oyuncular.size() + (1 if Network.dedicated_mode else 0), "All participants and spectator reported state")
 	for state in reports.values():
-		check(state == reports.get(1), "Battle, resources, decks and hands agree on all three peers")
+		check(state == reports.get(1), "Battle, resources, deck counts and public hand sizes agree on all peers")
 	# Disconnect a nonhost and then the server: remaining client must return to menu.
 	var leaving = game.oyuncu_peer_idleri[2]
 	disconnect_client.rpc_id(leaving)
@@ -93,10 +93,10 @@ func act(phase: int):
 	var index = game.benim_indexim
 	var who = game.oyuncular[index]
 	if phase == 0:
-		game.aksiyon.bina_kur_rpc.rpc(Vector2i([5, 6, 10][index], 4), who, "sehir_merkezi", "cim")
+		game.istek("aksiyon", "bina_kur_rpc", [Vector2i([5, 6, 10][index], 4), who, "sehir_merkezi", "cim"])
 	else:
-		game.aksiyon.savas_karti_cek_rpc.rpc(who)
-	game.tur_ekonomi.sirayi_degistir_rpc.rpc()
+		game.istek("aksiyon", "savas_karti_cek_rpc", [who])
+	game.istek("tur_ekonomi", "sirayi_degistir_rpc", [])
 
 @rpc("authority", "call_local", "reliable")
 func choose():
@@ -131,7 +131,8 @@ func roll():
 @rpc("authority", "call_local", "reliable")
 func snapshot():
 	check(game.savas.zar_saldiran_deger >= (2 if game.medeniyetler_verisi[game.oyuncular[0]] == "Osmanlı" else 1) and game.savas.zar_savunan_deger >= 1, "Host dice obey civilization bonus")
-	var state = [game.oyuncu_kaynaklari, game.oyuncu_elleri, _deste_icerigi(game.deste.savas_destesi), game.savas_puanlari, game.binalar_verisi, game.piyonlar, failed]
+	_gizli_elleri_dogrula()
+	var state = [game.oyuncu_kaynaklari, _el_gorunumu(), game.deste.savas_kalan, game.deste.normal_kalan, _deste_icerigi(game.deste.atilan_savas_kartlari), game.savas_puanlari, game.binalar_verisi, game.piyonlar, failed]
 	report.rpc_id(1, state)
 	if role != 0:
 		await multiplayer.server_disconnected
@@ -155,7 +156,7 @@ func disconnect_client():
 
 @rpc("authority", "call_local", "reliable")
 func begin_battle():
-	game.aksiyon.savas_baslat_rpc.rpc(0, 1, 6, 4, "yagmala")
+	game.istek("aksiyon", "savas_baslat_rpc", [0, 1, 6, 4, "yagmala"])
 
 # Deck order is server-only; peers must agree on what remains, not on its order.
 func _deste_icerigi(deste: Array) -> Array:
@@ -163,3 +164,25 @@ func _deste_icerigi(deste: Array) -> Array:
 	for kart in deste: icerik.append(var_to_str(kart))
 	icerik.sort()
 	return icerik
+
+# Hands are private: peers agree on how many cards of each kind everyone holds.
+func _el_gorunumu() -> Dictionary:
+	var gorunum = {}
+	for isim in game.oyuncular:
+		var savas = 0
+		var insa = 0
+		for kart in game.oyuncu_elleri.get(isim, []):
+			if kart.get("hedef") == "savas": savas += 1
+			else: insa += 1
+		gorunum[isim] = [savas, insa]
+	return gorunum
+
+func _gizli_elleri_dogrula():
+	if multiplayer.is_server(): return
+	var ben = game.oyuncular[game.benim_indexim]
+	for isim in game.oyuncular:
+		for kart in game.oyuncu_elleri.get(isim, []):
+			if isim == ben:
+				check(not kart.get("gizli", false), "Own hand is fully visible")
+			else:
+				check(kart.get("gizli", false), "Opponent card contents never reach this client")

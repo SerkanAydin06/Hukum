@@ -58,12 +58,11 @@ func _kaynak_sat(k_turu: String):
 	var k_isim = ana.oyuncular[ana.benim_indexim]
 	var maliyet = ticaret_maliyeti(k_isim)
 	if ana.oyuncu_kaynaklari[k_isim][k_turu] >= maliyet:
-		ticaret_yap_rpc.rpc(k_isim, k_turu)
+		ana.istek("tur_ekonomi", "ticaret_yap_rpc", [k_isim, k_turu])
 	else:
 		var n = "Odun" if k_turu == "odun" else "Taş" if k_turu == "tas" else "Yiyecek"
 		ana.arayuz.olay_yaz("[color=light_coral]❌ Yetersiz kaynak! Altın alabilmek için en az %d %s gerekli.[/color]" % [maliyet, n])
 
-@rpc("any_peer", "call_local", "reliable")
 func ticaret_yap_rpc(oyuncu_ismi, k_turu):
 	if not ana.rpc_sirada_mi(oyuncu_ismi): return
 	var maliyet = ticaret_maliyeti(oyuncu_ismi)
@@ -78,6 +77,7 @@ func ticaret_yap_rpc(oyuncu_ismi, k_turu):
 	var emoji = "🌲" if k_turu == "odun" else "🪨" if k_turu == "tas" else "🌾"
 	ana.arayuz.olay_yaz("⚖️ %s, tüccarlara %d %s %s vererek [color=gold]1 🪙 Altın[/color] kazandı." % [ana.arayuz.renkli_isim(oyuncu_ismi), maliyet, emoji, k_turu.to_upper()])
 	ana.arayuz.arayuzu_guncelle()
+	ana.islem_kabul = true
 
 func _tur_butonuna_basildi():
 	if ana.aktif_sira == ana.benim_indexim:
@@ -97,13 +97,13 @@ func _tur_butonuna_basildi():
 			ana.arayuz.olay_yaz("[color=light_coral]❌ Elindeki İnşa (%d/7) veya Savaş (%d/7) kartı sınırı aşıldı! Fazlalıkları çöpe atmalısın.[/color]" % [insa_sayisi, savas_sayisi])
 			return
 			
-		sirayi_degistir_rpc.rpc()
+		ana.istek("tur_ekonomi", "sirayi_degistir_rpc", [])
 
-@rpc("any_peer", "call_local", "reliable")
 func sirayi_degistir_rpc():
 	if not ana.rpc_sirada_mi(): return
 	if not ana.sehir_merkezleri.get(ana.rpc_gonderen_ismi(), false): return
 	turu_bitir()
+	ana.islem_kabul = true
 
 # Aktif oyuncunun turunu kapatır (üretim/vergi) ve sırayı oyundan ayrılmamış bir sonraki oyuncuya verir
 func turu_bitir():

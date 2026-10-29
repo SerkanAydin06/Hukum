@@ -5,6 +5,9 @@ var normal_deste = []
 var savas_destesi = []
 var atilan_insa_kartlari = []
 var atilan_savas_kartlari = [] 
+# Destede gerçekten kalan kart sayıları (bütün eşlerde aynıdır).
+var normal_kalan := 0
+var savas_kalan := 0
 var el = []
 # Yalnızca sunucuda kullanılan gizli RNG: istemciler deste sırasını hesaplayamaz
 var rng = RandomNumberGenerator.new()
@@ -28,7 +31,7 @@ func karistir(dizi: Array) -> void:
 # Kartı elden çıkarır; savaş kartıysa atılanlar destesine eklenmesi için herkese bildirir
 func karti_elden_at(idx: int) -> void:
 	if idx < 0 or idx >= el.size(): return
-	ana.aksiyon.savas_karti_atildi_rpc.rpc(idx)
+	ana.istek("aksiyon", "savas_karti_atildi_rpc", [idx])
 
 func desteleri_hazirla():
 	normal_deste.clear()
@@ -120,11 +123,14 @@ func desteleri_hazirla():
 	for i in range(10): normal_deste.append(gelisim_havuz[1].duplicate())
 	for i in range(10): normal_deste.append(gelisim_havuz[2].duplicate())
 	
-	# Sıra yalnızca sunucuda belirlenir. İstemcilerde dizi kalan kartların
-	# içeriğini tutar; sırası anlamsızdır ve kartları sunucu dağıtır.
+	# Sunucuda diziler gerçek destedir ve sırası gizli RNG ile belirlenir.
+	# İstemcide diziler "görülmemiş kartlar" havuzudur: destede kalanlar ile
+	# rakiplerin gizli ellerindekiler. Sırası anlamsızdır; kartları sunucu dağıtır.
 	if _sunucu_mu():
 		karistir(normal_deste)
 		karistir(savas_destesi)
+	normal_kalan = normal_deste.size()
+	savas_kalan = savas_destesi.size()
 
 func _sunucu_mu() -> bool:
 	return not is_inside_tree() or multiplayer.is_server()
@@ -138,13 +144,44 @@ func sunucu_desteyi_hazirla(savas_karti: bool) -> bool:
 	deste.append_array(atik)
 	atik.clear()
 	karistir(deste)
+	sunucu_kalanlari_guncelle()
 	return true
+
+func sunucu_kalanlari_guncelle():
+	normal_kalan = normal_deste.size()
+	savas_kalan = savas_destesi.size()
+
+# Rakip elindeki kartın yerine diğer eşlere gönderilen yer tutucu.
+func gizli_kart(savas_karti: bool) -> Dictionary:
+	return {"gizli": true, "hedef": "savas" if savas_karti else "insa", "isim": "Gizli Kart"}
+
+# İstemci: sunucu birine kart verdi. Kart bize geldiyse görülmemiş havuzdan çıkar.
+func istemci_kart_cekildi(kart: Dictionary, savas_karti: bool, yeniden_karisti: bool):
+	var havuz = savas_destesi if savas_karti else normal_deste
+	var atik = atilan_savas_kartlari if savas_karti else atilan_insa_kartlari
+	if yeniden_karisti:
+		havuz.append_array(atik)
+		if savas_karti: savas_kalan += atik.size()
+		else: normal_kalan += atik.size()
+		atik.clear()
+	if savas_karti: savas_kalan = max(0, savas_kalan - 1)
+	else: normal_kalan = max(0, normal_kalan - 1)
+	if not kart.get("gizli", false): _havuzdan_cikar(havuz, kart)
+
+# İstemci: rakibin gizli kartı oynanınca açıklandı; artık görülmemiş değil.
+func kart_acildi(kart: Dictionary):
+	if _sunucu_mu(): return
+	_havuzdan_cikar(savas_destesi if kart.get("hedef") == "savas" else normal_deste, kart)
+
+func _havuzdan_cikar(havuz: Array, kart: Dictionary):
+	var idx = havuz.find(kart)
+	if idx != -1: havuz.remove_at(idx)
 	
 func _ap_ile_normal_kart_cek():
 	if ana.aktif_sira != ana.benim_indexim or not ana.ilk_tur_bitti: return
 	
 	if ana.aktif_oyuncu_aksiyon_hakki > 0:
-		if not normal_deste.is_empty() or not atilan_insa_kartlari.is_empty():
+		if normal_kalan > 0 or not atilan_insa_kartlari.is_empty():
 			var insa_karti_sayisi = 0
 			for kart in el: 
 				if kart.get("hedef") != "savas":
@@ -154,7 +191,7 @@ func _ap_ile_normal_kart_cek():
 				ana.arayuz.olay_yaz("[color=light_coral]❌ Elinde zaten maksimum (7) İnşa/Gelişim Kartı var![/color]")
 				return
 				
-			ana.aksiyon.normal_kart_cek_rpc.rpc_id(1, ana.oyuncular[ana.benim_indexim]) 
+			ana.istek("aksiyon", "normal_kart_cek_rpc", [ana.oyuncular[ana.benim_indexim]]) 
 		else:
 			ana.arayuz.olay_yaz("[color=light_coral]❌ Normal Deste bitti![/color]")
 

@@ -294,11 +294,11 @@ func arayuzu_guncelle():
 	
 	var savas_destesi_kalan_lbl = get_node_or_null("%SavasDestesiKalan")
 	if savas_destesi_kalan_lbl and ana and "deste" in ana:
-		savas_destesi_kalan_lbl.text = str(ana.deste.savas_destesi.size())
+		savas_destesi_kalan_lbl.text = str(ana.deste.savas_kalan)
 
 	var insa_destesi_kalan_lbl = get_node_or_null("%InsaDestesiKalan")
 	if insa_destesi_kalan_lbl and ana and "deste" in ana:
-		insa_destesi_kalan_lbl.text = str(ana.deste.normal_deste.size())
+		insa_destesi_kalan_lbl.text = str(ana.deste.normal_kalan)
 	
 	if ap_label:
 		var ap_metni = ""

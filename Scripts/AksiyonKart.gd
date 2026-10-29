@@ -49,7 +49,7 @@ func karti_kaynaga_cevir(idx):
 	elif kart.get("tur") == "ticaret_merkezi": kaynak = ["odun", "tas", "yiyecek"].pick_random()
 	elif kart.get("tur") in ["tarla", "gelismis_sulama"]: kaynak = "yiyecek"
 	elif kart.get("tur") in ["tas_ocagi", "derin_damarlar"]: kaynak = "tas"
-	aksiyon.karti_feda_et_rpc.rpc(ana.oyuncular[ana.benim_indexim], kaynak, idx)
+	ana.istek("aksiyon", "karti_feda_et_rpc", [ana.oyuncular[ana.benim_indexim], kaynak, idx])
 	ana.secili_kart_index = -1
 	ana.kart_insa_modu_aktif = false
 	ana.kurulabilir_hexler.clear()
@@ -58,7 +58,7 @@ func karti_kaynaga_cevir(idx):
 
 func _secili_karti_direkt_kullan():
 	var kart = ana.deste.el[ana.secili_kart_index]
-	aksiyon.aksiyon_karti_kullan_rpc.rpc(ana.oyuncular[ana.benim_indexim], kart["tur"], ana.secili_kart_index)
+	ana.istek("aksiyon", "aksiyon_karti_kullan_rpc", [ana.oyuncular[ana.benim_indexim], kart["tur"], ana.secili_kart_index])
 	
 	ana.secili_kart_index = -1
 	ana.kart_insa_modu_aktif = false

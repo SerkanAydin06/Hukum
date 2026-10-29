@@ -53,9 +53,15 @@ WASD/oklar ve sağ tuşla sürükleme kamerayı hareket ettirir. Fare tekerleği
 zoom yapar. **Esc / Menü–Yardım** kuralları, ayarları ve ayrılma seçeneğini açar.
 Çevrimiçi maç menü açıkken devam eder. Ayrılan oyuncu maçına yeniden katılamaz;
 sunucu ayrılırsa istemciler açıklamayla ana menüye döner. Maç kaydı yoktur.
-Deste sırası yalnızca sunucuda tutulur; kartları sunucu dağıtır ve istemciler
-kalan kartların sırasını hesaplayamaz. Oyuncu elleri hâlâ bütün eşlere gider,
-bu yüzden rekabetçi gizli el garantisi yoktur.
+Bütün hamleler sunucu üzerinden işlenir: sunucu hamleyi elindeki tam bilgiyle
+doğrular, sonra herkese aynı sırayla uygulatır. Deste sırası, rakip elleri ve
+keşfedilmemiş arazi yalnızca sunucuda bulunur. Rakip kartı oynanana kadar
+"gizli kart" olarak görünür. Kalan kart panelinde istemciler, desteyle rakip
+ellerindeki görülmemiş kartları birlikte görür.
+
+**Yerel Ağ'da oda sahibi aynı zamanda sunucudur** ve bu bilgileri teknik olarak
+görebilir (zarı da onun makinesi atar). Oda sahibine güvenilmeyen maçlarda
+Özel Sunucu veya PARDEX kullan; orada sunucu oyuncu koltuğu işgal etmez.
 
 ## Doğrulama
 
