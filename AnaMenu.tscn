@@ -168,40 +168,6 @@ shader_parameter/shimmer_amount = 0.018
 shader_parameter/shimmer_color = Color(0.62, 0.43, 0.22, 1)
 
 
-[sub_resource type="StyleBoxFlat" id="gold"]
-content_margin_left = 22.0
-content_margin_top = 12.0
-content_margin_right = 22.0
-content_margin_bottom = 12.0
-bg_color = Color(0.77, 0.60, 0.29, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.97, 0.84, 0.53, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_left = 8
-corner_radius_bottom_right = 8
-
-
-[sub_resource type="StyleBoxFlat" id="goldhover"]
-content_margin_left = 22.0
-content_margin_top = 12.0
-content_margin_right = 22.0
-content_margin_bottom = 12.0
-bg_color = Color(0.91, 0.74, 0.41, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 0.91, 0.67, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_left = 8
-corner_radius_bottom_right = 8
-
-
 [sub_resource type="StyleBoxFlat" id="selection"]
 content_margin_left = 22.0
 content_margin_top = 12.0
@@ -399,15 +365,12 @@ horizontal_alignment = 1
 theme_override_colors/font_color = Color(0.83, 0.70, 0.43, 1)
 
 [node name="PardexBtn" type="Button" parent="AnaKart/HBoxMenuAna"]
+theme_override_fonts/font = ExtResource("title")
 unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(0, 74)
 size_flags_horizontal = 3
 text = "PARDEX ONLINE"
-theme_override_styles/normal = SubResource("gold")
-theme_override_styles/hover = SubResource("goldhover")
-theme_override_colors/font_color = Color(0.055, 0.06, 0.05, 1)
-theme_override_colors/font_hover_color = Color(0.055, 0.06, 0.05, 1)
 
 [node name="OnlineIpucu" type="Label" parent="AnaKart/HBoxMenuAna"]
 layout_mode = 2
@@ -417,6 +380,7 @@ autowrap_mode = 2
 horizontal_alignment = 1
 
 [node name="TekOyuncuBtn" type="Button" parent="AnaKart/HBoxMenuAna"]
+theme_override_fonts/font = ExtResource("title")
 unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(0, 60)
@@ -428,6 +392,7 @@ layout_mode = 2
 theme_override_constants/separation = 12
 
 [node name="CokOyunculuBtn" type="Button" parent="AnaKart/HBoxMenuAna/BaglantiSecenekleri"]
+theme_override_fonts/font = ExtResource("title")
 unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(0, 64)
@@ -435,6 +400,7 @@ size_flags_horizontal = 3
 text = "YEREL AĞ"
 
 [node name="OzelSunucuBtn" type="Button" parent="AnaKart/HBoxMenuAna/BaglantiSecenekleri"]
+theme_override_fonts/font = ExtResource("title")
 unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(0, 64)
@@ -446,6 +412,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 8)
 
 [node name="YardimBtn" type="Button" parent="AnaKart/HBoxMenuAna"]
+theme_override_fonts/font = ExtResource("title")
 unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(0, 60)
@@ -453,6 +420,7 @@ size_flags_horizontal = 3
 text = "NASIL OYNANIR?"
 
 [node name="AyarlarBtn" type="Button" parent="AnaKart/HBoxMenuAna"]
+theme_override_fonts/font = ExtResource("title")
 unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(0, 60)
@@ -460,6 +428,7 @@ size_flags_horizontal = 3
 text = "AYARLAR"
 
 [node name="CikisBtn" type="Button" parent="AnaKart/HBoxMenuAna"]
+theme_override_fonts/font = ExtResource("title")
 unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(0, 48)
@@ -722,10 +691,6 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 60)
 size_flags_horizontal = 3
 text = "ODA KUR"
-theme_override_styles/normal = SubResource("gold")
-theme_override_styles/hover = SubResource("goldhover")
-theme_override_colors/font_color = Color(0.055, 0.06, 0.05, 1)
-theme_override_colors/font_hover_color = Color(0.055, 0.06, 0.05, 1)
 
 [node name="BaglanBtn" type="Button" parent="HBoxMenuCoklu/Merkez/Panel/Icerik/Dugmeler"]
 unique_name_in_owner = true
@@ -801,10 +766,6 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 64)
 size_flags_horizontal = 3
 text = "MASA KUR"
-theme_override_styles/normal = SubResource("gold")
-theme_override_styles/hover = SubResource("goldhover")
-theme_override_colors/font_color = Color(0.055, 0.06, 0.05, 1)
-theme_override_colors/font_hover_color = Color(0.055, 0.06, 0.05, 1)
 
 [node name="KodBaslik" type="Label" parent="PardexKatmani/Merkez/Panel/Icerik"]
 layout_mode = 2
@@ -1106,10 +1067,6 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 60)
 size_flags_horizontal = 3
 text = "KAYDET"
-theme_override_styles/normal = SubResource("gold")
-theme_override_styles/hover = SubResource("goldhover")
-theme_override_colors/font_color = Color(0.055, 0.06, 0.05, 1)
-theme_override_colors/font_hover_color = Color(0.055, 0.06, 0.05, 1)
 
 [node name="IptalProfilBtn" type="Button" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/ProfilDugmeleri"]
 unique_name_in_owner = true

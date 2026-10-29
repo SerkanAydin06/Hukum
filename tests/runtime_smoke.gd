@@ -38,6 +38,12 @@ func run():
 	check(menu.theme == shared_theme and menu.oyun_menusu.perde.theme == shared_theme, "Main and game windows share the same theme")
 	check(shared_theme.get_stylebox("frame", "HukumWindow") is StyleBoxTexture, "Windows use the game's original textured gold frame")
 	check(shared_theme.get_stylebox("panel", "PanelContainer").bg_color == Color.BLACK, "Window fill is opaque black")
+	var fill = shared_theme.get_stylebox("panel", "PanelContainer")
+	check(fill.expand_margin_left == -4.0 and fill.expand_margin_top == -4.0 and fill.expand_margin_right == -4.0 and fill.expand_margin_bottom == -4.0, "Black fill stays inset beneath the gold frame")
+	check(fill.corner_radius_top_left == 18 and fill.corner_radius_top_right == 18 and fill.corner_radius_bottom_left == 18 and fill.corner_radius_bottom_right == 18, "All black fill corners follow the shaped frame")
+	for state in ["normal", "hover", "pressed", "disabled"]:
+		var style = menu.get_node("%PardexBtn").get_theme_stylebox(state)
+		check(style is StyleBoxTexture and style.texture.resource_path.ends_with("hukum_button_v2_" + state + ".png"), "Original ornate button artwork restored: " + state)
 	await capture("menu")
 	await capture("menu-motion")
 	menu._pardex_ac()
