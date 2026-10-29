@@ -117,3 +117,5 @@ LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginCon
 LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/Butonlar/HazirBtn,Button,HukumPrimary
 LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/Butonlar/BaslatBtn,Button,HukumPrimary
 LobiPaneli.tscn,./KodKopyala,Button,shared gold / black
+
+AnaOyun.tscn,OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/AyarlarPaneli/OyunAyarlarBtn,Button,shared gold / black
