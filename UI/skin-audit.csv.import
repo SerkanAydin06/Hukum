@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://c1rn6ga2jdi1b"
+
+[deps]
+
+files=["res://UI/skin-audit.control.translation", "res://UI/skin-audit.type.translation", "res://UI/skin-audit.skin.translation"]
+
+source_file="res://UI/skin-audit.csv"
+dest_files=["res://UI/skin-audit.control.translation", "res://UI/skin-audit.type.translation", "res://UI/skin-audit.skin.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true
