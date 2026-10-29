@@ -3,11 +3,11 @@
 `HukumTheme.tres` is the shared theme for the menu, lobby, cards, HUD and dialogs.
 The editable artwork lives in `Skins/*.svg`; it contains no text.
 
-- `Button`: black enamel, engraved gold rim and four small fixed corner inlays.
+- `Button`: raised black enamel, a bright upper bevel, deep lower lip and fixed gold corner inlays.
 - `HukumPrimary`: warmer gold emphasis for confirm, ready, start and end-turn actions.
 - `HukumDanger`: dark red accent for attack, destroy, reject and exit actions.
 - `HukumCompact`: smaller padding/lettering for card actions and narrow HUD controls.
-- All roles include normal, hover, pressed/selected, hover while selected, disabled and keyboard focus states.
+- All roles include normal, hover, pressed/selected, hover while selected, disabled and keyboard focus states. Pressed faces and lettering sink into the frame.
 
 Buttons use `StyleBoxTexture` with **20px nine-patch borders**. Windows use the
 same construction with **24px borders** and an opaque black center. Keep the

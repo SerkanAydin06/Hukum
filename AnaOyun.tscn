@@ -52,6 +52,8 @@
 [ext_resource type="Texture2D" uid="uid://bgnr51t0g27oa" path="res://Assets/Resimler/askerler/okcu.png" id="98_t08ra"]
 [ext_resource type="Theme" path="res://UI/HukumTheme.tres" id="hukum_theme"]
 
+[ext_resource type="Texture2D" path="res://UI/Skins/settings.svg" id="settings_icon"]
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qle4t"]
 shader = ExtResource("9_3k2mh")
 shader_parameter/hiz = 3.0
@@ -598,6 +600,25 @@ patch_margin_left = 36
 patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
+
+[node name="OyunAyarlarBtn" type="Button" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/AyarlarPaneli"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 12.0
+offset_right = -14.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 20
+theme_override_constants/icon_max_width = 26
+text = "AYARLAR"
+icon = ExtResource("settings_icon")
+expand_icon = true
 
 [node name="ZaferPaneli" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz" unique_id=1477820535]
 unique_name_in_owner = true

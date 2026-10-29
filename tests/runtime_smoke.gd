@@ -91,6 +91,13 @@ func run():
 	game.aksiyon.normal_kart_cek_rpc(isim)
 	check(game.deste.el.size() == 1, "Real card scene renders a drawn card")
 	await capture("game")
+	var hud_settings = game.get_node("%OyunAyarlarBtn")
+	check(hud_settings.get_parent().get_global_rect().grow(-10).encloses(hud_settings.get_global_rect()), "Settings button stays inside its HUD frame")
+	hud_settings.pressed.emit()
+	check(game.oyun_menusu.perde.visible and game.oyun_menusu.satirlar.get_child(0).text == "AYARLAR", "HUD settings opens settings directly")
+	await capture("hud-settings")
+	game.oyun_menusu.perde.hide()
+
 	# Visual fixture: inspect the new trading sprite and existing camp SVG at game scale.
 	for pair in [[Vector2i(6, 4), "ticaret_merkezi"], [Vector2i(4, 4), "oncu_kampi"]]:
 		game.binalar_verisi[pair[0]] = {"tur": pair[1], "sahip": isim, "seviye": 1}

@@ -13,15 +13,10 @@ func _ready():
 	layer = 80
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	oyun = get_parent() if get_parent() is AnaOyun else null
-	var menu = Button.new()
-	menu.text = "MENÜ / YARDIM"
-	menu.theme = PENCERE_TEMASI
-	menu.add_theme_font_size_override("font_size", 16)
-	menu.visible = oyun != null
-	menu.position = Vector2(1730, 18) if oyun else Vector2(18, 18)
-	menu.custom_minimum_size = Vector2(180, 42)
-	add_child(menu)
-	menu.pressed.connect(menuyu_ac)
+	if oyun:
+		# The scene owns HUD layout; the settings action follows its panel at any size.
+		var menu = oyun.get_node("%OyunAyarlarBtn")
+		menu.pressed.connect(ayarlari_ac)
 	perde = ColorRect.new()
 	perde.color = Color(0, 0, 0, 0.76)
 	perde.theme = PENCERE_TEMASI
