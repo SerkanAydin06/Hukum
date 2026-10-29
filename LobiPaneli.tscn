@@ -1,28 +1,14 @@
-[gd_scene load_steps=22 format=3 uid="uid://ce6r8v5c084q2"]
+[gd_scene format=3 uid="uid://ce6r8v5c084q2"]
 
+[ext_resource type="Theme" path="res://UI/HukumTheme.tres" id="hukum_theme"]
 [ext_resource type="Script" uid="uid://d0mfi0q1kggqi" path="res://Scripts/LobiPaneli.gd" id="1_h3wio"]
 [ext_resource type="Texture2D" uid="uid://vwxfvctyo5gv" path="res://Assets/Resimler/arkaplanlar/ArkaplanLobi.png" id="1_iapu8"]
-[ext_resource type="Texture2D" uid="uid://ccs1luh4fid83" path="res://Assets/Resimler/lobidencik1.png" id="2_h3wio"]
-[ext_resource type="Texture2D" uid="uid://biwq5lvcejbpt" path="res://Assets/Resimler/lobidencik2.png" id="3_afff5"]
-[ext_resource type="Texture2D" uid="uid://80pdvokysjfu" path="res://Assets/Resimler/lobidencik3.png" id="4_xe87c"]
-[ext_resource type="Texture2D" uid="uid://jqrfrj7gij72" path="res://Assets/Resimler/lobidencik4.png" id="5_xgpmn"]
 [ext_resource type="Texture2D" uid="uid://dtlspxmrstmri" path="res://Assets/Resimler/lobi.png" id="6_5sgt4"]
 [ext_resource type="PackedScene" uid="uid://cnw132ilhw7gg" path="res://OyuncuSlotu.tscn" id="7_vc6hh"]
 [ext_resource type="PackedScene" uid="uid://02vy2e0gw62j" path="res://MedeniyetKart.tscn" id="8_epuuu"]
-[ext_resource type="Texture2D" uid="uid://cm2edk0ghb630" path="res://Assets/Resimler/iptal1.png" id="9_smpg2"]
-[ext_resource type="Texture2D" uid="uid://bhiem7dk0hw8o" path="res://Assets/Resimler/iptal3.png" id="10_0w7j2"]
-[ext_resource type="Texture2D" uid="uid://b45x1i0328iax" path="res://Assets/Resimler/iptal2.png" id="11_tv4ev"]
-[ext_resource type="Texture2D" uid="uid://bdl4c5vak75a4" path="res://Assets/Resimler/iptal4.png" id="12_s1qt4"]
-[ext_resource type="Texture2D" uid="uid://cynulltek32hv" path="res://Assets/Butonlar/hazir/hazir1.png" id="13_qg042"]
-[ext_resource type="Texture2D" uid="uid://dclckxw8fmlcd" path="res://Assets/Butonlar/hazir/hazir3.png" id="14_l0wa1"]
-[ext_resource type="Texture2D" uid="uid://bonmii27yrs1o" path="res://Assets/Butonlar/hazir/hazir2.png" id="15_u3jkf"]
-[ext_resource type="Texture2D" uid="uid://cx8qhnw836h15" path="res://Assets/Butonlar/hazir/hazir4.png" id="16_cy1b7"]
-[ext_resource type="Texture2D" uid="uid://civrvbdcf8rly" path="res://Assets/Butonlar/baslat/baslat1.png" id="17_dm51a"]
-[ext_resource type="Texture2D" uid="uid://cwjn5lytpkyoj" path="res://Assets/Butonlar/baslat/baslat3.png" id="18_hnhek"]
-[ext_resource type="Texture2D" uid="uid://b72ylmku6gq6q" path="res://Assets/Butonlar/baslat/baslat2.png" id="19_gn4re"]
-[ext_resource type="Texture2D" uid="uid://iivg2jlfd7hb" path="res://Assets/Butonlar/baslat/baslat4.png" id="20_g7n25"]
 
 [node name="LobiPaneli" type="Control"]
+theme = ExtResource("hukum_theme")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -61,16 +47,15 @@ theme_override_constants/separation = 10
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="LobidenCikBtn" type="TextureButton" parent="AnaMargin/VBoxContainer/Panel"]
+[node name="LobidenCikBtn" type="Button" parent="AnaMargin/VBoxContainer/Panel"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
-texture_normal = ExtResource("2_h3wio")
-texture_pressed = ExtResource("3_afff5")
-texture_hover = ExtResource("4_xe87c")
-texture_disabled = ExtResource("5_xgpmn")
-ignore_texture_size = true
-stretch_mode = 5
+
+text = "LOBİDEN ÇIK"
+theme_type_variation = &"HukumDanger"
+mouse_default_cursor_shape = 2
+size_flags_vertical = 4
 
 [node name="Lobi" type="TextureRect" parent="AnaMargin/VBoxContainer/Panel"]
 custom_minimum_size = Vector2(500, 0)
@@ -124,6 +109,8 @@ layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
 
+theme_type_variation = &"HukumPanel"
+
 [node name="MarginContainer" type="MarginContainer" parent="AnaMargin/VBoxContainer/AnaHBox/SolVBox/SohbetPaneli"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
@@ -159,6 +146,8 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.70980394, 0.70980394, 0, 1)
 text = ">"
 
+mouse_default_cursor_shape = 2
+
 [node name="SagVBox" type="VBoxContainer" parent="AnaMargin/VBoxContainer/AnaHBox"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -166,6 +155,8 @@ theme_override_constants/separation = 10
 
 [node name="MedeniyetSecimPaneli" type="PanelContainer" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox"]
 layout_mode = 2
+
+theme_type_variation = &"HukumPanel"
 
 [node name="MarginMedeniyetSecim" type="MarginContainer" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetSecimPaneli"]
 layout_mode = 2
@@ -226,6 +217,8 @@ medeniyet = "Viking"
 [node name="MedeniyetPanel" type="PanelContainer" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox"]
 layout_mode = 2
 size_flags_vertical = 3
+
+theme_type_variation = &"HukumPanel"
 
 [node name="MarginMedeniyet" type="MarginContainer" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel"]
 layout_mode = 2
@@ -309,6 +302,8 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 
+theme_type_variation = &"HukumPanel"
+
 [node name="MarginContainer" type="MarginContainer" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
@@ -321,40 +316,35 @@ layout_mode = 2
 theme_override_constants/separation = 50
 alignment = 1
 
-[node name="IptalBtn" type="TextureButton" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/Butonlar"]
+[node name="IptalBtn" type="Button" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/Butonlar"]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(250, 100)
+custom_minimum_size = Vector2(250, 60)
 layout_mode = 2
-texture_normal = ExtResource("9_smpg2")
-texture_pressed = ExtResource("10_0w7j2")
-texture_hover = ExtResource("11_tv4ev")
-texture_disabled = ExtResource("12_s1qt4")
-ignore_texture_size = true
-stretch_mode = 5
 
-[node name="HazirBtn" type="TextureButton" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/Butonlar"]
+text = "İPTAL"
+mouse_default_cursor_shape = 2
+size_flags_vertical = 4
+
+[node name="HazirBtn" type="Button" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/Butonlar"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(250, 100)
+custom_minimum_size = Vector2(250, 60)
 layout_mode = 2
-texture_normal = ExtResource("13_qg042")
-texture_pressed = ExtResource("14_l0wa1")
-texture_hover = ExtResource("15_u3jkf")
-texture_disabled = ExtResource("16_cy1b7")
-ignore_texture_size = true
-stretch_mode = 5
 
-[node name="BaslatBtn" type="TextureButton" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/Butonlar"]
+text = "HAZIR"
+theme_type_variation = &"HukumPrimary"
+mouse_default_cursor_shape = 2
+size_flags_vertical = 4
+
+[node name="BaslatBtn" type="Button" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/Butonlar"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(250, 0)
+custom_minimum_size = Vector2(250, 60)
 layout_mode = 2
-texture_normal = ExtResource("17_dm51a")
-texture_pressed = ExtResource("18_hnhek")
-texture_hover = ExtResource("19_gn4re")
-texture_disabled = ExtResource("20_g7n25")
-ignore_texture_size = true
-stretch_mode = 5
 
+text = "OYUNU BAŞLAT"
+theme_type_variation = &"HukumPrimary"
+mouse_default_cursor_shape = 2
+size_flags_vertical = 4
 
 [node name="OdaBilgisi" type="Label" parent="."]
 unique_name_in_owner = true
@@ -377,3 +367,6 @@ offset_top = 30.0
 offset_right = 1850.0
 offset_bottom = 74.0
 text = "ODA KODUNU KOPYALA"
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 14
+

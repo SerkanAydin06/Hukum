@@ -24,7 +24,7 @@
 - Same seed and map coordinate must yield identical terrain on every peer. Keep fog-of-war, turn order, AP, combat, economy, 7-card limits and civilization bonuses consistent.
 - Never change public RPC signatures without updating all call sites and multiplayer tests. Check simultaneous clients, disconnects and reconnect failures.
 - Do not introduce nonexistent `res://` asset paths. Preserve existing visuals and mobile/desktop layout.
-- New or renewed windows use `UI/HukumTheme.tres` + `UI/HukumWindow.gd`: the existing gold frame and opaque black fill. Preserve the animated menu atmosphere and intro unless the user asks to remove them.
+- New or renewed windows use `UI/HukumTheme.tres` + `UI/HukumWindow.gd`: the scalable gold frame and opaque black fill from `UI/Skins/window.svg`. Command buttons use the shared theme's 20px nine-patch skins (`Button`, `HukumPrimary`, `HukumDanger`, `HukumCompact`); never stretch complete artwork or bake text into it. See `UI/README.md`. Preserve the animated menu atmosphere and intro unless the user asks to remove them.
 - Never commit secrets, tokens, personal data, `.godot/` cache or generated binaries.
 
 ## Execution and verification

@@ -200,19 +200,10 @@ func _process(delta):
 			if savas_deste_kalanlar_panel and not savas_deste_kalanlar_panel.visible:
 				savas_deste_kalanlar_panel.visible = true
 	
-func tur_buton_resimlerini_guncelle(medeniyet_adi: String):
-	if not tur_butonu is TextureButton: return
-	
-	var dosya_adi = dosya_isimleri.get(medeniyet_adi, "osmanli")
-	var normal_tex = load("res://Assets/Resimler/buttonlar/turubitir1_%s.png" % dosya_adi)
-	var hover_tex = load("res://Assets/Resimler/buttonlar/turubitir2_%s.png" % dosya_adi)
-	var pressed_tex = load("res://Assets/Resimler/buttonlar/turubitir3_%s.png" % dosya_adi)
-	var disabled_tex = load("res://Assets/Resimler/buttonlar/turubitir4_%s.png" % dosya_adi)
-	
-	if normal_tex: tur_butonu.texture_normal = normal_tex
-	if hover_tex: tur_butonu.texture_hover = hover_tex
-	if pressed_tex: tur_butonu.texture_pressed = pressed_tex
-	if disabled_tex: tur_butonu.texture_disabled = disabled_tex
+func tur_buton_resimlerini_guncelle(_medeniyet_adi: String):
+	# Civilization identity lives in banners/portraits; action chrome stays consistent.
+	if tur_butonu is Button:
+		tur_butonu.theme_type_variation = &"HukumPrimary"
 
 func olay_yaz(metin: String):
 	log_yonetici.olay_yaz(metin)

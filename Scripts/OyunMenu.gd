@@ -68,7 +68,7 @@ func _metin(metin: String):
 func _buton(metin: String, islem: Callable):
 	var button = Button.new()
 	button.text = metin
-	button.custom_minimum_size.y = 44
+	button.custom_minimum_size.y = 48
 	button.add_theme_font_size_override("font_size", 20)
 	satirlar.add_child(button)
 	button.pressed.connect(islem)
@@ -81,8 +81,8 @@ func menuyu_ac():
 	_buton("Devam et", perde.hide).grab_focus()
 	_buton("Nasıl oynanır?", yardimi_ac)
 	_buton("Ayarlar", ayarlari_ac)
-	if oyun: _buton("Maçtan ayrıl", ayrilma_onayi)
-	else: _buton("Oyundan çık", SceneTransition.quit_game)
+	if oyun: _buton("Maçtan ayrıl", ayrilma_onayi).theme_type_variation = &"HukumDanger"
+	else: _buton("Oyundan çık", SceneTransition.quit_game).theme_type_variation = &"HukumDanger"
 
 func yardimi_ac():
 	_temizle("NASIL OYNANIR?")
@@ -121,7 +121,7 @@ func ayrilma_onayi():
 	_temizle("MAÇTAN AYRIL")
 	_metin("Sunucuysanız tüm oyuncuların bağlantısı kapanır. Bu maç kaydedilmez.")
 	_buton("Maça dön", perde.hide)
-	_buton("Ayrıl ve ana menüye dön", ana_menuye_don)
+	_buton("Ayrıl ve ana menüye dön", ana_menuye_don).theme_type_variation = &"HukumDanger"
 
 func ana_menuye_don():
 	get_tree().paused = false

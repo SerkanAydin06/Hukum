@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cnw132ilhw7gg"]
+[gd_scene format=3 uid="uid://cnw132ilhw7gg"]
 
 [ext_resource type="Script" uid="uid://byvgh2w1n2fj1" path="res://Scripts/OyuncuSlot.gd" id="1_pfmru"]
 [ext_resource type="Texture2D" uid="uid://dvyrs8qv5ddk0" path="res://Assets/Resimler/Renkler/kirmizi1.png" id="2_dbh7s"]
@@ -20,21 +20,25 @@
 [ext_resource type="Texture2D" uid="uid://bi55s0ijjxjf2" path="res://Assets/Resimler/Renkler/cam1.png" id="19_o3aio"]
 [ext_resource type="Texture2D" uid="uid://g5i4k3qd54x5" path="res://Assets/Resimler/Renkler/cam3.png" id="20_r2p3a"]
 [ext_resource type="Texture2D" uid="uid://dijj1eshkijuc" path="res://Assets/Resimler/Renkler/cam2.png" id="21_54j8f"]
+[ext_resource type="Theme" path="res://UI/HukumTheme.tres" id="hukum_theme"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pfmru"]
 
 [node name="OyuncuSlot" type="PanelContainer"]
+theme = ExtResource("hukum_theme")
 custom_minimum_size = Vector2(500, 0)
 offset_right = 800.0
 offset_bottom = 120.0
 script = ExtResource("1_pfmru")
 
+theme_type_variation = &"HukumSlot"
+
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
 theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
+theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_bottom = 4
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
@@ -49,7 +53,7 @@ size_flags_vertical = 3
 
 [node name="HazirIkon" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(44, 44)
 layout_mode = 2
 expand_mode = 2
 stretch_mode = 5
@@ -61,10 +65,12 @@ size_flags_vertical = 3
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 
+theme_type_variation = &"HukumPortrait"
+
 [node name="HukumdarResmi" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer"]
 unique_name_in_owner = true
 texture_filter = 3
-custom_minimum_size = Vector2(100, 0)
+custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 expand_mode = 2
 stretch_mode = 5
@@ -75,6 +81,7 @@ layout_mode = 2
 alignment = 1
 
 [node name="OyuncuIsmi" type="Label" parent="MarginContainer/HBoxContainer/OyuncuBilgi"]
+theme_override_font_sizes/font_size = 18
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.70980394, 0.70980394, 0, 1)
@@ -96,7 +103,7 @@ theme_override_constants/separation = 20
 alignment = 1
 
 [node name="Kirmizi" type="TextureButton" parent="MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu"]
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(44, 44)
 layout_mode = 2
 texture_normal = ExtResource("2_dbh7s")
 texture_pressed = ExtResource("3_f7peb")
@@ -106,7 +113,7 @@ ignore_texture_size = true
 stretch_mode = 5
 
 [node name="Mavi" type="TextureButton" parent="MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu"]
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(44, 44)
 layout_mode = 2
 texture_normal = ExtResource("6_6ktu0")
 texture_pressed = ExtResource("7_pfmru")
@@ -116,7 +123,7 @@ ignore_texture_size = true
 stretch_mode = 5
 
 [node name="Yesil" type="TextureButton" parent="MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu"]
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(44, 44)
 layout_mode = 2
 texture_normal = ExtResource("10_rjgo5")
 texture_pressed = ExtResource("11_x5b5v")
@@ -126,7 +133,7 @@ ignore_texture_size = true
 stretch_mode = 5
 
 [node name="Sari" type="TextureButton" parent="MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu"]
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(44, 44)
 layout_mode = 2
 texture_normal = ExtResource("13_hcpgg")
 texture_pressed = ExtResource("14_x5b5v")
@@ -136,7 +143,7 @@ ignore_texture_size = true
 stretch_mode = 5
 
 [node name="Mor" type="TextureButton" parent="MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu"]
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(44, 44)
 layout_mode = 2
 texture_normal = ExtResource("16_vqviv")
 texture_pressed = ExtResource("17_dixhm")
@@ -147,7 +154,7 @@ stretch_mode = 5
 
 [node name="CamGobegi" type="TextureButton" parent="MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu"]
 material = SubResource("ShaderMaterial_pfmru")
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(44, 44)
 layout_mode = 2
 texture_normal = ExtResource("19_o3aio")
 texture_pressed = ExtResource("20_r2p3a")
@@ -155,3 +162,4 @@ texture_hover = ExtResource("21_54j8f")
 texture_disabled = ExtResource("5_ae75v")
 ignore_texture_size = true
 stretch_mode = 5
+
