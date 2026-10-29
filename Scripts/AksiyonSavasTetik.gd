@@ -143,7 +143,6 @@ func _tetikle_yagmala(): # (%BinaYagmalaBtn)
 	aksiyon.savas_baslat_rpc.rpc(ana.secili_piyon_index, ana.savas.savas_piyon_savunan, ana.savas.savas_bina_koordinat.x, ana.savas.savas_bina_koordinat.y, "yagmala")
 
 func _tetikle_hukmet(): # (%BinaHukmetBtn)
-	print("🔍 DEBUG: Hükmet butonu tetiklendi. secili_piyon_index=", ana.secili_piyon_index, " savunan=", ana.savas.savas_piyon_savunan, " koordinat=", ana.savas.savas_bina_koordinat)
 	var b_panel = ana.arayuz.get_node_or_null("%BinaSaldiriPaneli")
 	if b_panel: b_panel.visible = false
 	aksiyon.savas_baslat_rpc.rpc(ana.secili_piyon_index, ana.savas.savas_piyon_savunan, ana.savas.savas_bina_koordinat.x, ana.savas.savas_bina_koordinat.y, "hukmet")
@@ -177,7 +176,7 @@ func _savas_karti_cek():
 	if ana.oyuncu_kaynaklari[k_isim]["altin"] < 3:
 		ana.arayuz.olay_yaz("[color=light_coral]❌ Savaş kartı çekmek için 3 Altın gerekli![/color]")
 		return
-	aksiyon.savas_karti_cek_rpc.rpc(k_isim)
+	aksiyon.savas_karti_cek_rpc.rpc_id(1, k_isim)
 	ana.arayuz.panel_yukari_cik()
 	
 func _oncu_uret_istegi():

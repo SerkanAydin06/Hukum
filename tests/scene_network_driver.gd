@@ -131,7 +131,7 @@ func roll():
 @rpc("authority", "call_local", "reliable")
 func snapshot():
 	check(game.savas.zar_saldiran_deger >= (2 if game.medeniyetler_verisi[game.oyuncular[0]] == "Osmanlı" else 1) and game.savas.zar_savunan_deger >= 1, "Host dice obey civilization bonus")
-	var state = [game.oyuncu_kaynaklari, game.oyuncu_elleri, game.deste.savas_destesi, game.savas_puanlari, game.binalar_verisi, game.piyonlar, failed]
+	var state = [game.oyuncu_kaynaklari, game.oyuncu_elleri, _deste_icerigi(game.deste.savas_destesi), game.savas_puanlari, game.binalar_verisi, game.piyonlar, failed]
 	report.rpc_id(1, state)
 	if role != 0:
 		await multiplayer.server_disconnected
@@ -156,3 +156,10 @@ func disconnect_client():
 @rpc("authority", "call_local", "reliable")
 func begin_battle():
 	game.aksiyon.savas_baslat_rpc.rpc(0, 1, 6, 4, "yagmala")
+
+# Deck order is server-only; peers must agree on what remains, not on its order.
+func _deste_icerigi(deste: Array) -> Array:
+	var icerik = []
+	for kart in deste: icerik.append(var_to_str(kart))
+	icerik.sort()
+	return icerik

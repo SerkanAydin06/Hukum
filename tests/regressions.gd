@@ -418,6 +418,12 @@ func run_completion_regressions():
 	deck.desteleri_hazirla()
 	deck.desteleri_hazirla()
 	check(deck.normal_deste.size() == 110 and deck.savas_destesi.size() == 100, "Repeated deck initialization does not duplicate cards")
+	Network.oyun_tohumu = 777
+	deck.desteleri_hazirla()
+	var ilk_sira = deck.savas_destesi.duplicate(true)
+	deck.desteleri_hazirla()
+	check(deck.savas_destesi != ilk_sira, "Deck order is not derivable from the shared match seed")
+	Network.oyun_tohumu = 0
 	Network.son_lobi_verisi = {1: {"isim": "Old"}}
 	Network.oyun_tohumu = 42
 	Network.baglantiyi_kapat()

@@ -86,8 +86,12 @@ func client_turn():
 	check(game.aktif_sira == 1, "Client received host turn advancement")
 	check(game.binalar_verisi.has(Vector2i(0, 0)), "Host construction replicated")
 	check(game.oyuncu_elleri["A"].is_empty(), "Host card consumption replicated")
-	game.aksiyon.normal_kart_cek_rpc.rpc("B")
-	check(game.deste.el.size() == 1, "Client draws its local card")
+	game.aksiyon.normal_kart_cek_rpc.rpc_id(1, "B")
+	check(game.deste.el.is_empty(), "Client cannot deal itself a card")
+	for i in range(100):
+		if game.deste.el.size() == 1: break
+		await get_tree().process_frame
+	check(game.deste.el.size() == 1, "Server deals the client its card")
 	game.aksiyon.karti_feda_et_rpc.rpc("B", "odun", 0)
 	game.aksiyon.oncu_uret_rpc.rpc("A", Vector2i(0, 0))
 	game.tur_ekonomi.sirayi_degistir_rpc.rpc()

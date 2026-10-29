@@ -381,38 +381,16 @@ func karti_feda_et_rpc(oyuncu_ismi: String, kaynak_turu: String, kart_idx: int =
 
 @rpc("any_peer", "call_local", "reliable")
 func savas_karti_cek_rpc(oyuncu_ismi):
-	# Not: El limiti (7) kontrolü çağıran tarafta (_savas_karti_cek) yapılır; burada yalnızca
-	# tüm oyuncularda aynı olan veriye bakılır, yoksa oyuncuların oyun durumu ayrışır.
+	# Kartı yalnızca sunucu seçer; deste sırası istemcilere hiç gönderilmez.
+	if not multiplayer.is_server(): return
 	if not ana.rpc_sirada_mi(oyuncu_ismi) or ana.aktif_oyuncu_aksiyon_hakki <= 0: return
-
 	if _el_siniri_doldu(oyuncu_ismi, true): return
-	if ana.deste.savas_destesi.is_empty():
-		if ana.deste.atilan_savas_kartlari.is_empty():
-			ana.arayuz.olay_yaz("[color=light_coral]❌ Savaş Destesi tamamen bitti![/color]")
-			return
-		ana.deste.savas_destesi = ana.deste.atilan_savas_kartlari.duplicate(true)
-		ana.deste.karistir(ana.deste.savas_destesi)
-		ana.deste.atilan_savas_kartlari.clear()
-		ana.arayuz.olay_yaz("[color=yellow]🔄 Savaş Destesi bittiği için atılan kartlar yeniden karıştırıldı![/color]")
-
-	if ana.oyuncu_kaynaklari[oyuncu_ismi]["altin"] < 3:
-		if oyuncu_ismi == ana.oyuncular[ana.benim_indexim]:
-			ana.arayuz.olay_yaz("[color=light_coral]❌ Savaş kartı çekmek için 3 Altın gerekli![/color]")
+	if ana.oyuncu_kaynaklari[oyuncu_ismi]["altin"] < 3: return
+	if ana.deste.savas_destesi.is_empty() and ana.deste.atilan_savas_kartlari.is_empty():
+		ana.arayuz.olay_yaz("[color=light_coral]❌ Savaş Destesi tamamen bitti![/color]")
 		return
-
-	ana.aktif_oyuncu_aksiyon_hakki -= 1
-	ana.oyuncu_kaynaklari[oyuncu_ismi]["altin"] -= 3
-	
-	var cekilen = ana.deste.savas_destesi.pop_front()
-	ana.oyuncu_elleri[oyuncu_ismi].append(cekilen.duplicate(true))
-	if oyuncu_ismi == ana.oyuncular[ana.benim_indexim]: 
-		ana.deste.el.append(cekilen)
-		ana.deste.eldeki_kartlari_ciz()
-		var kalan_lbl = ana.arayuz.get_node_or_null("%SavasDestesiKalan")
-		if kalan_lbl: kalan_lbl.text = str(ana.deste.savas_destesi.size())
-		
-	ana.arayuz.olay_yaz("🃏 %s, kışladan bir [color=crimson]Savaş Kartı[/color] çekti." % ana.arayuz.renkli_isim(oyuncu_ismi))
-	ana.arayuz.arayuzu_guncelle()
+	var karisti = ana.deste.sunucu_desteyi_hazirla(true)
+	kart_dagit_rpc.rpc(oyuncu_ismi, ana.deste.savas_destesi[0], true, karisti)
 
 # Elden çöpe atılan / dönüştürülen savaş kartlarını herkesin atılanlar destesine ekler
 @rpc("any_peer", "call_local", "reliable")
@@ -493,7 +471,6 @@ func savas_baslat_rpc(saldiran_idx: int, savunan_idx: int, bx: int, by: int, t_t
 	var gercek_savunan = ana.koruyucu_efendi(savunan)
 	if gercek_savunan not in ana.oyuncular or gercek_savunan in ana.ayrilan_oyuncular: return
 	if gercek_savunan == gonderen: return
-	print("🔍 DEBUG: savas_baslat_rpc çalıştı. t_tipi=", t_tipi, " bx,by=", bx, by, " saldiran_idx=", saldiran_idx)
 	ana.aktif_oyuncu_aksiyon_hakki -= 1
 	var saldiran_isim = ozel_saldiran if saldiran_idx == -1 else ana.piyonlar[saldiran_idx]["sahip"]
 	var orjinal_savunucu = ""
@@ -583,24 +560,46 @@ func savas_cozumle_rpc(kd, zar_sal, zar_sav):
 
 @rpc("any_peer", "call_local", "reliable")
 func normal_kart_cek_rpc(oyuncu_ismi):
+	# Kartı yalnızca sunucu seçer; deste sırası istemcilere hiç gönderilmez.
+	if not multiplayer.is_server(): return
 	if not ana.rpc_sirada_mi(oyuncu_ismi) or ana.aktif_oyuncu_aksiyon_hakki <= 0: return
 	if _el_siniri_doldu(oyuncu_ismi, false): return
-	if ana.deste.normal_deste.is_empty():
-		if ana.deste.atilan_insa_kartlari.is_empty(): return
-		ana.deste.normal_deste = ana.deste.atilan_insa_kartlari.duplicate(true)
-		ana.deste.karistir(ana.deste.normal_deste)
-		ana.deste.atilan_insa_kartlari.clear()
+	if ana.deste.normal_deste.is_empty() and ana.deste.atilan_insa_kartlari.is_empty(): return
+	var karisti = ana.deste.sunucu_desteyi_hazirla(false)
+	kart_dagit_rpc.rpc(oyuncu_ismi, ana.deste.normal_deste[0], false, karisti)
+
+# Sunucunun seçtiği kartı herkese uygular. Diğer oyuncular yalnızca destenin
+# içeriğini (kalan kart sayılarını) bilir, sırasını bilmez.
+@rpc("authority", "call_local", "reliable")
+func kart_dagit_rpc(oyuncu_ismi: String, kart: Dictionary, savas_karti: bool, yeniden_karisti: bool):
+	if oyuncu_ismi not in ana.oyuncular or kart.is_empty(): return
+	if (kart.get("hedef") == "savas") != savas_karti: return
+	var deste = ana.deste.savas_destesi if savas_karti else ana.deste.normal_deste
+	var atik = ana.deste.atilan_savas_kartlari if savas_karti else ana.deste.atilan_insa_kartlari
+	if yeniden_karisti and not multiplayer.is_server():
+		deste.append_array(atik)
+		atik.clear()
+	var idx = deste.find(kart)
+	if idx == -1: return
+	deste.remove_at(idx)
 	ana.aktif_oyuncu_aksiyon_hakki -= 1
-	var cekilen = ana.deste.normal_deste.pop_front()
-	ana.oyuncu_elleri[oyuncu_ismi].append(cekilen.duplicate(true))
-	
-	if oyuncu_ismi == ana.oyuncular[ana.benim_indexim]:
-		ana.deste.el.append(cekilen)
-		ana.secili_kart_index = -1
-		
-	ana.arayuz.olay_yaz("🃏 %s, destesinden bir İnşa/Gelişim kartı çekti." % ana.arayuz.renkli_isim(oyuncu_ismi))
+	if savas_karti:
+		ana.oyuncu_kaynaklari[oyuncu_ismi]["altin"] -= 3
+	ana.oyuncu_elleri[oyuncu_ismi].append(kart.duplicate(true))
+	var benim = oyuncu_ismi == ana.oyuncular[ana.benim_indexim]
+	if benim:
+		ana.deste.el.append(kart.duplicate(true))
+		if not savas_karti: ana.secili_kart_index = -1
+		ana.deste.eldeki_kartlari_ciz()
+	if yeniden_karisti:
+		var deste_adi = "Savaş" if savas_karti else "İnşa"
+		ana.arayuz.olay_yaz("[color=yellow]🔄 %s Destesi bittiği için atılan kartlar yeniden karıştırıldı![/color]" % deste_adi)
+	if savas_karti:
+		ana.arayuz.olay_yaz("🃏 %s, kışladan bir [color=crimson]Savaş Kartı[/color] çekti." % ana.arayuz.renkli_isim(oyuncu_ismi))
+	else:
+		ana.arayuz.olay_yaz("🃏 %s, destesinden bir İnşa/Gelişim kartı çekti." % ana.arayuz.renkli_isim(oyuncu_ismi))
 	ana.arayuz.arayuzu_guncelle()
-	ana.arayuz.panel_yukari_cik()
+	if benim and not savas_karti: ana.arayuz.panel_yukari_cik()
  
 # 🟢 HATA 2 ÇÖZÜMÜ: Kart onaylama artık hangi karta tıklandığını bilecek!
 func kart_onayla(gelen_index = -1):

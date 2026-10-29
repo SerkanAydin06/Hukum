@@ -6,7 +6,7 @@ var savas_destesi = []
 var atilan_insa_kartlari = []
 var atilan_savas_kartlari = [] 
 var el = []
-# Ortak tohumlu RNG: deste karıştırmaları her oyuncuda aynı sonucu verir
+# Yalnızca sunucuda kullanılan gizli RNG: istemciler deste sırasını hesaplayamaz
 var rng = RandomNumberGenerator.new()
 const MAX_EL_LIMITI = 7 
 
@@ -37,10 +37,7 @@ func desteleri_hazirla():
 	atilan_savas_kartlari.clear()
 	el.clear()
 	son_el_durumu.clear()
-	if Network.oyun_tohumu != 0:
-		rng.seed = Network.oyun_tohumu
-	else:
-		rng.randomize()
+	rng.randomize()
 	# ==========================================
 	# 1. YENİ SAVAŞ DESTESİ HAVUZU
 	# ==========================================
@@ -95,7 +92,6 @@ func desteleri_hazirla():
 	for i in range(10): savas_destesi.append(savas_havuz[19].duplicate()) # Koçbaşı (10)
 	for i in range(10): savas_destesi.append(savas_havuz[20].duplicate()) # Mancınık (10)
 	
-	karistir(savas_destesi)
 
 	# ==========================================
 	# 2. İNŞA VE GELİŞİM DESTESİ HAVUZU (110 Kart)
@@ -124,7 +120,25 @@ func desteleri_hazirla():
 	for i in range(10): normal_deste.append(gelisim_havuz[1].duplicate())
 	for i in range(10): normal_deste.append(gelisim_havuz[2].duplicate())
 	
-	karistir(normal_deste)
+	# Sıra yalnızca sunucuda belirlenir. İstemcilerde dizi kalan kartların
+	# içeriğini tutar; sırası anlamsızdır ve kartları sunucu dağıtır.
+	if _sunucu_mu():
+		karistir(normal_deste)
+		karistir(savas_destesi)
+
+func _sunucu_mu() -> bool:
+	return not is_inside_tree() or multiplayer.is_server()
+
+# Sunucu: deste boşsa atıkları gizli RNG ile yeniden karıştırır.
+# Karıştırma olduysa true döner; istemciler yalnızca bunu öğrenir.
+func sunucu_desteyi_hazirla(savas_karti: bool) -> bool:
+	var deste = savas_destesi if savas_karti else normal_deste
+	var atik = atilan_savas_kartlari if savas_karti else atilan_insa_kartlari
+	if not deste.is_empty(): return false
+	deste.append_array(atik)
+	atik.clear()
+	karistir(deste)
+	return true
 	
 func _ap_ile_normal_kart_cek():
 	if ana.aktif_sira != ana.benim_indexim or not ana.ilk_tur_bitti: return
@@ -140,7 +154,7 @@ func _ap_ile_normal_kart_cek():
 				ana.arayuz.olay_yaz("[color=light_coral]❌ Elinde zaten maksimum (7) İnşa/Gelişim Kartı var![/color]")
 				return
 				
-			ana.aksiyon.normal_kart_cek_rpc.rpc(ana.oyuncular[ana.benim_indexim]) 
+			ana.aksiyon.normal_kart_cek_rpc.rpc_id(1, ana.oyuncular[ana.benim_indexim]) 
 		else:
 			ana.arayuz.olay_yaz("[color=light_coral]❌ Normal Deste bitti![/color]")
 
