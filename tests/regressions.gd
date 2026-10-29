@@ -3,7 +3,9 @@ extends Node
 class TestGame extends AnaOyun:
 	var sender = "A"
 	func _ready(): pass
-	func rpc_gonderen_ismi() -> String: return sender
+	func rpc_gonderen_ismi() -> String:
+		if _relay_gonderen != 0: return super()
+		return sender
 
 class MapStub extends Node:
 	const HARITA_GENISLIK = 16
@@ -271,6 +273,7 @@ func run_tests():
 	for card in deck.normal_deste:
 		if card.get("tur") == "oncu_kampi": camps += 1
 	check(camps == 10, "Deck contains camp cards")
+	await run_timer_regressions()
 	print("HUKUM REGRESSIONS: %d checks, %d failures" % [checks, failures])
 	await get_tree().create_timer(4.1).timeout
 	game.free()
@@ -437,3 +440,51 @@ func run_completion_regressions():
 	check(Network.son_lobi_verisi.is_empty() and Network.oyun_tohumu == 0, "Disconnect clears stale match state")
 	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
 	reset_state()
+
+func run_timer_regressions():
+	reset_state()
+	await get_tree().create_timer(4.1).timeout   # let any earlier battle result panel close
+	battle.sonuc_gosteriliyor = false
+	game.tur_suresi = 1.0
+	game._sure_anahtari = []   # the real _process may already have started a 120 s timer
+	game.sure_sinirlarini_isle(0.5)
+	check(game.aktif_sira == 0, "Turn timer does not fire early")
+	game.sure_sinirlarini_isle(0.6)
+	check(game.aktif_sira == 1 and game.aktif_oyuncu_aksiyon_hakki == 3, "Expired turn passes to the next player")
+	reset_state()
+	game.ilk_tur_bitti = false
+	game.sehir_merkezleri["A"] = false
+	game._sure_anahtari = []
+	game.sure_sinirlarini_isle(0.0)
+	game.sure_sinirlarini_isle(1.1)
+	var sehir_var = false
+	for bina in game.binalar_verisi.values():
+		if bina["sahip"] == "A" and bina["tur"] == "sehir_merkezi": sehir_var = true
+	check(sehir_var and game.sehir_merkezleri["A"] and game.aktif_sira == 1, "Expired setup turn founds a city and passes the turn")
+	reset_state()
+	var soldier = {"hedef": "savas", "tur": "piyade", "isim": "Piyade", "guc": 1}
+	hand("A", [soldier])
+	hand("B", [soldier])
+	battle.savas_aktif = true
+	game.savas_secim_suresi = 1.0
+	game.zar_suresi = 1.0
+	game.sender = "A"
+	actions.savas_hamlesi_yap_rpc("A", [soldier], [0])
+	game.sure_sinirlarini_isle(0.0)
+	game.sure_sinirlarini_isle(1.1)
+	check(battle.son_kartlar_dict.size() == 2 and battle.son_kartlar_dict["B"].is_empty() and battle.son_kartlar_dict["A"].size() == 1, "Expired card selection locks the idle side with no cards")
+	check(game.oyuncu_elleri["B"].size() == 1, "Idle side keeps its unplayed card")
+	game.sure_sinirlarini_isle(0.0)
+	game.sure_sinirlarini_isle(1.1)
+	check(battle.zar_saldiran_deger >= 1 and battle.zar_savunan_deger >= 1, "Expired dice phase rolls for both sides on the server")
+	check(not battle.savas_aktif, "Battle resolves after automatic rolls")
+	reset_state()
+	game.oyuncular = ["A"]
+	game.oyuncu_peer_idleri = [1]
+	game.tur_suresi = 0.1
+	game.sure_sinirlarini_isle(0.0)
+	game.sure_sinirlarini_isle(1.0)
+	check(game.aktif_sira == 0 and game.aktif_oyuncu_aksiyon_hakki == 3, "Solo practice has no turn timer")
+	game.tur_suresi = 120.0
+	game.savas_secim_suresi = 45.0
+	game.zar_suresi = 20.0

@@ -218,6 +218,106 @@ func _hamleyi_calistir(peer: int, hedef: Node, metod: String, args: Array, ek: D
 	hedef.callv(metod, args)
 	_relay_gonderen = 0
 
+# --- SÜRE SINIRLARI (yalnızca sunucu) ---
+# Bağlı kalıp hamle yapmayan bir oyuncu maçı kilitleyemesin diye süre dolunca
+# sunucu, o oyuncunun yerine aynı doğrulanmış hamle yolunu kullanır.
+var tur_suresi := 120.0          # kurulum dahil her tur
+var savas_secim_suresi := 45.0   # savaş kartlarını kilitleme
+var zar_suresi := 20.0           # zar atma
+const UYARI_SURESI := 15.0
+var _sure_anahtari := []
+var _sure_kalan := 0.0
+var _uyari_verildi := false
+
+func _process(delta: float):
+	if multiplayer.multiplayer_peer == null or not multiplayer.is_server(): return
+	sure_sinirlarini_isle(delta)
+
+func _sure_asamasi() -> Array:
+	if oyun_bitti or oyuncular.size() < 2 or aktif_sira >= oyuncular.size(): return []
+	if Network.merkezi_mod and Network.oturum_asamasi != "game": return []
+	if savas.sonuc_gosteriliyor: return []
+	if savas.savas_aktif:
+		if savas.son_kartlar_dict.is_empty(): return ["savas_secim", savas_secim_suresi]
+		return ["zar", zar_suresi]
+	return ["tur", tur_suresi]
+
+func sure_sinirlarini_isle(delta: float):
+	var asama = _sure_asamasi()
+	if asama.is_empty():
+		_sure_anahtari = []
+		return
+	var anahtar = [asama[0], aktif_sira, tur_sayaci, savas.savas_bina_koordinat]
+	if anahtar != _sure_anahtari:
+		_sure_anahtari = anahtar
+		_sure_kalan = asama[1]
+		_uyari_verildi = false
+	_sure_kalan -= delta
+	if not _uyari_verildi and _sure_kalan <= UYARI_SURESI and asama[1] > UYARI_SURESI:
+		_uyari_verildi = true
+		sure_uyarisi_rpc.rpc(asama[0], int(ceil(_sure_kalan)))
+	if _sure_kalan > 0.0: return
+	_sure_anahtari = []
+	match asama[0]:
+		"tur": _turu_zaman_asimiyla_bitir()
+		"savas_secim":
+			for isim in savas.savas_taraflari():
+				if savas.savas_aktif and not savas.secilen_savas_kartlari.has(isim):
+					_sunucu_adina(isim, "aksiyon", "savas_hamlesi_yap_rpc", [isim, [], []])
+		"zar":
+			var taraflar = savas.savas_taraflari()
+			if savas.savas_aktif and savas.zar_saldiran_deger == -1:
+				_sunucu_adina(taraflar[0], "savas", "zar_at_istegi_rpc", [true])
+			if savas.savas_aktif and savas.zar_savunan_deger == -1:
+				_sunucu_adina(taraflar[1], "savas", "zar_at_istegi_rpc", [false])
+
+func _turu_zaman_asimiyla_bitir():
+	var isim = oyuncular[aktif_sira]
+	sure_doldu_rpc.rpc(isim)
+	# Şehrini kurmamış oyuncu için boş, keşfedilmemiş bir hex'e çimenlik şehir kurulur.
+	if not sehir_merkezleri.get(isim, false):
+		var hex = _bos_sehir_hexi()
+		if hex != Vector2i(-1, -1):
+			_sunucu_adina(isim, "aksiyon", "bina_kur_rpc", [hex, isim, "sehir_merkezi", "cim"])
+	_sunucu_adina(isim, "tur_ekonomi", "sirayi_degistir_rpc", [])
+	if aktif_sira < oyuncular.size() and oyuncular[aktif_sira] == isim:
+		# Şehir kurulamadıysa bile sıra kilitlenmez.
+		tur_gecir_rpc.rpc(isim)
+
+func _bos_sehir_hexi() -> Vector2i:
+	var adaylar = []
+	for x in range(harita.HARITA_GENISLIK):
+		for y in range(harita.HARITA_YUKSEKLIK):
+			var k = Vector2i(x, y)
+			if harita.kesfedilen_hexler.has(k) or kontrol_edilen_hexler.has(k) or binalar_verisi.has(k): continue
+			var dolu = false
+			for p in piyonlar:
+				if p["koordinat"] == k: dolu = true
+			if not dolu: adaylar.append(k)
+	if adaylar.is_empty(): return Vector2i(-1, -1)
+	return adaylar[randi() % adaylar.size()]
+
+# Sunucu, süre dolan oyuncunun yerine hamleyi aynı yoldan işler ve yayınlar.
+func _sunucu_adina(isim: String, yonetici: String, metod: String, args: Array):
+	var peer = oyuncu_peer_id(isim)
+	if peer == 0: return
+	_istegi_isle(peer, yonetici, metod, args)
+
+@rpc("authority", "call_local", "reliable")
+func sure_uyarisi_rpc(asama: String, saniye: int):
+	var ne = "Tur" if asama == "tur" else "Kart seçimi" if asama == "savas_secim" else "Zar"
+	arayuz.olay_yaz("[color=orange]⏳ %s için %d saniye kaldı.[/color]" % [ne, saniye])
+
+@rpc("authority", "call_local", "reliable")
+func sure_doldu_rpc(isim: String):
+	arayuz.olay_yaz("[color=orange]⌛ %s için süre doldu; sıra otomatik geçiyor.[/color]" % arayuz.renkli_isim(isim))
+
+# Son çare: sıra hâlâ süresi dolan oyuncudaysa herkeste aynı şekilde geçirilir.
+@rpc("authority", "call_local", "reliable")
+func tur_gecir_rpc(isim: String):
+	if aktif_sira >= oyuncular.size() or oyuncular[aktif_sira] != isim: return
+	tur_ekonomi.turu_bitir()
+
 # Sunucu, belirli bir oyuncunun eşine özel veri göndermek için kullanır.
 func oyuncu_peer_id(isim: String) -> int:
 	var idx = oyuncular.find(isim)
