@@ -58,7 +58,7 @@ func exercise():
 			act.rpc_id(id, phase)
 			await get_tree().create_timer(0.4).timeout
 	check(game.ilk_tur_bitti and game.aktif_sira == 0, "Three real scenes completed setup and first round")
-	game.aksiyon.savas_baslat_rpc.rpc(0, 1, 6, 4, "yagmala")
+	begin_battle.rpc_id(game.oyuncu_peer_idleri[0])
 	await get_tree().create_timer(0.3).timeout
 	check(game.savas.savas_aktif, "Actual multiplayer battle starts")
 	choose.rpc()
@@ -69,7 +69,7 @@ func exercise():
 	await get_tree().create_timer(4.0).timeout
 	snapshot.rpc()
 	await get_tree().create_timer(0.4).timeout
-	check(reports.size() == 3, "All participants and spectator reported state")
+	check(reports.size() == game.oyuncular.size() + (1 if Network.dedicated_mode else 0), "All participants and spectator reported state")
 	for state in reports.values():
 		check(state == reports.get(1), "Battle, resources, decks and hands agree on all three peers")
 	# Disconnect a nonhost and then the server: remaining client must return to menu.
@@ -77,6 +77,12 @@ func exercise():
 	disconnect_client.rpc_id(leaving)
 	await get_tree().create_timer(0.5).timeout
 	check(game.oyuncular[2] in game.ayrilan_oyuncular, "Real client disconnect is registered")
+	if Network.resmi_mod:
+		game.savas_puanlari[game.oyuncular[0]] = 25
+		game.arayuz.arayuzu_guncelle()
+		check(game.oyun_bitti, "Official victory is resolved by the authority")
+		await get_tree().create_timer(4.5).timeout
+		check(Network.oturum_asamasi == "lobby" and Network.merkezi_lobi.is_empty(), "Official result acknowledged and server recycled")
 	print("HUKUM ACTUAL SCENE HOST: " + ("FAIL" if failed else "PASS"))
 	Network.baglantiyi_kapat()
 	await get_tree().create_timer(0.5).timeout
@@ -94,6 +100,7 @@ func act(phase: int):
 
 @rpc("authority", "call_local", "reliable")
 func choose():
+	if Network.dedicated_mode: return
 	if game.benim_indexim > 1: return
 	var hand = game.deste.el
 	game.savas.secilen_benim_kartlar = [hand[0]]
@@ -118,11 +125,12 @@ func reveal_check():
 
 @rpc("authority", "call_local", "reliable")
 func roll():
+	if Network.dedicated_mode: return
 	if game.benim_indexim <= 1: game.savas._zar_at_basildi(game.benim_indexim == 0)
 
 @rpc("authority", "call_local", "reliable")
 func snapshot():
-	check(game.savas.zar_saldiran_deger >= 2 and game.savas.zar_savunan_deger >= 1, "Host dice obey civilization bonus")
+	check(game.savas.zar_saldiran_deger >= (2 if game.medeniyetler_verisi[game.oyuncular[0]] == "Osmanlı" else 1) and game.savas.zar_savunan_deger >= 1, "Host dice obey civilization bonus")
 	var state = [game.oyuncu_kaynaklari, game.oyuncu_elleri, game.deste.savas_destesi, game.savas_puanlari, game.binalar_verisi, game.piyonlar, failed]
 	report.rpc_id(1, state)
 	if role != 0:
@@ -144,3 +152,7 @@ func disconnect_client():
 	Network.baglantiyi_kapat()
 	print("HUKUM ACTUAL SCENE CLIENT %d: %s" % [role, "FAIL" if failed else "PASS"])
 	get_tree().quit(1 if failed else 0)
+
+@rpc("authority", "call_local", "reliable")
+func begin_battle():
+	game.aksiyon.savas_baslat_rpc.rpc(0, 1, 6, 4, "yagmala")

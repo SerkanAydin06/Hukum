@@ -31,10 +31,29 @@ func run():
 	check(menu.oyun_menusu.perde.visible, "Existing settings button opens settings")
 	menu.oyun_menusu.perde.hide()
 	await capture("menu")
+	menu._pardex_ac()
+	check(menu.get_node("%MasaKurBtn").disabled, "Official room action requires a launcher session")
+	await capture("online")
+	menu._pardex_kapat()
+	menu._ozel_sunucu_ac()
+	menu.get_node("%SunucuGiris").text = "invalid"
+	menu._on_baglan_btn_pressed()
+	check(not menu.baglan_btn.disabled and "Geçersiz" in menu.baglanti_durumu.text, "Private-server URL errors are retryable")
+	await capture("private")
+	menu._ana_menuye_don()
+	menu._profil_duzenle_ac()
+	menu.isim_giris_kutusu.text = "[bad]"
+	menu.isim_giris_kutusu.text_changed.emit("[bad]")
+	check(menu.kaydet_btn.disabled, "Invalid profile name cannot be saved")
+	menu.isim_giris_kutusu.text = global.oyuncu_ismi
+	menu.isim_giris_kutusu.text_changed.emit(global.oyuncu_ismi)
+	await capture("profile")
+	menu._profil_duzenle_kapat()
 	menu._cok_oyunculu_menu_ac()
 	menu.ip_giris.text = "invalid"
 	menu._on_baglan_btn_pressed()
 	check(not menu.baglan_btn.disabled and "Geçersiz" in menu.baglanti_durumu.text, "Invalid IP is visible and retryable")
+	await capture("lan")
 	menu._on_kur_btn_pressed()
 	await create_timer(1.2).timeout
 	var lobby = current_scene

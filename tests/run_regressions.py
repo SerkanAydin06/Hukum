@@ -20,8 +20,10 @@ with tempfile.TemporaryDirectory(prefix="hukum-tests-") as directory:
 config/name="Hukum regression tests"
 run/main_scene="res://runner.tscn"
 [autoload]
-Network="*res://Scripts/Network.gd"
 Global="*res://Scripts/Global.gd"
+PardexBridge="*res://Scripts/PardexBridge.gd"
+Network="*res://Scripts/Network.gd"
+PardexLink="*res://Scripts/PardexLink.gd"
 SceneTransition="*res://Scripts/SahneGecisleri.gd"
 SesYoneticisi="*res://Scripts/SesYoneticisi.gd"
 [rendering]

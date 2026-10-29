@@ -55,6 +55,7 @@ const HEDEF_PUAN = 50
 var oyun_menusu
 
 func _ready():
+	if not Network.merkezi_mod: Network.oturum_asamasi = "game"
 	oyun_menusu = load("res://Scripts/OyunMenu.gd").new()
 	add_child(oyun_menusu)
 	if multiplayer.is_server():
@@ -75,6 +76,7 @@ func _ready():
 			}
 		}
 		lobi_verisiyle_baslat(test_veri)
+	if Network.merkezi_mod: Network.sahne_hazir_rpc.rpc_id(1)
 
 func lobi_verisiyle_baslat(gelen_lobi_verisi: Dictionary):
 	oyuncular.clear()
@@ -110,6 +112,7 @@ func lobi_verisiyle_baslat(gelen_lobi_verisi: Dictionary):
 		odenen_vergiler[gercek_isim] = {"odun": 0, "tas": 0, "yiyecek": 0, "altin": 0}
 		
 	benim_indexim = peer_idleri.find(multiplayer.get_unique_id())
+	if benim_indexim == -1 and Network.dedicated_mode: benim_indexim = 0
 	if benim_indexim == -1:
 		push_error("KRİTİK HATA: Bu client'ın peer ID'si (%d) lobi verisinde bulunamadı! Oyuncu listesi: %s" % [multiplayer.get_unique_id(), str(peer_idleri)])
 		return
@@ -156,6 +159,7 @@ func rpc_gonderen_ismi() -> String:
 
 # Gönderen, sırası gelen oyuncu mu? (isim verilirse o isimle de eşleşmeli)
 func rpc_sirada_mi(isim: String = "") -> bool:
+	if Network.merkezi_mod and Network.oturum_asamasi != "game": return false
 	if oyun_bitti or savas.savas_aktif or savas.sonuc_gosteriliyor: return false
 	if aktif_sira >= oyuncular.size(): return false
 	var gonderen = rpc_gonderen_ismi()

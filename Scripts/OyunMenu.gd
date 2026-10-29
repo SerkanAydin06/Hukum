@@ -12,6 +12,7 @@ func _ready():
 	oyun = get_parent() if get_parent() is AnaOyun else null
 	var menu = Button.new()
 	menu.text = "MENÜ / YARDIM"
+	menu.visible = oyun != null
 	menu.position = Vector2(1730, 18) if oyun else Vector2(18, 18)
 	menu.custom_minimum_size = Vector2(180, 42)
 	add_child(menu)

@@ -20,8 +20,10 @@ config/features=PackedStringArray("4.7", "Forward Plus")
 
 [autoload]
 
-Network="*res://Scripts/Network.gd"
 Global="*res://Scripts/Global.gd"
+PardexBridge="*res://Scripts/PardexBridge.gd"
+Network="*res://Scripts/Network.gd"
+PardexLink="*res://Scripts/PardexLink.gd"
 SceneTransition="*res://Scripts/SahneGecisleri.gd"
 SesYoneticisi="*res://Scripts/SesYoneticisi.gd"
 
