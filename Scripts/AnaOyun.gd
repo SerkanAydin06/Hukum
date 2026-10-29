@@ -77,6 +77,7 @@ func _ready():
 		}
 		lobi_verisiyle_baslat(test_veri)
 	if Network.merkezi_mod: Network.sahne_hazir_rpc.rpc_id(1)
+	elif not multiplayer.is_server(): Network.oyun_sahnesi_hazir_rpc.rpc_id(1)
 
 func lobi_verisiyle_baslat(gelen_lobi_verisi: Dictionary):
 	oyuncular.clear()
@@ -229,12 +230,44 @@ var _sure_anahtari := []
 var _sure_kalan := 0.0
 var _uyari_verildi := false
 
+# İstemcilerin gösterdiği geri sayım (sunucunun yayınladığı aşamaya göre).
+var sure_asamasi_adi := ""
+var _sure_bitis_ms := 0
+var _son_gosterilen_saniye := -1
+
 func _process(delta: float):
-	if multiplayer.multiplayer_peer == null or not multiplayer.is_server(): return
-	sure_sinirlarini_isle(delta)
+	if multiplayer.multiplayer_peer != null and multiplayer.is_server():
+		sure_sinirlarini_isle(delta)
+	var saniye = kalan_sure_saniye()
+	if saniye != _son_gosterilen_saniye:
+		_son_gosterilen_saniye = saniye
+		if arayuz and arayuz.has_method("sure_goster"): arayuz.sure_goster()
+
+# -1: gösterilecek sayaç yok.
+func kalan_sure_saniye() -> int:
+	if sure_asamasi_adi == "": return -1
+	return max(0, int(ceil((_sure_bitis_ms - Time.get_ticks_msec()) / 1000.0)))
+
+@rpc("authority", "call_local", "reliable")
+func sure_baslat_rpc(asama: String, saniye: float):
+	sure_asamasi_adi = asama
+	_sure_bitis_ms = Time.get_ticks_msec() + int(saniye * 1000.0)
+	_son_gosterilen_saniye = kalan_sure_saniye()
+	if arayuz and arayuz.has_method("sure_goster"): arayuz.sure_goster()
+
+# Yerel ağda istemciler sahnelerini yükleyince sunucuya bildirir; süre ve
+# sayaç yayını bütün oyuncular hazır olana kadar başlamaz.
+func _oyuncular_hazir_mi() -> bool:
+	if Network.merkezi_mod: return true   # merkezi sunucu zaten bütün sahneleri bekler
+	for i in range(oyuncu_peer_idleri.size()):
+		var peer = oyuncu_peer_idleri[i]
+		if peer == multiplayer.get_unique_id() or oyuncular[i] in ayrilan_oyuncular: continue
+		if not Network.oyun_hazir_peerleri.has(peer): return false
+	return true
 
 func _sure_asamasi() -> Array:
 	if oyun_bitti or oyuncular.size() < 2 or aktif_sira >= oyuncular.size(): return []
+	if not _oyuncular_hazir_mi(): return []
 	if Network.merkezi_mod and Network.oturum_asamasi != "game": return []
 	if savas.sonuc_gosteriliyor: return []
 	if savas.savas_aktif:
@@ -245,19 +278,23 @@ func _sure_asamasi() -> Array:
 func sure_sinirlarini_isle(delta: float):
 	var asama = _sure_asamasi()
 	if asama.is_empty():
-		_sure_anahtari = []
+		if not _sure_anahtari.is_empty() or sure_asamasi_adi != "":
+			_sure_anahtari = []
+			_sure_yayinla("", 0.0)
 		return
 	var anahtar = [asama[0], aktif_sira, tur_sayaci, savas.savas_bina_koordinat]
 	if anahtar != _sure_anahtari:
 		_sure_anahtari = anahtar
 		_sure_kalan = asama[1]
 		_uyari_verildi = false
+		_sure_yayinla(asama[0], asama[1])
 	_sure_kalan -= delta
 	if not _uyari_verildi and _sure_kalan <= UYARI_SURESI and asama[1] > UYARI_SURESI:
 		_uyari_verildi = true
 		sure_uyarisi_rpc.rpc(asama[0], int(ceil(_sure_kalan)))
 	if _sure_kalan > 0.0: return
 	_sure_anahtari = []
+	_sure_yayinla("", 0.0)
 	match asama[0]:
 		"tur": _turu_zaman_asimiyla_bitir()
 		"savas_secim":
@@ -270,6 +307,10 @@ func sure_sinirlarini_isle(delta: float):
 				_sunucu_adina(taraflar[0], "savas", "zar_at_istegi_rpc", [true])
 			if savas.savas_aktif and savas.zar_savunan_deger == -1:
 				_sunucu_adina(taraflar[1], "savas", "zar_at_istegi_rpc", [false])
+
+func _sure_yayinla(asama: String, saniye: float):
+	if multiplayer.multiplayer_peer == null: return
+	sure_baslat_rpc.rpc(asama, saniye)
 
 func _turu_zaman_asimiyla_bitir():
 	var isim = oyuncular[aktif_sira]
