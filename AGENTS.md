@@ -25,6 +25,7 @@
 - Never change public RPC signatures without updating all call sites and multiplayer tests. Check simultaneous clients, disconnects and reconnect failures.
 - Do not introduce nonexistent `res://` asset paths. Preserve existing visuals and mobile/desktop layout.
 - New or renewed windows use `UI/HukumTheme.tres` + `UI/HukumWindow.gd`: the scalable gold frame and opaque black fill from `UI/Skins/window.svg`. Command buttons use the shared theme's 20px nine-patch skins (`Button`, `HukumPrimary`, `HukumDanger`, `HukumCompact`); never stretch complete artwork or bake text into it. See `UI/README.md`. Preserve the animated menu atmosphere and intro unless the user asks to remove them.
+- Civilization cosmetics use `UI/CivilizationStyle.gd`; keep match state untouched and preserve per-civilization crests, palettes and motifs. Portraits use `UI/PortraitBorder.gd`. After changing base skin SVGs, regenerate `UI/CivilizationTemplates.gd` with `python UI/build_civilization_templates.py`.
 - Never commit secrets, tokens, personal data, `.godot/` cache or generated binaries.
 
 ## Execution and verification
@@ -42,4 +43,3 @@
 - If tests are failing, unavailable or pending, leave the PR open and report exactly why; do not silently bypass protections.
 - Do not overwrite another agent's concurrent work; rebase/re-evaluate if `main` moved.
 - Treat server deployment, paid service use, secrets and destructive operations as separate actions needing explicit authorization.
-

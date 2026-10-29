@@ -85,6 +85,8 @@ var sehir_kuruldu_animasyon_yapildi = false
 @onready var Savas_destesi_paneli = get_node_or_null("%SavasDestesiPanel")
 @onready var ap_uyari_paneli = get_node_or_null("%ApUyariPaneli")
 
+var medeniyet_gorunumu: Node
+
 var insa_hover_timer = 0.0
 var savas_hover_timer = 0.0
 var insa_fare_ustunde = false
@@ -200,10 +202,12 @@ func _process(delta):
 			if savas_deste_kalanlar_panel and not savas_deste_kalanlar_panel.visible:
 				savas_deste_kalanlar_panel.visible = true
 	
-func tur_buton_resimlerini_guncelle(_medeniyet_adi: String):
-	# Civilization identity lives in banners/portraits; action chrome stays consistent.
-	if tur_butonu is Button:
-		tur_butonu.theme_type_variation = &"HukumPrimary"
+func tur_buton_resimlerini_guncelle(medeniyet_adi: String):
+	if not is_instance_valid(medeniyet_gorunumu):
+		if not ResourceLoader.exists("res://UI/CivilizationStyle.gd"): return
+		medeniyet_gorunumu = load("res://UI/CivilizationStyle.gd").new()
+		add_child(medeniyet_gorunumu)
+	medeniyet_gorunumu.apply_to(ana, medeniyet_adi)
 
 func olay_yaz(metin: String):
 	log_yonetici.olay_yaz(metin)

@@ -52,7 +52,9 @@
 [ext_resource type="Texture2D" uid="uid://bgnr51t0g27oa" path="res://Assets/Resimler/askerler/okcu.png" id="98_t08ra"]
 [ext_resource type="Theme" path="res://UI/HukumTheme.tres" id="hukum_theme"]
 
-[ext_resource type="Texture2D" path="res://UI/Skins/settings.svg" id="settings_icon"]
+[ext_resource type="Texture2D" path="res://UI/Skins/menu.svg" id="settings_icon"]
+
+[ext_resource type="Script" path="res://UI/PortraitBorder.gd" id="portrait_border"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qle4t"]
 shader = ExtResource("9_3k2mh")
@@ -601,7 +603,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="OyunAyarlarBtn" type="Button" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/AyarlarPaneli"]
+[node name="OyunMenuBtn" type="Button" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/AyarlarPaneli"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -616,7 +618,7 @@ grow_vertical = 2
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 20
 theme_override_constants/icon_max_width = 26
-text = "AYARLAR"
+text = "MENÜ"
 icon = ExtResource("settings_icon")
 expand_icon = true
 
@@ -2790,6 +2792,17 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 
+[node name="PortraitBorder" type="TextureRect" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer/SaldiranResim"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+script = ExtResource("portrait_border")
+
 [node name="SaldiranIsim" type="Label" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=739563873]
 unique_name_in_owner = true
 layout_mode = 2
@@ -2843,6 +2856,17 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
+
+[node name="PortraitBorder" type="TextureRect" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer2/SavunanResim"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+script = ExtResource("portrait_border")
 
 [node name="SavunanIsim" type="Label" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1002793392]
 unique_name_in_owner = true
@@ -3168,6 +3192,17 @@ layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
+[node name="PortraitBorder" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/HBoxContainer/AtakResim"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+script = ExtResource("portrait_border")
+
 [node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/HBoxContainer" unique_id=118993332]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -3394,6 +3429,17 @@ custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
+
+[node name="PortraitBorder" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/HBoxContainer/DefansResim"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+script = ExtResource("portrait_border")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/HBoxContainer" unique_id=143465717]
 layout_mode = 2

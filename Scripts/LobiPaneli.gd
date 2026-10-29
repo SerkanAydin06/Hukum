@@ -4,6 +4,7 @@ class_name LobiPaneli
 var lobi_verisi = {}
 var is_updating = false
 var benim_secilen_medeniyetim = ""
+var medeniyet_gorunumu: Node
 
 @onready var sohbet_gecmisi = %SohbetGecmisi
 @onready var sohbet_girdisi = %SohbetGirdisi
@@ -257,6 +258,11 @@ func _medeniyet_bayragina_tiklandi(med_ismi: String):
 
 func bilgi_panelini_guncelle(med: String):
 	if medeniyet_bilgileri.has(med):
+		if not is_instance_valid(medeniyet_gorunumu) and ResourceLoader.exists("res://UI/CivilizationStyle.gd"):
+			medeniyet_gorunumu = load("res://UI/CivilizationStyle.gd").new()
+			add_child(medeniyet_gorunumu)
+		if is_instance_valid(medeniyet_gorunumu): medeniyet_gorunumu.apply_to(self, med)
+
 		baslik_hikaye.text = medeniyet_basliklari[med]["isim"]
 		alt_baslik_hikaye.text = medeniyet_basliklari[med]["lakap"]
 		hikaye_yazisi.text = "[i]" + medeniyet_bilgileri[med]["hikaye"] + "[/i]"

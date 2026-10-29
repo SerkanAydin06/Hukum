@@ -34,3 +34,24 @@ godot --path . --rendering-method gl_compatibility --script tests/ui_catalog.gd
 ```
 
 Visual test PNGs are written to `/tmp/hukum-ui-*.png`; they are not shipped assets.
+
+## Civilization presentation
+
+`CivilizationStyle.gd` applies the local player's selected civilization to the
+HUD, dialogs, card command buttons and lobby preview. It changes no match data.
+The six gold crests in `Civilizations/` appear on end-turn buttons and as faint
+panel/card-area ornaments. The palettes retain black centers and gold bevels:
+Ottoman burgundy/tulips, Venetian blue/waves, Byzantine purple/meanders,
+Egyptian turquoise/lotus, Mongol amber/braid and Viking teal/knotwork.
+Destructive buttons retain their red warning palette.
+
+Skins are cached per civilization; the same decoration nodes are reused.
+Newly dealt card scenes inherit the current skin. `PortraitBorder.gd` uses the
+existing gold avatar-frame artwork and hover frame; the picker keeps its bright
+selected-frame state. The upper-right HUD button opens the menu; settings stay
+inside that menu.
+
+After editing `Skins/standard_*.svg`, `Skins/primary_*.svg` or `Skins/window.svg`,
+run `python UI/build_civilization_templates.py`. Embedded SVG templates ensure
+palette generation works in exported games where imported source SVGs may not
+be directly readable. Crest resources are explicit dependencies for exports.

@@ -15,8 +15,8 @@ func _ready():
 	oyun = get_parent() if get_parent() is AnaOyun else null
 	if oyun:
 		# The scene owns HUD layout; the settings action follows its panel at any size.
-		var menu = oyun.get_node("%OyunAyarlarBtn")
-		menu.pressed.connect(ayarlari_ac)
+		var menu = oyun.get_node("%OyunMenuBtn")
+		menu.pressed.connect(menuyu_ac)
 	perde = ColorRect.new()
 	perde.color = Color(0, 0, 0, 0.76)
 	perde.theme = PENCERE_TEMASI

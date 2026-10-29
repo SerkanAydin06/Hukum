@@ -22,6 +22,8 @@
 [ext_resource type="Texture2D" uid="uid://dijj1eshkijuc" path="res://Assets/Resimler/Renkler/cam2.png" id="21_54j8f"]
 [ext_resource type="Theme" path="res://UI/HukumTheme.tres" id="hukum_theme"]
 
+[ext_resource type="Script" path="res://UI/PortraitBorder.gd" id="portrait_border"]
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pfmru"]
 
 [node name="OyuncuSlot" type="PanelContainer"]
@@ -74,6 +76,17 @@ custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 expand_mode = 2
 stretch_mode = 5
+
+[node name="PortraitBorder" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/HukumdarResmi"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+script = ExtResource("portrait_border")
 
 [node name="OyuncuBilgi" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(500, 0)
@@ -162,4 +175,3 @@ texture_hover = ExtResource("21_54j8f")
 texture_disabled = ExtResource("5_ae75v")
 ignore_texture_size = true
 stretch_mode = 5
-
