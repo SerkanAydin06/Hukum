@@ -283,7 +283,7 @@ func _slot_bilgi_etiketi_guncelle(slot: TextureRect, kart: Dictionary):
 		slot.add_child(lbl)
 	
 	var isim = kart.get("isim", "Birlik")
-	var guc_str = "👑" if kart.get("tur") == "komutan" else str(kart.get("guc", 0))
+	var guc_str = "Komutan" if kart.get("tur") == "komutan" else str(kart.get("guc", 0))
 	lbl.text = "%s (Güç: %s)" % [isim, guc_str]
 	lbl.visible = true
 
@@ -308,30 +308,22 @@ func taraf_kilitlendi_rpc(saldiran_mi: bool):
 	if lbl: lbl.text = "Kartlar Seçildi"
 
 func rakip_kartlari_goster(kartlar_dict: Dictionary):
-	var ben = ana.oyuncular[ana.benim_indexim]
-	var saldiran_ismi = savas_ozel_saldiran if savas_piyon_saldiran == -1 else ana.piyonlar[savas_piyon_saldiran]["sahip"]
-	var savunucu_ismi = savas_taraflari()[1]
-	
-	var r_ismi = savunucu_ismi if ben == saldiran_ismi else saldiran_ismi
-	var rakip_kartlar = kartlar_dict.get(r_ismi, [])
-	
-	var slot_on_eki = "RakipKart" if _ben_saldiran_miyim() else "OyuncuKart"
-	
-	if ana.arayuz:
+	# Spectators and participants see both canonical hands after reveal.
+	var taraflar = savas_taraflari()
+	for taraf in range(2):
+		var prefix = "OyuncuKart" if taraf == 0 else "RakipKart"
+		var kartlar = kartlar_dict.get(taraflar[taraf], [])
 		for i in range(1, 8):
-			var slot = ana.arayuz.get_node_or_null("%" + slot_on_eki + str(i))
-			if slot and slot is TextureRect:
-				if i - 1 < rakip_kartlar.size():
-					var kart = rakip_kartlar[i - 1]
-					var tex = _kart_texture_getir(kart)
-					slot.texture = tex
-					_slot_bilgi_etiketi_guncelle(slot, kart)   # 🟢 YENİ
-				else:
-					slot.texture = null
-					var lbl = slot.get_node_or_null("BilgiEtiketi")
-					if lbl: lbl.visible = false
-					
-		ana.arayuz.olay_yaz("⚔️ [color=yellow]Her iki taraf da kartlarını kilitledi! Kartlar açıldı![/color]")
+			var slot = ana.arayuz.get_node_or_null("%" + prefix + str(i))
+			if not slot is TextureRect: continue
+			if i <= kartlar.size():
+				slot.texture = _kart_texture_getir(kartlar[i - 1])
+				_slot_bilgi_etiketi_guncelle(slot, kartlar[i - 1])
+			else:
+				slot.texture = null
+				var label = slot.get_node_or_null("BilgiEtiketi")
+				if label: label.visible = false
+	ana.arayuz.olay_yaz("⚔️ Her iki tarafın kartları açıldı!")
 
 # ==========================================
 # 🟢 SAVAŞ ÇÖZÜMLEME
@@ -793,10 +785,10 @@ func zar_asamasini_baslat(kartlar_dict: Dictionary):
 	if defans_guc_lbl: defans_guc_lbl.text = "Kart Gücü: %d" % savunan_kart_gucu_hesap
 	
 	var atak_bonus_lbl = ana.arayuz.get_node_or_null("%AtakBonus")
-	if atak_bonus_lbl: atak_bonus_lbl.text = _bonus_aciklama_olustur(saldiran_kartlar_z, savunan_kartlar_z, true, saldiran_isim)
+	if atak_bonus_lbl: atak_bonus_lbl.text = Global.okunur_metin(_bonus_aciklama_olustur(saldiran_kartlar_z, savunan_kartlar_z, true, saldiran_isim))
 	
 	var defans_bonus_lbl = ana.arayuz.get_node_or_null("%DefansBonus")
-	if defans_bonus_lbl: defans_bonus_lbl.text = _bonus_aciklama_olustur(savunan_kartlar_z, saldiran_kartlar_z, false, savunan_isim)
+	if defans_bonus_lbl: defans_bonus_lbl.text = Global.okunur_metin(_bonus_aciklama_olustur(savunan_kartlar_z, saldiran_kartlar_z, false, savunan_isim))
 	
 	var ben_saldiran = _ben_saldiran_miyim()
 	if atak_zar_at_btn:
@@ -902,3 +894,4 @@ func _paneli_tam_sifirla():
 	
 	var defans_bonus = ana.arayuz.get_node_or_null("%DefansBonus")
 	if defans_bonus: defans_bonus.text = ""
+

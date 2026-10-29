@@ -162,7 +162,9 @@ func _mesaj_gonder():
 func sohbet_mesaji_al_rpc(gonderen_id: int, mesaj: String):
 	var gonderen = multiplayer.get_remote_sender_id()
 	if gonderen == 0: gonderen = multiplayer.get_unique_id()
-	if gonderen_id != gonderen or not sohbet_gecmisi: return
+	if gonderen_id != gonderen or not sohbet_gecmisi or not lobi_verisi.has(gonderen_id): return
+	mesaj = mesaj.strip_edges().left(300).replace("[", "[lb]")
+	if mesaj.is_empty(): return
 	
 	# 🟢 DEĞİŞİKLİK: Ağdan gelen gerçek profil ismini kullanıyoruz
 	var oyuncu_ismi = "Oyuncu " + str(gonderen_id).left(4)
@@ -181,7 +183,7 @@ func sohbet_mesaji_al_rpc(gonderen_id: int, mesaj: String):
 
 func _sistem_mesaji(mesaj: String):
 	if sohbet_gecmisi:
-		sohbet_gecmisi.append_text("[color=gray][i]" + mesaj + "[/i][/color]\n")
+		sohbet_gecmisi.append_text("[color=gray][i]" + Global.okunur_metin(mesaj) + "[/i][/color]\n")
 
 func _renk_sec(renk:String):
 	if is_updating: return
@@ -243,7 +245,7 @@ func bilgi_panelini_guncelle(med: String):
 		baslik_hikaye.text = medeniyet_basliklari[med]["isim"]
 		alt_baslik_hikaye.text = medeniyet_basliklari[med]["lakap"]
 		hikaye_yazisi.text = "[i]" + medeniyet_bilgileri[med]["hikaye"] + "[/i]"
-		bonus_yazisi.text = medeniyet_bilgileri[med]["bonus"]
+		bonus_yazisi.text = Global.okunur_metin(medeniyet_bilgileri[med]["bonus"])
 
 	else:
 		baslik_hikaye.text = "Medeniyet Seçilmedi"
@@ -498,3 +500,4 @@ func oyuna_gecis_yap_rpc(son_lobi_verisi: Dictionary, tohum: int = 0):
 	Network.son_lobi_verisi = son_lobi_verisi
 	Network.oyun_tohumu = tohum
 	get_tree().change_scene_to_file("res://AnaOyun.tscn")
+

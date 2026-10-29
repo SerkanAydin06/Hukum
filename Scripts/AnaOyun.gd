@@ -52,11 +52,16 @@ const HEDEF_PUAN = 50
 @onready var tur_ekonomi = $TurEkonomiYonetici
 @onready var aksiyon = $AksiyonYonetici
 
+var oyun_menusu
+
 func _ready():
+	oyun_menusu = load("res://Scripts/OyunMenu.gd").new()
+	add_child(oyun_menusu)
 	if multiplayer.is_server():
 		multiplayer.peer_disconnected.connect(_peer_ayrildi)
 	deste.desteleri_hazirla()
 	arayuz.ui_sinyallerini_bagla()
+	arayuz.sag_paneli_guncelle(Vector2i(-1, -1))
 	if Network.son_lobi_verisi.size() > 0:
 		lobi_verisiyle_baslat(Network.son_lobi_verisi)
 	else:
@@ -196,3 +201,27 @@ func hex_dosta_komsu_mu(hedef_koor: Vector2i, sahip_isim: String) -> bool:
 		if kontrol_edilen_hexler[k] == sahip_isim:
 			if harita.hex_komsu_mu(k, hedef_koor): return true
 	return false
+
+
+# Score is game state; headless hosts and UI share this calculation.
+func puan_hesapla(isim: String) -> int:
+	var toplam = 0
+	for sahip in kontrol_edilen_hexler.values():
+		if sahip == isim: toplam += 1
+	for bina in binalar_verisi.values():
+		if bina["sahip"] == isim and bina["tur"] != "sehir_merkezi":
+			toplam += bina.get("seviye", 1) * 2
+	for efendi in efendiler.values():
+		if efendi == isim: toplam += 5
+	return toplam + savas_puanlari.get(isim, 0) * 2
+
+func puanlari_guncelle():
+	for isim in oyuncular: puanlar[isim] = puan_hesapla(isim)
+
+func zaferi_kontrol_et():
+	puanlari_guncelle()
+	if not multiplayer.is_server() or oyun_bitti: return
+	for isim in oyuncular:
+		if isim not in ayrilan_oyuncular and puanlar[isim] >= HEDEF_PUAN:
+			aksiyon.oyunu_bitir_rpc.rpc(isim, puanlar[isim])
+			return

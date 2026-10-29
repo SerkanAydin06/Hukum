@@ -227,6 +227,7 @@ func eldeki_kartlari_filtrele():
 	panel_yonetici.eldeki_kartlari_filtrele()
 
 func arayuzu_guncelle():
+	ana.zaferi_kontrol_et()
 	if ana.oyuncular.size() == 0: return
 	var k_isim = ana.oyuncular[ana.benim_indexim]
 	var k = ana.oyuncu_kaynaklari[k_isim]
@@ -571,8 +572,7 @@ func sag_paneli_guncelle(koordinat: Vector2i):
 				"oncu_kampi":
 					resim_yolu = "res://Assets/Resimler/kartresimleri/oncukampi_cadir.svg"
 				"ticaret_merkezi":
-					# Ayrı bina spritesi henüz yok; boş panel yerine mevcut kart sanatı.
-					resim_yolu = "res://Assets/Resimler/kartresimleri/ticaretmerkezi.png"
+					resim_yolu = "res://Assets/Resimler/binalar/ticaret_merkezi.png"
 			
 	else:
 		isim_metni = biyom_isim
@@ -714,3 +714,7 @@ func _hakimiyet_vazgec_basildi():
 	ana.arayuz.olay_yaz("[color=gray]Hakimiyet kurma işlemi iptal edildi.[/color]")
 	ana.arayuz.arayuzu_guncelle()
 	ana.harita.queue_redraw()
+
+
+func sonuc_ekranini_goster(kazanan: String, puan: int):
+	ana.oyun_menusu.sonucu_goster(kazanan, puan)

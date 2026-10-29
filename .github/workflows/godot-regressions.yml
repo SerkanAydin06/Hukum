@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'Scripts/**'
+      - 'Assets/**'
+      - 'fonts/**'
       - 'tests/**'
       - '*.tscn'
       - 'project.godot'
@@ -12,6 +14,8 @@ on:
     branches: [main]
     paths:
       - 'Scripts/**'
+      - 'Assets/**'
+      - 'fonts/**'
       - 'tests/**'
       - '*.tscn'
       - 'project.godot'
@@ -44,3 +48,14 @@ jobs:
           chmod +x /tmp/Godot_v4.7.2-stable_linux.x86_64
       - name: Run gameplay and ENet regressions
         run: python3 tests/run_regressions.py /tmp/Godot_v4.7.2-stable_linux.x86_64
+
+      - name: Import and exercise actual scenes
+        shell: bash
+        run: |
+          set -o pipefail
+          /tmp/Godot_v4.7.2-stable_linux.x86_64 --headless --path . --editor --import --quit 2>&1 | tee /tmp/import.log
+          ! grep -E 'SCRIPT ERROR|ERROR:|Parse Error' /tmp/import.log
+          /tmp/Godot_v4.7.2-stable_linux.x86_64 --headless --path . --script tests/runtime_smoke.gd 2>&1 | tee /tmp/runtime.log
+          ! grep -E 'SCRIPT ERROR|ERROR:|Parse Error' /tmp/runtime.log
+      - name: Exercise three real networked scenes
+        run: python3 tests/run_scene_network.py /tmp/Godot_v4.7.2-stable_linux.x86_64

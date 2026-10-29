@@ -15,7 +15,7 @@ func olay_yaz(metin: String):
 	yeni_satir.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	yeni_satir.custom_minimum_size = Vector2(10, 0)
 	yeni_satir.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	yeni_satir.text = metin
+	yeni_satir.text = Global.okunur_metin(metin)
 	
 	arayuz.olay_logu.add_child(yeni_satir)
 	
@@ -33,3 +33,4 @@ func olay_yaz(metin: String):
 	# Panel opaklığı her zaman tam görünür (1.0) kalır ve asla kaybolmaz
 	var sol_panel = arayuz.olay_logu.get_parent().get_parent()
 	sol_panel.modulate.a = 1.0
+

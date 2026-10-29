@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Hukum"
-run/main_scene="uid://bcmqnrdk4ed8g"
+run/main_scene="res://AnaMenu.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 
 [autoload]
@@ -35,3 +35,4 @@ window/stretch/mode="canvas_items"
 [rendering]
 
 environment/defaults/default_clear_color=Color(0.1657694, 0.31232345, 0.45846826, 1)
+

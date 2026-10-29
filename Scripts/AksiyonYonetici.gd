@@ -24,6 +24,7 @@ func _ready():
 	kart_modul.baslat(self)
 
 func _unhandled_input(event):
+	if ana.oyun_bitti: return
 	if event is InputEventMouseButton:
 		# 🟢 YENİ VE GÜVENLİ PANEL KONTROLLERİ
 		var k_panel_1 = ana.arayuz.get_node_or_null("%KurulumOnayPanel")
@@ -250,6 +251,9 @@ func bina_kur_rpc(koordinat: Vector2i, sahip_isim: String, bina_turu: String, ba
 	if not ana.rpc_sirada_mi(sahip_isim): return
 	if bina_turu != "sehir_merkezi" or ana.sehir_merkezleri.get(sahip_isim, false): return
 	if not ana.hex_gecerli_mi(koordinat) or ana.binalar_verisi.has(koordinat): return
+	if ana.harita.kesfedilen_hexler.has(koordinat) or ana.kontrol_edilen_hexler.has(koordinat): return
+	for piyon in ana.piyonlar:
+		if piyon["koordinat"] == koordinat: return
 	if not baslangic_biyomu in ["cim", "orman", "dag"]: return
 	if ana.oyuncu_kaynaklari[sahip_isim]["odun"] < 10 or ana.oyuncu_kaynaklari[sahip_isim]["tas"] < 10: return
 	if baslangic_biyomu != "": ana.harita.kesfedilen_hexler[koordinat] = baslangic_biyomu
@@ -580,7 +584,12 @@ func savas_cozumle_rpc(kd, zar_sal, zar_sav):
 @rpc("any_peer", "call_local", "reliable")
 func normal_kart_cek_rpc(oyuncu_ismi):
 	if not ana.rpc_sirada_mi(oyuncu_ismi) or ana.aktif_oyuncu_aksiyon_hakki <= 0: return
-	if ana.deste.normal_deste.is_empty() or _el_siniri_doldu(oyuncu_ismi, false): return
+	if _el_siniri_doldu(oyuncu_ismi, false): return
+	if ana.deste.normal_deste.is_empty():
+		if ana.deste.atilan_insa_kartlari.is_empty(): return
+		ana.deste.normal_deste = ana.deste.atilan_insa_kartlari.duplicate(true)
+		ana.deste.karistir(ana.deste.normal_deste)
+		ana.deste.atilan_insa_kartlari.clear()
 	ana.aktif_oyuncu_aksiyon_hakki -= 1
 	var cekilen = ana.deste.normal_deste.pop_front()
 	ana.oyuncu_elleri[oyuncu_ismi].append(cekilen.duplicate(true))
@@ -628,7 +637,11 @@ func oyunu_bitir_rpc(kazanan_isim: String, puan: int):
 	if ana.oyun_bitti: return
 	ana.oyun_bitti = true
 	ana.arayuz.olay_yaz("🏆 [color=gold][b]OYUN BİTTİ! %s, %d puanla ZAFERE ULAŞTI![/b][/color]" % [ana.arayuz.renkli_isim(kazanan_isim), puan])
-	get_tree().paused = true   # 🟢 basit bir MVP: oyunu durdur, ekstra bir "kazanma ekranı" istersen ayrı konuşalım
+	ana.puanlari_guncelle()
+	ana.secili_kart_index = -1
+	ana.secili_piyon_index = -1
+	ana.kart_insa_modu_aktif = false
+	ana.arayuz.sonuc_ekranini_goster(kazanan_isim, puan)
 
 
 func _kart_getir(isim: String, idx: int) -> Dictionary:
@@ -639,6 +652,8 @@ func _kart_tuket(isim: String, idx: int, savas_atigi: bool = false):
 	var kart = _kart_getir(isim, idx)
 	if kart.is_empty(): return
 	ana.oyuncu_elleri[isim].remove_at(idx)
+	if kart.get("hedef") != "savas":
+		ana.deste.atilan_insa_kartlari.append(kart)
 	if savas_atigi and kart.get("hedef") == "savas":
 		ana.deste.atilan_savas_kartlari.append(kart)
 	if isim == ana.oyuncular[ana.benim_indexim]:
@@ -665,3 +680,4 @@ func _savas_kartlarini_iade_et(kartlar: Dictionary):
 			var idx = ana.deste.atilan_savas_kartlari.rfind(kart)
 			if idx != -1: ana.deste.atilan_savas_kartlari.remove_at(idx)
 			if isim == ana.oyuncular[ana.benim_indexim]: ana.deste.el.append(kart.duplicate(true))
+

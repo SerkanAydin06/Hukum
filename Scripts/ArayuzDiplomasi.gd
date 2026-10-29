@@ -42,7 +42,7 @@ func guncelle(k_isim: String, savas_var_mi: bool):
 				var vasal_ham = _kaynak_hesapla(v)
 				v_metin += "  [color=light_green](Bu Tur Gelecek: %d🌲 %d🪨 %d🌾 %d🪙)[/color]\n\n" % [int(vasal_ham["odun"]/2), int(vasal_ham["tas"]/2), int(vasal_ham["yiyecek"]/2), int(vasal_ham["altin"]/2)]
 		v_metin += "[/font_size]"
-		if arayuz.vasal_bilgi_label: arayuz.vasal_bilgi_label.text = v_metin
+		if arayuz.vasal_bilgi_label: arayuz.vasal_bilgi_label.text = Global.okunur_metin(v_metin)
 	else:
 		arayuz.vasal_paneli.visible = false
 
@@ -89,30 +89,7 @@ func skor_guncelle():
 			var oyuncu_ismi = ana.oyuncular[i]
 			var med = ana.medeniyetler_verisi.get(oyuncu_ismi, "")
 			
-			# Puan hesaplaması
-			var puan = 0
-			
-			# 🟢 Hex kontrolü: 1 puan/hex
-			for k in ana.kontrol_edilen_hexler:
-				if ana.kontrol_edilen_hexler[k] == oyuncu_ismi:
-					puan += 1
-					
-			# 🟢 Bina seviyesi: 2 puan/seviye, ŞEHİR MERKEZİ HARİÇ
-			for koor in ana.binalar_verisi:
-				var b = ana.binalar_verisi[koor]
-				if b["sahip"] == oyuncu_ismi and b["tur"] != "sehir_merkezi":   # 🟢 DÜZELTİLDİ: şehir merkezi artık puan vermiyor
-					puan += b.get("seviye", 1) * 2
-					
-			# 🟢 YENİ: Vasal sayısı × 5 (canlı, kaybedince otomatik düşer)
-			var vasal_sayisi = 0
-			for v in ana.efendiler:
-				if ana.efendiler[v] == oyuncu_ismi:
-					vasal_sayisi += 1
-			puan += vasal_sayisi * 5
-			
-			# 🟢 YENİ: Savaş puanı × 2 (kalıcı sayaç, kazanınca +1 kaybedince -1 birikir, sonra ×2 çarpılır)
-			puan += ana.savas_puanlari.get(oyuncu_ismi, 0) * 2
-			
+			var puan = ana.puan_hesapla(oyuncu_ismi)
 			var logo_rect = satir.get_node_or_null("Logo")
 			
 			if logo_rect and med != "" and arayuz.flama_resimleri.has(med):
@@ -136,13 +113,12 @@ func skor_guncelle():
 				isim_lbl.text = oyuncu_ismi
 				
 			if puan_lbl:
-				puan_lbl.text = "%d ⭐" % puan
+				puan_lbl.text = "%d P" % puan
 				
-			# 🟢 YENİ: Puan hedefe ulaştıysa kazanma kontrolü (sadece sunucu tetiklesin)
-			if puan >= ana.HEDEF_PUAN and multiplayer.is_server() and not ana.oyun_bitti:
-				ana.aksiyon.oyunu_bitir_rpc.rpc(oyuncu_ismi, puan)
+
 		else:
 			satir.visible = false
 
 func _kaynak_hesapla(sahip: String) -> Dictionary:
 	return ana.tur_ekonomi.bina_uretimi(sahip)
+
