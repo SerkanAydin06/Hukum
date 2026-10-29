@@ -1,6 +1,6 @@
 extends TextureButton
 
-const ONCU_KAMPI_KART_ZEMINI = preload("res://Assets/Resimler/kartresimleri/oduncu.png")
+const ONCU_KAMPI_KARTI = preload("res://Assets/Resimler/kartresimleri/oncukampi.png")
 
 # --- SAVAŞ GÖRÜNÜMÜ NODELARI ---
 @onready var savas_gorunumu = $SavasGorunumu if has_node("SavasGorunumu") else null
@@ -21,7 +21,6 @@ const ONCU_KAMPI_KART_ZEMINI = preload("res://Assets/Resimler/kartresimleri/odun
 @onready var insa_gorunumu = $InsaGorunumu if has_node("InsaGorunumu") else null
 @onready var insa_arkaplan = $InsaGorunumu/Arkaplan if has_node("InsaGorunumu/Arkaplan") else null
 @onready var insa_resim = get_node_or_null("%InsaResim")        # 🟢 DEĞİŞTİ
-@onready var oncu_kampi_detay = get_node_or_null("%OncuKampiDetay")
 @onready var bina_baslik_lbl = get_node_or_null("%BinaBaslik")   # 🟢 DEĞİŞTİ
 @onready var bina_aciklama_lbl = get_node_or_null("%BinaAciklama")   # 🟢 DEĞİŞTİ
 @onready var insa_odun_lbl = get_node_or_null("%InsaOdun")       # 🟢 DEĞİŞTİ
@@ -113,8 +112,6 @@ func karti_doldur(veri: Dictionary, idx: int):
 	kart_index = idx
 	kart_hedefi = veri.get("hedef", "")
 	kart_turu = veri.get("tur", "")
-	if oncu_kampi_detay:
-		oncu_kampi_detay.visible = kart_turu == "oncu_kampi" and kart_hedefi == "harita"
 	
 	var orj_isim = veri.get("isim", veri.get("tur", "Bilinmeyen")) 
 	var gosterilecek_isim = orj_isim.to_upper().replace("_", " ")
@@ -202,8 +199,8 @@ func karti_doldur(veri: Dictionary, idx: int):
 		if insa_resim:
 			var tur = veri.get("tur", "")
 			if tur == "oncu_kampi":
-				# Aynı yeşil inşa kartı şablonu, üzerine kamp çadırı illüstrasyonu.
-				insa_resim.texture = ONCU_KAMPI_KART_ZEMINI
+				# Diğer inşa kartlarıyla aynı tarzda, tek parça kamp illüstrasyonu.
+				insa_resim.texture = ONCU_KAMPI_KARTI
 			else:
 				var dosya_adi = insa_gelisim_resimleri.get(tur, "")
 				if dosya_adi != "":
@@ -299,3 +296,4 @@ func _on_donustur_pressed():
 	if ana and "aksiyon" in ana:
 		ana.aksiyon.kart_modul.karti_kaynaga_cevir(kart_index)
 		secim_yap(false)
+
