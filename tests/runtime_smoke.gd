@@ -60,6 +60,10 @@ func run():
 	check(menu.kaydet_btn.disabled, "Invalid profile name cannot be saved")
 	menu.isim_giris_kutusu.text = global.oyuncu_ismi
 	menu.isim_giris_kutusu.text_changed.emit(global.oyuncu_ismi)
+	check(menu.get_node("%ProfilResmi/PortraitBorder").texture != null, "Main profile portrait has a gold frame")
+	check(menu.get_node("%DuzenleProfilResmi/PortraitBorder").texture != null, "Large profile preview has a gold frame")
+	for number in range(1, 9):
+		check(menu.get_node("%%Profil%d/PortraitBorder" % number).texture != null, "Avatar picker is framed: " + str(number))
 	await capture("profile")
 	menu._profil_duzenle_kapat()
 	menu._cok_oyunculu_menu_ac()
@@ -91,11 +95,34 @@ func run():
 	game.aksiyon.normal_kart_cek_rpc(isim)
 	check(game.deste.el.size() == 1, "Real card scene renders a drawn card")
 	await capture("game")
-	var hud_settings = game.get_node("%OyunAyarlarBtn")
+	var civ_style = game.arayuz.medeniyet_gorunumu
+	var identity_before = game.medeniyetler_verisi.duplicate(true)
+	var decorations_before = game.find_children("CivilizationOrnament", "Control", true, false).size()
+	var crests = []
+	var late_card = load("res://KartUI.tscn").instantiate()
+	game.get_node("%InsaKartEliKonteyner").add_child(late_card)
+	check(late_card.theme == civ_style.skin_for(game.medeniyetler_verisi[isim]).theme, "New card command buttons inherit the current civilization skin")
+	late_card.free()
+
+	for civ in ["Osmanlı", "Venedik", "Bizans", "Mısır", "Moğol", "Viking"]:
+		civ_style.apply_to(game, civ)
+		var emblem = game.get_node("%TurButonu").icon
+		check(emblem != null and not emblem in crests, "Distinct end-turn crest for " + civ)
+		crests.append(emblem)
+		var card_area = game.get_node("%AltOrtaPanel/CivilizationOrnament")
+		check(card_area.emblem == emblem and card_area.mouse_filter == Control.MOUSE_FILTER_IGNORE, "Card-area ornament matches civilization and passes input: " + civ)
+		var command_skin = game.get_node("%TurButonu").get_theme_stylebox("normal")
+		check(command_skin is StyleBoxTexture and command_skin.texture_margin_left == 20, "Civilization buttons keep fixed corners: " + civ)
+		await capture("civ-" + str(civ_style.CIVS[civ].id))
+	check(game.medeniyetler_verisi == identity_before, "Civilization skin preview never changes player identity or rules")
+	check(game.find_children("CivilizationOrnament", "Control", true, false).size() == decorations_before, "Changing skins does not duplicate ornaments")
+	civ_style.apply_to(game, game.medeniyetler_verisi[isim])
+
+	var hud_settings = game.get_node("%OyunMenuBtn")
 	check(hud_settings.get_parent().get_global_rect().grow(-10).encloses(hud_settings.get_global_rect()), "Settings button stays inside its HUD frame")
 	hud_settings.pressed.emit()
-	check(game.oyun_menusu.perde.visible and game.oyun_menusu.satirlar.get_child(0).text == "AYARLAR", "HUD settings opens settings directly")
-	await capture("hud-settings")
+	check(game.oyun_menusu.perde.visible and game.oyun_menusu.satirlar.get_child(0).text == "HÜKÜM", "HUD button opens the menu with settings inside")
+	await capture("hud-menu")
 	game.oyun_menusu.perde.hide()
 
 	# Visual fixture: inspect the new trading sprite and existing camp SVG at game scale.

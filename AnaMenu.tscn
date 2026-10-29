@@ -35,6 +35,9 @@
 [ext_resource type="Texture2D" uid="uid://cl73v5wahqmpm" path="res://Assets/Resimler/arkaplanlar/SuYansimalari.png" id="19_qgvb2"]
 [ext_resource type="Texture2D" uid="uid://cvnnnxi6hdb6g" path="res://Assets/Resimler/arkaplanlar/GokyuzuParcaciklari.png" id="58_qgvb2"]
 
+[ext_resource type="Script" path="res://UI/PortraitBorder.gd" id="portrait_border"]
+[ext_resource type="Texture2D" path="res://Assets/UI/AvatarCerceveleri/Selected.png" id="portrait_selected"]
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1hitb"]
 shader = ExtResource("3_sbhwp")
 shader_parameter/movement_pixels = 80.0
@@ -127,22 +130,6 @@ shader_parameter/wave_speed = 0.67999998480064
 shader_parameter/wave_scale = 72.0
 shader_parameter/shimmer_amount = 0.018
 shader_parameter/shimmer_color = Color(0.62, 0.43, 0.22, 1)
-
-[sub_resource type="StyleBoxFlat" id="selection"]
-content_margin_left = 22.0
-content_margin_top = 12.0
-content_margin_right = 22.0
-content_margin_bottom = 12.0
-bg_color = Color(0, 0, 0, 0)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.98, 0.81, 0.43, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_left = 8
-corner_radius_bottom_right = 8
 
 [node name="AnaMenu" type="Control"]
 layout_mode = 1
@@ -448,6 +435,17 @@ custom_minimum_size = Vector2(100, 100)
 texture = ExtResource("avatar1")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="PortraitBorder" type="TextureRect" parent="ProfilPanel/ProfilIcerik/ProfilUst/ProfilResmi"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+script = ExtResource("portrait_border")
 
 [node name="Isimler" type="VBoxContainer" parent="ProfilPanel/ProfilIcerik/ProfilUst"]
 layout_mode = 2
@@ -869,6 +867,17 @@ texture = ExtResource("avatar1")
 expand_mode = 1
 stretch_mode = 5
 
+[node name="PortraitBorder" type="TextureRect" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/DuzenleProfilResmi"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+script = ExtResource("portrait_border")
+
 [node name="IsimGirisKutusu" type="LineEdit" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -899,7 +908,18 @@ texture_normal = ExtResource("avatar1")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Secim" type="Panel" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil1"]
+[node name="PortraitBorder" type="TextureRect" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+script = ExtResource("portrait_border")
+
+[node name="Secim" type="TextureRect" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil1"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -908,7 +928,8 @@ grow_horizontal = 2
 grow_vertical = 2
 visible = false
 mouse_filter = 2
-theme_override_styles/panel = SubResource("selection")
+texture = ExtResource("portrait_selected")
+expand_mode = 1
 
 [node name="Profil2" type="TextureButton" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid"]
 unique_name_in_owner = true
@@ -918,7 +939,18 @@ texture_normal = ExtResource("avatar2")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Secim" type="Panel" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil2"]
+[node name="PortraitBorder" type="TextureRect" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+script = ExtResource("portrait_border")
+
+[node name="Secim" type="TextureRect" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -927,7 +959,8 @@ grow_horizontal = 2
 grow_vertical = 2
 visible = false
 mouse_filter = 2
-theme_override_styles/panel = SubResource("selection")
+texture = ExtResource("portrait_selected")
+expand_mode = 1
 
 [node name="Profil3" type="TextureButton" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid"]
 unique_name_in_owner = true
@@ -937,7 +970,18 @@ texture_normal = ExtResource("avatar3")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Secim" type="Panel" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil3"]
+[node name="PortraitBorder" type="TextureRect" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+script = ExtResource("portrait_border")
+
+[node name="Secim" type="TextureRect" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil3"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -946,7 +990,8 @@ grow_horizontal = 2
 grow_vertical = 2
 visible = false
 mouse_filter = 2
-theme_override_styles/panel = SubResource("selection")
+texture = ExtResource("portrait_selected")
+expand_mode = 1
 
 [node name="Profil4" type="TextureButton" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid"]
 unique_name_in_owner = true
@@ -956,7 +1001,18 @@ texture_normal = ExtResource("avatar4")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Secim" type="Panel" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil4"]
+[node name="PortraitBorder" type="TextureRect" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+script = ExtResource("portrait_border")
+
+[node name="Secim" type="TextureRect" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil4"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -965,7 +1021,8 @@ grow_horizontal = 2
 grow_vertical = 2
 visible = false
 mouse_filter = 2
-theme_override_styles/panel = SubResource("selection")
+texture = ExtResource("portrait_selected")
+expand_mode = 1
 
 [node name="Profil5" type="TextureButton" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid"]
 unique_name_in_owner = true
@@ -975,7 +1032,18 @@ texture_normal = ExtResource("avatar5")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Secim" type="Panel" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil5"]
+[node name="PortraitBorder" type="TextureRect" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil5"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+script = ExtResource("portrait_border")
+
+[node name="Secim" type="TextureRect" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil5"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -984,7 +1052,8 @@ grow_horizontal = 2
 grow_vertical = 2
 visible = false
 mouse_filter = 2
-theme_override_styles/panel = SubResource("selection")
+texture = ExtResource("portrait_selected")
+expand_mode = 1
 
 [node name="Profil6" type="TextureButton" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid"]
 unique_name_in_owner = true
@@ -994,7 +1063,18 @@ texture_normal = ExtResource("avatar6")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Secim" type="Panel" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil6"]
+[node name="PortraitBorder" type="TextureRect" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil6"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+script = ExtResource("portrait_border")
+
+[node name="Secim" type="TextureRect" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil6"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1003,7 +1083,8 @@ grow_horizontal = 2
 grow_vertical = 2
 visible = false
 mouse_filter = 2
-theme_override_styles/panel = SubResource("selection")
+texture = ExtResource("portrait_selected")
+expand_mode = 1
 
 [node name="Profil7" type="TextureButton" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid"]
 unique_name_in_owner = true
@@ -1013,7 +1094,18 @@ texture_normal = ExtResource("avatar7")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Secim" type="Panel" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil7"]
+[node name="PortraitBorder" type="TextureRect" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil7"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+script = ExtResource("portrait_border")
+
+[node name="Secim" type="TextureRect" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil7"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1022,7 +1114,8 @@ grow_horizontal = 2
 grow_vertical = 2
 visible = false
 mouse_filter = 2
-theme_override_styles/panel = SubResource("selection")
+texture = ExtResource("portrait_selected")
+expand_mode = 1
 
 [node name="Profil8" type="TextureButton" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid"]
 unique_name_in_owner = true
@@ -1032,7 +1125,18 @@ texture_normal = ExtResource("avatar8")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Secim" type="Panel" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil8"]
+[node name="PortraitBorder" type="TextureRect" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil8"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+script = ExtResource("portrait_border")
+
+[node name="Secim" type="TextureRect" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil8"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1041,7 +1145,8 @@ grow_horizontal = 2
 grow_vertical = 2
 visible = false
 mouse_filter = 2
-theme_override_styles/panel = SubResource("selection")
+texture = ExtResource("portrait_selected")
+expand_mode = 1
 
 [node name="ProfilDugmeleri" type="HBoxContainer" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik"]
 layout_mode = 2
@@ -1071,4 +1176,3 @@ script = ExtResource("2_yfun4")
 logo = NodePath("../OyunLogosu")
 ana_menu_grubu = NodePath("../AnaKart")
 profil_paneli = NodePath("../ProfilPanel")
-
