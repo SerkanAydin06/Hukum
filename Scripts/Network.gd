@@ -429,7 +429,17 @@ func baglantiyi_kapat():
 		if link: link.leave_match()
 	_ag_temizle()
 
+# Yerel ağ maçında sahnesini yüklemiş istemciler (Network her zaman ağaçta
+# olduğundan sunucunun oyun sahnesi henüz yüklenmemiş olsa da bildirim kaybolmaz).
+var oyun_hazir_peerleri := {}
+
+@rpc("any_peer", "call_remote", "reliable")
+func oyun_sahnesi_hazir_rpc():
+	if multiplayer.is_server() and not merkezi_mod:
+		oyun_hazir_peerleri[multiplayer.get_remote_sender_id()] = true
+
 func _ag_temizle():
+	oyun_hazir_peerleri.clear()
 	for p in _bekleyen.values():
 		var validator = p.get("validator")
 		if is_instance_valid(validator): validator.cancel()

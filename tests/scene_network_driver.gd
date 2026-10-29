@@ -58,6 +58,9 @@ func exercise():
 			act.rpc_id(id, phase)
 			await get_tree().create_timer(0.4).timeout
 	check(game.ilk_tur_bitti and game.aktif_sira == 0, "Three real scenes completed setup and first round")
+	if not Network.merkezi_mod:
+		check(Network.oyun_hazir_peerleri.size() == 2, "Host knows both client scenes are loaded")
+	check(game.sure_asamasi_adi == "tur" and game.kalan_sure_saniye() > 100, "Turn countdown runs once all scenes are ready")
 	begin_battle.rpc_id(game.oyuncu_peer_idleri[0])
 	await get_tree().create_timer(0.3).timeout
 	check(game.savas.savas_aktif, "Actual multiplayer battle starts")

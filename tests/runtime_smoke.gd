@@ -94,6 +94,16 @@ func run():
 	check(game.ilk_tur_bitti and game.aktif_oyuncu_aksiyon_hakki == 3, "Foundation advances to normal turns")
 	game.aksiyon.normal_kart_cek_rpc(isim)
 	check(game.deste.el.size() == 1, "Real card scene renders a drawn card")
+	var sira_label = game.arayuz.get_node("%TurYazisi")
+	check(not "·" in sira_label.text, "Solo practice shows no countdown")
+	# The solo server clears any limit on its next frame, so check the display synchronously.
+	game.sure_baslat_rpc("tur", 75.0)
+	check(sira_label.text.ends_with("1:15") or sira_label.text.ends_with("1:14"), "HUD shows the server turn countdown")
+	game.sure_baslat_rpc("zar", 9.0)
+	check("⚔" in sira_label.text and (sira_label.text.ends_with("0:09") or sira_label.text.ends_with("0:08")), "HUD shows battle countdown")
+	await process_frame
+	await process_frame
+	check(not "·" in sira_label.text, "Solo server clears a countdown that does not apply")
 	await capture("game")
 	var civ_style = game.arayuz.medeniyet_gorunumu
 	var identity_before = game.medeniyetler_verisi.duplicate(true)

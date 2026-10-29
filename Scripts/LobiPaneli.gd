@@ -528,6 +528,7 @@ func oyuna_gecis_yap_rpc(son_lobi_verisi: Dictionary, tohum: int = 0):
 	Network.oturum_asamasi = "game"
 	Network.son_lobi_verisi = son_lobi_verisi
 	Network.oyun_tohumu = tohum
+	Network.oyun_hazir_peerleri.clear()
 	get_tree().change_scene_to_file("res://AnaOyun.tscn")
 
 

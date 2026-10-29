@@ -332,13 +332,7 @@ func arayuzu_guncelle():
 		else:
 			if ap_uyari_paneli: ap_uyari_paneli.visible = false
 			
-	tur_yazisi.text = "TUR %d" % ana.tur_sayaci
-		
-	var oyun_sirasi_label = get_node_or_null("%Oyunsirasi")
-	if oyun_sirasi_label:
-		var aktif_oyuncu_ismi = ana.oyuncular[ana.aktif_sira]
-		var aktif_medeniyet = ana.medeniyetler_verisi.get(aktif_oyuncu_ismi, "Bilinmiyor")
-		oyun_sirasi_label.text = "Sıra: %s (%s)" % [aktif_oyuncu_ismi, aktif_medeniyet]
+	sure_goster()
 
 	var med_ad = ana.medeniyetler_verisi.get(k_isim, "")
 	if med_ad != "" and flama_resimleri.has(med_ad):
@@ -713,3 +707,22 @@ func _hakimiyet_vazgec_basildi():
 
 func sonuc_ekranini_goster(kazanan: String, puan: int):
 	ana.oyun_menusu.sonucu_goster(kazanan, puan)
+
+# Sıra etiketi ve tur başlığındaki kalan süre ("TUR 2 · 1:23", savaşta "TUR 2 · ⚔ 0:09").
+func sure_goster():
+	if not ana or ana.oyuncular.is_empty() or ana.aktif_sira >= ana.oyuncular.size(): return
+	var oyun_sirasi_label = get_node_or_null("%Oyunsirasi")
+	if oyun_sirasi_label:
+		var aktif_oyuncu_ismi = ana.oyuncular[ana.aktif_sira]
+		var aktif_medeniyet = ana.medeniyetler_verisi.get(aktif_oyuncu_ismi, "Bilinmiyor")
+		oyun_sirasi_label.text = "Sıra: %s (%s)" % [aktif_oyuncu_ismi, aktif_medeniyet]
+	if not tur_yazisi: return
+	var metin = "TUR %d" % ana.tur_sayaci
+	var renk = Color(0.94509804, 0.8980392, 0.78431374, 1)
+	var saniye = ana.kalan_sure_saniye()
+	if saniye >= 0:
+		var etiket = "⚔ " if ana.sure_asamasi_adi != "tur" else ""
+		metin += " · %s%d:%02d" % [etiket, floori(saniye / 60.0), saniye % 60]
+		if saniye <= ana.UYARI_SURESI: renk = Color(1.0, 0.62, 0.2)
+	tur_yazisi.text = metin
+	tur_yazisi.add_theme_color_override("font_color", renk)

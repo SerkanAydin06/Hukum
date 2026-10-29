@@ -446,9 +446,15 @@ func run_timer_regressions():
 	await get_tree().create_timer(4.1).timeout   # let any earlier battle result panel close
 	battle.sonuc_gosteriliyor = false
 	game.tur_suresi = 1.0
+	game._sure_anahtari = []
+	Network.oyun_hazir_peerleri.clear()
+	game.sure_sinirlarini_isle(5.0)
+	check(game.aktif_sira == 0 and game.sure_asamasi_adi == "", "Timer waits until every player's scene is loaded")
+	Network.oyun_hazir_peerleri = {2: true, 3: true}
 	game._sure_anahtari = []   # the real _process may already have started a 120 s timer
 	game.sure_sinirlarini_isle(0.5)
 	check(game.aktif_sira == 0, "Turn timer does not fire early")
+	check(game.sure_asamasi_adi == "tur" and game.kalan_sure_saniye() == 1, "Server broadcasts the turn countdown")
 	game.sure_sinirlarini_isle(0.6)
 	check(game.aktif_sira == 1 and game.aktif_oyuncu_aksiyon_hakki == 3, "Expired turn passes to the next player")
 	reset_state()
