@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://bg8v14ellylmx"]
 
-[ext_resource type="Texture2D" path="res://UI/Skins/window.svg" id="14_78y8l"]
 [ext_resource type="Script" uid="uid://b3mjgex408p05" path="res://Scripts/AnaOyun.gd" id="1_cklu1"]
 [ext_resource type="Script" uid="uid://choon15ss0bmv" path="res://Scripts/Harita.gd" id="2_bi0x7"]
 [ext_resource type="Script" uid="uid://b3m2wc5wo6mm8" path="res://Scripts/ArayuzYonetici.gd" id="3_bi0x7"]
@@ -19,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://d1teeokpfqytk" path="res://Assets/Resimler/savasdestesi1.png" id="13_7y0ue"]
 [ext_resource type="Texture2D" uid="uid://c2xhbc343ytgf" path="res://Assets/Resimler/kaynak_altin.png" id="13_8xc7r"]
 [ext_resource type="FontFile" uid="uid://dw26wlrb3m40k" path="res://fonts/NotoSans-Bold.ttf" id="13_38er3"]
+[ext_resource type="Texture2D" uid="uid://kyiamc81qr70" path="res://UI/Skins/window.svg" id="14_78y8l"]
 [ext_resource type="Texture2D" uid="uid://e7ge5nftkn6q" path="res://Assets/Resimler/savasdestesi3.png" id="14_m8awp"]
 [ext_resource type="Texture2D" uid="uid://dfg8yfopdeuka" path="res://Assets/Resimler/savasdestesi2.png" id="15_duk28"]
 [ext_resource type="Texture2D" uid="uid://cg3cih8hjn7am" path="res://Assets/Resimler/savasdestesi4.png" id="16_nkblf"]
@@ -78,10 +78,10 @@ RichTextLabel/fonts/italics_font = ExtResource("13_38er3")
 RichTextLabel/fonts/mono_font = ExtResource("13_38er3")
 RichTextLabel/fonts/normal_font = ExtResource("13_38er3")
 
-[node name="AnaOyun" type="Node2D"]
+[node name="AnaOyun" type="Node2D" unique_id=437638527]
 script = ExtResource("1_cklu1")
 
-[node name="TextureRect" type="ColorRect" parent="."]
+[node name="TextureRect" type="ColorRect" parent="." unique_id=1860208127]
 offset_left = -1012.0
 offset_top = -638.0
 offset_right = 2861.0
@@ -89,40 +89,39 @@ offset_bottom = 1756.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="Harita" type="Node2D" parent="."]
+[node name="Harita" type="Node2D" parent="." unique_id=1915042985]
 unique_name_in_owner = true
 script = ExtResource("2_bi0x7")
 
-[node name="ArayuzYonetici" type="Node2D" parent="."]
+[node name="ArayuzYonetici" type="Node2D" parent="." unique_id=423957487]
 unique_name_in_owner = true
 script = ExtResource("3_bi0x7")
 
-[node name="TurEkonomiYonetici" type="Node2D" parent="."]
+[node name="TurEkonomiYonetici" type="Node2D" parent="." unique_id=1294094666]
 unique_name_in_owner = true
 script = ExtResource("4_nlswb")
 
-[node name="AksiyonYonetici" type="Node2D" parent="."]
+[node name="AksiyonYonetici" type="Node2D" parent="." unique_id=538282198]
 unique_name_in_owner = true
 script = ExtResource("5_vvwkr")
 
-[node name="DesteYonetici" type="Node2D" parent="."]
+[node name="DesteYonetici" type="Node2D" parent="." unique_id=1245506942]
 unique_name_in_owner = true
 script = ExtResource("3_nlswb")
 
-[node name="SavasYonetici" type="Node2D" parent="."]
+[node name="SavasYonetici" type="Node2D" parent="." unique_id=1000116297]
 unique_name_in_owner = true
 script = ExtResource("4_vvwkr")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1790456201]
 unique_name_in_owner = true
 position = Vector2(869, 560)
 zoom = Vector2(2, 2)
 script = ExtResource("5_5p4tg")
 
-[node name="OyunArayuzu" type="CanvasLayer" parent="."]
+[node name="OyunArayuzu" type="CanvasLayer" parent="." unique_id=1595414603]
 
-[node name="AnaArayuz" type="Control" parent="OyunArayuzu"]
-theme = ExtResource("hukum_theme")
+[node name="AnaArayuz" type="Control" parent="OyunArayuzu" unique_id=1088713691]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -130,8 +129,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = ExtResource("hukum_theme")
 
-[node name="UstPanel" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz"]
+[node name="UstPanel" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz" unique_id=1481134377]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 1
@@ -140,7 +140,7 @@ anchor_right = 1.0
 offset_bottom = 240.0
 grow_horizontal = 2
 
-[node name="MedeniyetLogo" type="TextureRect" parent="OyunArayuzu/AnaArayuz/UstPanel"]
+[node name="MedeniyetLogo" type="TextureRect" parent="OyunArayuzu/AnaArayuz/UstPanel" unique_id=1615415259]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_qle4t")
 custom_minimum_size = Vector2(100, 200)
@@ -148,16 +148,16 @@ layout_mode = 2
 mouse_filter = 0
 texture = ExtResource("9_u2xmd")
 
-[node name="UstVBox" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel"]
+[node name="UstVBox" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel" unique_id=851963940]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="UstHBox" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox"]
+[node name="UstHBox" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox" unique_id=1637210813]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 mouse_filter = 0
 
-[node name="TurPaneli" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox"]
+[node name="TurPaneli" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox" unique_id=1063674453]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 texture = ExtResource("14_78y8l")
@@ -166,7 +166,7 @@ patch_margin_top = 24
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="MarginArkaPlan" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/TurPaneli"]
+[node name="MarginArkaPlan" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/TurPaneli" unique_id=611543324]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -178,7 +178,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="NinePatchArkaPlan" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/TurPaneli/MarginArkaPlan"]
+[node name="NinePatchArkaPlan" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/TurPaneli/MarginArkaPlan" unique_id=1089173225]
 visible = false
 modulate = Color(0, 0, 0.023529412, 0.78431374)
 layout_mode = 2
@@ -188,7 +188,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="AnaMargin" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/TurPaneli"]
+[node name="AnaMargin" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/TurPaneli" unique_id=1926864172]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -200,11 +200,11 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="AnaVBox" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/TurPaneli/AnaMargin"]
+[node name="AnaVBox" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/TurPaneli/AnaMargin" unique_id=363152097]
 layout_mode = 2
 alignment = 1
 
-[node name="TurYazisi" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/TurPaneli/AnaMargin/AnaVBox"]
+[node name="TurYazisi" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/TurPaneli/AnaMargin/AnaVBox" unique_id=4842046]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -214,7 +214,7 @@ text = "TUR 1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Oyunsirasi" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/TurPaneli/AnaMargin/AnaVBox"]
+[node name="Oyunsirasi" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/TurPaneli/AnaMargin/AnaVBox" unique_id=1138170576]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -223,7 +223,7 @@ text = "Oyun sırası: Osmanli"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="KaynakPaneli" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox"]
+[node name="KaynakPaneli" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox" unique_id=184487091]
 custom_minimum_size = Vector2(800, 75)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -233,7 +233,7 @@ patch_margin_top = 24
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="MarginArkaPlan" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli"]
+[node name="MarginArkaPlan" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli" unique_id=887535535]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -245,7 +245,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/MarginArkaPlan"]
+[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/MarginArkaPlan" unique_id=859569877]
 visible = false
 modulate = Color(0, 0, 0.023529412, 0.78431374)
 layout_mode = 2
@@ -255,7 +255,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="AnaMargin" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli"]
+[node name="AnaMargin" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli" unique_id=869918510]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -267,15 +267,15 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="AnaHBox" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin"]
+[node name="AnaHBox" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin" unique_id=992235210]
 custom_minimum_size = Vector2(0, 75)
 layout_mode = 2
 
-[node name="AltınHBox" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox"]
+[node name="AltınHBox" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox" unique_id=1834218818]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="AltinLogo" type="TextureRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/AltınHBox"]
+[node name="AltinLogo" type="TextureRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/AltınHBox" unique_id=1517878032]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
@@ -283,12 +283,12 @@ texture = ExtResource("13_8xc7r")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="AnaVBox" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/AltınHBox"]
+[node name="AnaVBox" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/AltınHBox" unique_id=941221692]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="AltinIsimLabel" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/AltınHBox/AnaVBox"]
+[node name="AltinIsimLabel" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/AltınHBox/AnaVBox" unique_id=1603293900]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("12_mvqsr")
@@ -296,14 +296,14 @@ theme_override_font_sizes/font_size = 22
 text = "Altın"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/AltınHBox/AnaVBox"]
+[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/AltınHBox/AnaVBox" unique_id=1420320084]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/AltınHBox/AnaVBox"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/AltınHBox/AnaVBox" unique_id=2007288626]
 layout_mode = 2
 theme_override_constants/separation = 50
 
-[node name="AltinMiktar" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/AltınHBox/AnaVBox/HBoxContainer"]
+[node name="AltinMiktar" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/AltınHBox/AnaVBox/HBoxContainer" unique_id=1469054329]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -314,7 +314,7 @@ text = "25"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AltinUretim" type="RichTextLabel" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/AltınHBox/AnaVBox/HBoxContainer"]
+[node name="AltinUretim" type="RichTextLabel" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/AltınHBox/AnaVBox/HBoxContainer" unique_id=486538606]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -328,14 +328,14 @@ text = "+12/tur"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VSeparator" type="VSeparator" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox"]
+[node name="VSeparator" type="VSeparator" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox" unique_id=1346404965]
 layout_mode = 2
 
-[node name="OdunHBox" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox"]
+[node name="OdunHBox" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox" unique_id=2091421340]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="OdunLogo" type="TextureRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/OdunHBox"]
+[node name="OdunLogo" type="TextureRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/OdunHBox" unique_id=1237003903]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
@@ -343,12 +343,12 @@ texture = ExtResource("16_rbu0y")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/OdunHBox"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/OdunHBox" unique_id=1622962113]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="OdunIsimLabel" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/OdunHBox/VBoxContainer"]
+[node name="OdunIsimLabel" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/OdunHBox/VBoxContainer" unique_id=1378159174]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("12_mvqsr")
@@ -356,14 +356,14 @@ theme_override_font_sizes/font_size = 22
 text = "Odun"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/OdunHBox/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/OdunHBox/VBoxContainer" unique_id=131092875]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/OdunHBox/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/OdunHBox/VBoxContainer" unique_id=820523212]
 layout_mode = 2
 theme_override_constants/separation = 50
 
-[node name="OdunMiktar" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/OdunHBox/VBoxContainer/HBoxContainer"]
+[node name="OdunMiktar" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/OdunHBox/VBoxContainer/HBoxContainer" unique_id=1378653852]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -374,7 +374,7 @@ text = "25"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="OdunUretim" type="RichTextLabel" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/OdunHBox/VBoxContainer/HBoxContainer"]
+[node name="OdunUretim" type="RichTextLabel" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/OdunHBox/VBoxContainer/HBoxContainer" unique_id=1266595553]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -388,14 +388,14 @@ text = "12"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VSeparator2" type="VSeparator" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox"]
+[node name="VSeparator2" type="VSeparator" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox" unique_id=701382335]
 layout_mode = 2
 
-[node name="YiyecekHBox" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox"]
+[node name="YiyecekHBox" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox" unique_id=1020589532]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="YiyecekLogo" type="TextureRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/YiyecekHBox"]
+[node name="YiyecekLogo" type="TextureRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/YiyecekHBox" unique_id=1948065066]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
@@ -403,12 +403,12 @@ texture = ExtResource("17_3k2mh")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/YiyecekHBox"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/YiyecekHBox" unique_id=80881809]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="YiyecekIsimLabel" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/YiyecekHBox/VBoxContainer"]
+[node name="YiyecekIsimLabel" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/YiyecekHBox/VBoxContainer" unique_id=1291351546]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("12_mvqsr")
@@ -416,14 +416,14 @@ theme_override_font_sizes/font_size = 22
 text = "Yiyecek"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/YiyecekHBox/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/YiyecekHBox/VBoxContainer" unique_id=1421615119]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/YiyecekHBox/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/YiyecekHBox/VBoxContainer" unique_id=137733861]
 layout_mode = 2
 theme_override_constants/separation = 50
 
-[node name="YiyecekMiktar" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/YiyecekHBox/VBoxContainer/HBoxContainer"]
+[node name="YiyecekMiktar" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/YiyecekHBox/VBoxContainer/HBoxContainer" unique_id=429864114]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -434,7 +434,7 @@ text = "25"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="YiyecekUretim" type="RichTextLabel" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/YiyecekHBox/VBoxContainer/HBoxContainer"]
+[node name="YiyecekUretim" type="RichTextLabel" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/YiyecekHBox/VBoxContainer/HBoxContainer" unique_id=1991205280]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -448,14 +448,14 @@ text = "12"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VSeparator3" type="VSeparator" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox"]
+[node name="VSeparator3" type="VSeparator" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox" unique_id=1635381900]
 layout_mode = 2
 
-[node name="TasHBox" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox"]
+[node name="TasHBox" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox" unique_id=1722443734]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TasLogo" type="TextureRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/TasHBox"]
+[node name="TasLogo" type="TextureRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/TasHBox" unique_id=2036413581]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
@@ -463,12 +463,12 @@ texture = ExtResource("18_qle4t")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/TasHBox"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/TasHBox" unique_id=1032594595]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="TasIsimLabel" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/TasHBox/VBoxContainer"]
+[node name="TasIsimLabel" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/TasHBox/VBoxContainer" unique_id=731404693]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("12_mvqsr")
@@ -476,14 +476,14 @@ theme_override_font_sizes/font_size = 22
 text = "Taş"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/TasHBox/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/TasHBox/VBoxContainer" unique_id=1840896817]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/TasHBox/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/TasHBox/VBoxContainer" unique_id=1377051582]
 layout_mode = 2
 theme_override_constants/separation = 50
 
-[node name="TasMiktar" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/TasHBox/VBoxContainer/HBoxContainer"]
+[node name="TasMiktar" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/TasHBox/VBoxContainer/HBoxContainer" unique_id=519831499]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -494,7 +494,7 @@ text = "25"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TasUretim" type="RichTextLabel" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/TasHBox/VBoxContainer/HBoxContainer"]
+[node name="TasUretim" type="RichTextLabel" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli/AnaMargin/AnaHBox/TasHBox/VBoxContainer/HBoxContainer" unique_id=1044892733]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -508,7 +508,7 @@ text = "12"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ApPaneli" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox"]
+[node name="ApPaneli" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox" unique_id=829384999]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 texture = ExtResource("14_78y8l")
@@ -517,7 +517,7 @@ patch_margin_top = 24
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="MarginArkaplan" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/ApPaneli"]
+[node name="MarginArkaplan" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/ApPaneli" unique_id=1456126539]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -529,7 +529,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="NinePatchArkaPlan" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/ApPaneli/MarginArkaplan"]
+[node name="NinePatchArkaPlan" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/ApPaneli/MarginArkaplan" unique_id=1160816209]
 visible = false
 modulate = Color(0, 0, 0.023529412, 0.78431374)
 layout_mode = 2
@@ -539,7 +539,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="AnaHBox" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/ApPaneli"]
+[node name="AnaHBox" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/ApPaneli" unique_id=1594281884]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -548,7 +548,7 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="APLabel" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/ApPaneli/AnaHBox"]
+[node name="APLabel" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/ApPaneli/AnaHBox" unique_id=412298819]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -558,7 +558,7 @@ text = "3/3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/ApPaneli/AnaHBox"]
+[node name="Label" type="Label" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/ApPaneli/AnaHBox" unique_id=191868050]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9607843, 0.8745098, 0.6039216, 1)
 theme_override_fonts/font = ExtResource("13_38er3")
@@ -567,7 +567,7 @@ text = "AP"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AyarlarPaneli" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox"]
+[node name="AyarlarPaneli" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox" unique_id=446579116]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(350, 0)
 layout_mode = 2
@@ -577,7 +577,7 @@ patch_margin_top = 24
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="MarginArkaplan" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/AyarlarPaneli"]
+[node name="MarginArkaplan" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/AyarlarPaneli" unique_id=1374324079]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -589,7 +589,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/AyarlarPaneli/MarginArkaplan"]
+[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/AyarlarPaneli/MarginArkaplan" unique_id=686329360]
 visible = false
 modulate = Color(0, 0, 0.023529412, 0.78431374)
 layout_mode = 2
@@ -599,7 +599,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="ZaferPaneli" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz"]
+[node name="ZaferPaneli" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz" unique_id=1477820535]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 300)
 layout_mode = 1
@@ -620,7 +620,7 @@ patch_margin_top = 24
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="MarginArkaplan" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/ZaferPaneli"]
+[node name="MarginArkaplan" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/ZaferPaneli" unique_id=1759526496]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -632,7 +632,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/MarginArkaplan"]
+[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/MarginArkaplan" unique_id=360704784]
 visible = false
 modulate = Color(0, 0, 0.023529412, 0.78431374)
 layout_mode = 2
@@ -642,7 +642,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="AnaMargin" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/ZaferPaneli"]
+[node name="AnaMargin" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/ZaferPaneli" unique_id=972355665]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -657,11 +657,11 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="AnaVBox" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin"]
+[node name="AnaVBox" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin" unique_id=1545384048]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox"]
+[node name="Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox" unique_id=432491671]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("25_cfl5i")
@@ -670,10 +670,10 @@ text = "Zafer Sıralaması"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox"]
+[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox" unique_id=465118438]
 layout_mode = 2
 
-[node name="PuanKonteyner" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox"]
+[node name="PuanKonteyner" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox" unique_id=422572259]
 unique_name_in_owner = true
 clip_contents = true
 layout_mode = 2
@@ -681,24 +681,24 @@ size_flags_vertical = 3
 theme = SubResource("Theme_u2xmd")
 theme_override_constants/separation = 10
 
-[node name="AnaHBox" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner"]
+[node name="AnaHBox" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner" unique_id=1832233847]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/AnaHBox"]
+[node name="Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/AnaHBox" unique_id=1695451826]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("16_xhnle")
 theme_override_font_sizes/font_size = 24
 text = "1"
 
-[node name="Logo" type="TextureRect" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/AnaHBox"]
+[node name="Logo" type="TextureRect" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/AnaHBox" unique_id=1758159932]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Oyuncu1Ismi" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/AnaHBox"]
+[node name="Oyuncu1Ismi" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/AnaHBox" unique_id=1748015737]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -707,7 +707,7 @@ theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("16_xhnle")
 text = "Medeniyet İsmi"
 
-[node name="Puan1Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/AnaHBox"]
+[node name="Puan1Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/AnaHBox" unique_id=769984252]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -716,24 +716,24 @@ theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 18
 text = "15"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner" unique_id=1420317537]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer2"]
+[node name="Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer2" unique_id=1722798413]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("16_xhnle")
 theme_override_font_sizes/font_size = 24
 text = "2"
 
-[node name="Logo" type="TextureRect" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer2"]
+[node name="Logo" type="TextureRect" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer2" unique_id=605138623]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Oyuncu2Ismi" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer2"]
+[node name="Oyuncu2Ismi" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer2" unique_id=1339361148]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -742,7 +742,7 @@ theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("16_xhnle")
 text = "Medeniyet İsmi"
 
-[node name="Puan2Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer2"]
+[node name="Puan2Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer2" unique_id=567863463]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -751,24 +751,24 @@ theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 18
 text = "15"
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner" unique_id=844384238]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer3"]
+[node name="Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer3" unique_id=2016006902]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("16_xhnle")
 theme_override_font_sizes/font_size = 24
 text = "3"
 
-[node name="Logo" type="TextureRect" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer3"]
+[node name="Logo" type="TextureRect" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer3" unique_id=1928623358]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Oyuncu3Ismi" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer3"]
+[node name="Oyuncu3Ismi" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer3" unique_id=1256304187]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -777,7 +777,7 @@ theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("16_xhnle")
 text = "Medeniyet İsmi"
 
-[node name="Puan3Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer3"]
+[node name="Puan3Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer3" unique_id=168279338]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -786,24 +786,24 @@ theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 18
 text = "15"
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner"]
+[node name="HBoxContainer4" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner" unique_id=897950619]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer4"]
+[node name="Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer4" unique_id=516988866]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("16_xhnle")
 theme_override_font_sizes/font_size = 24
 text = "4"
 
-[node name="Logo" type="TextureRect" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer4"]
+[node name="Logo" type="TextureRect" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer4" unique_id=1836097150]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Oyuncu4Ismi" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer4"]
+[node name="Oyuncu4Ismi" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer4" unique_id=964175653]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -812,7 +812,7 @@ theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("16_xhnle")
 text = "Medeniyet İsmi"
 
-[node name="Puan4Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer4"]
+[node name="Puan4Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer4" unique_id=460669419]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -821,24 +821,24 @@ theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 18
 text = "15"
 
-[node name="HBoxContainer5" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner"]
+[node name="HBoxContainer5" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner" unique_id=2115293686]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer5"]
+[node name="Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer5" unique_id=254518613]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("16_xhnle")
 theme_override_font_sizes/font_size = 24
 text = "5"
 
-[node name="Logo" type="TextureRect" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer5"]
+[node name="Logo" type="TextureRect" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer5" unique_id=1241622248]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Oyuncu5Ismi" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer5"]
+[node name="Oyuncu5Ismi" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer5" unique_id=585509361]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -847,7 +847,7 @@ theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("16_xhnle")
 text = "Medeniyet İsmi"
 
-[node name="Puan5Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer5"]
+[node name="Puan5Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer5" unique_id=1427192372]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -856,24 +856,24 @@ theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 18
 text = "15"
 
-[node name="HBoxContainer6" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner"]
+[node name="HBoxContainer6" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner" unique_id=408899471]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer6"]
+[node name="Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer6" unique_id=1512143956]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("16_xhnle")
 theme_override_font_sizes/font_size = 24
 text = "6"
 
-[node name="Logo" type="TextureRect" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer6"]
+[node name="Logo" type="TextureRect" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer6" unique_id=1357505512]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Oyuncu6Ismi" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer6"]
+[node name="Oyuncu6Ismi" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer6" unique_id=344089356]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -882,7 +882,7 @@ theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("16_xhnle")
 text = "Medeniyet İsmi"
 
-[node name="Puan6Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer6"]
+[node name="Puan6Label" type="Label" parent="OyunArayuzu/AnaArayuz/ZaferPaneli/AnaMargin/AnaVBox/PuanKonteyner/HBoxContainer6" unique_id=2084590940]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -891,10 +891,10 @@ theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 18
 text = "15"
 
-[node name="SecimPaneli" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz"]
+[node name="SecimPaneli" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz" unique_id=1927027870]
 unique_name_in_owner = true
-clip_contents = true
 custom_minimum_size = Vector2(350, 200)
+clip_contents = true
 layout_mode = 0
 offset_left = 1570.0
 offset_top = 410.0
@@ -907,7 +907,7 @@ patch_margin_top = 24
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="MarginArkaplan" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/SecimPaneli"]
+[node name="MarginArkaplan" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/SecimPaneli" unique_id=1125301580]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -919,7 +919,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/SecimPaneli/MarginArkaplan"]
+[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/SecimPaneli/MarginArkaplan" unique_id=200020489]
 visible = false
 modulate = Color(0, 0, 0.023529412, 0.78431374)
 layout_mode = 2
@@ -929,7 +929,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="AnaMargin" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/SecimPaneli"]
+[node name="AnaMargin" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/SecimPaneli" unique_id=918498462]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -941,10 +941,10 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="AnaVBox" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin"]
+[node name="AnaVBox" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin" unique_id=1753822440]
 layout_mode = 2
 
-[node name="SeciliIsim" type="Label" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox"]
+[node name="SeciliIsim" type="Label" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox" unique_id=134721191]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
@@ -953,40 +953,40 @@ theme_override_font_sizes/font_size = 22
 text = "Seçim Paneli"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox"]
+[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox" unique_id=146018236]
 layout_mode = 2
 
-[node name="AnaHBox" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox"]
+[node name="AnaHBox" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox" unique_id=1763642861]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HexResim" type="TextureRect" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox"]
+[node name="HexResim" type="TextureRect" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox" unique_id=799502916]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox" unique_id=998921567]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer" unique_id=1650754736]
 layout_mode = 2
 
-[node name="Baslik" type="Label" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer"]
+[node name="Baslik" type="Label" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer" unique_id=1982597254]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("16_xhnle")
 theme_override_font_sizes/font_size = 16
 text = "Sahip"
 
-[node name="Control" type="Control" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer" unique_id=1548294794]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SahipLabel" type="Label" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer"]
+[node name="SahipLabel" type="Label" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer" unique_id=1967199423]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -994,21 +994,21 @@ theme_override_fonts/font = ExtResource("16_xhnle")
 theme_override_font_sizes/font_size = 12
 text = "Medeniyet"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer" unique_id=341016168]
 layout_mode = 2
 
-[node name="Baslik" type="Label" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer2"]
+[node name="Baslik" type="Label" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer2" unique_id=26868378]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("16_xhnle")
 theme_override_font_sizes/font_size = 16
 text = "Arazi"
 
-[node name="Control" type="Control" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer2"]
+[node name="Control" type="Control" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer2" unique_id=1323729401]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="AraziLabel" type="Label" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer2"]
+[node name="AraziLabel" type="Label" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer2" unique_id=1491808740]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -1016,21 +1016,21 @@ theme_override_fonts/font = ExtResource("16_xhnle")
 theme_override_font_sizes/font_size = 12
 text = "Arazi Türü"
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer" unique_id=873126654]
 layout_mode = 2
 
-[node name="Baslik" type="Label" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer3"]
+[node name="Baslik" type="Label" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer3" unique_id=1868914510]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("16_xhnle")
 theme_override_font_sizes/font_size = 16
 text = "Bina"
 
-[node name="Control" type="Control" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer3"]
+[node name="Control" type="Control" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer3" unique_id=764499333]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="BinaLabel" type="Label" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer3"]
+[node name="BinaLabel" type="Label" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer3" unique_id=150499440]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -1038,21 +1038,21 @@ theme_override_fonts/font = ExtResource("16_xhnle")
 theme_override_font_sizes/font_size = 12
 text = "Bina İsmi"
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer"]
+[node name="HBoxContainer4" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer" unique_id=2118249146]
 layout_mode = 2
 
-[node name="Baslik" type="Label" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer4"]
+[node name="Baslik" type="Label" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer4" unique_id=2034758052]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("16_xhnle")
 theme_override_font_sizes/font_size = 16
 text = "Üretim"
 
-[node name="Control" type="Control" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer4"]
+[node name="Control" type="Control" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer4" unique_id=310740956]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="UretimBilgi" type="Label" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer4"]
+[node name="UretimBilgi" type="Label" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer4" unique_id=1390581588]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -1060,21 +1060,21 @@ theme_override_fonts/font = ExtResource("16_xhnle")
 theme_override_font_sizes/font_size = 12
 text = "+1 Altın"
 
-[node name="HBoxContainer5" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer"]
+[node name="HBoxContainer5" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer" unique_id=2115898947]
 layout_mode = 2
 
-[node name="Baslik" type="Label" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer5"]
+[node name="Baslik" type="Label" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer5" unique_id=143480925]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("16_xhnle")
 theme_override_font_sizes/font_size = 16
 text = "Savunma"
 
-[node name="Control" type="Control" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer5"]
+[node name="Control" type="Control" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer5" unique_id=1826398916]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SavunmaBonus" type="Label" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer5"]
+[node name="SavunmaBonus" type="Label" parent="OyunArayuzu/AnaArayuz/SecimPaneli/AnaMargin/AnaVBox/AnaHBox/VBoxContainer/HBoxContainer5" unique_id=1413960374]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -1082,15 +1082,15 @@ theme_override_fonts/font = ExtResource("16_xhnle")
 theme_override_font_sizes/font_size = 12
 text = "+5"
 
-[node name="OlayPaneli" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz"]
+[node name="OlayPaneli" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz" unique_id=1363561755]
 unique_name_in_owner = true
-clip_contents = true
 custom_minimum_size = Vector2(350, 250)
+clip_contents = true
 layout_mode = 0
 offset_left = 1569.0
 offset_top = 615.0
 offset_right = 1919.0
-offset_bottom = 865.0
+offset_bottom = 965.0
 mouse_filter = 0
 texture = ExtResource("14_78y8l")
 patch_margin_left = 24
@@ -1098,7 +1098,7 @@ patch_margin_top = 24
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="MarginArkaplan" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/OlayPaneli"]
+[node name="MarginArkaplan" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/OlayPaneli" unique_id=2105886244]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1110,7 +1110,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/OlayPaneli/MarginArkaplan"]
+[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/OlayPaneli/MarginArkaplan" unique_id=931987947]
 visible = false
 modulate = Color(0, 0, 0.023529412, 0.78431374)
 layout_mode = 2
@@ -1120,7 +1120,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="AnaMargin" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/OlayPaneli"]
+[node name="AnaMargin" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/OlayPaneli" unique_id=414895217]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1132,10 +1132,10 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="AnaVBox" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/OlayPaneli/AnaMargin"]
+[node name="AnaVBox" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/OlayPaneli/AnaMargin" unique_id=1693168091]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OyunArayuzu/AnaArayuz/OlayPaneli/AnaMargin/AnaVBox"]
+[node name="Label" type="Label" parent="OyunArayuzu/AnaArayuz/OlayPaneli/AnaMargin/AnaVBox" unique_id=757703038]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("25_cfl5i")
@@ -1144,16 +1144,16 @@ text = "Oyun Günlüğü"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/AnaArayuz/OlayPaneli/AnaMargin/AnaVBox"]
+[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/AnaArayuz/OlayPaneli/AnaMargin/AnaVBox" unique_id=1520116792]
 layout_mode = 2
 
-[node name="OlayPaneliKonteyner" type="ScrollContainer" parent="OyunArayuzu/AnaArayuz/OlayPaneli/AnaMargin/AnaVBox"]
+[node name="OlayPaneliKonteyner" type="ScrollContainer" parent="OyunArayuzu/AnaArayuz/OlayPaneli/AnaMargin/AnaVBox" unique_id=2039772640]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 3
 
-[node name="OlayLogu" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/OlayPaneli/AnaMargin/AnaVBox/OlayPaneliKonteyner"]
+[node name="OlayLogu" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/OlayPaneli/AnaMargin/AnaVBox/OlayPaneliKonteyner" unique_id=192646944]
 unique_name_in_owner = true
 clip_contents = true
 layout_mode = 2
@@ -1161,7 +1161,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = SubResource("Theme_4jtwe")
 
-[node name="AltOrtaPanel" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz"]
+[node name="AltOrtaPanel" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz" unique_id=926038518]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(1300, 285)
 layout_mode = 1
@@ -1181,7 +1181,7 @@ patch_margin_top = 24
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="MarginArkaplan" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/AltOrtaPanel"]
+[node name="MarginArkaplan" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/AltOrtaPanel" unique_id=1592881617]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1193,7 +1193,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/AltOrtaPanel/MarginArkaplan"]
+[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/AltOrtaPanel/MarginArkaplan" unique_id=875180714]
 visible = false
 modulate = Color(0, 0, 0.023529412, 0.78431374)
 layout_mode = 2
@@ -1203,7 +1203,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="AnaHBox" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/AltOrtaPanel"]
+[node name="AnaHBox" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/AltOrtaPanel" unique_id=1965674215]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1211,7 +1211,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ElKonteyner" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/AltOrtaPanel/AnaHBox"]
+[node name="ElKonteyner" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/AltOrtaPanel/AnaHBox" unique_id=1869714470]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 20
@@ -1219,21 +1219,21 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="SavasKartEliKonteyner" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/AltOrtaPanel/AnaHBox/ElKonteyner"]
+[node name="SavasKartEliKonteyner" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/AltOrtaPanel/AnaHBox/ElKonteyner" unique_id=2117084476]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 0
 theme_override_constants/separation = 5
 alignment = 1
 
-[node name="InsaKartEliKonteyner" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/AltOrtaPanel/AnaHBox/ElKonteyner"]
+[node name="InsaKartEliKonteyner" type="HBoxContainer" parent="OyunArayuzu/AnaArayuz/AltOrtaPanel/AnaHBox/ElKonteyner" unique_id=179203456]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 0
 theme_override_constants/separation = 5
 alignment = 1
 
-[node name="SavasDesteBtn" type="Button" parent="OyunArayuzu/AnaArayuz/AltOrtaPanel"]
+[node name="SavasDesteBtn" type="Button" parent="OyunArayuzu/AnaArayuz/AltOrtaPanel" unique_id=1987326180]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(221, 60)
 layout_mode = 1
@@ -1241,12 +1241,11 @@ offset_left = -1.0
 offset_top = -54.0
 offset_right = 220.0
 offset_bottom = 6.0
-toggle_mode = true
-
-text = "SAVAŞ"
 mouse_default_cursor_shape = 2
+toggle_mode = true
+text = "SAVAŞ"
 
-[node name="InsaDesteBtn" type="Button" parent="OyunArayuzu/AnaArayuz/AltOrtaPanel"]
+[node name="InsaDesteBtn" type="Button" parent="OyunArayuzu/AnaArayuz/AltOrtaPanel" unique_id=1362330193]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(221, 60)
 layout_mode = 1
@@ -1258,12 +1257,11 @@ offset_top = -54.0
 offset_right = -858.0
 offset_bottom = 6.0
 grow_horizontal = 0
-toggle_mode = true
-
-text = "İNŞA"
 mouse_default_cursor_shape = 2
+toggle_mode = true
+text = "İNŞA"
 
-[node name="TicaretOncuVBox" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz"]
+[node name="TicaretOncuVBox" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz" unique_id=1566432055]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 200)
 layout_mode = 0
@@ -1272,27 +1270,26 @@ offset_right = 100.0
 offset_bottom = 795.0
 alignment = 1
 
-[node name="TicaretBtn" type="Button" parent="OyunArayuzu/AnaArayuz/TicaretOncuVBox"]
+[node name="TicaretBtn" type="Button" parent="OyunArayuzu/AnaArayuz/TicaretOncuVBox" unique_id=965799187]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(90, 90)
 layout_mode = 2
 size_flags_horizontal = 3
-
-text = "TİCARET"
-theme_type_variation = &"HukumCompact"
 mouse_default_cursor_shape = 2
+theme_type_variation = &"HukumCompact"
+text = "TİCARET"
 
-[node name="OncuUretBtn" type="Button" parent="OyunArayuzu/AnaArayuz/TicaretOncuVBox"]
+[node name="OncuUretBtn" type="Button" parent="OyunArayuzu/AnaArayuz/TicaretOncuVBox" unique_id=1422985879]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 3
-
-text = "ÖNCÜ\nÜRET"
-theme_type_variation = &"HukumCompact"
 mouse_default_cursor_shape = 2
+theme_type_variation = &"HukumCompact"
+text = "ÖNCÜ
+ÜRET"
 
-[node name="SavasDestesiPanel" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz"]
+[node name="SavasDestesiPanel" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz" unique_id=1955201880]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 1
@@ -1308,7 +1305,7 @@ patch_margin_top = 24
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="MarginArkaplan" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/SavasDestesiPanel"]
+[node name="MarginArkaplan" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/SavasDestesiPanel" unique_id=894685056]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1320,7 +1317,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/SavasDestesiPanel/MarginArkaplan"]
+[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/SavasDestesiPanel/MarginArkaplan" unique_id=1400854220]
 visible = false
 modulate = Color(0.047058824, 0.047058824, 0.36862746, 0.78431374)
 layout_mode = 2
@@ -1330,7 +1327,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="AnaMargin" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/SavasDestesiPanel"]
+[node name="AnaMargin" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/SavasDestesiPanel" unique_id=100612283]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1342,10 +1339,10 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="AnaVBox" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/SavasDestesiPanel/AnaMargin"]
+[node name="AnaVBox" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/SavasDestesiPanel/AnaMargin" unique_id=118606842]
 layout_mode = 2
 
-[node name="DesteBaslikLabel" type="Label" parent="OyunArayuzu/AnaArayuz/SavasDestesiPanel/AnaMargin/AnaVBox"]
+[node name="DesteBaslikLabel" type="Label" parent="OyunArayuzu/AnaArayuz/SavasDestesiPanel/AnaMargin/AnaVBox" unique_id=1614684452]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("25_cfl5i")
@@ -1354,7 +1351,7 @@ text = "SAVAŞ DESTESİ"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SavasDestesiKalan" type="Label" parent="OyunArayuzu/AnaArayuz/SavasDestesiPanel/AnaMargin/AnaVBox"]
+[node name="SavasDestesiKalan" type="Label" parent="OyunArayuzu/AnaArayuz/SavasDestesiPanel/AnaMargin/AnaVBox" unique_id=245023132]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -1364,7 +1361,7 @@ text = "Kalan: 15"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SavasCekBtn" type="TextureButton" parent="OyunArayuzu/AnaArayuz/SavasDestesiPanel/AnaMargin/AnaVBox"]
+[node name="SavasCekBtn" type="TextureButton" parent="OyunArayuzu/AnaArayuz/SavasDestesiPanel/AnaMargin/AnaVBox" unique_id=4500943]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 200)
 layout_mode = 2
@@ -1375,7 +1372,7 @@ texture_disabled = ExtResource("16_nkblf")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="InsaDestesiPanel" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz"]
+[node name="InsaDestesiPanel" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz" unique_id=747286828]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 1
@@ -1391,7 +1388,7 @@ patch_margin_top = 24
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="MarginContainer2" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/InsaDestesiPanel"]
+[node name="MarginContainer2" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/InsaDestesiPanel" unique_id=1224444026]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1403,7 +1400,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/InsaDestesiPanel/MarginContainer2"]
+[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz/InsaDestesiPanel/MarginContainer2" unique_id=1343588699]
 visible = false
 modulate = Color(0.047058824, 0.047058824, 0.36862746, 0.78431374)
 layout_mode = 2
@@ -1413,7 +1410,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/InsaDestesiPanel"]
+[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/AnaArayuz/InsaDestesiPanel" unique_id=251086154]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1425,10 +1422,10 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/InsaDestesiPanel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/AnaArayuz/InsaDestesiPanel/MarginContainer" unique_id=1973764128]
 layout_mode = 2
 
-[node name="DesteBaslikLabel" type="Label" parent="OyunArayuzu/AnaArayuz/InsaDestesiPanel/MarginContainer/VBoxContainer"]
+[node name="DesteBaslikLabel" type="Label" parent="OyunArayuzu/AnaArayuz/InsaDestesiPanel/MarginContainer/VBoxContainer" unique_id=2108765007]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("25_cfl5i")
@@ -1437,7 +1434,7 @@ text = "İNŞA DESTESİ"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="InsaDestesiKalan" type="Label" parent="OyunArayuzu/AnaArayuz/InsaDestesiPanel/MarginContainer/VBoxContainer"]
+[node name="InsaDestesiKalan" type="Label" parent="OyunArayuzu/AnaArayuz/InsaDestesiPanel/MarginContainer/VBoxContainer" unique_id=690027217]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -1447,7 +1444,7 @@ text = "Kalan: 15"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="InsaCekBtn" type="TextureButton" parent="OyunArayuzu/AnaArayuz/InsaDestesiPanel/MarginContainer/VBoxContainer"]
+[node name="InsaCekBtn" type="TextureButton" parent="OyunArayuzu/AnaArayuz/InsaDestesiPanel/MarginContainer/VBoxContainer" unique_id=1677235622]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 200)
 layout_mode = 2
@@ -1458,7 +1455,7 @@ texture_disabled = ExtResource("12_6fovc")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="TurButonu" type="Button" parent="OyunArayuzu/AnaArayuz"]
+[node name="TurButonu" type="Button" parent="OyunArayuzu/AnaArayuz" unique_id=1908558450]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(350, 76)
 layout_mode = 1
@@ -1467,22 +1464,19 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -355.0
+offset_left = -351.0
 offset_top = 424.0
-offset_right = -5.0
-offset_bottom = 500.0
+offset_bottom = 540.0
 grow_horizontal = 0
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-text = "TURU BİTİR"
-theme_type_variation = &"HukumPrimary"
 mouse_default_cursor_shape = 2
+theme_type_variation = &"HukumPrimary"
 theme_override_font_sizes/font_size = 24
+text = "TURU BİTİR"
 
-[node name="VasalPaneli" type="NinePatchRect" parent="OyunArayuzu"]
-theme = ExtResource("hukum_theme")
+[node name="VasalPaneli" type="NinePatchRect" parent="OyunArayuzu" unique_id=1488295920]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(250, 300)
 anchors_preset = 8
@@ -1495,13 +1489,14 @@ offset_top = -300.0
 offset_right = -707.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("hukum_theme")
 texture = ExtResource("14_78y8l")
 patch_margin_left = 24
 patch_margin_top = 24
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/VasalPaneli"]
+[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/VasalPaneli" unique_id=450808926]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1513,7 +1508,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/VasalPaneli/MarginContainer"]
+[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/VasalPaneli/MarginContainer" unique_id=2056355668]
 visible = false
 modulate = Color(0.14509805, 0.14901961, 0.15686275, 0.78431374)
 layout_mode = 2
@@ -1523,7 +1518,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="MarginContainer2" type="MarginContainer" parent="OyunArayuzu/VasalPaneli"]
+[node name="MarginContainer2" type="MarginContainer" parent="OyunArayuzu/VasalPaneli" unique_id=591262092]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1535,26 +1530,24 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/VasalPaneli/MarginContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/VasalPaneli/MarginContainer2" unique_id=52239422]
 layout_mode = 2
 
-[node name="VasalBilgiLabel" type="RichTextLabel" parent="OyunArayuzu/VasalPaneli/MarginContainer2/VBoxContainer"]
+[node name="VasalBilgiLabel" type="RichTextLabel" parent="OyunArayuzu/VasalPaneli/MarginContainer2/VBoxContainer" unique_id=740398094]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
 
-[node name="IsyanBtn" type="Button" parent="OyunArayuzu/VasalPaneli/MarginContainer2/VBoxContainer"]
+[node name="IsyanBtn" type="Button" parent="OyunArayuzu/VasalPaneli/MarginContainer2/VBoxContainer" unique_id=1218077007]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
-
-text = "İSYAN"
-theme_type_variation = &"HukumCompact"
 mouse_default_cursor_shape = 2
+theme_type_variation = &"HukumCompact"
+text = "İSYAN"
 
-[node name="ApUyariPaneli" type="NinePatchRect" parent="OyunArayuzu"]
-theme = ExtResource("hukum_theme")
+[node name="ApUyariPaneli" type="NinePatchRect" parent="OyunArayuzu" unique_id=468139952]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(300, 150)
@@ -1569,13 +1562,14 @@ offset_right = 90.0
 offset_bottom = -280.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("hukum_theme")
 texture = ExtResource("14_78y8l")
 patch_margin_left = 24
 patch_margin_top = 24
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/ApUyariPaneli"]
+[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/ApUyariPaneli" unique_id=448677029]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1587,7 +1581,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/ApUyariPaneli/MarginContainer"]
+[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/ApUyariPaneli/MarginContainer" unique_id=768069815]
 visible = false
 modulate = Color(0.14509805, 0.14901961, 0.15686275, 0.78431374)
 layout_mode = 2
@@ -1597,7 +1591,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="MarginContainer2" type="MarginContainer" parent="OyunArayuzu/ApUyariPaneli"]
+[node name="MarginContainer2" type="MarginContainer" parent="OyunArayuzu/ApUyariPaneli" unique_id=1871691930]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1609,29 +1603,29 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/ApUyariPaneli/MarginContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/ApUyariPaneli/MarginContainer2" unique_id=550516023]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/ApUyariPaneli/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/ApUyariPaneli/MarginContainer2/VBoxContainer" unique_id=1260321123]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="OyunArayuzu/ApUyariPaneli/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="OyunArayuzu/ApUyariPaneli/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=1294518919]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="TextureRect" type="TextureRect" parent="OyunArayuzu/ApUyariPaneli/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="OyunArayuzu/ApUyariPaneli/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=1175251156]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 texture = ExtResource("75_sbpc8")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Control2" type="Control" parent="OyunArayuzu/ApUyariPaneli/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="Control2" type="Control" parent="OyunArayuzu/ApUyariPaneli/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=397223261]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="OyunArayuzu/ApUyariPaneli/MarginContainer2/VBoxContainer"]
+[node name="Label" type="Label" parent="OyunArayuzu/ApUyariPaneli/MarginContainer2/VBoxContainer" unique_id=725098626]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.57280695, 0.06411503, 0, 1)
 theme_override_fonts/font = ExtResource("25_cfl5i")
@@ -1640,10 +1634,10 @@ text = "AP HAKKIN BİTTİ!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/ApUyariPaneli/MarginContainer2/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/ApUyariPaneli/MarginContainer2/VBoxContainer" unique_id=1773660145]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="OyunArayuzu/ApUyariPaneli/MarginContainer2/VBoxContainer"]
+[node name="Label2" type="Label" parent="OyunArayuzu/ApUyariPaneli/MarginContainer2/VBoxContainer" unique_id=1963618034]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 14
@@ -1651,8 +1645,7 @@ text = "Bu tur için tüm AP hakkını kullandın"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TicaretPaneli" type="Panel" parent="OyunArayuzu"]
-theme = ExtResource("hukum_theme")
+[node name="TicaretPaneli" type="Panel" parent="OyunArayuzu" unique_id=2025808762]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(760, 240)
@@ -1667,8 +1660,9 @@ offset_right = 380.0
 offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("hukum_theme")
 
-[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/TicaretPaneli"]
+[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/TicaretPaneli" unique_id=91465469]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1680,57 +1674,52 @@ theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 24
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/TicaretPaneli/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/TicaretPaneli/MarginContainer" unique_id=1077528768]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="OyunArayuzu/TicaretPaneli/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="OyunArayuzu/TicaretPaneli/MarginContainer/VBoxContainer" unique_id=1942548892]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "⚖️ PAZAR YERİ (5 Kaynak = 1 Altın)"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/TicaretPaneli/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/TicaretPaneli/MarginContainer/VBoxContainer" unique_id=1894832875]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/TicaretPaneli/MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/TicaretPaneli/MarginContainer/VBoxContainer" unique_id=435840793]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/TicaretPaneli/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/TicaretPaneli/MarginContainer/VBoxContainer/VBoxContainer" unique_id=1587503416]
 layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="OdunSatBtn" type="Button" parent="OyunArayuzu/TicaretPaneli/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="OdunSatBtn" type="Button" parent="OyunArayuzu/TicaretPaneli/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=2129975340]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Odun Sat"
 
-mouse_default_cursor_shape = 2
-
-[node name="TasSatBtn" type="Button" parent="OyunArayuzu/TicaretPaneli/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="TasSatBtn" type="Button" parent="OyunArayuzu/TicaretPaneli/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=101468844]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Taş Sat"
 
-mouse_default_cursor_shape = 2
-
-[node name="YiyecekSatBtn" type="Button" parent="OyunArayuzu/TicaretPaneli/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="YiyecekSatBtn" type="Button" parent="OyunArayuzu/TicaretPaneli/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1413690136]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Yiyecek Sat"
 
-mouse_default_cursor_shape = 2
-
-[node name="TicaretKapatBtn" type="Button" parent="OyunArayuzu/TicaretPaneli/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="TicaretKapatBtn" type="Button" parent="OyunArayuzu/TicaretPaneli/MarginContainer/VBoxContainer/VBoxContainer" unique_id=1879992449]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Kapat"
 
-mouse_default_cursor_shape = 2
-
-[node name="TakasPaneli" type="Panel" parent="OyunArayuzu"]
-theme = ExtResource("hukum_theme")
+[node name="TakasPaneli" type="Panel" parent="OyunArayuzu" unique_id=2140401131]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(560, 240)
@@ -1745,8 +1734,9 @@ offset_right = 280.0
 offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("hukum_theme")
 
-[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/TakasPaneli"]
+[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/TakasPaneli" unique_id=1189086830]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1758,38 +1748,35 @@ theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 24
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/TakasPaneli/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/TakasPaneli/MarginContainer" unique_id=1179474781]
 layout_mode = 2
 alignment = 1
 
-[node name="TakasMetni" type="Label" parent="OyunArayuzu/TakasPaneli/MarginContainer/VBoxContainer"]
+[node name="TakasMetni" type="Label" parent="OyunArayuzu/TakasPaneli/MarginContainer/VBoxContainer" unique_id=316789977]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Takas Teklifi Geldi"
 horizontal_alignment = 1
-
 autowrap_mode = 2
-[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/TakasPaneli/MarginContainer/VBoxContainer"]
+
+[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/TakasPaneli/MarginContainer/VBoxContainer" unique_id=1328499438]
 layout_mode = 2
 
-[node name="TakasKabulBtn" type="Button" parent="OyunArayuzu/TakasPaneli/MarginContainer/VBoxContainer"]
+[node name="TakasKabulBtn" type="Button" parent="OyunArayuzu/TakasPaneli/MarginContainer/VBoxContainer" unique_id=808093401]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_type_variation = &"HukumPrimary"
 text = "Kabul Et"
 
-theme_type_variation = &"HukumPrimary"
-mouse_default_cursor_shape = 2
-
-[node name="TakasRedBtn" type="Button" parent="OyunArayuzu/TakasPaneli/MarginContainer/VBoxContainer"]
+[node name="TakasRedBtn" type="Button" parent="OyunArayuzu/TakasPaneli/MarginContainer/VBoxContainer" unique_id=397982916]
 layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_type_variation = &"HukumDanger"
 text = "Reddet"
 
-theme_type_variation = &"HukumDanger"
-mouse_default_cursor_shape = 2
-
-[node name="IsyanOnayPaneli" type="NinePatchRect" parent="OyunArayuzu"]
-theme = ExtResource("hukum_theme")
+[node name="IsyanOnayPaneli" type="NinePatchRect" parent="OyunArayuzu" unique_id=1779909719]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(620, 200)
@@ -1804,13 +1791,14 @@ offset_right = 310.0
 offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("hukum_theme")
 texture = ExtResource("14_78y8l")
 patch_margin_left = 24
 patch_margin_top = 24
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="MarginArkaplan" type="MarginContainer" parent="OyunArayuzu/IsyanOnayPaneli"]
+[node name="MarginArkaplan" type="MarginContainer" parent="OyunArayuzu/IsyanOnayPaneli" unique_id=1360441697]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1822,7 +1810,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/IsyanOnayPaneli/MarginArkaplan"]
+[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/IsyanOnayPaneli/MarginArkaplan" unique_id=1360747422]
 visible = false
 modulate = Color(0.14509805, 0.14901961, 0.15686275, 0.78431374)
 layout_mode = 2
@@ -1832,7 +1820,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="AnaMargin" type="MarginContainer" parent="OyunArayuzu/IsyanOnayPaneli"]
+[node name="AnaMargin" type="MarginContainer" parent="OyunArayuzu/IsyanOnayPaneli" unique_id=1611339840]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1844,37 +1832,34 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/IsyanOnayPaneli/AnaMargin"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/IsyanOnayPaneli/AnaMargin" unique_id=515446487]
 layout_mode = 2
 alignment = 1
 
-[node name="OnayYazisi" type="Label" parent="OyunArayuzu/IsyanOnayPaneli/AnaMargin/VBoxContainer"]
+[node name="OnayYazisi" type="Label" parent="OyunArayuzu/IsyanOnayPaneli/AnaMargin/VBoxContainer" unique_id=1984809472]
 layout_mode = 2
 text = "Efendine karşı bağımsızlık savaşı başlatmak istediğine emin misin?"
 horizontal_alignment = 1
-
 autowrap_mode = 2
-[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/IsyanOnayPaneli/AnaMargin/VBoxContainer"]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/IsyanOnayPaneli/AnaMargin/VBoxContainer" unique_id=1065272883]
 layout_mode = 2
 alignment = 1
 
-[node name="IsyanEvetButonu" type="Button" parent="OyunArayuzu/IsyanOnayPaneli/AnaMargin/VBoxContainer/HBoxContainer"]
+[node name="IsyanEvetButonu" type="Button" parent="OyunArayuzu/IsyanOnayPaneli/AnaMargin/VBoxContainer/HBoxContainer" unique_id=1164771592]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_type_variation = &"HukumDanger"
 text = "Evet"
 
-theme_type_variation = &"HukumDanger"
-mouse_default_cursor_shape = 2
-
-[node name="IsyanHayirButonu" type="Button" parent="OyunArayuzu/IsyanOnayPaneli/AnaMargin/VBoxContainer/HBoxContainer"]
+[node name="IsyanHayirButonu" type="Button" parent="OyunArayuzu/IsyanOnayPaneli/AnaMargin/VBoxContainer/HBoxContainer" unique_id=1291366582]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Hayır"
 
-mouse_default_cursor_shape = 2
-
-[node name="KurulumOnayPaneli" type="NinePatchRect" parent="OyunArayuzu"]
-theme = ExtResource("hukum_theme")
+[node name="KurulumOnayPaneli" type="NinePatchRect" parent="OyunArayuzu" unique_id=1846195311]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(700, 400)
@@ -1889,13 +1874,14 @@ offset_right = 350.0
 offset_bottom = 200.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("hukum_theme")
 texture = ExtResource("14_78y8l")
 patch_margin_left = 24
 patch_margin_top = 24
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/KurulumOnayPaneli"]
+[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/KurulumOnayPaneli" unique_id=1164918962]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1907,7 +1893,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/KurulumOnayPaneli/MarginContainer"]
+[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/KurulumOnayPaneli/MarginContainer" unique_id=1527831728]
 visible = false
 modulate = Color(0.14509805, 0.14901961, 0.15686275, 0.5882353)
 layout_mode = 2
@@ -1917,7 +1903,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="MarginContainer2" type="MarginContainer" parent="OyunArayuzu/KurulumOnayPaneli"]
+[node name="MarginContainer2" type="MarginContainer" parent="OyunArayuzu/KurulumOnayPaneli" unique_id=249972214]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1929,11 +1915,11 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/KurulumOnayPaneli/MarginContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/KurulumOnayPaneli/MarginContainer2" unique_id=110858417]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="Label" type="Label" parent="OyunArayuzu/KurulumOnayPaneli/MarginContainer2/VBoxContainer"]
+[node name="Label" type="Label" parent="OyunArayuzu/KurulumOnayPaneli/MarginContainer2/VBoxContainer" unique_id=1905161671]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("25_cfl5i")
@@ -1942,7 +1928,7 @@ text = "Şehir Merkezi Buraya Kurulsun Mu?"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="OyunArayuzu/KurulumOnayPaneli/MarginContainer2/VBoxContainer"]
+[node name="Label2" type="Label" parent="OyunArayuzu/KurulumOnayPaneli/MarginContainer2/VBoxContainer" unique_id=207585473]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_font_sizes/font_size = 12
@@ -1950,48 +1936,45 @@ text = "Seçilen Araziye Şehir Merkezinizi Kuracaksınız..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/KurulumOnayPaneli/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/KurulumOnayPaneli/MarginContainer2/VBoxContainer" unique_id=787048547]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="OyunArayuzu/KurulumOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="OyunArayuzu/KurulumOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=1677649226]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="OnayHexi" type="TextureRect" parent="OyunArayuzu/KurulumOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="OnayHexi" type="TextureRect" parent="OyunArayuzu/KurulumOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=769145576]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Control2" type="Control" parent="OyunArayuzu/KurulumOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="Control2" type="Control" parent="OyunArayuzu/KurulumOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=1456261757]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/KurulumOnayPaneli/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/KurulumOnayPaneli/MarginContainer2/VBoxContainer" unique_id=384625414]
 layout_mode = 2
 theme_override_constants/separation = 50
 alignment = 1
 
-[node name="KurulumEvetBtn" type="Button" parent="OyunArayuzu/KurulumOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer2"]
+[node name="KurulumEvetBtn" type="Button" parent="OyunArayuzu/KurulumOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer2" unique_id=88483018]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
-
-text = "ONAYLA"
+mouse_default_cursor_shape = 2
 theme_type_variation = &"HukumPrimary"
-mouse_default_cursor_shape = 2
+text = "ONAYLA"
 
-[node name="KurulumHayirBtn" type="Button" parent="OyunArayuzu/KurulumOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer2"]
+[node name="KurulumHayirBtn" type="Button" parent="OyunArayuzu/KurulumOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer2" unique_id=1045312299]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
-
-text = "VAZGEÇ"
 mouse_default_cursor_shape = 2
+text = "VAZGEÇ"
 
-[node name="KurulumPaneli" type="NinePatchRect" parent="OyunArayuzu"]
-theme = ExtResource("hukum_theme")
+[node name="KurulumPaneli" type="NinePatchRect" parent="OyunArayuzu" unique_id=333921376]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(700, 400)
@@ -2006,13 +1989,14 @@ offset_right = 350.0
 offset_bottom = 175.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("hukum_theme")
 texture = ExtResource("14_78y8l")
 patch_margin_left = 24
 patch_margin_top = 24
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/KurulumPaneli"]
+[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/KurulumPaneli" unique_id=984978453]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2024,7 +2008,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/KurulumPaneli/MarginContainer"]
+[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/KurulumPaneli/MarginContainer" unique_id=180048879]
 visible = false
 modulate = Color(0.14509805, 0.14901961, 0.15686275, 0.5882353)
 layout_mode = 2
@@ -2034,7 +2018,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="MarginContainer2" type="MarginContainer" parent="OyunArayuzu/KurulumPaneli"]
+[node name="MarginContainer2" type="MarginContainer" parent="OyunArayuzu/KurulumPaneli" unique_id=1997472528]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2046,12 +2030,12 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/KurulumPaneli/MarginContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/KurulumPaneli/MarginContainer2" unique_id=1486147947]
 layout_mode = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="Label2" type="Label" parent="OyunArayuzu/KurulumPaneli/MarginContainer2/VBoxContainer"]
+[node name="Label2" type="Label" parent="OyunArayuzu/KurulumPaneli/MarginContainer2/VBoxContainer" unique_id=1005749196]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("39_18d1u")
@@ -2060,15 +2044,15 @@ text = "Başlangıç Arazini Seç"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSeparator3" type="HSeparator" parent="OyunArayuzu/KurulumPaneli/MarginContainer2/VBoxContainer"]
+[node name="HSeparator3" type="HSeparator" parent="OyunArayuzu/KurulumPaneli/MarginContainer2/VBoxContainer" unique_id=357416018]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/KurulumPaneli/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/KurulumPaneli/MarginContainer2/VBoxContainer" unique_id=2050152515]
 layout_mode = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="CimBtn" type="TextureButton" parent="OyunArayuzu/KurulumPaneli/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="CimBtn" type="TextureButton" parent="OyunArayuzu/KurulumPaneli/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=1507963315]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
@@ -2078,7 +2062,7 @@ texture_hover = ExtResource("42_bnsdr")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="OrmanBtn" type="TextureButton" parent="OyunArayuzu/KurulumPaneli/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="OrmanBtn" type="TextureButton" parent="OyunArayuzu/KurulumPaneli/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=103866268]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
@@ -2088,7 +2072,7 @@ texture_hover = ExtResource("45_qc2pm")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="DagBtn" type="TextureButton" parent="OyunArayuzu/KurulumPaneli/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="DagBtn" type="TextureButton" parent="OyunArayuzu/KurulumPaneli/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=1712988377]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
@@ -2098,7 +2082,7 @@ texture_hover = ExtResource("48_7qsyn")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Label3" type="Label" parent="OyunArayuzu/KurulumPaneli/MarginContainer2/VBoxContainer"]
+[node name="Label3" type="Label" parent="OyunArayuzu/KurulumPaneli/MarginContainer2/VBoxContainer" unique_id=1030441226]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("49_jigih")
@@ -2107,8 +2091,7 @@ text = "Şehir Merkezi Uygarlığınızın Kalbidir. Konumunu Dikkatli Seçin."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HakimiyetPaneli" type="NinePatchRect" parent="OyunArayuzu"]
-theme = ExtResource("hukum_theme")
+[node name="HakimiyetPaneli" type="NinePatchRect" parent="OyunArayuzu" unique_id=1292613823]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(300, 175)
@@ -2123,13 +2106,14 @@ offset_right = 151.0
 offset_bottom = 50.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("hukum_theme")
 texture = ExtResource("14_78y8l")
 patch_margin_left = 24
 patch_margin_top = 24
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/HakimiyetPaneli"]
+[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/HakimiyetPaneli" unique_id=6882059]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2141,7 +2125,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer"]
+[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer" unique_id=747428751]
 visible = false
 modulate = Color(0.14509805, 0.14901961, 0.15686275, 0.78431374)
 layout_mode = 2
@@ -2151,7 +2135,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="MarginContainer2" type="MarginContainer" parent="OyunArayuzu/HakimiyetPaneli"]
+[node name="MarginContainer2" type="MarginContainer" parent="OyunArayuzu/HakimiyetPaneli" unique_id=273154042]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2163,11 +2147,11 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer2" unique_id=1611714977]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Label" type="Label" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer2/VBoxContainer"]
+[node name="Label" type="Label" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer2/VBoxContainer" unique_id=1272036800]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("25_cfl5i")
@@ -2176,7 +2160,7 @@ text = "Bölgeyi Ele Geçir"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AraziTurLabel" type="Label" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer2/VBoxContainer"]
+[node name="AraziTurLabel" type="Label" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer2/VBoxContainer" unique_id=276651547]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.4862745, 0.79607844, 0.44705883, 1)
@@ -2185,56 +2169,53 @@ text = "Çim Arazisi"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer2/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer2/VBoxContainer" unique_id=1124389370]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer2/VBoxContainer" unique_id=1612021400]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=1780814423]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 texture = ExtResource("17_3k2mh")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=1311343509]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("13_38er3")
 text = "3 Yiyecek"
 
-[node name="HSeparator2" type="HSeparator" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer2/VBoxContainer"]
+[node name="HSeparator2" type="HSeparator" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer2/VBoxContainer" unique_id=1622761024]
 layout_mode = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer2/VBoxContainer" unique_id=570300457]
 layout_mode = 2
 theme_override_constants/separation = 30
 alignment = 1
 
-[node name="HakimiyetKurBtn" type="Button" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer2/VBoxContainer/HBoxContainer2"]
+[node name="HakimiyetKurBtn" type="Button" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer2/VBoxContainer/HBoxContainer2" unique_id=1569497073]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 45)
 layout_mode = 2
-
+mouse_default_cursor_shape = 2
+theme_type_variation = &"HukumCompact"
 text = "SAHİPLEN"
-theme_type_variation = &"HukumCompact"
-mouse_default_cursor_shape = 2
 
-[node name="VazgecBtn" type="Button" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer2/VBoxContainer/HBoxContainer2"]
+[node name="VazgecBtn" type="Button" parent="OyunArayuzu/HakimiyetPaneli/MarginContainer2/VBoxContainer/HBoxContainer2" unique_id=1479744155]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 45)
 layout_mode = 2
-
-text = "VAZGEÇ"
-theme_type_variation = &"HukumCompact"
 mouse_default_cursor_shape = 2
+theme_type_variation = &"HukumCompact"
+text = "VAZGEÇ"
 
-[node name="InsaDesteKalanlar" type="NinePatchRect" parent="OyunArayuzu"]
-theme = ExtResource("hukum_theme")
+[node name="InsaDesteKalanlar" type="NinePatchRect" parent="OyunArayuzu" unique_id=1096866662]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(250, 250)
@@ -2249,13 +2230,14 @@ offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
+theme = ExtResource("hukum_theme")
 texture = ExtResource("14_78y8l")
 patch_margin_left = 24
 patch_margin_top = 24
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/InsaDesteKalanlar"]
+[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/InsaDesteKalanlar" unique_id=1333232526]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2267,7 +2249,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer"]
+[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer" unique_id=545573011]
 visible = false
 modulate = Color(0.14509805, 0.14901961, 0.15686275, 1)
 layout_mode = 2
@@ -2277,7 +2259,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="MarginContainer2" type="MarginContainer" parent="OyunArayuzu/InsaDesteKalanlar"]
+[node name="MarginContainer2" type="MarginContainer" parent="OyunArayuzu/InsaDesteKalanlar" unique_id=1569660594]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2289,10 +2271,10 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2" unique_id=1601289726]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer"]
+[node name="Label" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer" unique_id=370062762]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("25_cfl5i")
@@ -2301,25 +2283,25 @@ text = "Kalan İnşa Kartları"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer" unique_id=2100519682]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer" unique_id=848319599]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=2000467702]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 14
 text = "Tarla"
 
-[node name="Control" type="Control" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=993263263]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="KalanTarla" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="KalanTarla" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=1612654156]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -2327,22 +2309,22 @@ theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 14
 text = "x10"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer" unique_id=440678295]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer2" unique_id=1640385460]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 14
 text = "Oduncu Kampı"
 
-[node name="Control" type="Control" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer2"]
+[node name="Control" type="Control" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer2" unique_id=198173945]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="KalanOduncu" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer2"]
+[node name="KalanOduncu" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer2" unique_id=1955521070]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -2352,22 +2334,22 @@ text = "x10"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer" unique_id=695401939]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer3"]
+[node name="Label" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer3" unique_id=1615867125]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 14
 text = "Taş Ocağı"
 
-[node name="Control" type="Control" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer3"]
+[node name="Control" type="Control" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer3" unique_id=765680830]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="KalanTasci" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer3"]
+[node name="KalanTasci" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer3" unique_id=1279823742]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -2377,22 +2359,22 @@ text = "x10"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer7" type="HBoxContainer" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer7" type="HBoxContainer" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer" unique_id=175287599]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer7"]
+[node name="Label" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer7" unique_id=445009271]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 14
 text = "Ticaret Merkezi"
 
-[node name="Control" type="Control" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer7"]
+[node name="Control" type="Control" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer7" unique_id=786669858]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="KalanTicaretMerkezi" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer7"]
+[node name="KalanTicaretMerkezi" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer7" unique_id=1116524669]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -2402,22 +2384,22 @@ text = "x10"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer5" type="HBoxContainer" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer5" type="HBoxContainer" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer" unique_id=431046503]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer5"]
+[node name="Label" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer5" unique_id=578818289]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 14
 text = "Gelişmiş Sulama"
 
-[node name="Control" type="Control" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer5"]
+[node name="Control" type="Control" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer5" unique_id=637962987]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="KalanGelismisSulama" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer5"]
+[node name="KalanGelismisSulama" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer5" unique_id=1424336363]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -2427,22 +2409,22 @@ text = "x10"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer4" type="HBoxContainer" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer" unique_id=245665915]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer4"]
+[node name="Label" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer4" unique_id=1210472629]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 14
 text = "Baltaları Bileme"
 
-[node name="Control" type="Control" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer4"]
+[node name="Control" type="Control" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer4" unique_id=1249596693]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="KalanBaltalariBileme" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer4"]
+[node name="KalanBaltalariBileme" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer4" unique_id=2141923634]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -2452,22 +2434,22 @@ text = "x10"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer6" type="HBoxContainer" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer6" type="HBoxContainer" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer" unique_id=217689135]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer6"]
+[node name="Label" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer6" unique_id=2127360551]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 14
 text = "Derin Damarlar"
 
-[node name="Control" type="Control" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer6"]
+[node name="Control" type="Control" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer6" unique_id=466430110]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="KalanDerinDamarlar" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer6"]
+[node name="KalanDerinDamarlar" type="Label" parent="OyunArayuzu/InsaDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer6" unique_id=169458642]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -2477,8 +2459,7 @@ text = "x10"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SavasDesteKalanlar" type="NinePatchRect" parent="OyunArayuzu"]
-theme = ExtResource("hukum_theme")
+[node name="SavasDesteKalanlar" type="NinePatchRect" parent="OyunArayuzu" unique_id=1754098558]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(250, 250)
@@ -2493,13 +2474,14 @@ offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
+theme = ExtResource("hukum_theme")
 texture = ExtResource("14_78y8l")
 patch_margin_left = 24
 patch_margin_top = 24
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/SavasDesteKalanlar"]
+[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/SavasDesteKalanlar" unique_id=1918675075]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2511,7 +2493,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer"]
+[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer" unique_id=1563020602]
 visible = false
 modulate = Color(0.14509805, 0.14901961, 0.15686275, 1)
 layout_mode = 2
@@ -2521,7 +2503,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="MarginContainer2" type="MarginContainer" parent="OyunArayuzu/SavasDesteKalanlar"]
+[node name="MarginContainer2" type="MarginContainer" parent="OyunArayuzu/SavasDesteKalanlar" unique_id=1064568555]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2533,10 +2515,10 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2" unique_id=1862667043]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer"]
+[node name="Label" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer" unique_id=598184633]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("25_cfl5i")
@@ -2545,25 +2527,25 @@ text = "Kalan Askerler"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer" unique_id=904825016]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer" unique_id=810254063]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=2068907674]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 14
 text = "Piyade"
 
-[node name="Control" type="Control" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=1238813503]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="KalanPiyade" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="KalanPiyade" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=1616429516]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -2571,22 +2553,22 @@ theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 14
 text = "x10"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer" unique_id=1802370688]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer2" unique_id=1858045075]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 14
 text = "Okçu"
 
-[node name="Control" type="Control" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer2"]
+[node name="Control" type="Control" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer2" unique_id=1152103016]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="KalanOkcu" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer2"]
+[node name="KalanOkcu" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer2" unique_id=1735853706]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -2596,22 +2578,22 @@ text = "x10"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer" unique_id=1114086325]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer3"]
+[node name="Label" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer3" unique_id=1246539459]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 14
 text = "Süvari"
 
-[node name="Control" type="Control" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer3"]
+[node name="Control" type="Control" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer3" unique_id=1002418286]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="KalanSuvari" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer3"]
+[node name="KalanSuvari" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer3" unique_id=2042462912]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -2621,22 +2603,22 @@ text = "x10"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer7" type="HBoxContainer" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer7" type="HBoxContainer" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer" unique_id=1515428116]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer7"]
+[node name="Label" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer7" unique_id=2091141768]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 14
 text = "Mancınık"
 
-[node name="Control" type="Control" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer7"]
+[node name="Control" type="Control" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer7" unique_id=676797827]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="KalanMancinik" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer7"]
+[node name="KalanMancinik" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer7" unique_id=1410222507]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -2646,22 +2628,22 @@ text = "x10"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer5" type="HBoxContainer" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer5" type="HBoxContainer" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer" unique_id=1920186794]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer5"]
+[node name="Label" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer5" unique_id=1481157196]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 14
 text = "Koçbaşı"
 
-[node name="Control" type="Control" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer5"]
+[node name="Control" type="Control" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer5" unique_id=1781093371]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="KalanKocbasi" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer5"]
+[node name="KalanKocbasi" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer5" unique_id=1090724855]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -2671,22 +2653,22 @@ text = "x10"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer4" type="HBoxContainer" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer" unique_id=1858590445]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer4"]
+[node name="Label" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer4" unique_id=853575430]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 14
 text = "Komutan"
 
-[node name="Control" type="Control" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer4"]
+[node name="Control" type="Control" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer4" unique_id=1770314788]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="KalanKomutan" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer4"]
+[node name="KalanKomutan" type="Label" parent="OyunArayuzu/SavasDesteKalanlar/MarginContainer2/VBoxContainer/HBoxContainer4" unique_id=1169860068]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -2696,8 +2678,7 @@ text = "x10"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SavasOnayPaneli" type="NinePatchRect" parent="OyunArayuzu"]
-theme = ExtResource("hukum_theme")
+[node name="SavasOnayPaneli" type="NinePatchRect" parent="OyunArayuzu" unique_id=130665008]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(650, 650)
@@ -2713,13 +2694,14 @@ offset_bottom = 50.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
+theme = ExtResource("hukum_theme")
 texture = ExtResource("14_78y8l")
 patch_margin_left = 24
 patch_margin_top = 24
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/SavasOnayPaneli"]
+[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/SavasOnayPaneli" unique_id=853940760]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2731,7 +2713,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer"]
+[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer" unique_id=1495466610]
 visible = false
 modulate = Color(0.14509805, 0.14901961, 0.15686275, 0.98039216)
 layout_mode = 2
@@ -2741,7 +2723,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="MarginContainer2" type="MarginContainer" parent="OyunArayuzu/SavasOnayPaneli"]
+[node name="MarginContainer2" type="MarginContainer" parent="OyunArayuzu/SavasOnayPaneli" unique_id=991943063]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2753,11 +2735,11 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2" unique_id=1455726350]
 layout_mode = 2
 theme_override_constants/separation = 50
 
-[node name="Label" type="Label" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer"]
+[node name="Label" type="Label" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer" unique_id=5513065]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("25_cfl5i")
@@ -2765,16 +2747,16 @@ theme_override_font_sizes/font_size = 36
 text = "Savaş İlanı"
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer" unique_id=65327407]
 layout_mode = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=1784624723]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="Label" type="Label" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=2129790401]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("77_ni1ob")
@@ -2782,12 +2764,12 @@ theme_override_font_sizes/font_size = 26
 text = "Saldıran "
 horizontal_alignment = 1
 
-[node name="SaldiranResim" type="TextureRect" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="SaldiranResim" type="TextureRect" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1787923726]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 
-[node name="SaldiranIsim" type="Label" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="SaldiranIsim" type="Label" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=739563873]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -2797,7 +2779,7 @@ text = "Serkan"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SaldiranMedeniyet" type="Label" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="SaldiranMedeniyet" type="Label" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1434204121]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -2806,29 +2788,29 @@ text = "Osmanlı"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer3" type="VBoxContainer" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=1199472398]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer3"]
+[node name="Control" type="Control" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer3" unique_id=598847196]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="TextureRect" type="TextureRect" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer3"]
+[node name="TextureRect" type="TextureRect" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer3" unique_id=1945061172]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 texture = ExtResource("76_qmbsw")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Control2" type="Control" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer3"]
+[node name="Control2" type="Control" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer3" unique_id=761071564]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=892524609]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="Label" type="Label" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="Label" type="Label" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1080232975]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
 theme_override_fonts/font = ExtResource("77_ni1ob")
@@ -2836,12 +2818,12 @@ theme_override_font_sizes/font_size = 26
 text = "Savunan"
 horizontal_alignment = 1
 
-[node name="SavunanResim" type="TextureRect" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="SavunanResim" type="TextureRect" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1348531944]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 
-[node name="SavunanIsim" type="Label" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="SavunanIsim" type="Label" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1002793392]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -2850,7 +2832,7 @@ theme_override_font_sizes/font_size = 24
 text = "Furkan"
 horizontal_alignment = 1
 
-[node name="SavunanMedeniyet" type="Label" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="SavunanMedeniyet" type="Label" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1729134732]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -2859,31 +2841,28 @@ text = "Venedik"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer" unique_id=1485894792]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="SaldirBtn" type="Button" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer2"]
+[node name="SaldirBtn" type="Button" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer2" unique_id=223419795]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 75)
 layout_mode = 2
-
-text = "SALDIR"
+mouse_default_cursor_shape = 2
 theme_type_variation = &"HukumDanger"
-mouse_default_cursor_shape = 2
+text = "SALDIR"
 
-[node name="SaldiriIptalBtn" type="Button" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer2"]
+[node name="SaldiriIptalBtn" type="Button" parent="OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer2" unique_id=26988612]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 75)
 layout_mode = 2
-
-text = "İPTAL"
 mouse_default_cursor_shape = 2
+text = "İPTAL"
 
-[node name="BinaSaldiriPaneli" type="NinePatchRect" parent="OyunArayuzu"]
-theme = ExtResource("hukum_theme")
+[node name="BinaSaldiriPaneli" type="NinePatchRect" parent="OyunArayuzu" unique_id=1520898006]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(760, 400)
@@ -2899,13 +2878,14 @@ offset_bottom = 200.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
+theme = ExtResource("hukum_theme")
 texture = ExtResource("14_78y8l")
 patch_margin_left = 24
 patch_margin_top = 24
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/BinaSaldiriPaneli"]
+[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/BinaSaldiriPaneli" unique_id=38564903]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2917,7 +2897,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer"]
+[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer" unique_id=18059849]
 visible = false
 modulate = Color(0.14509805, 0.14901961, 0.15686275, 0.98039216)
 layout_mode = 2
@@ -2927,7 +2907,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="MarginContainer2" type="MarginContainer" parent="OyunArayuzu/BinaSaldiriPaneli"]
+[node name="MarginContainer2" type="MarginContainer" parent="OyunArayuzu/BinaSaldiriPaneli" unique_id=250726564]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2939,11 +2919,11 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2" unique_id=1972925697]
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="Label" type="Label" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer"]
+[node name="Label" type="Label" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer" unique_id=2047644764]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("25_cfl5i")
@@ -2952,23 +2932,23 @@ text = "Rakibin Binasına Saldır"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer" unique_id=1494505327]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="RakipBina" type="TextureRect" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="RakipBina" type="TextureRect" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=1498505192]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=2047779079]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=748273907]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("77_ni1ob")
@@ -2977,21 +2957,21 @@ text = "Hedef Bina"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1032453513]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Label2" type="Label" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=803156077]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("77_ni1ob")
 theme_override_font_sizes/font_size = 18
 text = "Sahip"
 
-[node name="Control" type="Control" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=700666056]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="BinaSahip" type="Label" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="BinaSahip" type="Label" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1546684906]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -2999,21 +2979,21 @@ theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 14
 text = "Venedik"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=2113692780]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1543426864]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("77_ni1ob")
 theme_override_font_sizes/font_size = 18
 text = "Bina"
 
-[node name="Control" type="Control" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="Control" type="Control" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1275553297]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="BinaIsim" type="Label" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="BinaIsim" type="Label" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=403855943]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -3021,21 +3001,21 @@ theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 14
 text = "Şehir Merkezi"
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=639982384]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3"]
+[node name="Label" type="Label" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3" unique_id=2041833401]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("77_ni1ob")
 theme_override_font_sizes/font_size = 18
 text = "Savunma Gücü"
 
-[node name="Control" type="Control" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3"]
+[node name="Control" type="Control" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3" unique_id=1822020966]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SavunmaGucu" type="Label" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3"]
+[node name="SavunmaGucu" type="Label" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3" unique_id=963191211]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -3043,46 +3023,41 @@ theme_override_fonts/font = ExtResource("13_38er3")
 theme_override_font_sizes/font_size = 14
 text = "10"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer" unique_id=930476708]
 layout_mode = 2
 theme_override_constants/separation = 30
 alignment = 1
 
-[node name="BinaYagmalaBtn" type="Button" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer2"]
+[node name="BinaYagmalaBtn" type="Button" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer2" unique_id=78313700]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 50)
 layout_mode = 2
-
+mouse_default_cursor_shape = 2
 text = "YAĞMALA"
-mouse_default_cursor_shape = 2
 
-[node name="BinaHukmetBtn" type="Button" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer2"]
+[node name="BinaHukmetBtn" type="Button" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer2" unique_id=183893410]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 50)
 layout_mode = 2
-
+mouse_default_cursor_shape = 2
 text = "HÜKMET"
-mouse_default_cursor_shape = 2
 
-[node name="BinaYikBtn" type="Button" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer2"]
+[node name="BinaYikBtn" type="Button" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer2" unique_id=807494871]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 50)
 layout_mode = 2
-
-text = "YIK"
+mouse_default_cursor_shape = 2
 theme_type_variation = &"HukumDanger"
-mouse_default_cursor_shape = 2
+text = "YIK"
 
-[node name="BinaVazgecBtn" type="Button" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer2"]
+[node name="BinaVazgecBtn" type="Button" parent="OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer2" unique_id=1742067048]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 50)
 layout_mode = 2
-
-text = "VAZGEÇ"
 mouse_default_cursor_shape = 2
+text = "VAZGEÇ"
 
-[node name="SonSavasPaneli" type="NinePatchRect" parent="OyunArayuzu"]
-theme = ExtResource("hukum_theme")
+[node name="SonSavasPaneli" type="NinePatchRect" parent="OyunArayuzu" unique_id=271316527]
 unique_name_in_owner = true
 visible = false
 anchors_preset = 8
@@ -3097,13 +3072,14 @@ offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
+theme = ExtResource("hukum_theme")
 texture = ExtResource("14_78y8l")
 patch_margin_left = 24
 patch_margin_top = 24
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/SonSavasPaneli"]
+[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/SonSavasPaneli" unique_id=2034849105]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -3115,7 +3091,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer"]
+[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer" unique_id=2070060622]
 visible = false
 modulate = Color(0, 0, 0, 1)
 layout_mode = 2
@@ -3125,7 +3101,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="MarginContainer2" type="MarginContainer" parent="OyunArayuzu/SonSavasPaneli"]
+[node name="MarginContainer2" type="MarginContainer" parent="OyunArayuzu/SonSavasPaneli" unique_id=737115012]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -3137,10 +3113,10 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2" unique_id=1436256713]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer"]
+[node name="Label" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer" unique_id=1426634798]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("25_cfl5i")
@@ -3149,33 +3125,33 @@ text = "SAVAŞ"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer" unique_id=868924445]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer" unique_id=1112923408]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="SaldiranVBox" type="VBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="SaldiranVBox" type="VBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=1577825289]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox" unique_id=1889667789]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="AtakResim" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/HBoxContainer"]
+[node name="AtakResim" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/HBoxContainer" unique_id=918561688]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/HBoxContainer" unique_id=118993332]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/HBoxContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/HBoxContainer/VBoxContainer" unique_id=161584318]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("25_cfl5i")
@@ -3184,7 +3160,7 @@ text = "Saldıran"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AtakIsim" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/HBoxContainer/VBoxContainer"]
+[node name="AtakIsim" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/HBoxContainer/VBoxContainer" unique_id=848343621]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -3193,7 +3169,7 @@ text = "Serkan"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AtakMedeniyet" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/HBoxContainer/VBoxContainer"]
+[node name="AtakMedeniyet" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/HBoxContainer/VBoxContainer" unique_id=247134156]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -3202,13 +3178,13 @@ text = "Osmanlı"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSeparator2" type="HSeparator" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox"]
+[node name="HSeparator2" type="HSeparator" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox" unique_id=442083825]
 layout_mode = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox" unique_id=1755714354]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/HBoxContainer2"]
+[node name="Label" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/HBoxContainer2" unique_id=1898890612]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
@@ -3217,11 +3193,11 @@ text = "SEÇİLEN KARTLAR"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="OyuncuKartHBox" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox"]
+[node name="OyuncuKartHBox" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox" unique_id=1153715243]
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 
-[node name="OyuncuKart1" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/OyuncuKartHBox"]
+[node name="OyuncuKart1" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/OyuncuKartHBox" unique_id=1503225655]
 unique_name_in_owner = true
 texture_filter = 3
 custom_minimum_size = Vector2(100, 100)
@@ -3230,7 +3206,7 @@ texture = ExtResource("91_v2ixi")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="OyuncuKart2" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/OyuncuKartHBox"]
+[node name="OyuncuKart2" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/OyuncuKartHBox" unique_id=1491814206]
 unique_name_in_owner = true
 texture_filter = 3
 custom_minimum_size = Vector2(100, 100)
@@ -3239,7 +3215,7 @@ texture = ExtResource("92_syped")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="OyuncuKart3" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/OyuncuKartHBox"]
+[node name="OyuncuKart3" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/OyuncuKartHBox" unique_id=937802438]
 unique_name_in_owner = true
 texture_filter = 3
 custom_minimum_size = Vector2(100, 100)
@@ -3248,7 +3224,7 @@ texture = ExtResource("93_vo1x6")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="OyuncuKart4" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/OyuncuKartHBox"]
+[node name="OyuncuKart4" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/OyuncuKartHBox" unique_id=2002403077]
 unique_name_in_owner = true
 texture_filter = 3
 custom_minimum_size = Vector2(100, 100)
@@ -3257,7 +3233,7 @@ texture = ExtResource("94_4mrjl")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="OyuncuKart5" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/OyuncuKartHBox"]
+[node name="OyuncuKart5" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/OyuncuKartHBox" unique_id=1715737508]
 unique_name_in_owner = true
 texture_filter = 3
 custom_minimum_size = Vector2(100, 100)
@@ -3266,7 +3242,7 @@ texture = ExtResource("95_lrsm4")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="OyuncuKart6" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/OyuncuKartHBox"]
+[node name="OyuncuKart6" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/OyuncuKartHBox" unique_id=99235436]
 unique_name_in_owner = true
 texture_filter = 3
 custom_minimum_size = Vector2(100, 100)
@@ -3275,7 +3251,7 @@ texture = ExtResource("96_wlr7f")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="OyuncuKart7" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/OyuncuKartHBox"]
+[node name="OyuncuKart7" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/OyuncuKartHBox" unique_id=603892689]
 unique_name_in_owner = true
 texture_filter = 3
 custom_minimum_size = Vector2(100, 100)
@@ -3284,7 +3260,7 @@ texture = ExtResource("97_8g8wo")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="SecilenKartGucAtak" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox"]
+[node name="SecilenKartGucAtak" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox" unique_id=1494676944]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -3293,30 +3269,29 @@ text = "Kartlar Seçiliyor..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox" unique_id=1461769496]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/HBoxContainer3"]
+[node name="Control" type="Control" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/HBoxContainer3" unique_id=1953325098]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SecilenKartlariOnaylaAtak" type="Button" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/HBoxContainer3"]
+[node name="SecilenKartlariOnaylaAtak" type="Button" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/HBoxContainer3" unique_id=74839910]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
-
-text = "KİLİTLE"
-theme_type_variation = &"HukumPrimary"
 mouse_default_cursor_shape = 2
+theme_type_variation = &"HukumPrimary"
+text = "KİLİTLE"
 
-[node name="Control2" type="Control" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/HBoxContainer3"]
+[node name="Control2" type="Control" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/HBoxContainer3" unique_id=1813946257]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label2" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox"]
+[node name="Label2" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox" unique_id=716235883]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("25_cfl5i")
@@ -3325,26 +3300,26 @@ text = "GÜÇ VE BONUSLAR"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox"]
+[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox" unique_id=2085223366]
 layout_mode = 2
 
-[node name="VBox" type="VBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox"]
+[node name="VBox" type="VBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox" unique_id=1812600334]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="AtakBonus" type="RichTextLabel" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/VBox"]
+[node name="AtakBonus" type="RichTextLabel" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/VBox" unique_id=4986782]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 bbcode_enabled = true
 text = "Bonuslar"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/VBox"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/VBox" unique_id=1248734256]
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-[node name="AtakZarSonucu" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/VBox/HBoxContainer2"]
+[node name="AtakZarSonucu" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/VBox/HBoxContainer2" unique_id=96924682]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
@@ -3352,23 +3327,22 @@ text = "ZAR SONUCU"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AtakZarAt" type="Button" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/VBox/HBoxContainer2"]
+[node name="AtakZarAt" type="Button" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/VBox/HBoxContainer2" unique_id=1886004386]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-
-text = "ZAR AT"
-theme_type_variation = &"HukumCompact"
 mouse_default_cursor_shape = 2
+theme_type_variation = &"HukumCompact"
+text = "ZAR AT"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/VBox"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/VBox" unique_id=974534197]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/VBox/HBoxContainer"]
+[node name="Control" type="Control" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/VBox/HBoxContainer" unique_id=987982202]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="AtakToplamGucLabel" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/VBox/HBoxContainer"]
+[node name="AtakToplamGucLabel" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/VBox/HBoxContainer" unique_id=1737179485]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
@@ -3378,33 +3352,33 @@ text = "Toplam Güç: 50"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Control2" type="Control" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/VBox/HBoxContainer"]
+[node name="Control2" type="Control" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/VBox/HBoxContainer" unique_id=1468651499]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VSeparator" type="VSeparator" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=1334487711]
 layout_mode = 2
 
-[node name="SavunanVBox" type="VBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer"]
+[node name="SavunanVBox" type="VBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=725349229]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox" unique_id=1440251841]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="DefansResim" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/HBoxContainer"]
+[node name="DefansResim" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/HBoxContainer" unique_id=1126411804]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/HBoxContainer" unique_id=143465717]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/HBoxContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/HBoxContainer/VBoxContainer" unique_id=1900944355]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("25_cfl5i")
@@ -3413,7 +3387,7 @@ text = "Savunan"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DefansIsim" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/HBoxContainer/VBoxContainer"]
+[node name="DefansIsim" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/HBoxContainer/VBoxContainer" unique_id=926882864]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -3422,7 +3396,7 @@ text = "Furkan"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DefansMedeniyet" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/HBoxContainer/VBoxContainer"]
+[node name="DefansMedeniyet" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/HBoxContainer/VBoxContainer" unique_id=737920274]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -3431,13 +3405,13 @@ text = "Venedik"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSeparator2" type="HSeparator" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox"]
+[node name="HSeparator2" type="HSeparator" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox" unique_id=1077188274]
 layout_mode = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox" unique_id=827065107]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/HBoxContainer2"]
+[node name="Label" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/HBoxContainer2" unique_id=363825388]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
@@ -3446,11 +3420,11 @@ text = "SEÇİLEN KARTLAR"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RakipKartHBox" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox"]
+[node name="RakipKartHBox" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox" unique_id=1276089482]
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 
-[node name="RakipKart1" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/RakipKartHBox"]
+[node name="RakipKart1" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/RakipKartHBox" unique_id=948801439]
 unique_name_in_owner = true
 texture_filter = 3
 custom_minimum_size = Vector2(100, 100)
@@ -3459,7 +3433,7 @@ texture = ExtResource("91_v2ixi")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="RakipKart2" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/RakipKartHBox"]
+[node name="RakipKart2" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/RakipKartHBox" unique_id=874497105]
 unique_name_in_owner = true
 texture_filter = 3
 custom_minimum_size = Vector2(100, 100)
@@ -3468,7 +3442,7 @@ texture = ExtResource("91_v2ixi")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="RakipKart3" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/RakipKartHBox"]
+[node name="RakipKart3" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/RakipKartHBox" unique_id=1921804586]
 unique_name_in_owner = true
 texture_filter = 3
 custom_minimum_size = Vector2(100, 100)
@@ -3477,7 +3451,7 @@ texture = ExtResource("97_8g8wo")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="RakipKart4" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/RakipKartHBox"]
+[node name="RakipKart4" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/RakipKartHBox" unique_id=26232916]
 unique_name_in_owner = true
 texture_filter = 3
 custom_minimum_size = Vector2(100, 100)
@@ -3486,7 +3460,7 @@ texture = ExtResource("95_lrsm4")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="RakipKart5" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/RakipKartHBox"]
+[node name="RakipKart5" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/RakipKartHBox" unique_id=1481992148]
 unique_name_in_owner = true
 texture_filter = 3
 custom_minimum_size = Vector2(100, 100)
@@ -3495,7 +3469,7 @@ texture = ExtResource("98_t08ra")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="RakipKart6" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/RakipKartHBox"]
+[node name="RakipKart6" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/RakipKartHBox" unique_id=1332183523]
 unique_name_in_owner = true
 texture_filter = 3
 custom_minimum_size = Vector2(100, 100)
@@ -3504,7 +3478,7 @@ texture = ExtResource("95_lrsm4")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="RakipKart7" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/RakipKartHBox"]
+[node name="RakipKart7" type="TextureRect" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/RakipKartHBox" unique_id=1440233778]
 unique_name_in_owner = true
 texture_filter = 3
 custom_minimum_size = Vector2(100, 100)
@@ -3513,7 +3487,7 @@ texture = ExtResource("94_4mrjl")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="SecilenKartGucDefans" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox"]
+[node name="SecilenKartGucDefans" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox" unique_id=1525465337]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
@@ -3522,30 +3496,29 @@ text = "Kartlar Seçiliyor..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox" unique_id=138173726]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/HBoxContainer3"]
+[node name="Control" type="Control" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/HBoxContainer3" unique_id=387754037]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SecilenKartlariOnaylaDefans" type="Button" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/HBoxContainer3"]
+[node name="SecilenKartlariOnaylaDefans" type="Button" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/HBoxContainer3" unique_id=1537039662]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
-
-text = "KİLİTLE"
-theme_type_variation = &"HukumPrimary"
 mouse_default_cursor_shape = 2
+theme_type_variation = &"HukumPrimary"
+text = "KİLİTLE"
 
-[node name="Control2" type="Control" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/HBoxContainer3"]
+[node name="Control2" type="Control" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/HBoxContainer3" unique_id=1977430164]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label2" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox"]
+[node name="Label2" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox" unique_id=75501730]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
 theme_override_fonts/font = ExtResource("25_cfl5i")
@@ -3554,26 +3527,26 @@ text = "GÜÇ VE BONUSLAR"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox"]
+[node name="HSeparator" type="HSeparator" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox" unique_id=1315034311]
 layout_mode = 2
 
-[node name="VBox" type="VBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox"]
+[node name="VBox" type="VBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox" unique_id=1739392675]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="DefansBonus" type="RichTextLabel" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/VBox"]
+[node name="DefansBonus" type="RichTextLabel" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/VBox" unique_id=1643809417]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 bbcode_enabled = true
 text = "Bonuslar"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/VBox"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/VBox" unique_id=204973867]
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-[node name="DefansZarSonucu" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/VBox/HBoxContainer2"]
+[node name="DefansZarSonucu" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/VBox/HBoxContainer2" unique_id=920024091]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
@@ -3581,23 +3554,22 @@ text = "ZAR SONUCU"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DefansZarAt" type="Button" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/VBox/HBoxContainer2"]
+[node name="DefansZarAt" type="Button" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/VBox/HBoxContainer2" unique_id=133014695]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-
-text = "ZAR AT"
-theme_type_variation = &"HukumCompact"
 mouse_default_cursor_shape = 2
+theme_type_variation = &"HukumCompact"
+text = "ZAR AT"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/VBox"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/VBox" unique_id=1370559645]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/VBox/HBoxContainer"]
+[node name="Control" type="Control" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/VBox/HBoxContainer" unique_id=364589434]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="DefansToplamGucLabel" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/VBox/HBoxContainer"]
+[node name="DefansToplamGucLabel" type="Label" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/VBox/HBoxContainer" unique_id=862217133]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
@@ -3607,12 +3579,11 @@ text = "Toplam Güç: 50"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Control2" type="Control" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/VBox/HBoxContainer"]
+[node name="Control2" type="Control" parent="OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/VBox/HBoxContainer" unique_id=606534442]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SavasEliPaneli" type="NinePatchRect" parent="OyunArayuzu"]
-theme = ExtResource("hukum_theme")
+[node name="SavasEliPaneli" type="NinePatchRect" parent="OyunArayuzu" unique_id=1657578255]
 unique_name_in_owner = true
 texture_filter = 3
 custom_minimum_size = Vector2(1152, 275)
@@ -3623,17 +3594,18 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -695.0
 offset_top = 255.0
-offset_right = 605.0
+offset_right = 609.0
 offset_bottom = 540.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("hukum_theme")
 texture = ExtResource("14_78y8l")
 patch_margin_left = 24
 patch_margin_top = 24
 patch_margin_right = 24
 patch_margin_bottom = 24
 
-[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/SavasEliPaneli"]
+[node name="MarginContainer" type="MarginContainer" parent="OyunArayuzu/SavasEliPaneli" unique_id=331333799]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -3645,7 +3617,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/SavasEliPaneli/MarginContainer"]
+[node name="NinePatchRectArka" type="NinePatchRect" parent="OyunArayuzu/SavasEliPaneli/MarginContainer" unique_id=1852852141]
 visible = false
 modulate = Color(0.14509805, 0.14901961, 0.15686275, 0.78431374)
 layout_mode = 2
@@ -3655,7 +3627,7 @@ patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
 
-[node name="SavasMargin" type="MarginContainer" parent="OyunArayuzu/SavasEliPaneli"]
+[node name="SavasMargin" type="MarginContainer" parent="OyunArayuzu/SavasEliPaneli" unique_id=1409645173]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -3667,8 +3639,7 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="SavasEli" type="HBoxContainer" parent="OyunArayuzu/SavasEliPaneli/SavasMargin"]
+[node name="SavasEli" type="HBoxContainer" parent="OyunArayuzu/SavasEliPaneli/SavasMargin" unique_id=222433210]
 unique_name_in_owner = true
 texture_filter = 3
 layout_mode = 2
-
