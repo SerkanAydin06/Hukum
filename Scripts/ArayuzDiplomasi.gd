@@ -121,4 +121,3 @@ func skor_guncelle():
 
 func _kaynak_hesapla(sahip: String) -> Dictionary:
 	return ana.tur_ekonomi.bina_uretimi(sahip)
-

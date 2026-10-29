@@ -41,4 +41,3 @@ func _unhandled_input(event):
 
 	if event is InputEventMouseMotion and surukleniyor:
 		position -= event.relative / zoom.x
-

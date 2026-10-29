@@ -33,4 +33,3 @@ func olay_yaz(metin: String):
 	# Panel opaklığı her zaman tam görünür (1.0) kalır ve asla kaybolmaz
 	var sol_panel = arayuz.olay_logu.get_parent().get_parent()
 	sol_panel.modulate.a = 1.0
-

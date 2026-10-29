@@ -681,4 +681,3 @@ func _savas_kartlarini_iade_et(kartlar: Dictionary):
 			var idx = ana.deste.atilan_savas_kartlari.rfind(kart)
 			if idx != -1: ana.deste.atilan_savas_kartlari.remove_at(idx)
 			if isim == ana.oyuncular[ana.benim_indexim]: ana.deste.el.append(kart.duplicate(true))
-

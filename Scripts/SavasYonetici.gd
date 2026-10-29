@@ -894,4 +894,3 @@ func _paneli_tam_sifirla():
 	
 	var defans_bonus = ana.arayuz.get_node_or_null("%DefansBonus")
 	if defans_bonus: defans_bonus.text = ""
-

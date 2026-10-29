@@ -467,4 +467,3 @@ func hex_mesafesi(a: Vector2i, b: Vector2i) -> int:
 	var r2 = b.y
 	var s2 = -q2 - r2
 	return int(max(abs(q1 - q2), max(abs(r1 - r2), abs(s1 - s2))))
-

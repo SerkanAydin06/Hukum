@@ -37,4 +37,3 @@ window/stretch/mode="canvas_items"
 [rendering]
 
 environment/defaults/default_clear_color=Color(0.1657694, 0.31232345, 0.45846826, 1)
-
