@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://bw8px6p24kd84"]
 
-[ext_resource type="Texture2D" path="res://Assets/Resimler/kartresimleri/oncukampi_cadir.svg" id="24_camp"]
 [ext_resource type="Theme" path="res://UI/HukumTheme.tres" id="hukum_theme"]
 [ext_resource type="Script" uid="uid://btlg8uc618swk" path="res://Scripts/KartUI.gd" id="1_n03og"]
 [ext_resource type="Texture2D" uid="uid://4fo04xhmp6uc" path="res://Assets/Resimler/komutanlar/thutmose.png" id="2_hacd5"]
@@ -169,16 +168,6 @@ offset_right = 150.0
 offset_bottom = 240.0
 mouse_filter = 2
 texture = ExtResource("10_agild")
-expand_mode = 1
-
-[node name="OncuKampiDetay" type="TextureRect" parent="InsaGorunumu"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 0
-offset_right = 150.0
-offset_bottom = 240.0
-mouse_filter = 2
-texture = ExtResource("24_camp")
 expand_mode = 1
 
 [node name="BinaAciklama" type="RichTextLabel" parent="InsaGorunumu"]
@@ -362,4 +351,5 @@ text = "ÇÖPE AT"
 custom_minimum_size = Vector2(100, 40)
 theme_type_variation = &"HukumCompact"
 mouse_default_cursor_shape = 2
+
 

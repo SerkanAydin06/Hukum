@@ -249,3 +249,5 @@ Assets/UI/AvatarCerceveleri/Disabled.png,512,512,RGBA,d013e327a530ee5f962bf66f16
 Assets/UI/AvatarCerceveleri/Hover.png,512,512,RGBA,98d9d1d8d0be632a1fa86f312654a39679f08601e8dac01a63a8daed85779b5c,Contact-sheet visual review; original retained
 Assets/UI/AvatarCerceveleri/Normal.png,512,512,RGBA,eabb15efff5a17d4481eb42a47aae766670a82ee7f5d616def74cda6a9696dbe,Contact-sheet visual review; original retained
 Assets/UI/AvatarCerceveleri/Selected.png,512,512,RGBA,b8cf4ac7fd3fc39765eb1ad2967f974b25deaff7f602c2befffba136371fc6c7,Contact-sheet visual review; original retained
+
+Assets/Resimler/kartresimleri/oncukampi.png,993,1584,RGB,7a30a274522f546b6709e2f72bfbb1171bd95255e903b1c6a22578bbc4012914,New painted pioneer camp; matched construction-card references; real KartUI scene render and texture regressions

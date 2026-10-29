@@ -559,7 +559,7 @@ func sag_paneli_guncelle(koordinat: Vector2i):
 				"tarla":
 					resim_yolu = "res://Assets/Resimler/binalar/tarla%d.png" % clampi(lvl, 1, 3)
 				"oncu_kampi":
-					resim_yolu = "res://Assets/Resimler/kartresimleri/oncukampi_cadir.svg"
+					resim_yolu = "res://Assets/Resimler/kartresimleri/oncukampi.png"
 				"ticaret_merkezi":
 					resim_yolu = "res://Assets/Resimler/binalar/ticaret_merkezi.png"
 			
