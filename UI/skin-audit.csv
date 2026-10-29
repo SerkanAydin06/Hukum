@@ -1,0 +1,119 @@
+scene,control_path,type,skin
+MedeniyetKart.tscn,./Flama,TextureButton,art selector: keep aspect
+OyuncuSlotu.tscn,./OyuncuSlot,PanelContainer,HukumSlot
+OyuncuSlotu.tscn,MarginContainer/HBoxContainer/PanelContainer,PanelContainer,HukumPortrait
+OyuncuSlotu.tscn,MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu/Kirmizi,TextureButton,art selector: keep aspect
+OyuncuSlotu.tscn,MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu/Mavi,TextureButton,art selector: keep aspect
+OyuncuSlotu.tscn,MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu/Yesil,TextureButton,art selector: keep aspect
+OyuncuSlotu.tscn,MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu/Sari,TextureButton,art selector: keep aspect
+OyuncuSlotu.tscn,MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu/Mor,TextureButton,art selector: keep aspect
+OyuncuSlotu.tscn,MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu/CamGobegi,TextureButton,art selector: keep aspect
+AnaOyun.tscn,OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/TurPaneli,NinePatchRect,shared gold / black
+AnaOyun.tscn,OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli,NinePatchRect,shared gold / black
+AnaOyun.tscn,OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/ApPaneli,NinePatchRect,shared gold / black
+AnaOyun.tscn,OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/AyarlarPaneli,NinePatchRect,shared gold / black
+AnaOyun.tscn,OyunArayuzu/AnaArayuz/ZaferPaneli,NinePatchRect,shared gold / black
+AnaOyun.tscn,OyunArayuzu/AnaArayuz/SecimPaneli,NinePatchRect,shared gold / black
+AnaOyun.tscn,OyunArayuzu/AnaArayuz/OlayPaneli,NinePatchRect,shared gold / black
+AnaOyun.tscn,OyunArayuzu/AnaArayuz/AltOrtaPanel,NinePatchRect,shared gold / black
+AnaOyun.tscn,OyunArayuzu/AnaArayuz/AltOrtaPanel/SavasDesteBtn,Button,shared gold / black
+AnaOyun.tscn,OyunArayuzu/AnaArayuz/AltOrtaPanel/InsaDesteBtn,Button,shared gold / black
+AnaOyun.tscn,OyunArayuzu/AnaArayuz/TicaretOncuVBox/TicaretBtn,Button,HukumCompact
+AnaOyun.tscn,OyunArayuzu/AnaArayuz/TicaretOncuVBox/OncuUretBtn,Button,HukumCompact
+AnaOyun.tscn,OyunArayuzu/AnaArayuz/SavasDestesiPanel,NinePatchRect,shared gold / black
+AnaOyun.tscn,OyunArayuzu/AnaArayuz/SavasDestesiPanel/AnaMargin/AnaVBox/SavasCekBtn,TextureButton,art selector: keep aspect
+AnaOyun.tscn,OyunArayuzu/AnaArayuz/InsaDestesiPanel,NinePatchRect,shared gold / black
+AnaOyun.tscn,OyunArayuzu/AnaArayuz/InsaDestesiPanel/MarginContainer/VBoxContainer/InsaCekBtn,TextureButton,art selector: keep aspect
+AnaOyun.tscn,OyunArayuzu/AnaArayuz/TurButonu,Button,HukumPrimary
+AnaOyun.tscn,OyunArayuzu/VasalPaneli,NinePatchRect,shared gold / black
+AnaOyun.tscn,OyunArayuzu/VasalPaneli/MarginContainer2/VBoxContainer/IsyanBtn,Button,HukumCompact
+AnaOyun.tscn,OyunArayuzu/ApUyariPaneli,NinePatchRect,shared gold / black
+AnaOyun.tscn,OyunArayuzu/TicaretPaneli,Panel,shared gold / black
+AnaOyun.tscn,OyunArayuzu/TicaretPaneli/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/OdunSatBtn,Button,shared gold / black
+AnaOyun.tscn,OyunArayuzu/TicaretPaneli/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/TasSatBtn,Button,shared gold / black
+AnaOyun.tscn,OyunArayuzu/TicaretPaneli/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/YiyecekSatBtn,Button,shared gold / black
+AnaOyun.tscn,OyunArayuzu/TicaretPaneli/MarginContainer/VBoxContainer/VBoxContainer/TicaretKapatBtn,Button,shared gold / black
+AnaOyun.tscn,OyunArayuzu/TakasPaneli,Panel,shared gold / black
+AnaOyun.tscn,OyunArayuzu/TakasPaneli/MarginContainer/VBoxContainer/TakasKabulBtn,Button,HukumPrimary
+AnaOyun.tscn,OyunArayuzu/TakasPaneli/MarginContainer/VBoxContainer/TakasRedBtn,Button,HukumDanger
+AnaOyun.tscn,OyunArayuzu/IsyanOnayPaneli,NinePatchRect,shared gold / black
+AnaOyun.tscn,OyunArayuzu/IsyanOnayPaneli/AnaMargin/VBoxContainer/HBoxContainer/IsyanEvetButonu,Button,HukumDanger
+AnaOyun.tscn,OyunArayuzu/IsyanOnayPaneli/AnaMargin/VBoxContainer/HBoxContainer/IsyanHayirButonu,Button,shared gold / black
+AnaOyun.tscn,OyunArayuzu/KurulumOnayPaneli,NinePatchRect,shared gold / black
+AnaOyun.tscn,OyunArayuzu/KurulumOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer2/KurulumEvetBtn,Button,HukumPrimary
+AnaOyun.tscn,OyunArayuzu/KurulumOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer2/KurulumHayirBtn,Button,shared gold / black
+AnaOyun.tscn,OyunArayuzu/KurulumPaneli,NinePatchRect,shared gold / black
+AnaOyun.tscn,OyunArayuzu/KurulumPaneli/MarginContainer2/VBoxContainer/HBoxContainer/CimBtn,TextureButton,art selector: keep aspect
+AnaOyun.tscn,OyunArayuzu/KurulumPaneli/MarginContainer2/VBoxContainer/HBoxContainer/OrmanBtn,TextureButton,art selector: keep aspect
+AnaOyun.tscn,OyunArayuzu/KurulumPaneli/MarginContainer2/VBoxContainer/HBoxContainer/DagBtn,TextureButton,art selector: keep aspect
+AnaOyun.tscn,OyunArayuzu/HakimiyetPaneli,NinePatchRect,shared gold / black
+AnaOyun.tscn,OyunArayuzu/HakimiyetPaneli/MarginContainer2/VBoxContainer/HBoxContainer2/HakimiyetKurBtn,Button,HukumCompact
+AnaOyun.tscn,OyunArayuzu/HakimiyetPaneli/MarginContainer2/VBoxContainer/HBoxContainer2/VazgecBtn,Button,HukumCompact
+AnaOyun.tscn,OyunArayuzu/InsaDesteKalanlar,NinePatchRect,shared gold / black
+AnaOyun.tscn,OyunArayuzu/SavasDesteKalanlar,NinePatchRect,shared gold / black
+AnaOyun.tscn,OyunArayuzu/SavasOnayPaneli,NinePatchRect,shared gold / black
+AnaOyun.tscn,OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer2/SaldirBtn,Button,HukumDanger
+AnaOyun.tscn,OyunArayuzu/SavasOnayPaneli/MarginContainer2/VBoxContainer/HBoxContainer2/SaldiriIptalBtn,Button,shared gold / black
+AnaOyun.tscn,OyunArayuzu/BinaSaldiriPaneli,NinePatchRect,shared gold / black
+AnaOyun.tscn,OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer2/BinaYagmalaBtn,Button,shared gold / black
+AnaOyun.tscn,OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer2/BinaHukmetBtn,Button,shared gold / black
+AnaOyun.tscn,OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer2/BinaYikBtn,Button,HukumDanger
+AnaOyun.tscn,OyunArayuzu/BinaSaldiriPaneli/MarginContainer2/VBoxContainer/HBoxContainer2/BinaVazgecBtn,Button,shared gold / black
+AnaOyun.tscn,OyunArayuzu/SonSavasPaneli,NinePatchRect,shared gold / black
+AnaOyun.tscn,OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/HBoxContainer3/SecilenKartlariOnaylaAtak,Button,HukumPrimary
+AnaOyun.tscn,OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SaldiranVBox/VBox/HBoxContainer2/AtakZarAt,Button,HukumCompact
+AnaOyun.tscn,OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/HBoxContainer3/SecilenKartlariOnaylaDefans,Button,HukumPrimary
+AnaOyun.tscn,OyunArayuzu/SonSavasPaneli/MarginContainer2/VBoxContainer/HBoxContainer/SavunanVBox/VBox/HBoxContainer2/DefansZarAt,Button,HukumCompact
+AnaOyun.tscn,OyunArayuzu/SavasEliPaneli,NinePatchRect,shared gold / black
+AnaMenu.tscn,./AnaKart,PanelContainer,shared gold / black
+AnaMenu.tscn,AnaKart/HBoxMenuAna/PardexBtn,Button,HukumPrimary
+AnaMenu.tscn,AnaKart/HBoxMenuAna/TekOyuncuBtn,Button,shared gold / black
+AnaMenu.tscn,AnaKart/HBoxMenuAna/BaglantiSecenekleri/CokOyunculuBtn,Button,shared gold / black
+AnaMenu.tscn,AnaKart/HBoxMenuAna/BaglantiSecenekleri/OzelSunucuBtn,Button,shared gold / black
+AnaMenu.tscn,AnaKart/HBoxMenuAna/YardimBtn,Button,shared gold / black
+AnaMenu.tscn,AnaKart/HBoxMenuAna/AyarlarBtn,Button,shared gold / black
+AnaMenu.tscn,AnaKart/HBoxMenuAna/CikisBtn,Button,HukumDanger
+AnaMenu.tscn,./ProfilPanel,PanelContainer,shared gold / black
+AnaMenu.tscn,ProfilPanel/ProfilIcerik/ProfilDuzenleBtn,Button,shared gold / black
+AnaMenu.tscn,./BilgiKarti,PanelContainer,shared gold / black
+AnaMenu.tscn,HBoxMenuCoklu/Merkez/Panel,PanelContainer,shared gold / black
+AnaMenu.tscn,HBoxMenuCoklu/Merkez/Panel/Icerik/Dugmeler/KurBtn,Button,HukumPrimary
+AnaMenu.tscn,HBoxMenuCoklu/Merkez/Panel/Icerik/Dugmeler/BaglanBtn,Button,shared gold / black
+AnaMenu.tscn,HBoxMenuCoklu/Merkez/Panel/Icerik/GeriBtn,Button,shared gold / black
+AnaMenu.tscn,PardexKatmani/Merkez/Panel,PanelContainer,shared gold / black
+AnaMenu.tscn,PardexKatmani/Merkez/Panel/Icerik/MasaKurBtn,Button,HukumPrimary
+AnaMenu.tscn,PardexKatmani/Merkez/Panel/Icerik/KodSatiri/KodlaKatilBtn,Button,shared gold / black
+AnaMenu.tscn,PardexKatmani/Merkez/Panel/Icerik/PardexGeriBtn,Button,shared gold / black
+AnaMenu.tscn,ProfilDuzenlePanel/Merkez/Panel,PanelContainer,shared gold / black
+AnaMenu.tscn,ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil1,TextureButton,art selector: keep aspect
+AnaMenu.tscn,ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil1/Secim,Panel,shared gold / black
+AnaMenu.tscn,ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil2,TextureButton,art selector: keep aspect
+AnaMenu.tscn,ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil2/Secim,Panel,shared gold / black
+AnaMenu.tscn,ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil3,TextureButton,art selector: keep aspect
+AnaMenu.tscn,ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil3/Secim,Panel,shared gold / black
+AnaMenu.tscn,ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil4,TextureButton,art selector: keep aspect
+AnaMenu.tscn,ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil4/Secim,Panel,shared gold / black
+AnaMenu.tscn,ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil5,TextureButton,art selector: keep aspect
+AnaMenu.tscn,ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil5/Secim,Panel,shared gold / black
+AnaMenu.tscn,ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil6,TextureButton,art selector: keep aspect
+AnaMenu.tscn,ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil6/Secim,Panel,shared gold / black
+AnaMenu.tscn,ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil7,TextureButton,art selector: keep aspect
+AnaMenu.tscn,ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil7/Secim,Panel,shared gold / black
+AnaMenu.tscn,ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil8,TextureButton,art selector: keep aspect
+AnaMenu.tscn,ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil8/Secim,Panel,shared gold / black
+AnaMenu.tscn,ProfilDuzenlePanel/Merkez/Panel/Icerik/ProfilDugmeleri/KaydetBtn,Button,HukumPrimary
+AnaMenu.tscn,ProfilDuzenlePanel/Merkez/Panel/Icerik/ProfilDugmeleri/IptalProfilBtn,Button,shared gold / black
+KartUI.tscn,./KartUI,TextureButton,art selector: keep aspect
+KartUI.tscn,SecimHBox/KullanBtn,Button,HukumCompact
+KartUI.tscn,SecimHBox/DonusturBtn,Button,HukumCompact
+KartUI.tscn,SecimHBox/CopeAtBtn,Button,HukumCompact
+LobiPaneli.tscn,AnaMargin/VBoxContainer/Panel/LobidenCikBtn,Button,HukumDanger
+LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SolVBox/SohbetPaneli,PanelContainer,HukumPanel
+LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SolVBox/VBoxSohbet/HBoxContainer/GonderBtn,Button,shared gold / black
+LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetSecimPaneli,PanelContainer,HukumPanel
+LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel,PanelContainer,HukumPanel
+LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli,PanelContainer,HukumPanel
+LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/Butonlar/IptalBtn,Button,shared gold / black
+LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/Butonlar/HazirBtn,Button,HukumPrimary
+LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/Butonlar/BaslatBtn,Button,HukumPrimary
+LobiPaneli.tscn,./KodKopyala,Button,shared gold / black

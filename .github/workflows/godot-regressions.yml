@@ -59,6 +59,12 @@ jobs:
           ! grep -E 'SCRIPT ERROR|ERROR:|Parse Error' /tmp/import.log
           /tmp/Godot_v4.7.2-stable_linux.x86_64 --headless --path . --script tests/runtime_smoke.gd 2>&1 | tee /tmp/runtime.log
           ! grep -E 'SCRIPT ERROR|ERROR:|Parse Error' /tmp/runtime.log
+      - name: Check scalable UI across every authored scene
+        shell: bash
+        run: |
+          set -o pipefail
+          /tmp/Godot_v4.7.2-stable_linux.x86_64 --headless --path . --script tests/ui_scaling.gd 2>&1 | tee /tmp/ui.log
+          ! grep -E 'SCRIPT ERROR|ERROR:|Parse Error' /tmp/ui.log
       - name: Exercise three real networked scenes
         run: python3 tests/run_scene_network.py /tmp/Godot_v4.7.2-stable_linux.x86_64
       - name: Exercise online handoff contracts

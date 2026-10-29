@@ -36,14 +36,12 @@ func run():
 	check(background.get_node("KusAnimasyonu").is_playing() and background.get_node("AtmosferIsiklari").emitting, "Birds and atmosphere remain animated")
 	var shared_theme = load("res://UI/HukumTheme.tres")
 	check(menu.theme == shared_theme and menu.oyun_menusu.perde.theme == shared_theme, "Main and game windows share the same theme")
-	check(shared_theme.get_stylebox("frame", "HukumWindow") is StyleBoxTexture, "Windows use the game's original textured gold frame")
-	check(shared_theme.get_stylebox("panel", "PanelContainer").bg_color == Color.BLACK, "Window fill is opaque black")
-	var fill = shared_theme.get_stylebox("panel", "PanelContainer")
-	check(fill.expand_margin_left == -4.0 and fill.expand_margin_top == -4.0 and fill.expand_margin_right == -4.0 and fill.expand_margin_bottom == -4.0, "Black fill stays inset beneath the gold frame")
-	check(fill.corner_radius_top_left == 18 and fill.corner_radius_top_right == 18 and fill.corner_radius_bottom_left == 18 and fill.corner_radius_bottom_right == 18, "All black fill corners follow the shaped frame")
-	for state in ["normal", "hover", "pressed", "disabled"]:
+	var panel_skin = shared_theme.get_stylebox("panel", "PanelContainer")
+	check(panel_skin is StyleBoxTexture and panel_skin.texture.resource_path.ends_with("window.svg"), "Windows use one shaped opaque gold-and-black skin")
+	for state in ["normal", "hover", "pressed", "hover_pressed", "disabled", "focus"]:
 		var style = menu.get_node("%PardexBtn").get_theme_stylebox(state)
-		check(style is StyleBoxTexture and style.texture.resource_path.ends_with("hukum_button_v2_" + state + ".png"), "Original ornate button artwork restored: " + state)
+		check(style is StyleBoxTexture and style.texture.resource_path.ends_with(".svg"), "Scalable button state: " + state)
+		check(style.texture_margin_left == 20.0 and style.texture_margin_right == 20.0, "Fixed button corners: " + state)
 	await capture("menu")
 	await capture("menu-motion")
 	menu._pardex_ac()
@@ -76,6 +74,10 @@ func run():
 	lobby._renk_sec("Kirmizi")
 	lobby._medeniyet_bayragina_tiklandi("Osmanlı")
 	lobby._hazir_butonuna_basildi()
+	var viewport_rect = current_scene.get_global_rect() # logical canvas coordinates, including headless stretch
+	for control_name in ["LobidenCikBtn", "BaslatBtn", "SohbetGirdisi"]:
+		var control = current_scene.get_node("%" + control_name)
+		check(viewport_rect.encloses(control.get_global_rect()), "Lobby control stays on screen: " + control_name)
 	await capture("lobby")
 	lobby._oyunu_baslat_istegi()
 	await create_timer(1.0).timeout
@@ -98,6 +100,16 @@ func run():
 	game.harita.queue_redraw()
 	game.arayuz.sag_paneli_guncelle(Vector2i(6, 4))
 	await capture("market")
+	for panel_name in ["TicaretPaneli", "TakasPaneli", "IsyanOnayPaneli", "BinaSaldiriPaneli"]:
+		var modal = game.get_node("%" + panel_name)
+		modal.show()
+		await process_frame
+		await process_frame
+		for command in modal.find_children("*", "Button", true, false):
+			check(modal.get_global_rect().grow(-12).encloses(command.get_global_rect()), "Command fits " + panel_name + ": " + str(command.name))
+		await capture(panel_name)
+		modal.hide()
+
 	game.oyun_menusu.yardimi_ac()
 	await capture("help")
 	game.oyun_menusu.ayarlari_ac()

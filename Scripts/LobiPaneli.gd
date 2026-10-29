@@ -440,7 +440,7 @@ func lobi_arayuzunu_ciz():
 					renk_butonlari.modulate = Color(1, 1, 1, 0)
 					for btn in renk_butonlari.get_children(): btn.disabled = true
 		else:
-			slot.modulate = Color(1, 1, 1, 0.3)
+			slot.modulate = Color.WHITE
 			if isim_lbl: 
 				isim_lbl.text = "Açık"
 				isim_lbl.add_theme_color_override("font_color", Color.WHITE) 

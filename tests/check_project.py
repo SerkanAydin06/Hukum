@@ -57,6 +57,13 @@ for source in list(ROOT.glob("*.tscn")) + list((ROOT / "Scripts").glob("*.gd")) 
         if not (ROOT / reference).exists():
             MISSING.append(f"{source.relative_to(ROOT)}: {reference}")
 
+for scene_path in ROOT.glob("*.tscn"):
+    scene_text = scene_path.read_text(encoding="utf-8")
+    declared = set(re.findall(r'\[ext_resource[^\n]+ id="([^"]+)"', scene_text))
+    used = set(re.findall(r'ExtResource\("([^"]+)"\)', scene_text))
+    for missing_id in sorted(used - declared):
+        MISSING.append(f"{scene_path.name}: undefined external resource {missing_id}")
+
 if MISSING:
     raise SystemExit("Project asset/scene checks failed:\n- " + "\n- ".join(MISSING))
 print("HUKUM project checks: PASS")

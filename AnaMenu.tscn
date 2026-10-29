@@ -1,41 +1,17 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://Scripts/AnaMenu.gd" id="script"]
-
 [ext_resource type="Texture2D" path="res://Assets/Resimler/arkaplanlar/ArkaplanAnamenu.png" id="bg"]
-
 [ext_resource type="Texture2D" path="res://Assets/Resimler/arkaplanlar/HukumLogosu.png" id="logo"]
-
-[ext_resource type="FontFile" path="res://fonts/NotoSans-Bold.ttf" id="font"]
-
 [ext_resource type="FontFile" path="res://fonts/Cinzel-Bold.ttf" id="title"]
-
 [ext_resource type="Texture2D" path="res://Assets/Resimler/Profil1.png" id="avatar1"]
-
 [ext_resource type="Texture2D" path="res://Assets/Resimler/Profil2.png" id="avatar2"]
-
 [ext_resource type="Texture2D" path="res://Assets/Resimler/Profil3.png" id="avatar3"]
-
 [ext_resource type="Texture2D" path="res://Assets/Resimler/Profil4.png" id="avatar4"]
-
 [ext_resource type="Texture2D" path="res://Assets/Resimler/Profil5.png" id="avatar5"]
-
 [ext_resource type="Texture2D" path="res://Assets/Resimler/Profil6.png" id="avatar6"]
-
 [ext_resource type="Texture2D" path="res://Assets/Resimler/Profil7.png" id="avatar7"]
-
 [ext_resource type="Texture2D" path="res://Assets/Resimler/Profil8.png" id="avatar8"]
-
-
-
-
-
-
-
-
-
-
-
 [ext_resource type="Script" path="res://UI/HukumWindow.gd" id="window_panel"]
 [ext_resource type="Theme" path="res://UI/HukumTheme.tres" id="shared_theme"]
 [ext_resource type="Texture2D" uid="uid://i4gymuxcs3bm" path="res://Assets/Resimler/arkaplanlar/ArkaplanAnamenu.png" id="2_esw1c"]
@@ -57,9 +33,6 @@
 [ext_resource type="Texture2D" uid="uid://61y52i0ipfqq" path="res://Assets/Resimler/arkaplanlar/Fener.png" id="17_ws2ip"]
 [ext_resource type="Shader" uid="uid://c8pkyi52xoda4" path="res://Shaders/hukum_water_reflections.gdshader" id="18_ws2ip"]
 [ext_resource type="Texture2D" uid="uid://cl73v5wahqmpm" path="res://Assets/Resimler/arkaplanlar/SuYansimalari.png" id="19_qgvb2"]
-[ext_resource type="Texture2D" uid="uid://b8d326r1j7u4x" path="res://Assets/Resimler/arkaplanlar/HukumLogosu.png" id="22_ywqup"]
-[ext_resource type="Shader" uid="uid://cjtx6xrrtegh7" path="res://Shaders/ProfilResmi.gdshader" id="29_roeyw"]
-[ext_resource type="Texture2D" uid="uid://bp0wg05sanv3l" path="res://Assets/Resimler/arkaplanlar/ProfilCerceve.png" id="31_nuq58"]
 [ext_resource type="Texture2D" uid="uid://cvnnnxi6hdb6g" path="res://Assets/Resimler/arkaplanlar/GokyuzuParcaciklari.png" id="58_qgvb2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1hitb"]
@@ -67,26 +40,21 @@ shader = ExtResource("3_sbhwp")
 shader_parameter/movement_pixels = 80.0
 shader_parameter/cycle_seconds = 160.0
 
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_sbhwp"]
 atlas = ExtResource("5_sbhwp")
 region = Rect2(0, 0, 512, 288)
-
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1hitb"]
 atlas = ExtResource("5_sbhwp")
 region = Rect2(512, 0, 512, 288)
 
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_rb7jy"]
 atlas = ExtResource("5_sbhwp")
 region = Rect2(1024, 0, 512, 288)
 
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_rk7pl"]
 atlas = ExtResource("5_sbhwp")
 region = Rect2(1536, 0, 512, 288)
-
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_g3qoh"]
 animations = [{
@@ -108,12 +76,10 @@ animations = [{
 "speed": 6.0
 }]
 
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rb7jy"]
 shader = ExtResource("3_sbhwp")
 shader_parameter/movement_pixels = 150.0
 shader_parameter/cycle_seconds = 90.0
-
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_g3qoh"]
 shader = ExtResource("10_g3qoh")
@@ -122,13 +88,11 @@ shader_parameter/horizontal_strength = 0.01
 shader_parameter/vertical_strength = 0.005
 shader_parameter/fold_frequency = 1.8
 
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qgvb2"]
 shader = ExtResource("15_4qyn1")
 shader_parameter/brightness = 1.06999997608336
 shader_parameter/flicker_amount = 0.2999999932944
 shader_parameter/flicker_speed = 2.5099999438964797
-
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kpy7h"]
 shader = ExtResource("13_ij5s2")
@@ -136,14 +100,12 @@ shader_parameter/brightness = 0.749999983236
 shader_parameter/flicker_amount = 0.07
 shader_parameter/flicker_speed = 0.82999998144784
 
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ywqup"]
 shader = ExtResource("18_ws2ip")
 shader_parameter/brightness = 0.48
 shader_parameter/motion_speed = 0.28
 shader_parameter/horizontal_motion = 0.0012
 shader_parameter/shimmer_amount = 0.06
-
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ywqup"]
 particle_flag_disable_z = true
@@ -157,7 +119,6 @@ gravity = Vector3(0, -0.15, 0)
 scale_min = 0.08
 scale_max = 0.19999999
 
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sithr"]
 shader = ExtResource("3_bdeys")
 shader_parameter/water_mask = ExtResource("3_02t64")
@@ -166,7 +127,6 @@ shader_parameter/wave_speed = 0.67999998480064
 shader_parameter/wave_scale = 72.0
 shader_parameter/shimmer_amount = 0.018
 shader_parameter/shimmer_color = Color(0.62, 0.43, 0.22, 1)
-
 
 [sub_resource type="StyleBoxFlat" id="selection"]
 content_margin_left = 22.0
@@ -183,7 +143,6 @@ corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_left = 8
 corner_radius_bottom_right = 8
-
 
 [node name="AnaMenu" type="Control"]
 layout_mode = 1
@@ -318,7 +277,6 @@ mouse_filter = 2
 texture = ExtResource("2_esw1c")
 expand_mode = 1
 
-
 [node name="Karartma" type="ColorRect" parent="."]
 z_index = 7
 layout_mode = 1
@@ -372,6 +330,10 @@ custom_minimum_size = Vector2(0, 74)
 size_flags_horizontal = 3
 text = "PARDEX ONLINE"
 
+theme_type_variation = &"HukumPrimary"
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 20
+
 [node name="OnlineIpucu" type="Label" parent="AnaKart/HBoxMenuAna"]
 layout_mode = 2
 text = "Masa kur · Kodla katıl · Arkadaşlarınla oyna"
@@ -387,6 +349,9 @@ custom_minimum_size = Vector2(0, 60)
 size_flags_horizontal = 3
 text = "TEK OYUNCULU ALIŞTIRMA"
 
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 20
+
 [node name="BaglantiSecenekleri" type="HBoxContainer" parent="AnaKart/HBoxMenuAna"]
 layout_mode = 2
 theme_override_constants/separation = 12
@@ -399,6 +364,9 @@ custom_minimum_size = Vector2(0, 64)
 size_flags_horizontal = 3
 text = "YEREL AĞ"
 
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 20
+
 [node name="OzelSunucuBtn" type="Button" parent="AnaKart/HBoxMenuAna/BaglantiSecenekleri"]
 theme_override_fonts/font = ExtResource("title")
 unique_name_in_owner = true
@@ -406,6 +374,9 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 64)
 size_flags_horizontal = 3
 text = "ÖZEL SUNUCU"
+
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 20
 
 [node name="Ayirici" type="HSeparator" parent="AnaKart/HBoxMenuAna"]
 layout_mode = 2
@@ -419,6 +390,9 @@ custom_minimum_size = Vector2(0, 60)
 size_flags_horizontal = 3
 text = "NASIL OYNANIR?"
 
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 20
+
 [node name="AyarlarBtn" type="Button" parent="AnaKart/HBoxMenuAna"]
 theme_override_fonts/font = ExtResource("title")
 unique_name_in_owner = true
@@ -427,6 +401,9 @@ custom_minimum_size = Vector2(0, 60)
 size_flags_horizontal = 3
 text = "AYARLAR"
 
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 20
+
 [node name="CikisBtn" type="Button" parent="AnaKart/HBoxMenuAna"]
 theme_override_fonts/font = ExtResource("title")
 unique_name_in_owner = true
@@ -434,6 +411,10 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 48)
 size_flags_horizontal = 3
 text = "ÇIKIŞ"
+
+theme_type_variation = &"HukumDanger"
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 20
 
 [node name="Surum" type="Label" parent="AnaKart/HBoxMenuAna"]
 layout_mode = 2
@@ -487,7 +468,6 @@ text = "Oyuncu"
 theme_override_font_sizes/font_size = 20
 autowrap_mode = 2
 
-
 [node name="BaglantiRozeti" type="Label" parent="ProfilPanel/ProfilIcerik"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -495,13 +475,14 @@ text = "YEREL PROFİL"
 theme_override_font_sizes/font_size = 14
 autowrap_mode = 2
 
-
 [node name="ProfilDuzenleBtn" type="Button" parent="ProfilPanel/ProfilIcerik"]
 unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(0, 48)
 size_flags_horizontal = 3
 text = "PROFİLİ DÜZENLE"
+
+mouse_default_cursor_shape = 2
 
 [node name="BilgiKarti" type="PanelContainer" parent="."]
 script = ExtResource("window_panel")
@@ -528,7 +509,6 @@ layout_mode = 2
 text = "Şehrini kur. Sınırlarını genişlet. İttifaklarını seç. 50 puana ulaş ve tarihe adını yaz."
 theme_override_font_sizes/font_size = 18
 autowrap_mode = 2
-
 
 [node name="MenuDurum" type="Label" parent="."]
 z_index = 10
@@ -596,7 +576,6 @@ text = "Sunucuya bağlan."
 theme_override_font_sizes/font_size = 19
 autowrap_mode = 2
 
-
 [node name="LANAlanlari" type="VBoxContainer" parent="HBoxMenuCoklu/Merkez/Panel/Icerik"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -607,7 +586,6 @@ layout_mode = 2
 text = "SUNUCUNUN YEREL IP ADRESİ"
 theme_override_font_sizes/font_size = 15
 autowrap_mode = 2
-
 
 [node name="IPGiris" type="LineEdit" parent="HBoxMenuCoklu/Merkez/Panel/Icerik/LANAlanlari"]
 unique_name_in_owner = true
@@ -623,7 +601,6 @@ text = "PORT"
 theme_override_font_sizes/font_size = 15
 autowrap_mode = 2
 
-
 [node name="PortGiris" type="SpinBox" parent="HBoxMenuCoklu/Merkez/Panel/Icerik/LANAlanlari"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -638,7 +615,6 @@ text = "Oda kurarken aynı portu kullanın. Güvenlik duvarında UDP bağlantıs
 theme_override_font_sizes/font_size = 15
 autowrap_mode = 2
 
-
 [node name="OzelAlanlar" type="VBoxContainer" parent="HBoxMenuCoklu/Merkez/Panel/Icerik"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -649,7 +625,6 @@ layout_mode = 2
 text = "SUNUCU ADRESİ"
 theme_override_font_sizes/font_size = 15
 autowrap_mode = 2
-
 
 [node name="SunucuGiris" type="LineEdit" parent="HBoxMenuCoklu/Merkez/Panel/Icerik/OzelAlanlar"]
 unique_name_in_owner = true
@@ -663,7 +638,6 @@ layout_mode = 2
 text = "Güvenilir bir HÜKÜM sunucusunun adresini kullan."
 theme_override_font_sizes/font_size = 16
 autowrap_mode = 2
-
 
 [node name="BaglantiDurumu" type="Label" parent="HBoxMenuCoklu/Merkez/Panel/Icerik"]
 unique_name_in_owner = true
@@ -692,6 +666,9 @@ custom_minimum_size = Vector2(0, 60)
 size_flags_horizontal = 3
 text = "ODA KUR"
 
+theme_type_variation = &"HukumPrimary"
+mouse_default_cursor_shape = 2
+
 [node name="BaglanBtn" type="Button" parent="HBoxMenuCoklu/Merkez/Panel/Icerik/Dugmeler"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -699,12 +676,16 @@ custom_minimum_size = Vector2(0, 60)
 size_flags_horizontal = 3
 text = "KATIL"
 
+mouse_default_cursor_shape = 2
+
 [node name="GeriBtn" type="Button" parent="HBoxMenuCoklu/Merkez/Panel/Icerik"]
 unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(0, 48)
 size_flags_horizontal = 3
 text = "GERİ"
+
+mouse_default_cursor_shape = 2
 
 [node name="PardexKatmani" type="Control" parent="."]
 z_index = 90
@@ -767,12 +748,14 @@ custom_minimum_size = Vector2(0, 64)
 size_flags_horizontal = 3
 text = "MASA KUR"
 
+theme_type_variation = &"HukumPrimary"
+mouse_default_cursor_shape = 2
+
 [node name="KodBaslik" type="Label" parent="PardexKatmani/Merkez/Panel/Icerik"]
 layout_mode = 2
 text = "ARKADAŞININ MASASINA KATIL"
 theme_override_font_sizes/font_size = 15
 autowrap_mode = 2
-
 
 [node name="KodSatiri" type="HBoxContainer" parent="PardexKatmani/Merkez/Panel/Icerik"]
 layout_mode = 2
@@ -793,6 +776,8 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 60)
 size_flags_horizontal = 3
 text = "KODLA KATIL"
+
+mouse_default_cursor_shape = 2
 
 [node name="PardexDurum" type="Label" parent="PardexKatmani/Merkez/Panel/Icerik"]
 unique_name_in_owner = true
@@ -816,6 +801,8 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 48)
 size_flags_horizontal = 3
 text = "GERİ"
+
+mouse_default_cursor_shape = 2
 
 [node name="ProfilDuzenlePanel" type="Control" parent="."]
 z_index = 90
@@ -895,7 +882,6 @@ layout_mode = 2
 text = ""
 theme_override_font_sizes/font_size = 16
 autowrap_mode = 2
-
 
 [node name="AvatarGrid" type="GridContainer" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik"]
 unique_name_in_owner = true
@@ -1068,6 +1054,9 @@ custom_minimum_size = Vector2(0, 60)
 size_flags_horizontal = 3
 text = "KAYDET"
 
+theme_type_variation = &"HukumPrimary"
+mouse_default_cursor_shape = 2
+
 [node name="IptalProfilBtn" type="Button" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/ProfilDugmeleri"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -1075,8 +1064,11 @@ custom_minimum_size = Vector2(0, 60)
 size_flags_horizontal = 3
 text = "İPTAL"
 
+mouse_default_cursor_shape = 2
+
 [node name="MenuIntroController" type="Node" parent="." node_paths=PackedStringArray("logo", "ana_menu_grubu", "profil_paneli")]
 script = ExtResource("2_yfun4")
 logo = NodePath("../OyunLogosu")
 ana_menu_grubu = NodePath("../AnaKart")
 profil_paneli = NodePath("../ProfilPanel")
+
