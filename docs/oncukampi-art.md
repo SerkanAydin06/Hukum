@@ -1,6 +1,6 @@
 # Öncü Kampı kart görseli
 
-- Dosya: `Assets/Resimler/kartresimleri/oncukampi.png` (1000 × 1600 PNG).
+- Dosya: `Assets/Resimler/kartresimleri/oncukampi.png` (993 × 1584 PNG).
 - Üretim: yerleşik imagegen; referanslar `oduncu.png`, `tarla.png`, `ticaretmerkezi.png`.
 - Kullanım: KartUI ve bina bilgi penceresi. Haritadaki bağımsız küçük çadır simgesi korunur; kart üzerinde SVG katmanı yoktur.
 - Başlık, maliyetler ve açıklama mevcut Godot metin alanlarıyla çizilir.
