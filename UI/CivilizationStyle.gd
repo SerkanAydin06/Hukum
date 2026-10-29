@@ -5,12 +5,12 @@ const BASE = preload("res://UI/HukumTheme.tres")
 const TEMPLATES = preload("res://UI/CivilizationTemplates.gd")
 const ORNAMENT = preload("res://UI/CivilizationOrnament.gd")
 const CIVS = {
-	"Osmanlı": {"id": "osmanli", "accent": "b54b57", "pattern": 0},
-	"Venedik": {"id": "venedik", "accent": "418dce", "pattern": 1},
-	"Bizans": {"id": "bizans", "accent": "a372c8", "pattern": 2},
-	"Mısır": {"id": "misir", "accent": "35bcb1", "pattern": 3},
-	"Moğol": {"id": "mogol", "accent": "b88b52", "pattern": 4},
-	"Viking": {"id": "viking", "accent": "559d9e", "pattern": 5},
+	"Osmanlı": {"id": "osmanli", "accent": "b54b57"},
+	"Venedik": {"id": "venedik", "accent": "418dce"},
+	"Bizans": {"id": "bizans", "accent": "a372c8"},
+	"Mısır": {"id": "misir", "accent": "35bcb1"},
+	"Moğol": {"id": "mogol", "accent": "b88b52"},
+	"Viking": {"id": "viking", "accent": "559d9e"},
 }
 const CRESTS = {
 	"osmanli": preload("res://UI/Civilizations/osmanli_crest.png"),
@@ -77,7 +77,7 @@ static func skin_for(civ: String) -> Dictionary:
 		style.texture = window_texture
 		skin.set_stylebox("panel", type, style)
 	var emblem = CRESTS[spec.id]
-	var result = {"theme": skin, "window": window_texture, "emblem": emblem, "accent": accent, "pattern": spec.pattern, "id": spec.id}
+	var result = {"theme": skin, "window": window_texture, "emblem": emblem, "accent": accent, "id": spec.id}
 	_skins[civ] = result
 	return result
 
@@ -116,8 +116,6 @@ func apply_to(target: Node, civ: String):
 				node.add_child(decoration)
 				node.move_child(decoration, 0)
 			decoration.emblem = data.emblem
-			decoration.accent = data.accent
-			decoration.pattern = data.pattern
 			decoration.queue_redraw()
 	var end_turn = target.get_node_or_null("%TurButonu")
 	if end_turn is Button:
@@ -126,9 +124,3 @@ func apply_to(target: Node, civ: String):
 		end_turn.add_theme_constant_override("icon_max_width", 72)
 		end_turn.add_theme_constant_override("h_separation", 12)
 		end_turn.tooltip_text = civ + " · Turu bitir"
-	for name in ["SavasDesteBtn", "InsaDesteBtn"]:
-		var tab = target.get_node_or_null("%" + name)
-		if tab is Button:
-			tab.icon = data.emblem
-			tab.expand_icon = true
-			tab.add_theme_constant_override("icon_max_width", 32)

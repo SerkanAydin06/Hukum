@@ -64,8 +64,7 @@ LobiPaneli.tscn,./KodKopyala,Button,shared gold / black + civilization layer
 AnaOyun.tscn,OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/TurPaneli,NinePatchRect,shared gold / black + civilization layer
 AnaOyun.tscn,OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli,NinePatchRect,shared gold / black + civilization layer
 AnaOyun.tscn,OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/ApPaneli,NinePatchRect,shared gold / black + civilization layer
-AnaOyun.tscn,OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/AyarlarPaneli,NinePatchRect,shared gold / black + civilization layer
-AnaOyun.tscn,OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/AyarlarPaneli/OyunMenuBtn,Button,shared gold / black + civilization layer
+AnaOyun.tscn,OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/MenuAlani/OyunMenuBtn,Button,shared gold / black + civilization layer
 AnaOyun.tscn,OyunArayuzu/AnaArayuz/ZaferPaneli,NinePatchRect,shared gold / black + civilization layer
 AnaOyun.tscn,OyunArayuzu/AnaArayuz/SecimPaneli,NinePatchRect,shared gold / black + civilization layer
 AnaOyun.tscn,OyunArayuzu/AnaArayuz/OlayPaneli,NinePatchRect,shared gold / black + civilization layer

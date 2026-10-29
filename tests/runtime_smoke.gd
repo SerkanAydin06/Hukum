@@ -99,6 +99,10 @@ func run():
 	var identity_before = game.medeniyetler_verisi.duplicate(true)
 	var decorations_before = game.find_children("CivilizationOrnament", "Control", true, false).size()
 	var crests = []
+	var combat_icon = game.get_node("%SavasDesteBtn").icon
+	var build_icon = game.get_node("%InsaDesteBtn").icon
+	check(combat_icon.resource_path.ends_with("combat.svg") and build_icon.resource_path.ends_with("build.svg"), "Deck tabs have fixed combat and construction icons")
+
 	var late_card = load("res://KartUI.tscn").instantiate()
 	game.get_node("%InsaKartEliKonteyner").add_child(late_card)
 	check(late_card.theme == civ_style.skin_for(game.medeniyetler_verisi[isim]).theme, "New card command buttons inherit the current civilization skin")
@@ -109,8 +113,11 @@ func run():
 		var emblem = game.get_node("%TurButonu").icon
 		check(emblem != null and not emblem in crests, "Distinct end-turn crest for " + civ)
 		crests.append(emblem)
+		check(game.get_node("%SavasDesteBtn").icon == combat_icon and game.get_node("%InsaDesteBtn").icon == build_icon, "Deck icons stay fixed when civilization changes: " + civ)
+
 		var card_area = game.get_node("%AltOrtaPanel/CivilizationOrnament")
 		check(card_area.emblem == emblem and card_area.mouse_filter == Control.MOUSE_FILTER_IGNORE, "Card-area ornament matches civilization and passes input: " + civ)
+		check(card_area.get_motif_rect().get_center().is_equal_approx(card_area.size / 2.0), "Panel watermark is centered: " + civ)
 		var command_skin = game.get_node("%TurButonu").get_theme_stylebox("normal")
 		check(command_skin is StyleBoxTexture and command_skin.texture_margin_left == 20, "Civilization buttons keep fixed corners: " + civ)
 		await capture("civ-" + str(civ_style.CIVS[civ].id))
@@ -119,7 +126,8 @@ func run():
 	civ_style.apply_to(game, game.medeniyetler_verisi[isim])
 
 	var hud_settings = game.get_node("%OyunMenuBtn")
-	check(hud_settings.get_parent().get_global_rect().grow(-10).encloses(hud_settings.get_global_rect()), "Settings button stays inside its HUD frame")
+	check(hud_settings.get_parent().get_global_rect().grow(-10).encloses(hud_settings.get_global_rect()), "Menu button stays inside its transparent HUD layout area")
+	check(hud_settings.get_parent() is Control and not hud_settings.get_parent() is NinePatchRect, "Menu button has no surrounding frame/background")
 	hud_settings.pressed.emit()
 	check(game.oyun_menusu.perde.visible and game.oyun_menusu.satirlar.get_child(0).text == "HÜKÜM", "HUD button opens the menu with settings inside")
 	await capture("hud-menu")
