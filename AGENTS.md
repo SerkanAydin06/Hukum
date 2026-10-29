@@ -24,6 +24,7 @@
 - Same seed and map coordinate must yield identical terrain on every peer. Keep fog-of-war, turn order, AP, combat, economy, 7-card limits and civilization bonuses consistent.
 - Never change public RPC signatures without updating all call sites and multiplayer tests. Check simultaneous clients, disconnects and reconnect failures.
 - Do not introduce nonexistent `res://` asset paths. Preserve existing visuals and mobile/desktop layout.
+- New or renewed windows use `UI/HukumTheme.tres` + `UI/HukumWindow.gd`: the existing gold frame and opaque black fill. Preserve the animated menu atmosphere and intro unless the user asks to remove them.
 - Never commit secrets, tokens, personal data, `.godot/` cache or generated binaries.
 
 ## Execution and verification
@@ -41,3 +42,4 @@
 - If tests are failing, unavailable or pending, leave the PR open and report exactly why; do not silently bypass protections.
 - Do not overwrite another agent's concurrent work; rebase/re-evaluate if `main` moved.
 - Treat server deployment, paid service use, secrets and destructive operations as separate actions needing explicit authorization.
+

@@ -1,5 +1,8 @@
 extends CanvasLayer
 
+const PENCERE_TEMASI = preload("res://UI/HukumTheme.tres")
+const PENCERE_PANELI = preload("res://UI/HukumWindow.gd")
+
 var perde: ColorRect
 var panel: PanelContainer
 var satirlar: VBoxContainer
@@ -12,31 +15,24 @@ func _ready():
 	oyun = get_parent() if get_parent() is AnaOyun else null
 	var menu = Button.new()
 	menu.text = "MENÜ / YARDIM"
+	menu.theme = PENCERE_TEMASI
+	menu.add_theme_font_size_override("font_size", 16)
 	menu.visible = oyun != null
 	menu.position = Vector2(1730, 18) if oyun else Vector2(18, 18)
 	menu.custom_minimum_size = Vector2(180, 42)
 	add_child(menu)
 	menu.pressed.connect(menuyu_ac)
 	perde = ColorRect.new()
-	perde.color = Color(0.015, 0.025, 0.035, 0.94)
+	perde.color = Color(0, 0, 0, 0.76)
+	perde.theme = PENCERE_TEMASI
 	add_child(perde)
 	perde.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var merkez = CenterContainer.new()
 	perde.add_child(merkez)
 	merkez.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	panel = PanelContainer.new()
+	panel = PENCERE_PANELI.new()
 	panel.custom_minimum_size = Vector2(760, 0)
 	merkez.add_child(panel)
-	var stil = StyleBoxFlat.new()
-	stil.bg_color = Color("17232b")
-	stil.border_color = Color("b99b60")
-	stil.set_border_width_all(2)
-	stil.set_corner_radius_all(12)
-	stil.content_margin_left = 36
-	stil.content_margin_right = 36
-	stil.content_margin_top = 28
-	stil.content_margin_bottom = 28
-	panel.add_theme_stylebox_override("panel", stil)
 	satirlar = VBoxContainer.new()
 	satirlar.add_theme_constant_override("separation", 14)
 	panel.add_child(satirlar)

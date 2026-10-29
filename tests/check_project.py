@@ -50,7 +50,7 @@ if 'oncu_osmanli.png' in CARD_UI:
     MISSING.append("Card UI still falls back to Osmanli pioneer unit sprite")
 
 # Check every literal resource reference, including art/shaders/audio in scenes.
-for source in list(ROOT.glob("*.tscn")) + list((ROOT / "Scripts").glob("*.gd")):
+for source in list(ROOT.glob("*.tscn")) + list((ROOT / "Scripts").glob("*.gd")) + list((ROOT / "UI").glob("*.tres")) + list((ROOT / "UI").glob("*.gd")):
     for reference in re.findall(r'"res://([^"\n]+)"', source.read_text(encoding="utf-8")):
         if "%" in reference or reference.endswith("/"):
             continue  # dynamically assembled references are covered by runtime tests
