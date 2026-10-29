@@ -4,6 +4,7 @@ var role := 0
 var failed := false
 var ready_peers := []
 var reports := {}
+var rejoin_state := []
 var game
 
 func check(condition: bool, message: String):
@@ -14,7 +15,7 @@ func check(condition: bool, message: String):
 func _ready():
 	role = int(OS.get_cmdline_user_args()[0])
 	Global.oyuncu_ismi = "SceneTest%d" % role
-	get_tree().create_timer(45).timeout.connect(func():
+	get_tree().create_timer(75).timeout.connect(func():
 		push_error("Actual-scene network timeout, role %d" % role)
 		get_tree().quit(1))
 	if role == 0:
@@ -75,6 +76,18 @@ func exercise():
 	check(reports.size() == game.oyuncular.size() + (1 if Network.dedicated_mode else 0), "All participants and spectator reported state")
 	for state in reports.values():
 		check(state == reports.get(1), "Battle, resources, deck counts and public hand sizes agree on all peers")
+	# A client's connection drops mid-match; it returns from the main menu with its rejoin key.
+	var donen = game.oyuncular[2]
+	drop_and_return.rpc_id(game.oyuncu_peer_idleri[2])
+	for i in range(240):
+		if not rejoin_state.is_empty(): break
+		await get_tree().create_timer(0.1).timeout
+	check(not rejoin_state.is_empty(), "Dropped client came back into the running match")
+	check(not donen in game.ayrilan_oyuncular and game.oyuncu_peer_idleri[2] != 0, "Server restored the returning player's seat")
+	if not rejoin_state.is_empty():
+		check(rejoin_state[0] == _donus_durumu(donen, true), "Returned client state matches the server (public state, own hand, deck counts)")
+		check(rejoin_state[1], "Returned client sees no opponent card contents")
+		print("HUKUM_REJOIN_OK")
 	# Disconnect a nonhost and then the server: remaining client must return to menu.
 	var leaving = game.oyuncu_peer_idleri[2]
 	disconnect_client.rpc_id(leaving)
@@ -189,3 +202,38 @@ func _gizli_elleri_dogrula():
 				check(not kart.get("gizli", false), "Own hand is fully visible")
 			else:
 				check(kart.get("gizli", false), "Opponent card contents never reach this client")
+
+# Public match state plus the named player's own hand, as that player should see it.
+func _donus_durumu(isim: String, sunucu_gorusu: bool) -> Array:
+	var el = game.oyuncu_elleri.get(isim, []) if sunucu_gorusu else game.deste.el
+	return [_el_gorunumu(), game.oyuncu_kaynaklari, game.binalar_verisi, game.piyonlar,
+		game.aktif_sira, game.tur_sayaci, game.ilk_tur_bitti, game.savas_puanlari,
+		game.deste.normal_kalan, game.deste.savas_kalan, game.harita.kesfedilen_hexler, el]
+
+@rpc("authority", "call_remote", "reliable")
+func drop_and_return():
+	check(not Network.donus_kaydi.is_empty(), "Client received a rejoin key")
+	var isim = game.oyuncular[game.benim_indexim]
+	# Simulate a lost connection: the transport closes without a voluntary leave.
+	multiplayer.multiplayer_peer.close()
+	Network._on_server_disconnected()
+	while not is_instance_valid(get_tree().current_scene) or not get_tree().current_scene.has_method("_maca_don"):
+		await get_tree().process_frame
+	await get_tree().create_timer(0.5).timeout
+	var menu = get_tree().current_scene
+	var dugme = menu.get_node_or_null("AnaKart/HBoxMenuAna/MacaDonBtn")
+	check(dugme != null and dugme.visible, "Main menu offers to return to the match")
+	if dugme: dugme.pressed.emit()
+	while not (is_instance_valid(get_tree().current_scene) and get_tree().current_scene.get("donus_tamamlandi")):
+		await get_tree().process_frame
+	game = get_tree().current_scene
+	check(game.oyuncular[game.benim_indexim] == isim, "Returned to the same seat")
+	var gizli_dogru = true
+	for o in game.oyuncular:
+		for kart in game.oyuncu_elleri.get(o, []):
+			if (o == isim) == kart.get("gizli", false): gizli_dogru = false
+	rejoined.rpc_id(1, [_donus_durumu(isim, false), gizli_dogru])
+
+@rpc("any_peer", "call_remote", "reliable")
+func rejoined(state: Array):
+	if multiplayer.is_server(): rejoin_state = state

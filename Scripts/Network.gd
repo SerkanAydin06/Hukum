@@ -38,6 +38,7 @@ var _sonuc_bildiriliyor := false
 var _boot_port := 8766
 
 func _ready():
+	_donus_yukle()
 	multiplayer.peer_connected.connect(_on_player_connected)
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)
 	multiplayer.connected_to_server.connect(_on_connected_ok)
@@ -65,6 +66,7 @@ func join_game(ip_address: String, port: int = PORT) -> bool:
 	multiplayer.multiplayer_peer = peer
 	oturum_asamasi = "connecting"
 	sunucu_adresi = "%s:%d" % [ip_address, port]
+	_son_hedef = {"tur": "enet", "adres": DEFAULT_IP if ip_address.is_empty() else ip_address, "port": port}
 	return true
 
 func ozel_sunucuya_katil(url: String) -> bool:
@@ -87,6 +89,7 @@ func _ws_baglan(url: String, official: bool) -> bool:
 	resmi_mod = official
 	oturum_asamasi = "connecting"
 	sunucu_adresi = url
+	_son_hedef = {"tur": "pardex" if official else "ws", "adres": url, "port": 0}
 	multiplayer.multiplayer_peer = peer
 	durum_degisti.emit("Oyun sunucusuna bağlanılıyor…", false)
 	return true
@@ -151,6 +154,10 @@ func _on_player_connected(id: int):
 			if dedicated_mode and not _onayli.has(id): _reddet(id))
 
 func _on_connected_ok():
+	if geri_donuyor:
+		durum_degisti.emit("Sunucuya bağlanıldı · maça dönülüyor…", false)
+		geri_katil_rpc.rpc_id(1, str(donus_kaydi.get("anahtar", "")))
+		return
 	if not merkezi_mod:
 		oturum_asamasi = "lobby"
 		return
@@ -170,7 +177,12 @@ func _on_connected_fail():
 func _on_server_disconnected():
 	son_baglanti_mesaji = "Sunucu bağlantısı kesildi. Yeni bir oda kurabilir veya tekrar bağlanabilirsiniz."
 	get_tree().paused = false
-	baglantiyi_kapat()
+	if oturum_asamasi == "game" and not donus_kaydi.is_empty():
+		# Beklenmedik kopma maçtan ayrılmak sayılmaz: PARDEX'e ayrılma bildirilmez.
+		son_baglanti_mesaji = "Maç bağlantısı koptu. Sunucu açıksa ana menüden \"Maça Dön\" ile kaldığın yere dönebilirsin."
+		_ag_temizle()
+	else:
+		baglantiyi_kapat()
 	get_tree().change_scene_to_file.call_deferred("res://AnaMenu.tscn")
 
 @rpc("any_peer", "call_remote", "reliable")
@@ -308,7 +320,7 @@ func maci_baslat_rpc():
 	for v in merkezi_lobi.values():
 		if not v["hazir_mi"]: return
 	_mac_kimlikleri = _onayli.duplicate(true)
-	peer.refuse_new_connections = true
+	# Maç sırasında yeni bağlantılar yalnızca geçerli dönüş anahtarıyla kabul edilir.
 	maca_gec_rpc.rpc(merkezi_lobi, randi())
 	if resmi_mod: _raporla("game_server_started")
 
@@ -438,7 +450,98 @@ func oyun_sahnesi_hazir_rpc():
 	if multiplayer.is_server() and not merkezi_mod:
 		oyun_hazir_peerleri[multiplayer.get_remote_sender_id()] = true
 
+# --- MAÇA GERİ DÖNÜŞ ---
+# Sunucu maç başında her oyuncuya gizli bir dönüş anahtarı gönderir. Bağlantısı
+# beklenmedik şekilde kopan oyuncu aynı sunucuya bu anahtarla bağlanıp koltuğuna döner.
+const DONUS_DOSYASI := "user://mac_donusu.cfg"
+var donus_kaydi := {}
+var geri_donuyor := false
+var donus_bekliyor := false   # istemci: oyun sahnesi sunucunun durum görüntüsünü bekliyor
+var _son_hedef := {}
+
+@rpc("authority", "call_remote", "reliable")
+func donus_anahtari_rpc(anahtar: String, isim: String):
+	if multiplayer.is_server() or anahtar.length() < 16 or _son_hedef.is_empty(): return
+	donus_kaydi = _son_hedef.duplicate()
+	donus_kaydi["anahtar"] = anahtar
+	donus_kaydi["isim"] = isim
+	_donus_kaydet()
+
+func donus_kaydini_sil():
+	donus_kaydi.clear()
+	geri_donuyor = false
+	donus_bekliyor = false
+	var dosya = ConfigFile.new()
+	dosya.save(DONUS_DOSYASI)
+
+func _donus_kaydet():
+	var dosya = ConfigFile.new()
+	for key in donus_kaydi: dosya.set_value("donus", key, donus_kaydi[key])
+	dosya.save(DONUS_DOSYASI)
+
+func _donus_yukle():
+	var dosya = ConfigFile.new()
+	if dosya.load(DONUS_DOSYASI) != OK or not dosya.has_section("donus"): return
+	for key in dosya.get_section_keys("donus"): donus_kaydi[key] = dosya.get_value("donus", key)
+	if str(donus_kaydi.get("anahtar", "")).length() < 16: donus_kaydi.clear()
+
+func maca_donulebilir_mi() -> bool:
+	return not donus_kaydi.is_empty() and oturum_asamasi == "offline"
+
+func maca_geri_don() -> bool:
+	if not maca_donulebilir_mi(): return false
+	var kayit = donus_kaydi.duplicate()
+	var ok = false
+	match str(kayit.get("tur", "")):
+		"enet": ok = join_game(str(kayit["adres"]), int(kayit["port"]))
+		"ws":
+			baglantiyi_kapat()
+			ok = PardexBridge.valid_url(str(kayit["adres"])) and _ws_baglan(str(kayit["adres"]), false)
+		"pardex":
+			_ag_temizle()
+			ok = PardexBridge.valid_url(str(kayit["adres"])) and _ws_baglan(str(kayit["adres"]), true)
+	donus_kaydi = kayit
+	geri_donuyor = ok
+	return ok
+
+# Sunucu: dönüş anahtarını oyun sahnesine doğrulatır ve koltuğu ayırır.
+@rpc("any_peer", "call_remote", "reliable")
+func geri_katil_rpc(anahtar: String):
+	if not multiplayer.is_server(): return
+	var id = multiplayer.get_remote_sender_id()
+	var game = get_tree().current_scene
+	var oyunda = oturum_asamasi == "game" and is_instance_valid(game) and game.has_method("donus_rezerve_et")
+	var eski_peer = game.donus_rezerve_et(id, anahtar) if oyunda else -1
+	if eski_peer == -1:
+		geri_katilim_red_rpc.rpc_id(id, "Bu maça dönülemiyor: maç bitmiş, koltuk dolu veya sunucu yeniden başlamış.")
+		get_tree().create_timer(1.0).timeout.connect(func():
+			if multiplayer.multiplayer_peer != null and id in multiplayer.get_peers(): multiplayer.multiplayer_peer.disconnect_peer(id))
+		return
+	if dedicated_mode:
+		var kimlik = _mac_kimlikleri.get(eski_peer, {"user_id": ""})
+		_mac_kimlikleri[id] = kimlik
+		_onayli[id] = kimlik
+	geri_katilim_kabul_rpc.rpc_id(id)
+
+@rpc("authority", "call_remote", "reliable")
+func geri_katilim_kabul_rpc():
+	if not geri_donuyor: return
+	geri_donuyor = false
+	donus_bekliyor = true
+	oturum_asamasi = "game"
+	_baglanti_suresi = 0.0
+	durum_degisti.emit("Maça dönülüyor…", false)
+	get_tree().change_scene_to_file.call_deferred("res://AnaOyun.tscn")
+
+@rpc("authority", "call_remote", "reliable")
+func geri_katilim_red_rpc(mesaj: String):
+	donus_kaydini_sil()
+	son_baglanti_mesaji = mesaj.left(300)
+	_ag_temizle()
+	durum_degisti.emit(son_baglanti_mesaji, true)
+
 func _ag_temizle():
+	geri_donuyor = false
 	oyun_hazir_peerleri.clear()
 	for p in _bekleyen.values():
 		var validator = p.get("validator")

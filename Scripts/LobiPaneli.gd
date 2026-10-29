@@ -517,8 +517,8 @@ func _oyunu_baslat_istegi():
 				return
 			renkler.append(v["renk"])
 			medeniyetler.append(v["medeniyet"])
-		# Oyun başladıktan sonra yeni oyuncu bağlanamasın
-		if multiplayer.multiplayer_peer: multiplayer.multiplayer_peer.refuse_new_connections = true
+		# Oyun başladıktan sonra yeni bağlantı yalnızca geçerli dönüş anahtarıyla
+		# koltuğuna dönen oyuncu olabilir; diğerlerini oyun sahnesi düşürür.
 		randomize()
 		oyuna_gecis_yap_rpc.rpc(lobi_verisi, randi())
 

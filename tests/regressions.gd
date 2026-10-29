@@ -274,6 +274,7 @@ func run_tests():
 		if card.get("tur") == "oncu_kampi": camps += 1
 	check(camps == 10, "Deck contains camp cards")
 	await run_timer_regressions()
+	run_rejoin_regressions()
 	print("HUKUM REGRESSIONS: %d checks, %d failures" % [checks, failures])
 	await get_tree().create_timer(4.1).timeout
 	game.free()
@@ -494,3 +495,32 @@ func run_timer_regressions():
 	game.tur_suresi = 120.0
 	game.savas_secim_suresi = 45.0
 	game.zar_suresi = 20.0
+
+func run_rejoin_regressions():
+	reset_state()
+	var soldier = {"hedef": "savas", "tur": "piyade", "isim": "Piyade", "guc": 1}
+	var farm = {"hedef": "harita", "tur": "tarla", "isim": "Tarla"}
+	game.oyuncu_elleri = {"A": [soldier.duplicate(true)], "B": [farm.duplicate(true), soldier.duplicate(true)], "C": []}
+	deck.normal_deste = [farm.duplicate(true)]
+	deck.savas_destesi = []
+	game._donus_anahtarlari = {"B": "b".repeat(48), "C": "c".repeat(48)}
+	game._donus_rezervleri = {}
+	check(game.donus_rezerve_et(9, "b".repeat(48)) == -1, "Connected player's seat cannot be taken with its key")
+	game.ayrilan_oyuncular = ["B"]
+	check(game.donus_rezerve_et(9, "x".repeat(48)) == -1, "Unknown rejoin key rejected")
+	check(game.donus_rezerve_et(9, "c".repeat(48)) == -1, "Another player's key does not open a connected seat")
+	check(game.donus_rezerve_et(9, "b".repeat(48)) == 2, "Valid key reserves the left player's seat")
+	check(game.donus_rezerve_et(10, "b".repeat(48)) == -1, "Seat cannot be reserved twice")
+	var view = game._donus_goruntusu("B")
+	check(view["eller"]["B"] == game.oyuncu_elleri["B"], "Returning player sees its own hand")
+	check(view["eller"]["A"].size() == 1 and view["eller"]["A"][0].get("gizli", false), "Returning player sees opponents' hands only as hidden cards")
+	check(view["gorulmemis_savas"].size() == 1 and view["gorulmemis_insa"].size() == 1, "Unseen pools hold deck plus opponents' hidden cards only")
+	check(view["benim"] == 1 and view["ayrilanlar"] == ["B"], "Snapshot carries seat and absence state")
+	game.oyuncu_geri_dondu_rpc("B", 9)
+	check(game.oyuncu_peer_idleri[1] == 9 and not "B" in game.ayrilan_oyuncular, "Returned player regains its seat with the new peer")
+	game.oyun_bitti = true
+	game.ayrilan_oyuncular = ["C"]
+	check(game.donus_rezerve_et(11, "c".repeat(48)) == -1, "Finished match cannot be rejoined")
+	game.oyun_bitti = false
+	game._donus_anahtarlari = {}
+	game._donus_rezervleri = {}

@@ -55,8 +55,13 @@ zoom yapar. **Esc / Menü–Yardım** kuralları, ayarları ve ayrılma seçene�
 atmak için 20 saniye vardır. Son 15 saniyede uyarı çıkar. Süre dolunca sunucu
 oyuncunun yerine davranır: turu bitirir (kurulumda boş bir hex'e şehir kurar),
 kart seçmeyen tarafı kartsız kilitler ve atılmayan zarı atar. Tek oyunculu
-alıştırmada süre sınırı yoktur. Çevrimiçi maç menü açıkken devam eder. Ayrılan oyuncu maçına yeniden katılamaz;
-sunucu ayrılırsa istemciler açıklamayla ana menüye döner. Maç kaydı yoktur.
+alıştırmada süre sınırı yoktur. Çevrimiçi maç menü açıkken devam eder. Bağlantısı beklenmedik şekilde kopan oyuncu, sunucu açık ve maç sürüyorsa ana
+menüdeki **Maça Dön** düğmesiyle kendi koltuğuna döner (oyunu kapatıp açsa bile).
+Maç başında her oyuncuya gizli bir dönüş anahtarı verilir; sunucu bu anahtarla
+koltuğu açar ve oyuncuya yalnızca görmesine izin verilen durumu gönderir. Savaş
+sürüyorsa dönüş savaş bitince tamamlanır. Kopukken oyuncunun sırası atlanır.
+Menüden kendi isteğiyle ayrılan oyuncu geri dönemez; sunucu ayrılırsa istemciler
+açıklamayla ana menüye döner. Maç kaydı yoktur.
 Bütün hamleler sunucu üzerinden işlenir: sunucu hamleyi elindeki tam bilgiyle
 doğrular, sonra herkese aynı sırayla uygulatır. Deste sırası, rakip elleri ve
 keşfedilmemiş arazi yalnızca sunucuda bulunur. Rakip kartı oynanana kadar

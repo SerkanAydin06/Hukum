@@ -15,7 +15,7 @@ try:
         time.sleep(0.35)
     failed = False
     for process in processes:
-        output, _ = process.communicate(timeout=60)
+        output, _ = process.communicate(timeout=95)
         print(output)
         failed |= process.returncode != 0 or "ERROR:" in output or "PASS" not in output
     raise SystemExit(1 if failed else 0)

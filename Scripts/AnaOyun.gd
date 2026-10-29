@@ -60,9 +60,14 @@ func _ready():
 	add_child(oyun_menusu)
 	if multiplayer.is_server():
 		multiplayer.peer_disconnected.connect(_peer_ayrildi)
+		multiplayer.peer_connected.connect(_maca_baglanan_peer)
 	deste.desteleri_hazirla()
 	arayuz.ui_sinyallerini_bagla()
 	arayuz.sag_paneli_guncelle(Vector2i(-1, -1))
+	if Network.donus_bekliyor:
+		# Maça dönen istemci: durumu sunucudan bekler, kendi başına maç kurmaz.
+		durum_iste_rpc.rpc_id(1)
+		return
 	if Network.son_lobi_verisi.size() > 0:
 		lobi_verisiyle_baslat(Network.son_lobi_verisi)
 	else:
@@ -78,6 +83,7 @@ func _ready():
 		lobi_verisiyle_baslat(test_veri)
 	if Network.merkezi_mod: Network.sahne_hazir_rpc.rpc_id(1)
 	elif not multiplayer.is_server(): Network.oyun_sahnesi_hazir_rpc.rpc_id(1)
+	if multiplayer.is_server(): _donus_anahtarlarini_dagit()
 
 func lobi_verisiyle_baslat(gelen_lobi_verisi: Dictionary):
 	oyuncular.clear()
@@ -134,9 +140,148 @@ func lobi_verisiyle_baslat(gelen_lobi_verisi: Dictionary):
 		var renkli_isim_metni = "[color=#%s][b]%s[/b][/color]" % [ilk_renk_kodu, ilk_oyuncu]
 		arayuz.olay_yaz("[color=gold]⚔️ Oyun Başladı! Sıra %s oyuncusunda (%s).[/color]" % [renkli_isim_metni, medeniyetler_verisi[ilk_oyuncu]])
 
+# --- MAÇA GERİ DÖNÜŞ (sunucu) ---
+var _donus_anahtarlari := {}      # isim -> gizli anahtar
+var _donus_rezervleri := {}       # yeni peer -> isim (durum görüntüsü bekleyen)
+var _donus_kuyrugu := []          # durum isteyen, savaşın bitmesini bekleyen peerler
+
+func _donus_anahtarlarini_dagit():
+	if multiplayer.multiplayer_peer == null: return
+	var kripto = Crypto.new()
+	for i in range(oyuncular.size()):
+		var peer = oyuncu_peer_idleri[i]
+		if peer == multiplayer.get_unique_id(): continue
+		var anahtar = kripto.generate_random_bytes(24).hex_encode()
+		_donus_anahtarlari[oyuncular[i]] = anahtar
+		Network.donus_anahtari_rpc.rpc_id(peer, anahtar, oyuncular[i])
+
+# Geçerli anahtar, oyundan kopmuş bir oyuncuya aitse koltuğu ayırır; eski peer'ı döndürür.
+func donus_rezerve_et(peer: int, anahtar: String) -> int:
+	if oyun_bitti or anahtar.length() < 16: return -1
+	for isim in _donus_anahtarlari:
+		if _donus_anahtarlari[isim] != anahtar: continue
+		if isim not in ayrilan_oyuncular or isim in _donus_rezervleri.values(): return -1
+		_donus_rezervleri[peer] = isim
+		return oyuncu_peer_idleri[oyuncular.find(isim)]
+	return -1
+
+const DONUS_KABUL_SURESI := 15.0
+
+# Maç sırasında bağlanan peer bir oyuncu değildir; süre içinde dönüş anahtarıyla
+# koltuğa oturmazsa bağlantısı kesilir (merkezi sunucuda Network aynı işi yapar).
+func _maca_baglanan_peer(id: int):
+	if Network.merkezi_mod: return
+	get_tree().create_timer(DONUS_KABUL_SURESI).timeout.connect(func():
+		if not is_inside_tree() or multiplayer.multiplayer_peer == null: return
+		if id in oyuncu_peer_idleri or _donus_rezervleri.has(id): return
+		if id in multiplayer.get_peers(): multiplayer.multiplayer_peer.disconnect_peer(id))
+
+@rpc("any_peer", "call_remote", "reliable")
+func durum_iste_rpc():
+	if not multiplayer.is_server(): return
+	var peer = multiplayer.get_remote_sender_id()
+	if _donus_rezervleri.has(peer) and peer not in _donus_kuyrugu: _donus_kuyrugu.append(peer)
+	_donus_kuyrugunu_isle()
+
+# Savaş sürerken dönüş bekletilir; dönen oyuncu temiz bir tur durumuna katılır.
+func _donus_kuyrugunu_isle():
+	if _donus_kuyrugu.is_empty() or savas.savas_aktif or savas.sonuc_gosteriliyor: return
+	for peer in _donus_kuyrugu.duplicate():
+		_donus_kuyrugu.erase(peer)
+		var isim = _donus_rezervleri.get(peer, "")
+		_donus_rezervleri.erase(peer)
+		if isim == "" or isim not in ayrilan_oyuncular or not peer in multiplayer.get_peers(): continue
+		oyuncu_geri_dondu_rpc.rpc(isim, peer)
+		donus_goruntusu_rpc.rpc_id(peer, _donus_goruntusu(isim))
+		if sure_asamasi_adi != "": sure_baslat_rpc.rpc_id(peer, sure_asamasi_adi, maxf(_sure_kalan, 0.0))
+
+@rpc("authority", "call_local", "reliable")
+func oyuncu_geri_dondu_rpc(isim: String, peer: int):
+	var idx = oyuncular.find(isim)
+	if idx == -1: return
+	oyuncu_peer_idleri[idx] = peer
+	ayrilan_oyuncular.erase(isim)
+	arayuz.olay_yaz("[color=light_green]↩ %s maça geri döndü.[/color]" % arayuz.renkli_isim(isim))
+	arayuz.arayuzu_guncelle()
+
+# Dönen oyuncunun görebileceği durum: kendi eli açık, rakip elleri ve deste sırası gizli.
+func _donus_goruntusu(isim: String) -> Dictionary:
+	var eller = {}
+	var gorulmemis_insa = deste.normal_deste.duplicate(true)
+	var gorulmemis_savas = deste.savas_destesi.duplicate(true)
+	for o in oyuncular:
+		eller[o] = []
+		for kart in oyuncu_elleri.get(o, []):
+			var savas_karti = kart.get("hedef") == "savas"
+			if o == isim:
+				eller[o].append(kart.duplicate(true))
+			else:
+				eller[o].append(deste.gizli_kart(savas_karti))
+				(gorulmemis_savas if savas_karti else gorulmemis_insa).append(kart.duplicate(true))
+	return {
+		"oyuncular": oyuncular.duplicate(), "peerler": oyuncu_peer_idleri.duplicate(),
+		"benim": oyuncular.find(isim), "eller": eller,
+		"renkler": secilen_renkler.duplicate(true), "medeniyetler": medeniyetler_verisi.duplicate(true),
+		"profiller": oyuncu_profil_no.duplicate(true), "sehirler": sehir_merkezleri.duplicate(true),
+		"kaynaklar": oyuncu_kaynaklari.duplicate(true), "vergiler": odenen_vergiler.duplicate(true),
+		"kontrol": kontrol_edilen_hexler.duplicate(true), "efendiler": efendiler.duplicate(true),
+		"binalar": binalar_verisi.duplicate(true), "piyonlar": piyonlar.duplicate(true),
+		"savas_puanlari": savas_puanlari.duplicate(true), "ayrilanlar": ayrilan_oyuncular.duplicate(),
+		"aktif_sira": aktif_sira, "ap": aktif_oyuncu_aksiyon_hakki, "ilk_tur_bitti": ilk_tur_bitti,
+		"tur_sayaci": tur_sayaci, "kesfedilen": harita.kesfedilen_hexler.duplicate(true),
+		"normal_kalan": deste.normal_kalan, "savas_kalan": deste.savas_kalan,
+		"atilan_insa": deste.atilan_insa_kartlari.duplicate(true), "atilan_savas": deste.atilan_savas_kartlari.duplicate(true),
+		"gorulmemis_insa": gorulmemis_insa, "gorulmemis_savas": gorulmemis_savas,
+	}
+
+var donus_tamamlandi := false
+
+@rpc("authority", "call_remote", "reliable")
+func donus_goruntusu_rpc(g: Dictionary):
+	if not Network.donus_bekliyor or typeof(g.get("oyuncular")) != TYPE_ARRAY: return
+	Network.donus_bekliyor = false
+	oyuncular = g["oyuncular"].duplicate()
+	oyuncu_peer_idleri = g["peerler"].duplicate()
+	benim_indexim = int(g["benim"])
+	oyuncu_elleri = g["eller"].duplicate(true)
+	secilen_renkler = g["renkler"].duplicate(true)
+	medeniyetler_verisi = g["medeniyetler"].duplicate(true)
+	oyuncu_profil_no = g["profiller"].duplicate(true)
+	sehir_merkezleri = g["sehirler"].duplicate(true)
+	oyuncu_kaynaklari = g["kaynaklar"].duplicate(true)
+	odenen_vergiler = g["vergiler"].duplicate(true)
+	kontrol_edilen_hexler = g["kontrol"].duplicate(true)
+	efendiler = g["efendiler"].duplicate(true)
+	binalar_verisi = g["binalar"].duplicate(true)
+	piyonlar = g["piyonlar"].duplicate(true)
+	savas_puanlari = g["savas_puanlari"].duplicate(true)
+	ayrilan_oyuncular = g["ayrilanlar"].duplicate()
+	aktif_sira = int(g["aktif_sira"])
+	aktif_oyuncu_aksiyon_hakki = int(g["ap"])
+	ilk_tur_bitti = bool(g["ilk_tur_bitti"])
+	tur_sayaci = int(g["tur_sayaci"])
+	harita.kesfedilen_hexler = g["kesfedilen"].duplicate(true)
+	deste.normal_kalan = int(g["normal_kalan"])
+	deste.savas_kalan = int(g["savas_kalan"])
+	deste.atilan_insa_kartlari = g["atilan_insa"].duplicate(true)
+	deste.atilan_savas_kartlari = g["atilan_savas"].duplicate(true)
+	deste.normal_deste = g["gorulmemis_insa"].duplicate(true)
+	deste.savas_destesi = g["gorulmemis_savas"].duplicate(true)
+	deste.el = oyuncu_elleri.get(oyuncular[benim_indexim], []).duplicate(true)
+	puanlari_guncelle()
+	donus_tamamlandi = true
+	Network.oyun_sahnesi_hazir_rpc.rpc_id(1)
+	harita.gorus_haritasini_guncelle()
+	arayuz.arayuzu_guncelle()
+	deste.eldeki_kartlari_ciz()
+	harita.queue_redraw()
+	arayuz.olay_yaz("[color=light_green]↩ Maça geri döndün. Sıra %s oyuncusunda.[/color]" % arayuz.renkli_isim(oyuncular[aktif_sira]))
+
 # --- OYUNCU KOPMASI ---
 # Sunucu, kopan oyuncuyu herkese bildirir; sırası ondaysa oyun kilitlenmesin diye tur geçilir
 func _peer_ayrildi(id: int):
+	_donus_rezervleri.erase(id)
+	_donus_kuyrugu.erase(id)
 	var idx = oyuncu_peer_idleri.find(id)
 	if idx != -1: oyuncu_ayrildi_rpc.rpc(oyuncular[idx])
 
@@ -238,6 +383,7 @@ var _son_gosterilen_saniye := -1
 func _process(delta: float):
 	if multiplayer.multiplayer_peer != null and multiplayer.is_server():
 		sure_sinirlarini_isle(delta)
+		_donus_kuyrugunu_isle()
 	var saniye = kalan_sure_saniye()
 	if saniye != _son_gosterilen_saniye:
 		_son_gosterilen_saniye = saniye
