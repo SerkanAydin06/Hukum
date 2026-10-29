@@ -642,6 +642,7 @@ func oyunu_bitir_rpc(kazanan_isim: String, puan: int):
 	ana.secili_piyon_index = -1
 	ana.kart_insa_modu_aktif = false
 	ana.arayuz.sonuc_ekranini_goster(kazanan_isim, puan)
+	Network.maci_sonuclandir(kazanan_isim)
 
 
 func _kart_getir(isim: String, idx: int) -> Dictionary:

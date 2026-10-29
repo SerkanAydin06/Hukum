@@ -1,5 +1,9 @@
 # HÜKÜM — oyun akışı ve görsel inceleme
 
+> Bu rapor 28 Ekim sürümünü kaydeder. 29 Ekim güncellemesi ana menüyü, PARDEX
+> masa kodu akışını ve merkezi WebSocket sunucusunu ekledi; güncel bağlantı ve
+> test bilgileri README.md içindedir.
+
 Tarih: 28 Ekim 2026. Başlangıç sürümü: `100aef7e87711de73467c39d33377bb98ee5a429`.
 Motor: Godot 4.7.2 stable. Ortam: Linux, headless testler ve X11/Mesa yazılımsal
 OpenGL ile gerçek sahne çizimi. Bu rapor sınırsız hatasızlık garantisi değildir.

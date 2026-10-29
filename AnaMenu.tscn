@@ -1,326 +1,200 @@
-[gd_scene load_steps=63 format=3 uid="uid://bcmqnrdk4ed8g"]
+[gd_scene format=3]
 
-[ext_resource type="Script" uid="uid://bm58xq0ihy5q3" path="res://Scripts/AnaMenu.gd" id="1_vrd54"]
-[ext_resource type="Texture2D" uid="uid://i4gymuxcs3bm" path="res://Assets/Resimler/arkaplanlar/ArkaplanAnamenu.png" id="2_esw1c"]
-[ext_resource type="Script" uid="uid://cyf3bkyds34un" path="res://Scripts/MenuIntro.gd" id="2_yfun4"]
-[ext_resource type="Texture2D" uid="uid://bkebavftjahi7" path="res://Assets/Resimler/arkaplanlar/SuMaskesi.png" id="3_02t64"]
-[ext_resource type="Shader" uid="uid://jcvewrd8qxuj" path="res://Shaders/water_motion.gdshader" id="3_bdeys"]
-[ext_resource type="Shader" uid="uid://cnt5y08iw30ik" path="res://Shaders/cloud_movement.gdshader" id="3_sbhwp"]
-[ext_resource type="Texture2D" uid="uid://mvssm7omek0q" path="res://Assets/Resimler/arkaplanlar/UzakBulutlar.png" id="3_yfun4"]
-[ext_resource type="Texture2D" uid="uid://kl8gtig64w1y" path="res://Assets/Resimler/Profil2.png" id="5_epba5"]
-[ext_resource type="Texture2D" uid="uid://kxas3aiefiks" path="res://Assets/Resimler/arkaplanlar/KusFrameleri.png" id="5_sbhwp"]
-[ext_resource type="Script" uid="uid://snxkekui3uj0" path="res://Scripts/Kuslar.gd" id="6_1hitb"]
-[ext_resource type="Texture2D" uid="uid://cwnk08iw523qq" path="res://Assets/Resimler/Profil3.png" id="6_yvmux"]
-[ext_resource type="Texture2D" uid="uid://b7vg70hynhntw" path="res://Assets/Resimler/Profil4.png" id="7_57xb7"]
-[ext_resource type="Texture2D" uid="uid://crbnkpv40egr8" path="res://Assets/Resimler/arkaplanlar/YakinBulutlar.png" id="7_roeyw"]
-[ext_resource type="Texture2D" uid="uid://bdotk8h1u6t6q" path="res://Assets/Resimler/Profil5.png" id="8_7y0nk"]
-[ext_resource type="Texture2D" uid="uid://ovauqivm3b2y" path="res://Assets/Resimler/Profil6.png" id="9_m8cai"]
-[ext_resource type="Shader" uid="uid://batxlsahcrsyv" path="res://Shaders/hukum_banner_wave.gdshader" id="10_g3qoh"]
-[ext_resource type="Texture2D" uid="uid://cy0gau5pip8lp" path="res://Assets/Resimler/Profil7.png" id="10_hm4kq"]
-[ext_resource type="Texture2D" uid="uid://dnbhcnkvshuuc" path="res://Assets/Resimler/Profil8.png" id="11_7qe4y"]
-[ext_resource type="Texture2D" uid="uid://xfiktcppcnc0" path="res://Assets/Resimler/arkaplanlar/BayrakDiregi.png" id="11_wnm6f"]
-[ext_resource type="Texture2D" uid="uid://ql2a2t6x6d3s" path="res://Assets/Resimler/arkaplanlar/FlamaKumasi.png" id="12_ij5s2"]
-[ext_resource type="Shader" uid="uid://ba4nrv7rbnrk0" path="res://Shaders/hukum_city_lights.gdshader" id="13_ij5s2"]
-[ext_resource type="Texture2D" uid="uid://cg0o8nmhh4l60" path="res://Assets/Resimler/arkaplanlar/SehirIsiklari.png" id="14_bbyr5"]
-[ext_resource type="Shader" uid="uid://b8akn4k0nhs4s" path="res://Shaders/hukum_lantern_glow.gdshader" id="15_4qyn1"]
-[ext_resource type="Texture2D" uid="uid://dm8qwxmve8n02" path="res://Assets/Resimler/arkaplanlar/FenerIsigi.png" id="16_o3eod"]
-[ext_resource type="Texture2D" uid="uid://61y52i0ipfqq" path="res://Assets/Resimler/arkaplanlar/Fener.png" id="17_ws2ip"]
-[ext_resource type="Shader" uid="uid://c8pkyi52xoda4" path="res://Shaders/hukum_water_reflections.gdshader" id="18_ws2ip"]
-[ext_resource type="Texture2D" uid="uid://cl73v5wahqmpm" path="res://Assets/Resimler/arkaplanlar/SuYansimalari.png" id="19_qgvb2"]
-[ext_resource type="Texture2D" uid="uid://b8d326r1j7u4x" path="res://Assets/Resimler/arkaplanlar/HukumLogosu.png" id="22_ywqup"]
-[ext_resource type="Texture2D" uid="uid://wdr7q18rtri1" path="res://Assets/Butonlar/anamenu/hukum_button_v2_normal.png" id="23_bdeys"]
-[ext_resource type="FontFile" uid="uid://p4kktbr1ogwg" path="res://fonts/Cinzel-Bold.ttf" id="24_cxr8c"]
-[ext_resource type="FontFile" uid="uid://dw26wlrb3m40k" path="res://fonts/NotoSans-Bold.ttf" id="24_roeyw"]
-[ext_resource type="Texture2D" uid="uid://dpcjctkvnwbhx" path="res://Assets/Butonlar/anamenu/hukum_button_v2_pressed.png" id="24_sithr"]
-[ext_resource type="Texture2D" uid="uid://b3u8m1lu80ty7" path="res://Assets/Butonlar/anamenu/hukum_button_v2_hover.png" id="25_yfun4"]
-[ext_resource type="Texture2D" uid="uid://bmmq7xo1d7bof" path="res://Assets/Butonlar/anamenu/hukum_button_v2_disabled.png" id="26_roeyw"]
-[ext_resource type="Texture2D" uid="uid://dx8mleo3hwcjd" path="res://Assets/Resimler/Paneller/ProfilPaneli.png" id="28_sbhwp"]
-[ext_resource type="Shader" uid="uid://cjtx6xrrtegh7" path="res://Shaders/ProfilResmi.gdshader" id="29_roeyw"]
-[ext_resource type="Texture2D" uid="uid://crgmtob3egu6i" path="res://Assets/Resimler/Profil1.png" id="29_yfun4"]
-[ext_resource type="Texture2D" uid="uid://bp0wg05sanv3l" path="res://Assets/Resimler/arkaplanlar/ProfilCerceve.png" id="31_nuq58"]
-[ext_resource type="Texture2D" uid="uid://bxdiubg0hv4wn" path="res://Assets/Butonlar/anamenu/Back_Normal.png" id="33_1hitb"]
-[ext_resource type="Texture2D" uid="uid://d14hgmnmxrlbr" path="res://Assets/Butonlar/anamenu/Back_Pressed.png" id="34_rb7jy"]
-[ext_resource type="Texture2D" uid="uid://d3grk1gl4fen1" path="res://Assets/UI/AvatarCerceveleri/Normal.png" id="34_sithr"]
-[ext_resource type="Texture2D" uid="uid://b0xt0p2cw1iuv" path="res://Assets/Butonlar/anamenu/Back_Hover.png" id="35_rk7pl"]
-[ext_resource type="Texture2D" uid="uid://bea8x8luqy8ln" path="res://Assets/UI/AvatarCerceveleri/Selected.png" id="35_roeyw"]
-[ext_resource type="Texture2D" uid="uid://rc77s5jeab40" path="res://Assets/UI/AvatarCerceveleri/Hover.png" id="35_yfun4"]
-[ext_resource type="Texture2D" uid="uid://gmeyd73g57o8" path="res://Assets/Butonlar/anamenu/Back_Disabled.png" id="36_g3qoh"]
-[ext_resource type="Texture2D" uid="uid://v8jg32btiimn" path="res://Assets/UI/AvatarCerceveleri/Disabled.png" id="36_roeyw"]
-[ext_resource type="Texture2D" uid="uid://cvnnnxi6hdb6g" path="res://Assets/Resimler/arkaplanlar/GokyuzuParcaciklari.png" id="58_qgvb2"]
+[ext_resource type="Script" path="res://Scripts/AnaMenu.gd" id="script"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_1hitb"]
-shader = ExtResource("3_sbhwp")
-shader_parameter/movement_pixels = 80.0
-shader_parameter/cycle_seconds = 160.0
+[ext_resource type="Texture2D" path="res://Assets/Resimler/arkaplanlar/ArkaplanAnamenu.png" id="bg"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_sbhwp"]
-atlas = ExtResource("5_sbhwp")
-region = Rect2(0, 0, 512, 288)
+[ext_resource type="Texture2D" path="res://Assets/Resimler/arkaplanlar/HukumLogosu.png" id="logo"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1hitb"]
-atlas = ExtResource("5_sbhwp")
-region = Rect2(512, 0, 512, 288)
+[ext_resource type="FontFile" path="res://fonts/NotoSans-Bold.ttf" id="font"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rb7jy"]
-atlas = ExtResource("5_sbhwp")
-region = Rect2(1024, 0, 512, 288)
+[ext_resource type="FontFile" path="res://fonts/Cinzel-Bold.ttf" id="title"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rk7pl"]
-atlas = ExtResource("5_sbhwp")
-region = Rect2(1536, 0, 512, 288)
+[ext_resource type="Texture2D" path="res://Assets/Resimler/Profil1.png" id="avatar1"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_g3qoh"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sbhwp")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1hitb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rb7jy")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rk7pl")
-}],
-"loop": true,
-"name": &"default",
-"speed": 6.0
-}]
+[ext_resource type="Texture2D" path="res://Assets/Resimler/Profil2.png" id="avatar2"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rb7jy"]
-shader = ExtResource("3_sbhwp")
-shader_parameter/movement_pixels = 150.0
-shader_parameter/cycle_seconds = 90.0
+[ext_resource type="Texture2D" path="res://Assets/Resimler/Profil3.png" id="avatar3"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_g3qoh"]
-shader = ExtResource("10_g3qoh")
-shader_parameter/speed = 0.32
-shader_parameter/horizontal_strength = 0.01
-shader_parameter/vertical_strength = 0.005
-shader_parameter/fold_frequency = 1.8
+[ext_resource type="Texture2D" path="res://Assets/Resimler/Profil4.png" id="avatar4"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qgvb2"]
-shader = ExtResource("15_4qyn1")
-shader_parameter/brightness = 1.06999997608336
-shader_parameter/flicker_amount = 0.2999999932944
-shader_parameter/flicker_speed = 2.5099999438964797
+[ext_resource type="Texture2D" path="res://Assets/Resimler/Profil5.png" id="avatar5"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kpy7h"]
-shader = ExtResource("13_ij5s2")
-shader_parameter/brightness = 0.749999983236
-shader_parameter/flicker_amount = 0.07
-shader_parameter/flicker_speed = 0.82999998144784
+[ext_resource type="Texture2D" path="res://Assets/Resimler/Profil6.png" id="avatar6"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ywqup"]
-shader = ExtResource("18_ws2ip")
-shader_parameter/brightness = 0.48
-shader_parameter/motion_speed = 0.28
-shader_parameter/horizontal_motion = 0.0012
-shader_parameter/shimmer_amount = 0.06
+[ext_resource type="Texture2D" path="res://Assets/Resimler/Profil7.png" id="avatar7"]
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ywqup"]
-particle_flag_disable_z = true
-emission_shape = 3
-emission_box_extents = Vector3(900, 450, 1)
-direction = Vector3(0.35, -1, 0)
-spread = 25.0
-initial_velocity_min = 3.0
-initial_velocity_max = 7.0
-gravity = Vector3(0, -0.15, 0)
-scale_min = 0.08
-scale_max = 0.19999999
+[ext_resource type="Texture2D" path="res://Assets/Resimler/Profil8.png" id="avatar8"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sithr"]
-shader = ExtResource("3_bdeys")
-shader_parameter/water_mask = ExtResource("3_02t64")
-shader_parameter/wave_strength = 0.00169999995699
-shader_parameter/wave_speed = 0.67999998480064
-shader_parameter/wave_scale = 72.0
-shader_parameter/shimmer_amount = 0.018
-shader_parameter/shimmer_color = Color(0.62, 0.43, 0.22, 1)
+[sub_resource type="StyleBoxFlat" id="panel"]
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+bg_color = Color(0.038, 0.052, 0.060, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.48, 0.39, 0.22, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
 
-[sub_resource type="GDScript" id="GDScript_esw1c"]
-script/source = "extends Control
+[sub_resource type="StyleBoxFlat" id="normal"]
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+bg_color = Color(0.065, 0.085, 0.092, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45, 0.36, 0.20, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
 
-@export_group(\"Menu Nodes\")
-@export var logo: Control
-@export var buttons_container: Control
-@export var profile_panel: Control
+[sub_resource type="StyleBoxFlat" id="hover"]
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+bg_color = Color(0.14, 0.15, 0.12, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.86, 0.70, 0.36, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
 
-@export_group(\"Timing\")
-@export_range(0.1, 2.0, 0.05) var logo_duration := 0.55
-@export_range(0.1, 2.0, 0.05) var panel_duration := 0.60
-@export_range(0.1, 1.0, 0.05) var button_duration := 0.32
-@export_range(0.0, 0.3, 0.01) var button_delay := 0.07
+[sub_resource type="StyleBoxFlat" id="pressed"]
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+bg_color = Color(0.025, 0.037, 0.043, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.86, 0.70, 0.36, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
 
-@export_group(\"Movement\")
-@export var logo_offset := Vector2(0.0, -18.0)
-@export var buttons_offset := Vector2(-28.0, 0.0)
-@export var panel_offset := Vector2(42.0, 0.0)
-@export_range(0.85, 1.0, 0.01) var button_start_scale := 0.96
+[sub_resource type="StyleBoxFlat" id="gold"]
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+bg_color = Color(0.77, 0.60, 0.29, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.97, 0.84, 0.53, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
 
-var _buttons: Array[BaseButton] = []
-var _previous_mouse_filters: Dictionary = {}
-var _previous_focus_modes: Dictionary = {}
+[sub_resource type="StyleBoxFlat" id="goldhover"]
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+bg_color = Color(0.91, 0.74, 0.41, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.91, 0.67, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
 
+[sub_resource type="StyleBoxFlat" id="disabled"]
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+bg_color = Color(0.06, 0.07, 0.075, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.20, 0.21, 0.20, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
 
-func _ready() -> void:
-	if not _nodes_are_ready():
-		return
+[sub_resource type="StyleBoxFlat" id="input"]
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+bg_color = Color(0.018, 0.03, 0.04, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.43, 0.41, 0.31, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
 
-	_collect_buttons(buttons_container)
+[sub_resource type="StyleBoxFlat" id="selection"]
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.98, 0.81, 0.43, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
 
-	# Containers may reset child scale during their first layout pass.
-	await get_tree().process_frame
-	await _play_intro()
-
-
-func _nodes_are_ready() -> bool:
-	if logo == null:
-		push_warning(\"Menu intro: Logo node is not assigned.\")
-		return false
-	if buttons_container == null:
-		push_warning(\"Menu intro: Buttons Container node is not assigned.\")
-		return false
-	if profile_panel == null:
-		push_warning(\"Menu intro: Profile Panel node is not assigned.\")
-		return false
-	return true
-
-
-func _collect_buttons(node: Node) -> void:
-	for child in node.get_children():
-		if child is BaseButton:
-			_buttons.append(child)
-		else:
-			_collect_buttons(child)
-
-
-func _play_intro() -> void:
-	var logo_final_position := logo.position
-	var buttons_final_position := buttons_container.position
-	var panel_final_position := profile_panel.position
-
-	logo.position = logo_final_position + logo_offset
-	logo.modulate.a = 0.0
-
-	buttons_container.position = buttons_final_position + buttons_offset
-
-	profile_panel.position = panel_final_position + panel_offset
-	profile_panel.modulate.a = 0.0
-
-	for button in _buttons:
-		_previous_mouse_filters[button] = button.mouse_filter
-		_previous_focus_modes[button] = button.focus_mode
-		button.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		button.focus_mode = Control.FOCUS_NONE
-		button.pivot_offset = button.size * 0.5
-		button.scale = Vector2.ONE * button_start_scale
-		button.modulate.a = 0.0
-
-	var intro := create_tween()
-	intro.set_parallel(true)
-	intro.set_trans(Tween.TRANS_CUBIC)
-	intro.set_ease(Tween.EASE_OUT)
-
-	intro.tween_property(
-		logo,
-		\"position\",
-		logo_final_position,
-		logo_duration
-	).set_delay(0.05)
-	intro.tween_property(
-		logo,
-		\"modulate:a\",
-		1.0,
-		logo_duration * 0.80
-	).set_delay(0.05)
-
-	intro.tween_property(
-		buttons_container,
-		\"position\",
-		buttons_final_position,
-		panel_duration
-	).set_delay(0.16)
-
-	for index in range(_buttons.size()):
-		var button := _buttons[index]
-		var delay := 0.20 + index * button_delay
-
-		intro.tween_property(
-			button,
-			\"modulate:a\",
-			1.0,
-			button_duration
-		).set_delay(delay)
-		intro.tween_property(
-			button,
-			\"scale\",
-			Vector2.ONE,
-			button_duration
-		).set_delay(delay)
-
-	intro.tween_property(
-		profile_panel,
-		\"position\",
-		panel_final_position,
-		panel_duration
-	).set_delay(0.12)
-	intro.tween_property(
-		profile_panel,
-		\"modulate:a\",
-		1.0,
-		panel_duration * 0.85
-	).set_delay(0.12)
-
-	await intro.finished
-
-	for button in _buttons:
-		if is_instance_valid(button):
-			button.mouse_filter = _previous_mouse_filters.get(
-				button,
-				Control.MOUSE_FILTER_STOP
-			)
-			button.focus_mode = _previous_focus_modes.get(
-				button,
-				Control.FOCUS_ALL
-			)
-"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sbhwp"]
-shader = ExtResource("29_roeyw")
-shader_parameter/oval_merkezi = Vector2(0.5, 0.5)
-shader_parameter/oval_yaricapi = Vector2(0.345, 0.46)
-shader_parameter/kenar_yumusakligi = 0.008
+[sub_resource type="Theme" id="theme"]
+default_font = ExtResource("font")
+default_font_size = 20
+Button/colors/font_color = Color(0.91, 0.84, 0.66, 1)
+Button/colors/font_hover_color = Color(1, 0.93, 0.73, 1)
+Button/colors/font_disabled_color = Color(0.43, 0.44, 0.42, 1)
+Button/styles/normal = SubResource("normal")
+Button/styles/hover = SubResource("hover")
+Button/styles/pressed = SubResource("pressed")
+Button/styles/disabled = SubResource("disabled")
+Button/styles/focus = SubResource("selection")
+LineEdit/styles/normal = SubResource("input")
+LineEdit/styles/focus = SubResource("hover")
+PanelContainer/styles/panel = SubResource("panel")
+Label/colors/font_color = Color(0.87, 0.86, 0.81, 1)
 
 [node name="AnaMenu" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_vrd54")
-
-[node name="MenuIntroContoller" type="Node" parent="." node_paths=PackedStringArray("logo", "ana_menu_grubu", "profil_paneli")]
-script = ExtResource("2_yfun4")
-logo = NodePath("../AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxLogo/OyunLogosu")
-ana_menu_grubu = NodePath("../AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxMenuAna")
-profil_paneli = NodePath("../AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilPanel")
-
-[node name="ProfilKarartma" type="ColorRect" parent="."]
-unique_name_in_owner = true
-visible = false
-z_index = 90
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.78431374)
+script = ExtResource("script")
+theme = SubResource("theme")
 
 [node name="Arkaplan" type="TextureRect" parent="."]
 layout_mode = 1
@@ -330,102 +204,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("2_esw1c")
+texture = ExtResource("bg")
 expand_mode = 1
+stretch_mode = 6
 
-[node name="UzakBulutlar" type="TextureRect" parent="."]
-modulate = Color(1, 1, 1, 0.09411765)
-z_index = 1
-texture_filter = 2
-material = SubResource("ShaderMaterial_1hitb")
-layout_mode = 0
-offset_left = -192.0
-offset_top = -108.0
-offset_right = 2112.0
-offset_bottom = 1188.0
-mouse_filter = 2
-texture = ExtResource("3_yfun4")
-expand_mode = 1
-
-[node name="KusAnimasyonu" type="AnimatedSprite2D" parent="."]
-z_index = 2
-texture_filter = 2
-scale = Vector2(0.2, 0.2)
-sprite_frames = SubResource("SpriteFrames_g3qoh")
-autoplay = "default"
-script = ExtResource("6_1hitb")
-
-[node name="YakinBulutlar" type="TextureRect" parent="."]
-z_index = 3
-texture_filter = 2
-material = SubResource("ShaderMaterial_rb7jy")
-layout_mode = 0
-offset_left = -320.0
-offset_top = -320.0
-offset_right = 2240.0
-offset_bottom = 1120.0
-mouse_filter = 2
-texture = ExtResource("7_roeyw")
-
-[node name="Bayrak" type="Node2D" parent="."]
-z_index = 5
-position = Vector2(1247.0004, 656)
-scale = Vector2(0.4, 0.4)
-
-[node name="Pole" type="Sprite2D" parent="Bayrak"]
-modulate = Color(0.23031491, 0.23031494, 0.23031494, 1)
-texture = ExtResource("11_wnm6f")
-
-[node name="Cloth" type="Sprite2D" parent="Bayrak"]
-modulate = Color(0.23031491, 0.23031494, 0.23031494, 1)
-z_index = 1
-material = SubResource("ShaderMaterial_g3qoh")
-position = Vector2(102, 52.5)
-scale = Vector2(0.5, 1)
-texture = ExtResource("12_ij5s2")
-
-[node name="Fener" type="Node2D" parent="."]
-z_index = 4
-position = Vector2(933.0003, 873)
-scale = Vector2(0.3, 0.2)
-
-[node name="Glow" type="Sprite2D" parent="Fener"]
-material = SubResource("ShaderMaterial_qgvb2")
-position = Vector2(0, 80)
-texture = ExtResource("16_o3eod")
-
-[node name="Lantern" type="Sprite2D" parent="Fener"]
-modulate = Color(0.5449743, 0.54497427, 0.54497427, 1)
-z_index = 1
-texture = ExtResource("17_ws2ip")
-
-[node name="SehirIsiklari" type="Sprite2D" parent="."]
-z_index = 2
-material = SubResource("ShaderMaterial_kpy7h")
-position = Vector2(960, 540)
-texture = ExtResource("14_bbyr5")
-
-[node name="SuYansimalari" type="Sprite2D" parent="."]
-z_index = 2
-texture_repeat = 1
-material = SubResource("ShaderMaterial_ywqup")
-position = Vector2(960, 540)
-texture = ExtResource("19_qgvb2")
-
-[node name="AtmosferIsiklari" type="GPUParticles2D" parent="."]
-z_index = 4
-position = Vector2(960, 540)
-amount = 18
-texture = ExtResource("58_qgvb2")
-lifetime = 12.0
-preprocess = 12.0
-randomness = 0.65
-visibility_rect = Rect2(-1000, -600, 2000, 1200)
-process_material = SubResource("ParticleProcessMaterial_ywqup")
-
-[node name="SuKatmani" type="TextureRect" parent="."]
-z_index = 2
-material = SubResource("ShaderMaterial_sithr")
+[node name="Karartma" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -433,1021 +216,744 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("2_esw1c")
+color = Color(0.015, 0.025, 0.032, 0.26)
+
+[node name="OyunLogosu" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 10.0
+offset_right = 602.0
+offset_bottom = 300.0
+mouse_filter = 2
+texture = ExtResource("logo")
 expand_mode = 1
+stretch_mode = 5
 
-[node name="AnaMargin" type="MarginContainer" parent="."]
-z_index = 10
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 25
-theme_override_constants/margin_right = 25
-theme_override_constants/margin_bottom = 25
+[node name="AnaKart" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 108.0
+offset_top = 290.0
+offset_right = 568.0
+offset_bottom = 910.0
 
-[node name="AnaVBox" type="VBoxContainer" parent="AnaMargin" node_paths=PackedStringArray("logo", "buttons_container", "profile_panel")]
+[node name="HBoxMenuAna" type="VBoxContainer" parent="AnaKart"]
+unique_name_in_owner = true
 layout_mode = 2
-script = SubResource("GDScript_esw1c")
-logo = NodePath("UstHBox/SolTaraf/HBoxLogo")
-buttons_container = NodePath("UstHBox/SolTaraf/HBoxMenuAna/VBoxMenuAna")
-profile_panel = NodePath("UstHBox/SagTaraf")
-logo_duration = 1.85
-panel_duration = 2.0
-button_duration = 0.9
-button_delay = 0.18
+theme_override_constants/separation = 14
 
-[node name="UstHBox" type="HBoxContainer" parent="AnaMargin/AnaVBox"]
+[node name="Slogan" type="Label" parent="AnaKart/HBoxMenuAna"]
 layout_mode = 2
-size_flags_vertical = 3
+text = "BİR MEDENİYETİN KADERİNİ YAZ"
+theme_override_font_sizes/font_size = 17
+autowrap_mode = 2
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.83, 0.70, 0.43, 1)
 
-[node name="SolTaraf" type="VBoxContainer" parent="AnaMargin/AnaVBox/UstHBox"]
+[node name="PardexBtn" type="Button" parent="AnaKart/HBoxMenuAna"]
+unique_name_in_owner = true
 layout_mode = 2
+custom_minimum_size = Vector2(0, 74)
 size_flags_horizontal = 3
+text = "PARDEX ONLINE"
+theme_override_styles/normal = SubResource("gold")
+theme_override_styles/hover = SubResource("goldhover")
+theme_override_colors/font_color = Color(0.055, 0.06, 0.05, 1)
+theme_override_colors/font_hover_color = Color(0.055, 0.06, 0.05, 1)
 
-[node name="HBoxLogo" type="HBoxContainer" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf"]
-custom_minimum_size = Vector2(400, 400)
+[node name="OnlineIpucu" type="Label" parent="AnaKart/HBoxMenuAna"]
 layout_mode = 2
+text = "Masa kur · Kodla katıl · Arkadaşlarınla oyna"
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 2
+horizontal_alignment = 1
 
-[node name="Control" type="Control" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxLogo"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-
-[node name="OyunLogosu" type="TextureRect" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxLogo"]
-texture_filter = 4
-custom_minimum_size = Vector2(500, 500)
-layout_mode = 2
-texture = ExtResource("22_ywqup")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Control" type="Control" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf"]
-layout_mode = 2
-
-[node name="HBoxMenuAna" type="HBoxContainer" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 420)
-layout_mode = 2
-
-[node name="Control" type="Control" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxMenuAna"]
-custom_minimum_size = Vector2(170, 0)
-layout_mode = 2
-
-[node name="VBoxMenuAna" type="VBoxContainer" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxMenuAna"]
+[node name="TekOyuncuBtn" type="Button" parent="AnaKart/HBoxMenuAna"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 10
-alignment = 1
+custom_minimum_size = Vector2(0, 60)
+size_flags_horizontal = 3
+text = "TEK OYUNCULU ALIŞTIRMA"
 
-[node name="TekOyuncuBtn" type="TextureButton" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxMenuAna/VBoxMenuAna"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(360, 90)
+[node name="BaglantiSecenekleri" type="HBoxContainer" parent="AnaKart/HBoxMenuAna"]
 layout_mode = 2
-texture_normal = ExtResource("23_bdeys")
-texture_pressed = ExtResource("24_sithr")
-texture_hover = ExtResource("25_yfun4")
-texture_disabled = ExtResource("26_roeyw")
-ignore_texture_size = true
-stretch_mode = 5
+theme_override_constants/separation = 12
 
-[node name="Label" type="Label" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxMenuAna/VBoxMenuAna/TekOyuncuBtn"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -61.0
-offset_top = -11.5
-offset_right = 61.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
-theme_override_fonts/font = ExtResource("24_cxr8c")
-theme_override_font_sizes/font_size = 24
-text = "TEK OYUNCULU"
-
-[node name="CokOyunculuBtn" type="TextureButton" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxMenuAna/VBoxMenuAna"]
+[node name="CokOyunculuBtn" type="Button" parent="AnaKart/HBoxMenuAna/BaglantiSecenekleri"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(360, 90)
 layout_mode = 2
-texture_normal = ExtResource("23_bdeys")
-texture_pressed = ExtResource("24_sithr")
-texture_hover = ExtResource("25_yfun4")
-texture_disabled = ExtResource("26_roeyw")
-ignore_texture_size = true
-stretch_mode = 5
+custom_minimum_size = Vector2(0, 64)
+size_flags_horizontal = 3
+text = "YEREL AĞ"
 
-[node name="Label" type="Label" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxMenuAna/VBoxMenuAna/CokOyunculuBtn"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -63.5
-offset_top = -11.5
-offset_right = 63.5
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-focus_mode = 2
-theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
-theme_override_fonts/font = ExtResource("24_cxr8c")
-theme_override_font_sizes/font_size = 24
-text = "ÇOK OYUNCULU"
-
-[node name="AyarlarBtn" type="TextureButton" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxMenuAna/VBoxMenuAna"]
+[node name="OzelSunucuBtn" type="Button" parent="AnaKart/HBoxMenuAna/BaglantiSecenekleri"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(360, 90)
 layout_mode = 2
-texture_normal = ExtResource("23_bdeys")
-texture_pressed = ExtResource("24_sithr")
-texture_hover = ExtResource("25_yfun4")
-texture_disabled = ExtResource("26_roeyw")
-ignore_texture_size = true
-stretch_mode = 5
+custom_minimum_size = Vector2(0, 64)
+size_flags_horizontal = 3
+text = "ÖZEL SUNUCU"
 
-[node name="Label" type="Label" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxMenuAna/VBoxMenuAna/AyarlarBtn"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -35.5
-offset_top = -11.5
-offset_right = 35.5
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
-theme_override_fonts/font = ExtResource("24_cxr8c")
-theme_override_font_sizes/font_size = 24
+[node name="Ayirici" type="HSeparator" parent="AnaKart/HBoxMenuAna"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 8)
+
+[node name="YardimBtn" type="Button" parent="AnaKart/HBoxMenuAna"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 60)
+size_flags_horizontal = 3
+text = "NASIL OYNANIR?"
+
+[node name="AyarlarBtn" type="Button" parent="AnaKart/HBoxMenuAna"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 60)
+size_flags_horizontal = 3
 text = "AYARLAR"
 
-[node name="CikisBtn" type="TextureButton" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxMenuAna/VBoxMenuAna"]
+[node name="CikisBtn" type="Button" parent="AnaKart/HBoxMenuAna"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(360, 90)
 layout_mode = 2
-texture_normal = ExtResource("23_bdeys")
-texture_pressed = ExtResource("24_sithr")
-texture_hover = ExtResource("25_yfun4")
-texture_disabled = ExtResource("26_roeyw")
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="Label" type="Label" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxMenuAna/VBoxMenuAna/CikisBtn"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
-theme_override_fonts/font = ExtResource("24_cxr8c")
-theme_override_font_sizes/font_size = 24
+custom_minimum_size = Vector2(0, 48)
+size_flags_horizontal = 3
 text = "ÇIKIŞ"
 
-[node name="HBoxMenuCoklu" type="HBoxContainer" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf"]
+[node name="Surum" type="Label" parent="AnaKart/HBoxMenuAna"]
+layout_mode = 2
+text = "2–6 oyuncu   ·   6 medeniyet   ·   50 puan"
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 2
+horizontal_alignment = 1
+
+[node name="ProfilPanel" type="PanelContainer" parent="."]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 420)
-layout_mode = 2
+layout_mode = 0
+offset_left = 1450.0
+offset_top = 76.0
+offset_right = 1820.0
+offset_bottom = 310.0
 
-[node name="Control" type="Control" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxMenuCoklu"]
-custom_minimum_size = Vector2(170, 0)
+[node name="ProfilIcerik" type="VBoxContainer" parent="ProfilPanel"]
 layout_mode = 2
+theme_override_constants/separation = 12
 
-[node name="VBoxMenuCoklu" type="VBoxContainer" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxMenuCoklu"]
+[node name="ProfilUst" type="HBoxContainer" parent="ProfilPanel/ProfilIcerik"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="ProfilResmi" type="TextureRect" parent="ProfilPanel/ProfilIcerik/ProfilUst"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(100, 100)
+texture = ExtResource("avatar1")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Isimler" type="VBoxContainer" parent="ProfilPanel/ProfilIcerik/ProfilUst"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="ProfilBaslik" type="Label" parent="ProfilPanel/ProfilIcerik/ProfilUst/Isimler"]
+layout_mode = 2
+text = "HÜKÜMDAR"
+theme_override_font_sizes/font_size = 16
+autowrap_mode = 2
+theme_override_colors/font_color = Color(0.80, 0.67, 0.42, 1)
+
+[node name="ProfilOyuncuIsmi" type="Label" parent="ProfilPanel/ProfilIcerik/ProfilUst/Isimler"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Oyuncu"
+theme_override_font_sizes/font_size = 20
+autowrap_mode = 2
+
+
+[node name="BaglantiRozeti" type="Label" parent="ProfilPanel/ProfilIcerik"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "YEREL PROFİL"
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 2
+
+
+[node name="ProfilDuzenleBtn" type="Button" parent="ProfilPanel/ProfilIcerik"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
+size_flags_horizontal = 3
+text = "PROFİLİ DÜZENLE"
+
+[node name="BilgiKarti" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 1450.0
+offset_top = 728.0
+offset_right = 1820.0
+offset_bottom = 908.0
+
+[node name="Icerik" type="VBoxContainer" parent="BilgiKarti"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Baslik" type="Label" parent="BilgiKarti/Icerik"]
+layout_mode = 2
+text = "TOPRAK. TİCARET. HÜKÜM."
+theme_override_font_sizes/font_size = 21
+autowrap_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.78, 0.48, 1)
+
+[node name="Aciklama" type="Label" parent="BilgiKarti/Icerik"]
+layout_mode = 2
+text = "Şehrini kur. Sınırlarını genişlet. İttifaklarını seç. 50 puana ulaş ve tarihe adını yaz."
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 2
+
+
+[node name="MenuDurum" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 610.0
+offset_top = 940.0
+offset_right = 1410.0
+offset_bottom = 1030.0
+text = ""
+autowrap_mode = 2
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(1, 0.79, 0.64, 1)
+
+[node name="HBoxMenuCoklu" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+
+[node name="Perde" type="ColorRect" parent="HBoxMenuCoklu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.008, 0.016, 0.024, 0.90)
+
+[node name="Merkez" type="CenterContainer" parent="HBoxMenuCoklu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="HBoxMenuCoklu/Merkez"]
+layout_mode = 2
+custom_minimum_size = Vector2(760, 0)
+
+[node name="Icerik" type="VBoxContainer" parent="HBoxMenuCoklu/Merkez/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="BaglantiBaslik" type="Label" parent="HBoxMenuCoklu/Merkez/Panel/Icerik"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "YEREL AĞ"
+theme_override_font_sizes/font_size = 30
+autowrap_mode = 2
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.91, 0.78, 0.48, 1)
+
+[node name="BaglantiAciklama" type="Label" parent="HBoxMenuCoklu/Merkez/Panel/Icerik"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Sunucuya bağlan."
+theme_override_font_sizes/font_size = 19
+autowrap_mode = 2
+
+
+[node name="LANAlanlari" type="VBoxContainer" parent="HBoxMenuCoklu/Merkez/Panel/Icerik"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 10
-alignment = 1
 
-[node name="IPGiris" type="LineEdit" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxMenuCoklu/VBoxMenuCoklu"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(360, 91)
+[node name="IPBaslik" type="Label" parent="HBoxMenuCoklu/Merkez/Panel/Icerik/LANAlanlari"]
 layout_mode = 2
+text = "SUNUCUNUN YEREL IP ADRESİ"
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 2
+
+
+[node name="IPGiris" type="LineEdit" parent="HBoxMenuCoklu/Merkez/Panel/Icerik/LANAlanlari"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 56)
+placeholder_text = "192.168.1.10"
 text = "127.0.0.1"
-alignment = 1
+max_length = 64
 
-[node name="KurBtn" type="TextureButton" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxMenuCoklu/VBoxMenuCoklu"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(360, 90)
+[node name="PortBaslik" type="Label" parent="HBoxMenuCoklu/Merkez/Panel/Icerik/LANAlanlari"]
 layout_mode = 2
-texture_normal = ExtResource("23_bdeys")
-texture_pressed = ExtResource("24_sithr")
-texture_hover = ExtResource("25_yfun4")
-texture_disabled = ExtResource("26_roeyw")
-ignore_texture_size = true
-stretch_mode = 5
+text = "PORT"
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 2
 
-[node name="Label" type="Label" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxMenuCoklu/VBoxMenuCoklu/KurBtn"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-focus_mode = 2
-theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
-theme_override_fonts/font = ExtResource("24_cxr8c")
-theme_override_font_sizes/font_size = 24
-text = "OYUN KUR"
 
-[node name="BaglanBtn" type="TextureButton" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxMenuCoklu/VBoxMenuCoklu"]
+[node name="PortGiris" type="SpinBox" parent="HBoxMenuCoklu/Merkez/Panel/Icerik/LANAlanlari"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(360, 90)
 layout_mode = 2
-texture_normal = ExtResource("23_bdeys")
-texture_pressed = ExtResource("24_sithr")
-texture_hover = ExtResource("25_yfun4")
-texture_disabled = ExtResource("26_roeyw")
-ignore_texture_size = true
-stretch_mode = 5
+custom_minimum_size = Vector2(0, 52)
+min_value = 1.0
+max_value = 65535.0
+value = 7777.0
 
-[node name="Label" type="Label" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxMenuCoklu/VBoxMenuCoklu/BaglanBtn"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -63.0
-offset_top = -11.5
-offset_right = 63.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
-theme_override_fonts/font = ExtResource("24_cxr8c")
-theme_override_font_sizes/font_size = 24
-text = "OYUNA BAĞLAN"
+[node name="LANIpucu" type="Label" parent="HBoxMenuCoklu/Merkez/Panel/Icerik/LANAlanlari"]
+layout_mode = 2
+text = "Oda kurarken aynı portu kullanın. Güvenlik duvarında UDP bağlantısına izin verin."
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 2
 
-[node name="GeriBtn" type="TextureButton" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxMenuCoklu/VBoxMenuCoklu" groups=["ui_geri_butonu"]]
+
+[node name="OzelAlanlar" type="VBoxContainer" parent="HBoxMenuCoklu/Merkez/Panel/Icerik"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(360, 90)
 layout_mode = 2
-texture_normal = ExtResource("23_bdeys")
-texture_pressed = ExtResource("24_sithr")
-texture_hover = ExtResource("25_yfun4")
-texture_disabled = ExtResource("26_roeyw")
-ignore_texture_size = true
-stretch_mode = 5
+visible = false
 
-[node name="Label" type="Label" parent="AnaMargin/AnaVBox/UstHBox/SolTaraf/HBoxMenuCoklu/VBoxMenuCoklu/GeriBtn"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
-theme_override_fonts/font = ExtResource("24_cxr8c")
-theme_override_font_sizes/font_size = 24
+[node name="AdresBaslik" type="Label" parent="HBoxMenuCoklu/Merkez/Panel/Icerik/OzelAlanlar"]
+layout_mode = 2
+text = "SUNUCU ADRESİ"
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 2
+
+
+[node name="SunucuGiris" type="LineEdit" parent="HBoxMenuCoklu/Merkez/Panel/Icerik/OzelAlanlar"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 56)
+placeholder_text = "wss://sunucu-adresi"
+max_length = 2048
+
+[node name="OzelIpucu" type="Label" parent="HBoxMenuCoklu/Merkez/Panel/Icerik/OzelAlanlar"]
+layout_mode = 2
+text = "Güvenilir bir HÜKÜM sunucusunun adresini kullan."
+theme_override_font_sizes/font_size = 16
+autowrap_mode = 2
+
+
+[node name="BaglantiDurumu" type="Label" parent="HBoxMenuCoklu/Merkez/Panel/Icerik"]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 2
+custom_minimum_size = Vector2(700, 54)
+
+[node name="BaglantiIlerleme" type="ProgressBar" parent="HBoxMenuCoklu/Merkez/Panel/Icerik"]
+unique_name_in_owner = true
+layout_mode = 2
+visible = false
+custom_minimum_size = Vector2(0, 10)
+indeterminate = true
+show_percentage = false
+
+[node name="Dugmeler" type="HBoxContainer" parent="HBoxMenuCoklu/Merkez/Panel/Icerik"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="KurBtn" type="Button" parent="HBoxMenuCoklu/Merkez/Panel/Icerik/Dugmeler"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 60)
+size_flags_horizontal = 3
+text = "ODA KUR"
+theme_override_styles/normal = SubResource("gold")
+theme_override_styles/hover = SubResource("goldhover")
+theme_override_colors/font_color = Color(0.055, 0.06, 0.05, 1)
+theme_override_colors/font_hover_color = Color(0.055, 0.06, 0.05, 1)
+
+[node name="BaglanBtn" type="Button" parent="HBoxMenuCoklu/Merkez/Panel/Icerik/Dugmeler"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 60)
+size_flags_horizontal = 3
+text = "KATIL"
+
+[node name="GeriBtn" type="Button" parent="HBoxMenuCoklu/Merkez/Panel/Icerik"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
+size_flags_horizontal = 3
 text = "GERİ"
 
-[node name="SagTaraf" type="VBoxContainer" parent="AnaMargin/AnaVBox/UstHBox"]
-z_index = 100
-custom_minimum_size = Vector2(500, 0)
+[node name="PardexKatmani" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+
+[node name="Perde" type="ColorRect" parent="PardexKatmani"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.008, 0.016, 0.024, 0.90)
+
+[node name="Merkez" type="CenterContainer" parent="PardexKatmani"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="PardexKatmani/Merkez"]
 layout_mode = 2
-theme_override_constants/separation = 10
+custom_minimum_size = Vector2(760, 0)
+
+[node name="Icerik" type="VBoxContainer" parent="PardexKatmani/Merkez/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="PARDEX ONLINE" type="Label" parent="PardexKatmani/Merkez/Panel/Icerik"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "PARDEX ONLINE"
+theme_override_font_sizes/font_size = 30
+autowrap_mode = 2
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.91, 0.78, 0.48, 1)
+
+[node name="PardexAciklama" type="Label" parent="PardexKatmani/Merkez/Panel/Icerik"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Masa kurup kodu arkadaşlarınla paylaş."
+theme_override_font_sizes/font_size = 20
+autowrap_mode = 2
+custom_minimum_size = Vector2(700, 100)
+
+[node name="MasaKurBtn" type="Button" parent="PardexKatmani/Merkez/Panel/Icerik"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 64)
+size_flags_horizontal = 3
+text = "MASA KUR"
+theme_override_styles/normal = SubResource("gold")
+theme_override_styles/hover = SubResource("goldhover")
+theme_override_colors/font_color = Color(0.055, 0.06, 0.05, 1)
+theme_override_colors/font_hover_color = Color(0.055, 0.06, 0.05, 1)
+
+[node name="KodBaslik" type="Label" parent="PardexKatmani/Merkez/Panel/Icerik"]
+layout_mode = 2
+text = "ARKADAŞININ MASASINA KATIL"
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 2
+
+
+[node name="KodSatiri" type="HBoxContainer" parent="PardexKatmani/Merkez/Panel/Icerik"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="KodGiris" type="LineEdit" parent="PardexKatmani/Merkez/Panel/Icerik/KodSatiri"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(300, 60)
+size_flags_horizontal = 3
+placeholder_text = "MASA KODU"
+max_length = 5
 alignment = 1
 
-[node name="ProfilPanel" type="NinePatchRect" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf"]
+[node name="KodlaKatilBtn" type="Button" parent="PardexKatmani/Merkez/Panel/Icerik/KodSatiri"]
 unique_name_in_owner = true
-z_index = 100
-custom_minimum_size = Vector2(600, 600)
 layout_mode = 2
-texture = ExtResource("28_sbhwp")
-patch_margin_left = 150
-patch_margin_top = 150
-patch_margin_right = 150
-patch_margin_bottom = 150
-
-[node name="Label" type="Label" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilPanel"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -150.0
-offset_top = 31.0
-offset_right = 150.0
-offset_bottom = 81.0
-grow_horizontal = 2
-theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
-theme_override_fonts/font = ExtResource("24_cxr8c")
-theme_override_font_sizes/font_size = 36
-text = "PROFİL"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="ProfilAlani" type="Control" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilPanel"]
-custom_minimum_size = Vector2(300, 300)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -193.0
-offset_right = 150.0
-offset_bottom = 107.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="ProfilResmi" type="TextureRect" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilPanel/ProfilAlani"]
-unique_name_in_owner = true
-texture_filter = 3
-material = SubResource("ShaderMaterial_sbhwp")
-custom_minimum_size = Vector2(300, 300)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("29_yfun4")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="ProfilCercevesi" type="TextureRect" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilPanel/ProfilAlani"]
-texture_filter = 4
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("31_nuq58")
-expand_mode = 1
-
-[node name="ProfilOyuncuIsmi" type="Label" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilPanel"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = 136.0
-offset_right = 150.0
-offset_bottom = 170.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
-theme_override_fonts/font = ExtResource("24_roeyw")
-theme_override_font_sizes/font_size = 24
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="ProfilDuzenleBtn" type="TextureButton" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilPanel"]
-unique_name_in_owner = true
-z_index = 100
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -125.0
-offset_top = -80.0
-offset_right = 125.0
-offset_bottom = -20.0
-grow_horizontal = 2
-grow_vertical = 0
-texture_normal = ExtResource("23_bdeys")
-texture_pressed = ExtResource("24_sithr")
-texture_hover = ExtResource("25_yfun4")
-texture_disabled = ExtResource("26_roeyw")
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="Label" type="Label" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilPanel/ProfilDuzenleBtn"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -68.0
-offset_top = -11.5
-offset_right = 68.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
-theme_override_fonts/font = ExtResource("24_cxr8c")
-text = "PROFİLİ DÜZENLE"
-
-[node name="ProfilDuzenlePanel" type="NinePatchRect" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(600, 900)
-layout_mode = 2
-texture = ExtResource("28_sbhwp")
-patch_margin_left = 150
-patch_margin_top = 150
-patch_margin_right = 150
-patch_margin_bottom = 150
-
-[node name="ProfilGeriBtn" type="TextureButton" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel" groups=["ui_geri_butonu"]]
-unique_name_in_owner = true
-texture_filter = 3
-custom_minimum_size = Vector2(58, 58)
-layout_mode = 0
-offset_left = 77.0
-offset_top = 28.0
-offset_right = 135.0
-offset_bottom = 86.0
-tooltip_text = "Geri"
-texture_normal = ExtResource("33_1hitb")
-texture_pressed = ExtResource("34_rb7jy")
-texture_hover = ExtResource("35_rk7pl")
-texture_disabled = ExtResource("36_g3qoh")
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="Baslik" type="Label" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel"]
-layout_mode = 0
-offset_left = 94.0
-offset_top = 32.0
-offset_right = 521.0
-offset_bottom = 82.0
+custom_minimum_size = Vector2(0, 60)
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
-theme_override_fonts/font = ExtResource("24_roeyw")
-theme_override_font_sizes/font_size = 36
-text = "PROFİLİ DÜZENLE"
-horizontal_alignment = 1
-vertical_alignment = 1
+text = "KODLA KATIL"
 
-[node name="ProfilAlani" type="Control" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel"]
-custom_minimum_size = Vector2(300, 300)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -354.0
-offset_right = 150.0
-offset_bottom = -54.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="DuzenleProfilResmi" type="TextureRect" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/ProfilAlani"]
+[node name="PardexDurum" type="Label" parent="PardexKatmani/Merkez/Panel/Icerik"]
 unique_name_in_owner = true
-texture_filter = 3
-material = SubResource("ShaderMaterial_sbhwp")
-custom_minimum_size = Vector2(0, 300)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("29_yfun4")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="ProfilCercevesi" type="TextureRect" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/ProfilAlani"]
-texture_filter = 4
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("31_nuq58")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Label2" type="Label" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel"]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 388.0
-offset_right = 580.0
-offset_bottom = 422.0
-theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
-theme_override_fonts/font = ExtResource("24_roeyw")
+layout_mode = 2
+text = ""
 theme_override_font_sizes/font_size = 18
-text = "AVATAR SEÇ"
-horizontal_alignment = 1
-vertical_alignment = 1
+autowrap_mode = 2
+custom_minimum_size = Vector2(700, 68)
 
-[node name="AvatarGrid" type="GridContainer" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel"]
+[node name="PardexIlerleme" type="ProgressBar" parent="PardexKatmani/Merkez/Panel/Icerik"]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 55.0
-offset_top = 424.0
-offset_right = 547.0
-offset_bottom = 668.0
-columns = 4
-
-[node name="Profil1" type="TextureButton" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid"]
-texture_filter = 3
-custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
-texture_normal = ExtResource("34_sithr")
-texture_pressed = ExtResource("35_roeyw")
-texture_hover = ExtResource("35_yfun4")
-texture_disabled = ExtResource("36_roeyw")
-ignore_texture_size = true
-stretch_mode = 5
+visible = false
+custom_minimum_size = Vector2(0, 10)
+indeterminate = true
+show_percentage = false
 
-[node name="AvatarResmi" type="TextureRect" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid/Profil1"]
-texture_filter = 3
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -50.0
-offset_top = -50.0
-offset_right = 50.0
-offset_bottom = 50.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("29_yfun4")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Cerceve" type="TextureRect" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid/Profil1"]
-texture_filter = 3
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("34_sithr")
-expand_mode = 1
-
-[node name="Profil2" type="TextureButton" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid"]
-texture_filter = 3
-custom_minimum_size = Vector2(120, 120)
-layout_mode = 2
-texture_normal = ExtResource("34_sithr")
-texture_pressed = ExtResource("35_roeyw")
-texture_hover = ExtResource("35_yfun4")
-texture_disabled = ExtResource("36_roeyw")
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="AvatarResmi" type="TextureRect" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid/Profil2"]
-texture_filter = 3
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -50.0
-offset_top = -50.0
-offset_right = 50.0
-offset_bottom = 50.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("5_epba5")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Cerceve" type="TextureRect" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid/Profil2"]
-texture_filter = 3
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("34_sithr")
-expand_mode = 1
-
-[node name="Profil3" type="TextureButton" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid"]
-texture_filter = 3
-custom_minimum_size = Vector2(120, 120)
-layout_mode = 2
-texture_normal = ExtResource("34_sithr")
-texture_pressed = ExtResource("35_roeyw")
-texture_hover = ExtResource("35_yfun4")
-texture_disabled = ExtResource("36_roeyw")
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="AvatarResmi" type="TextureRect" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid/Profil3"]
-texture_filter = 3
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -50.0
-offset_top = -50.0
-offset_right = 50.0
-offset_bottom = 50.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("6_yvmux")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Cerceve" type="TextureRect" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid/Profil3"]
-texture_filter = 3
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("34_sithr")
-expand_mode = 1
-
-[node name="Profil4" type="TextureButton" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid"]
-texture_filter = 3
-custom_minimum_size = Vector2(120, 120)
-layout_mode = 2
-texture_normal = ExtResource("34_sithr")
-texture_pressed = ExtResource("35_roeyw")
-texture_hover = ExtResource("35_yfun4")
-texture_disabled = ExtResource("36_roeyw")
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="AvatarResmi" type="TextureRect" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid/Profil4"]
-texture_filter = 3
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -50.0
-offset_top = -50.0
-offset_right = 50.0
-offset_bottom = 50.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("7_57xb7")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Cerceve" type="TextureRect" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid/Profil4"]
-texture_filter = 3
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("34_sithr")
-expand_mode = 1
-
-[node name="Profil5" type="TextureButton" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid"]
-texture_filter = 3
-custom_minimum_size = Vector2(120, 120)
-layout_mode = 2
-texture_normal = ExtResource("34_sithr")
-texture_pressed = ExtResource("35_roeyw")
-texture_hover = ExtResource("35_yfun4")
-texture_disabled = ExtResource("36_roeyw")
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="AvatarResmi" type="TextureRect" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid/Profil5"]
-texture_filter = 3
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -50.0
-offset_top = -50.0
-offset_right = 50.0
-offset_bottom = 50.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("8_7y0nk")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Cerceve" type="TextureRect" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid/Profil5"]
-texture_filter = 3
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("34_sithr")
-expand_mode = 1
-
-[node name="Profil6" type="TextureButton" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid"]
-texture_filter = 3
-custom_minimum_size = Vector2(120, 120)
-layout_mode = 2
-texture_normal = ExtResource("34_sithr")
-texture_pressed = ExtResource("35_roeyw")
-texture_hover = ExtResource("35_yfun4")
-texture_disabled = ExtResource("36_roeyw")
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="AvatarResmi" type="TextureRect" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid/Profil6"]
-texture_filter = 3
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -50.0
-offset_top = -50.0
-offset_right = 50.0
-offset_bottom = 50.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("9_m8cai")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Cerceve" type="TextureRect" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid/Profil6"]
-texture_filter = 3
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("34_sithr")
-expand_mode = 1
-
-[node name="Profil7" type="TextureButton" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid"]
-texture_filter = 3
-custom_minimum_size = Vector2(120, 120)
-layout_mode = 2
-texture_normal = ExtResource("34_sithr")
-texture_pressed = ExtResource("35_roeyw")
-texture_hover = ExtResource("35_yfun4")
-texture_disabled = ExtResource("36_roeyw")
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="AvatarResmi" type="TextureRect" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid/Profil7"]
-texture_filter = 3
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -50.0
-offset_top = -50.0
-offset_right = 50.0
-offset_bottom = 50.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("10_hm4kq")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Cerceve" type="TextureRect" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid/Profil7"]
-texture_filter = 3
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("34_sithr")
-expand_mode = 1
-
-[node name="Profil8" type="TextureButton" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid"]
-texture_filter = 3
-custom_minimum_size = Vector2(120, 120)
-layout_mode = 2
-texture_normal = ExtResource("34_sithr")
-texture_pressed = ExtResource("35_roeyw")
-texture_hover = ExtResource("35_yfun4")
-texture_disabled = ExtResource("36_roeyw")
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="AvatarResmi" type="TextureRect" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid/Profil8"]
-texture_filter = 3
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -50.0
-offset_top = -50.0
-offset_right = 50.0
-offset_bottom = 50.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("11_7qe4y")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Cerceve" type="TextureRect" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/AvatarGrid/Profil8"]
-texture_filter = 3
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("34_sithr")
-expand_mode = 1
-
-[node name="Label3" type="Label" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -280.0
-offset_top = 222.0
-offset_right = 280.0
-offset_bottom = 248.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
-theme_override_fonts/font = ExtResource("24_roeyw")
-theme_override_font_sizes/font_size = 18
-text = "OYUNCU ADINI DÜZENLE"
-horizontal_alignment = 1
-
-[node name="IsimHataLabel" type="Label" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel"]
+[node name="PardexGeriBtn" type="Button" parent="PardexKatmani/Merkez/Panel/Icerik"]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 43.0
-offset_top = 710.0
-offset_right = 561.0
-offset_bottom = 733.0
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="IsimGirisKutusu" type="LineEdit" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -92.0
-offset_top = -135.0
-offset_right = 92.0
-offset_bottom = -104.0
-grow_horizontal = 2
-grow_vertical = 0
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.94509804, 0.8980392, 0.78431374, 1)
-theme_override_font_sizes/font_size = 18
-alignment = 1
+text = "GERİ"
+
+[node name="ProfilDuzenlePanel" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+
+[node name="Perde" type="ColorRect" parent="ProfilDuzenlePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.008, 0.016, 0.024, 0.90)
+
+[node name="Merkez" type="CenterContainer" parent="ProfilDuzenlePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="ProfilDuzenlePanel/Merkez"]
+layout_mode = 2
+custom_minimum_size = Vector2(760, 0)
+
+[node name="Icerik" type="VBoxContainer" parent="ProfilDuzenlePanel/Merkez/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="PROFİLİNİ DÜZENLE" type="Label" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "PROFİLİNİ DÜZENLE"
+theme_override_font_sizes/font_size = 30
+autowrap_mode = 2
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.91, 0.78, 0.48, 1)
+
+[node name="ProfilKarartma" type="Control" parent="ProfilDuzenlePanel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DuzenleProfilResmi" type="TextureRect" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(128, 128)
+size_flags_horizontal = 4
+texture = ExtResource("avatar1")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IsimGirisKutusu" type="LineEdit" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 56)
 max_length = 16
-backspace_deletes_composite_character_enabled = true
+placeholder_text = "Oyuncu adı"
 
-[node name="IptalProfilBtn" type="TextureButton" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel" groups=["ui_geri_butonu"]]
+[node name="IsimHataLabel" type="Label" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(175, 50)
-layout_mode = 0
-offset_left = 101.0
-offset_top = 823.0
-offset_right = 276.0
-offset_bottom = 873.0
-size_flags_horizontal = 3
-texture_normal = ExtResource("23_bdeys")
-texture_pressed = ExtResource("24_sithr")
-texture_hover = ExtResource("25_yfun4")
-texture_disabled = ExtResource("26_roeyw")
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 16
+autowrap_mode = 2
+
+
+[node name="AvatarGrid" type="GridContainer" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 4
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 14
+
+[node name="Profil1" type="TextureButton" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(110, 110)
+texture_normal = ExtResource("avatar1")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/IptalProfilBtn"]
+[node name="Secim" type="Panel" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil1"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -22.5
-offset_top = -11.5
-offset_right = 22.5
-offset_bottom = 11.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
-theme_override_fonts/font = ExtResource("24_roeyw")
-text = "İPTAL"
+visible = false
+mouse_filter = 2
+theme_override_styles/panel = SubResource("selection")
 
-[node name="KaydetBtn" type="TextureButton" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel"]
+[node name="Profil2" type="TextureButton" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(175, 50)
-layout_mode = 0
-offset_left = 322.0
-offset_top = 823.0
-offset_right = 497.0
-offset_bottom = 873.0
-size_flags_horizontal = 3
-texture_normal = ExtResource("23_bdeys")
-texture_pressed = ExtResource("24_sithr")
-texture_hover = ExtResource("25_yfun4")
-texture_disabled = ExtResource("26_roeyw")
+layout_mode = 2
+custom_minimum_size = Vector2(110, 110)
+texture_normal = ExtResource("avatar2")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="AnaMargin/AnaVBox/UstHBox/SagTaraf/ProfilDuzenlePanel/KaydetBtn"]
+[node name="Secim" type="Panel" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil2"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -30.5
-offset_top = -11.5
-offset_right = 30.5
-offset_bottom = 11.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0.9098039, 0.78431374, 0.45490196, 1)
-theme_override_fonts/font = ExtResource("24_roeyw")
+visible = false
+mouse_filter = 2
+theme_override_styles/panel = SubResource("selection")
+
+[node name="Profil3" type="TextureButton" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(110, 110)
+texture_normal = ExtResource("avatar3")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Secim" type="Panel" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+mouse_filter = 2
+theme_override_styles/panel = SubResource("selection")
+
+[node name="Profil4" type="TextureButton" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(110, 110)
+texture_normal = ExtResource("avatar4")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Secim" type="Panel" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+mouse_filter = 2
+theme_override_styles/panel = SubResource("selection")
+
+[node name="Profil5" type="TextureButton" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(110, 110)
+texture_normal = ExtResource("avatar5")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Secim" type="Panel" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil5"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+mouse_filter = 2
+theme_override_styles/panel = SubResource("selection")
+
+[node name="Profil6" type="TextureButton" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(110, 110)
+texture_normal = ExtResource("avatar6")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Secim" type="Panel" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil6"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+mouse_filter = 2
+theme_override_styles/panel = SubResource("selection")
+
+[node name="Profil7" type="TextureButton" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(110, 110)
+texture_normal = ExtResource("avatar7")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Secim" type="Panel" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil7"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+mouse_filter = 2
+theme_override_styles/panel = SubResource("selection")
+
+[node name="Profil8" type="TextureButton" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(110, 110)
+texture_normal = ExtResource("avatar8")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Secim" type="Panel" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/AvatarGrid/Profil8"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+mouse_filter = 2
+theme_override_styles/panel = SubResource("selection")
+
+[node name="ProfilDugmeleri" type="HBoxContainer" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="KaydetBtn" type="Button" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/ProfilDugmeleri"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 60)
+size_flags_horizontal = 3
 text = "KAYDET"
+theme_override_styles/normal = SubResource("gold")
+theme_override_styles/hover = SubResource("goldhover")
+theme_override_colors/font_color = Color(0.055, 0.06, 0.05, 1)
+theme_override_colors/font_hover_color = Color(0.055, 0.06, 0.05, 1)
 
-[node name="AltHBox" type="HBoxContainer" parent="AnaMargin/AnaVBox"]
-custom_minimum_size = Vector2(0, 50)
+[node name="IptalProfilBtn" type="Button" parent="ProfilDuzenlePanel/Merkez/Panel/Icerik/ProfilDugmeleri"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 100
-
-[node name="TextureButton" type="TextureButton" parent="AnaMargin/AnaVBox/AltHBox"]
-layout_mode = 2
-
-[node name="TextureButton2" type="TextureButton" parent="AnaMargin/AnaVBox/AltHBox"]
-layout_mode = 2
-
-[node name="TextureButton3" type="TextureButton" parent="AnaMargin/AnaVBox/AltHBox"]
-layout_mode = 2
-
-[node name="TextureButton4" type="TextureButton" parent="AnaMargin/AnaVBox/AltHBox"]
-layout_mode = 2
-
-[node name="Control" type="Control" parent="AnaMargin/AnaVBox/AltHBox"]
-layout_mode = 2
+custom_minimum_size = Vector2(0, 60)
 size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="AnaMargin/AnaVBox/AltHBox"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 0.5411765)
-text = "v0.1.0"
+text = "İPTAL"

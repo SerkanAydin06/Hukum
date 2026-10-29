@@ -59,3 +59,25 @@ jobs:
           ! grep -E 'SCRIPT ERROR|ERROR:|Parse Error' /tmp/runtime.log
       - name: Exercise three real networked scenes
         run: python3 tests/run_scene_network.py /tmp/Godot_v4.7.2-stable_linux.x86_64
+      - name: Exercise online handoff contracts
+        shell: bash
+        run: |
+          set -o pipefail
+          /tmp/Godot_v4.7.2-stable_linux.x86_64 --headless --path . --script tests/online_contracts.gd 2>&1 | tee /tmp/contracts.log
+          ! grep -E 'SCRIPT ERROR|ERROR:|Parse Error' /tmp/contracts.log
+      - name: Exercise dedicated server and three clients
+        run: python3 tests/run_central_network.py /tmp/Godot_v4.7.2-stable_linux.x86_64
+      - name: Read matching PARDEX control-plane source
+        uses: actions/checkout@v4
+        with:
+          repository: SerkanAydin06/Pardex
+          ref: 634dfd1f951574497f028c04d4fc73426e651f96
+          path: tests/pardex
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install control-plane test dependency
+        run: npm --prefix tests/pardex/server ci
+      - name: Exercise real PARDEX and HUKUM online lifecycle
+        run: node tests/run_pardex_online.js /tmp/Godot_v4.7.2-stable_linux.x86_64 tests/pardex/server

@@ -73,6 +73,11 @@ var secilebilir_renkler = [
 @onready var alt_baslik_hikaye = %AltBaslikHikaye
 
 func _ready():
+	Network.lobi_degisti.connect(_merkezi_lobiyi_ciz)
+	Network.durum_degisti.connect(_baglanti_durumu)
+	Network.gecikme_degisti.connect(_gecikme_guncelle)
+	if has_node("%KodKopyala"):
+		%KodKopyala.pressed.connect(func(): DisplayServer.clipboard_set(Network.oda_kodu))
 	# 1. TEMEL UI BAĞLANTILARI
 	if hazir_btn: hazir_btn.pressed.connect(_hazir_butonuna_basildi)
 	if iptal_btn: iptal_btn.pressed.connect(_hazir_butonuna_basildi)
@@ -105,6 +110,11 @@ func _lobiyi_baslat() -> void:
 		push_error("Lobi açıldı fakat aktif multiplayer bağlantısı bulunamadı!")
 		return
 
+	if Network.merkezi_mod:
+		_merkezi_lobiyi_ciz()
+		bilgi_panelini_guncelle("")
+		return
+	_oda_bilgisini_guncelle()
 	is_updating = false
 	lobi_verisi.clear()
 	benim_secilen_medeniyetim = ""
@@ -155,11 +165,15 @@ func _mesaj_gonder():
 	
 	sohbet_girdisi.text = ""
 	
+	if Network.merkezi_mod:
+		Network.merkezi_sohbet_rpc.rpc_id(1, metin)
+		return
 	var my_id = multiplayer.get_unique_id()
 	sohbet_mesaji_al_rpc.rpc(my_id, metin)
 
 @rpc("any_peer", "call_local", "reliable")
 func sohbet_mesaji_al_rpc(gonderen_id: int, mesaj: String):
+	if Network.merkezi_mod: return
 	var gonderen = multiplayer.get_remote_sender_id()
 	if gonderen == 0: gonderen = multiplayer.get_unique_id()
 	if gonderen_id != gonderen or not sohbet_gecmisi or not lobi_verisi.has(gonderen_id): return
@@ -197,7 +211,7 @@ func _renk_sec(renk:String):
 
 	lobi_verisi[my_id]["renk"] = renk
 
-	lobi_bilgisi_gonder_rpc.rpc(
+	_bilgilerimi_yayinla(
 		my_id,
 		Global.oyuncu_ismi,
 		renk,
@@ -208,6 +222,7 @@ func _renk_sec(renk:String):
 
 @rpc("any_peer", "call_remote", "reliable")
 func sunucudan_veri_iste_rpc():
+	if Network.merkezi_mod: return
 	if multiplayer.is_server():
 		var isteyen_id = multiplayer.get_remote_sender_id()
 		for peer in lobi_verisi:
@@ -238,7 +253,7 @@ func _medeniyet_bayragina_tiklandi(med_ismi: String):
 	
 	var r = lobi_verisi[my_id]["renk"]
 	# 🟢 PARAMETRE GÜNCELLEME: İsmi ekledik
-	lobi_bilgisi_gonder_rpc.rpc(my_id, Global.oyuncu_ismi, r, benim_secilen_medeniyetim, false, Global.profil_no)
+	_bilgilerimi_yayinla(my_id, Global.oyuncu_ismi, r, benim_secilen_medeniyetim, false, Global.profil_no)
 
 func bilgi_panelini_guncelle(med: String):
 	if medeniyet_bilgileri.has(med):
@@ -275,10 +290,11 @@ func _hazir_butonuna_basildi():
 		
 	var r = lobi_verisi[my_id]["renk"]
 	# 🟢 PARAMETRE GÜNCELLEME: İsmi ekledik
-	lobi_bilgisi_gonder_rpc.rpc(my_id, Global.oyuncu_ismi, r, benim_secilen_medeniyetim, lobi_verisi[my_id]["hazir_mi"], Global.profil_no)
+	_bilgilerimi_yayinla(my_id, Global.oyuncu_ismi, r, benim_secilen_medeniyetim, lobi_verisi[my_id]["hazir_mi"], Global.profil_no)
 
 @rpc("any_peer", "call_local", "reliable")
-func lobi_bilgisi_gonder_rpc(peer_id: int, isim: String, renk: String, medeniyet: String, hazir_mi: bool, profil_no: int):   # 🟢 YENİ PARAM
+func lobi_bilgisi_gonder_rpc(peer_id: int, isim: String, renk: String, medeniyet: String, hazir_mi: bool, profil_no: int):
+	if Network.merkezi_mod: return
 	var gonderen = multiplayer.get_remote_sender_id()
 	if gonderen == 0: gonderen = multiplayer.get_unique_id()
 	if not lobi_istegi_gecerli_mi(gonderen, peer_id, isim, renk, medeniyet, hazir_mi, profil_no): return
@@ -306,6 +322,7 @@ func lobi_istegi_gecerli_mi(gonderen: int, peer_id: int, isim: String, renk: Str
 	return profil_no >= 1 and profil_no <= 8
 
 func _oyuncu_baglandi(id: int):
+	if Network.merkezi_mod: return
 	if not lobi_verisi.has(id):
 		var bs_med = ""
 		var bs_renk = ""
@@ -330,6 +347,7 @@ func _oyuncu_baglandi(id: int):
 					lobi_bilgisi_gonder_rpc.rpc(peer, lobi_verisi[peer].get("isim", "Oyuncu"), lobi_verisi[peer]["renk"], lobi_verisi[peer]["medeniyet"], lobi_verisi[peer]["hazir_mi"], lobi_verisi[peer].get("profil_no", 1))
 
 func _oyuncu_ayrildi(id: int):
+	if Network.merkezi_mod: return
 	lobi_verisi.erase(id)
 	lobi_arayuzunu_ciz()
 	_sistem_mesaji("Bir oyuncu ayrıldı.")
@@ -476,6 +494,9 @@ func lobi_arayuzunu_ciz():
 	is_updating = false
 
 func _oyunu_baslat_istegi():
+	if Network.merkezi_mod:
+		if Network.lobi_kurucusu_mu(): Network.maci_baslat_rpc.rpc_id(1)
+		return
 	if multiplayer.is_server():
 		# Aynı anda seçim yapan iki oyuncu aynı rengi/medeniyeti alabiliyordu: son kez sunucuda kontrol et
 		var renkler = []
@@ -497,7 +518,38 @@ func _oyunu_baslat_istegi():
 
 @rpc("authority", "call_local", "reliable")
 func oyuna_gecis_yap_rpc(son_lobi_verisi: Dictionary, tohum: int = 0):
+	if Network.merkezi_mod: return
+	Network.oturum_asamasi = "game"
 	Network.son_lobi_verisi = son_lobi_verisi
 	Network.oyun_tohumu = tohum
 	get_tree().change_scene_to_file("res://AnaOyun.tscn")
 
+
+func _bilgilerimi_yayinla(id: int, isim: String, renk: String, med: String, hazir: bool, avatar: int):
+	if Network.merkezi_mod:
+		Network.lobi_guncelle_rpc.rpc_id(1, isim, renk, med, hazir, avatar)
+	else:
+		lobi_bilgisi_gonder_rpc.rpc(id, isim, renk, med, hazir, avatar)
+
+func _merkezi_lobiyi_ciz():
+	if not Network.merkezi_mod: return
+	lobi_verisi = Network.merkezi_lobi.duplicate(true)
+	baslat_btn.visible = Network.lobi_kurucusu_mu()
+	hazir_btn.visible = not Network.dedicated_mode
+	iptal_btn.visible = false
+	lobi_arayuzunu_ciz()
+	if lobi_verisi.size() < 2: baslat_btn.disabled = true
+	_oda_bilgisini_guncelle()
+
+func _oda_bilgisini_guncelle():
+	if has_node("%OdaBilgisi"):
+		var mode = "PARDEX ONLINE · ODA " + Network.oda_kodu if Network.resmi_mod else "ÖZEL SUNUCU" if Network.merkezi_mod else "YEREL AĞ · " + Network.sunucu_adresi
+		%OdaBilgisi.text = mode
+	if has_node("%KodKopyala"): %KodKopyala.visible = Network.resmi_mod and not Network.dedicated_mode
+
+func _baglanti_durumu(message: String, error: bool):
+	if error: _sistem_mesaji(message)
+
+func _gecikme_guncelle(ms: int):
+	_oda_bilgisini_guncelle()
+	if has_node("%OdaBilgisi"): %OdaBilgisi.text += " · %d ms" % ms
