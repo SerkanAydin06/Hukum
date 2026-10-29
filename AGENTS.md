@@ -21,7 +21,9 @@
 
 ## Correctness and security
 - Never trust RPC-supplied player identity, resource costs, card stats or game state; validate on the receiving side. Important decisions should be host-authoritative when architecture permits.
-- Same seed and map coordinate must yield identical terrain on every peer. Keep fog-of-war, turn order, AP, combat, economy, 7-card limits and civilization bonuses consistent.
+- All turn actions go through the server: clients call `AnaOyun.istek(...)`; the server validates with full information and broadcasts accepted moves via `hamle_uygula_rpc` in one order. Never call move handlers with `.rpc()` directly or re-add `@rpc` to them.
+- Hidden information stays on the server: deck order, opponents' hands (clients hold `gizli` placeholders), battle selections before reveal, and unexplored terrain (server-only `gizli_harita_tohumu`; the explored biome is revealed with the move). Do not derive any of these from the shared match seed. Keep fog-of-war, turn order, AP, combat, economy, 7-card limits and civilization bonuses consistent on every peer.
+- Turn/battle time limits are server-side (`AnaOyun.tur_suresi`, `savas_secim_suresi`, `zar_suresi`); on expiry the server acts for the idle player through the same validated move path.
 - Never change public RPC signatures without updating all call sites and multiplayer tests. Check simultaneous clients, disconnects and reconnect failures.
 - Do not introduce nonexistent `res://` asset paths. Preserve existing visuals and mobile/desktop layout.
 - New or renewed windows use `UI/HukumTheme.tres` + `UI/HukumWindow.gd`: the scalable gold frame and opaque black fill from `UI/Skins/window.svg`. Command buttons use the shared theme's 20px nine-patch skins (`Button`, `HukumPrimary`, `HukumDanger`, `HukumCompact`); never stretch complete artwork or bake text into it. See `UI/README.md`. Preserve the animated menu atmosphere and intro unless the user asks to remove them.

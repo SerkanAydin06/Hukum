@@ -21,3 +21,6 @@ mono_crash.*.json
 # Windows binaries do not belong in the project
 *.exe
 *.winmd
+
+# Export output
+build/

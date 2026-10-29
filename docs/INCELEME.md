@@ -3,6 +3,13 @@
 > Bu rapor 28 Ekim sürümünü kaydeder. 29 Ekim güncellemesi ana menüyü, PARDEX
 > masa kodu akışını ve merkezi WebSocket sunucusunu ekledi; güncel bağlantı ve
 > test bilgileri README.md içindedir.
+>
+> **30 Ekim güncellemesi:** Bu raporun aşağıdaki "kanonik eller bütün istemcilere
+> gider" ve "104 kontrol" ifadeleri artık geçerli değil. Hamleler sunucu sırasıyla
+> işlenir; deste sırası, rakip elleri, açılmamış savaş seçimleri ve keşfedilmemiş
+> arazi yalnızca sunucuda tutulur. Tur ve savaş süre sınırları, OFL font lisansları
+> ve export ön ayarları eklendi. Güncel test sayıları CI çıktısındadır. Yerel Ağ'da
+> oda sahibi sunucu olduğu için bu gizlilik onun için geçerli değildir.
 
 Tarih: 28 Ekim 2026. Başlangıç sürümü: `100aef7e87711de73467c39d33377bb98ee5a429`.
 Motor: Godot 4.7.2 stable. Ortam: Linux, headless testler ve X11/Mesa yazılımsal

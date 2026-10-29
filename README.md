@@ -51,7 +51,11 @@ bir masa çalıştırır; resmî maç sonucu onaylandıktan sonra yeniden lobi a
 
 WASD/oklar ve sağ tuşla sürükleme kamerayı hareket ettirir. Fare tekerleği
 zoom yapar. **Esc / Menü–Yardım** kuralları, ayarları ve ayrılma seçeneğini açar.
-Çevrimiçi maç menü açıkken devam eder. Ayrılan oyuncu maçına yeniden katılamaz;
+Çevrimiçi maçta her turun süresi 120 saniyedir; savaşta kart seçmek için 45, zar
+atmak için 20 saniye vardır. Son 15 saniyede uyarı çıkar. Süre dolunca sunucu
+oyuncunun yerine davranır: turu bitirir (kurulumda boş bir hex'e şehir kurar),
+kart seçmeyen tarafı kartsız kilitler ve atılmayan zarı atar. Tek oyunculu
+alıştırmada süre sınırı yoktur. Çevrimiçi maç menü açıkken devam eder. Ayrılan oyuncu maçına yeniden katılamaz;
 sunucu ayrılırsa istemciler açıklamayla ana menüye döner. Maç kaydı yoktur.
 Bütün hamleler sunucu üzerinden işlenir: sunucu hamleyi elindeki tam bilgiyle
 doğrular, sonra herkese aynı sırayla uygulatır. Deste sırası, rakip elleri ve
@@ -62,6 +66,20 @@ ellerindeki görülmemiş kartları birlikte görür.
 **Yerel Ağ'da oda sahibi aynı zamanda sunucudur** ve bu bilgileri teknik olarak
 görebilir (zarı da onun makinesi atar). Oda sahibine güvenilmeyen maçlarda
 Özel Sunucu veya PARDEX kullan; orada sunucu oyuncu koltuğu işgal etmez.
+
+## Dışa aktarma
+
+`export_presets.cfg` Windows, Linux, macOS ve Linux dedicated server ön ayarlarını
+içerir. Godot 4.7.2 export şablonlarını kurduktan sonra:
+
+```bash
+godot --headless --path . --export-release "Windows Desktop" build/windows/Hukum.exe
+godot --headless --path . --export-release "Linux" build/linux/Hukum.x86_64
+godot --headless --path . --export-release "macOS" build/macos/Hukum.zip
+```
+
+Paketler `fonts/OFL-*.txt` font lisanslarını ve Kenney ses lisansını içerir; testler
+ve geliştirici dokümanları paketlenmez. macOS paketi imzasız ve notarize edilmemiştir.
 
 ## Doğrulama
 
