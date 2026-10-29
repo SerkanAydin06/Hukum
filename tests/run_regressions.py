@@ -40,11 +40,13 @@ renderer/rendering_method="gl_compatibility"
     for asset in art_paths:
         (target / asset.parent).mkdir(parents=True, exist_ok=True)
         shutil.copy(ROOT / asset, target / asset)
+    (target / "UI").mkdir()
+    shutil.copy(ROOT / "UI/HukumWindow.gd", target / "UI/HukumWindow.gd")
     for source in SCRIPTS:
         def replace_asset_preload(match):
-            return match.group(0) if "res://Assets/Resimler/kartresimleri/oduncu.png" in match.group(0) or "res://Assets/Resimler/kartresimleri/oncukampi_cadir.svg" in match.group(0) else "null"
+            return match.group(0) if "res://UI/HukumWindow.gd" in match.group(0) or "res://Assets/Resimler/kartresimleri/oduncu.png" in match.group(0) or "res://Assets/Resimler/kartresimleri/oncukampi_cadir.svg" in match.group(0) else "null"
 
-        text = re.sub(r'preload\(\s*"res://Assets/[^"\n]+"\s*\)',
+        text = re.sub(r'preload\(\s*"res://(?:Assets|UI)/[^"\n]+"\s*\)',
                       replace_asset_preload, source.read_text())
         (target / "Scripts" / source.name).write_text(text)
     shutil.copy(ROOT / "tests" / "regressions.gd", target)
