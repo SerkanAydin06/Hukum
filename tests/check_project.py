@@ -65,6 +65,14 @@ for scene_path in ROOT.glob("*.tscn"):
     for missing_id in sorted(used - declared):
         MISSING.append(f"{scene_path.name}: undefined external resource {missing_id}")
 
+# Every translatable string must have a matching English translation.
+import importlib.util
+_spec = importlib.util.spec_from_file_location("ceviri_cikar", ROOT / "tools/ceviri_cikar.py")
+_ceviri = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_ceviri)
+if _ceviri.denetle() != 0:
+    MISSING.append("Locale/en.po is missing or inconsistent with translatable strings (run python tools/ceviri_cikar.py)")
+
 if MISSING:
     raise SystemExit("Project asset/scene checks failed:\n- " + "\n- ".join(MISSING))
 print("HUKUM project checks: PASS")

@@ -12,11 +12,11 @@ func _piyon_hareket_aksiyon(k, k_isim):
 	var mevcut_p_pos = ana.piyonlar[ana.secili_piyon_index]["koordinat"]
 	
 	if not ana.harita.hex_komsu_mu(mevcut_p_pos, k):
-		ana.arayuz.olay_yaz("[color=light_coral]❌ Öncüler sadece hemen yanlarındaki (komşu) alanlara girip keşfedebilir![/color]")
+		ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Öncüler sadece hemen yanlarındaki (komşu) alanlara girip keşfedebilir![/color]"))
 		return
 		
 	if ana.oyuncu_kaynaklari[k_isim]["yiyecek"] < 1:
-		ana.arayuz.olay_yaz("[color=light_coral]❌ Hareket etmek/Keşfetmek için en az 1 Yiyecek gerekli![/color]")
+		ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Hareket etmek/Keşfetmek için en az 1 Yiyecek gerekli![/color]"))
 		return
 		
 	if not ana.harita.kesfedilen_hexler.has(k):
@@ -27,7 +27,7 @@ func _piyon_hareket_aksiyon(k, k_isim):
 	if ana.binalar_verisi.has(k) and ana.binalar_verisi[k]["sahip"] != k_isim:
 		var b_sahip = ana.binalar_verisi[k]["sahip"] # <-- YENİ İSİM (Bina Sahibi)
 		if ana.muttefik_mi(k_isim, b_sahip):
-			ana.arayuz.olay_yaz("[color=yellow]🤝 Dost veya Müttefik yapılarına saldıramazsın![/color]")
+			ana.arayuz.olay_yaz(tr("[color=yellow]🤝 Dost veya Müttefik yapılarına saldıramazsın![/color]"))
 			return
 			
 		var garnizon_idx = -1
@@ -86,7 +86,7 @@ func _piyon_hareket_aksiyon(k, k_isim):
 	
 	if d_sahip != "":
 		if ana.muttefik_mi(k_isim, d_sahip):
-			ana.arayuz.olay_yaz("[color=yellow]🤝 Dost veya Müttefik birliklerine/bölgesine saldıramazsın![/color]")
+			ana.arayuz.olay_yaz(tr("[color=yellow]🤝 Dost veya Müttefik birliklerine/bölgesine saldıramazsın![/color]"))
 			return
 			
 		ana.bekleyen_onay = "savas"
@@ -171,10 +171,10 @@ func _savas_karti_cek():
 		if kart.get("hedef") == "savas":
 			savas_karti_sayisi += 1
 	if savas_karti_sayisi >= ana.deste.MAX_EL_LIMITI:
-		ana.arayuz.olay_yaz("[color=light_coral]❌ Elinde zaten maksimum (7) Savaş Kartı var![/color]")
+		ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Elinde zaten maksimum (7) Savaş Kartı var![/color]"))
 		return
 	if ana.oyuncu_kaynaklari[k_isim]["altin"] < 3:
-		ana.arayuz.olay_yaz("[color=light_coral]❌ Savaş kartı çekmek için 3 Altın gerekli![/color]")
+		ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Savaş kartı çekmek için 3 Altın gerekli![/color]"))
 		return
 	ana.istek("aksiyon", "savas_karti_cek_rpc", [k_isim])
 	ana.arayuz.panel_yukari_cik()
@@ -191,9 +191,9 @@ func _oncu_uret_istegi():
 		if s_koor != Vector2i(-1, -1): 
 			ana.istek("aksiyon", "oncu_uret_rpc", [ben, s_koor])
 		else: 
-			ana.arayuz.olay_yaz("[color=light_coral]❌ Öncü Kampı bulunamadı![/color]")
+			ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Öncü Kampı bulunamadı![/color]"))
 	else:
-		ana.arayuz.olay_yaz("[color=light_coral]❌ Öncü üretmek için 5 Yiyecek gerekli![/color]")
+		ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Öncü üretmek için 5 Yiyecek gerekli![/color]"))
 
 func _hakimiyet_kur_istegi():
 	if ana.aktif_sira != ana.benim_indexim or ana.secili_piyon_index == -1 or ana.aktif_oyuncu_aksiyon_hakki <= 0: return
@@ -204,11 +204,11 @@ func _hakimiyet_kur_istegi():
 		ana.secili_piyon_index = -1
 		ana.arayuz.arayuzu_guncelle()
 	else:
-		ana.arayuz.olay_yaz("[color=light_coral]❌ Bölgede hakimiyet kurmak için en az 3 Yiyecek gerekli![/color]")
+		ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Bölgede hakimiyet kurmak için en az 3 Yiyecek gerekli![/color]"))
 
 func _isyan_btn_basildi():
 	if ana.aktif_sira != ana.benim_indexim or ana.aktif_oyuncu_aksiyon_hakki <= 0:
-		ana.arayuz.olay_yaz("[color=light_coral]❌ İsyan başlatmak için 1 AP gereklidir ve sıra sizde olmalıdır![/color]")
+		ana.arayuz.olay_yaz(tr("[color=light_coral]❌ İsyan başlatmak için 1 AP gereklidir ve sıra sizde olmalıdır![/color]"))
 		return
 	var k_isim = ana.oyuncular[ana.benim_indexim]
 	var efendim = ana.efendiler.get(k_isim, "")
@@ -216,7 +216,7 @@ func _isyan_btn_basildi():
 	
 	var k = ana.oyuncu_kaynaklari[k_isim]
 	if k["odun"] < 10 or k["tas"] < 10 or k["yiyecek"] < 10:
-		ana.arayuz.olay_yaz("[color=light_coral]❌ İsyan hazırlığı yetersiz! Ordu kurabilmek için en az 10 🌲, 10 🪨 ve 10 🌾 stoklamalısın![/color]")
+		ana.arayuz.olay_yaz(tr("[color=light_coral]❌ İsyan hazırlığı yetersiz! Ordu kurabilmek için en az 10 🌲, 10 🪨 ve 10 🌾 stoklamalısın![/color]"))
 		return
 		
 	if ana.arayuz.isyan_onay_paneli: ana.arayuz.isyan_onay_paneli.visible = true

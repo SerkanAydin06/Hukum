@@ -94,7 +94,7 @@ func _ws_baglan(url: String, official: bool) -> bool:
 	sunucu_adresi = url
 	_son_hedef = {"tur": "pardex" if official else "ws", "adres": url, "port": 0}
 	multiplayer.multiplayer_peer = peer
-	durum_degisti.emit("Oyun sunucusuna bağlanılıyor…", false)
+	durum_degisti.emit(tr("Oyun sunucusuna bağlanılıyor…"), false)
 	return true
 
 func _boot():
@@ -138,7 +138,7 @@ func _process(delta: float):
 	if oturum_asamasi == "connecting":
 		_baglanti_suresi += delta
 		if _baglanti_suresi > 22.0:
-			son_baglanti_mesaji = "Sunucu yanıt vermedi. Adresi kontrol edip tekrar dene."
+			son_baglanti_mesaji = tr("Sunucu yanıt vermedi. Adresi kontrol edip tekrar dene.")
 			baglantiyi_kapat()
 			durum_degisti.emit(son_baglanti_mesaji, true)
 	if merkezi_mod and not dedicated_mode and oturum_asamasi in ["lobby", "game", "loading"]:
@@ -158,13 +158,13 @@ func _on_player_connected(id: int):
 
 func _on_connected_ok():
 	if geri_donuyor:
-		durum_degisti.emit("Sunucuya bağlanıldı · maça dönülüyor…", false)
+		durum_degisti.emit(tr("Sunucuya bağlanıldı · maça dönülüyor…"), false)
 		geri_katil_rpc.rpc_id(1, str(donus_kaydi.get("anahtar", "")))
 		return
 	if not merkezi_mod:
 		oturum_asamasi = "lobby"
 		return
-	durum_degisti.emit("Sunucuya bağlanıldı · giriş doğrulanıyor…", false)
+	durum_degisti.emit(tr("Sunucuya bağlanıldı · giriş doğrulanıyor…"), false)
 	if resmi_mod:
 		kayit_istegi_rpc.rpc_id(1, PardexBridge.NET_PROTOCOL, Global.oyuncu_ismi, Global.profil_no,
 			PardexBridge.session_code, PardexBridge.player_id, PardexBridge.match_id, PardexBridge.launch_ticket)
@@ -173,16 +173,16 @@ func _on_connected_ok():
 		kayit_istegi_rpc.rpc_id(1, PardexBridge.NET_PROTOCOL, Global.oyuncu_ismi, Global.profil_no)
 
 func _on_connected_fail():
-	son_baglanti_mesaji = "Bağlantı kurulamadı. Sunucu adresini ve bağlantını kontrol et."
+	son_baglanti_mesaji = tr("Bağlantı kurulamadı. Sunucu adresini ve bağlantını kontrol et.")
 	baglantiyi_kapat()
 	durum_degisti.emit(son_baglanti_mesaji, true)
 
 func _on_server_disconnected():
-	son_baglanti_mesaji = "Sunucu bağlantısı kesildi. Yeni bir oda kurabilir veya tekrar bağlanabilirsiniz."
+	son_baglanti_mesaji = tr("Sunucu bağlantısı kesildi. Yeni bir oda kurabilir veya tekrar bağlanabilirsiniz.")
 	get_tree().paused = false
 	if oturum_asamasi == "game" and not donus_kaydi.is_empty():
 		# Beklenmedik kopma maçtan ayrılmak sayılmaz: PARDEX'e ayrılma bildirilmez.
-		son_baglanti_mesaji = "Maç bağlantısı koptu. Sunucu açıksa ana menüden \"Maça Dön\" ile kaldığın yere dönebilirsin."
+		son_baglanti_mesaji = tr("Maç bağlantısı koptu. Sunucu açıksa ana menüden \"Maça Dön\" ile kaldığın yere dönebilirsin.")
 		_ag_temizle()
 	else:
 		baglantiyi_kapat()
@@ -271,7 +271,7 @@ func kabul_rpc(owner: int, code: String):
 	oda_kodu = code
 	oturum_asamasi = "lobby"
 	_baglanti_suresi = 0.0
-	durum_degisti.emit("Giriş doğrulandı · lobi hazır.", false)
+	durum_degisti.emit(tr("Giriş doğrulandı · lobi hazır."), false)
 	get_tree().change_scene_to_file.call_deferred("res://LobiPaneli.tscn")
 
 func _profil_gecerli(isim: String, avatar: int) -> bool:
@@ -297,7 +297,7 @@ func lobi_guncelle_rpc(isim: String, renk: String, medeniyet: String, hazir: boo
 
 @rpc("authority", "call_remote", "reliable")
 func istek_hatasi_rpc(message: String):
-	durum_degisti.emit(message.left(300), true)
+	durum_degisti.emit(tr(message).left(300), true)
 
 func _lobiyi_yayinla():
 	for id in _onayli:
@@ -348,7 +348,7 @@ func sahne_hazir_rpc():
 @rpc("authority", "call_local", "reliable")
 func mac_hazir_rpc():
 	oturum_asamasi = "game"
-	durum_degisti.emit("Tüm oyuncular hazır · maç başladı.", false)
+	durum_degisti.emit(tr("Tüm oyuncular hazır · maç başladı."), false)
 
 @rpc("any_peer", "call_remote", "reliable")
 func merkezi_sohbet_rpc(metin: String):
@@ -533,13 +533,13 @@ func geri_katilim_kabul_rpc():
 	donus_bekliyor = true
 	oturum_asamasi = "game"
 	_baglanti_suresi = 0.0
-	durum_degisti.emit("Maça dönülüyor…", false)
+	durum_degisti.emit(tr("Maça dönülüyor…"), false)
 	get_tree().change_scene_to_file.call_deferred("res://AnaOyun.tscn")
 
 @rpc("authority", "call_remote", "reliable")
 func geri_katilim_red_rpc(mesaj: String):
 	donus_kaydini_sil()
-	son_baglanti_mesaji = mesaj.left(300)
+	son_baglanti_mesaji = tr(mesaj).left(300)
 	_ag_temizle()
 	durum_degisti.emit(son_baglanti_mesaji, true)
 

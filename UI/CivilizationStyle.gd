@@ -123,4 +123,4 @@ func apply_to(target: Node, civ: String):
 		end_turn.expand_icon = true
 		end_turn.add_theme_constant_override("icon_max_width", 72)
 		end_turn.add_theme_constant_override("h_separation", 12)
-		end_turn.tooltip_text = civ + " · Turu bitir"
+		end_turn.tooltip_text = civ + tr(" · Turu bitir")

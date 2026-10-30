@@ -114,9 +114,9 @@ func karti_doldur(veri: Dictionary, idx: int):
 	kart_turu = veri.get("tur", "")
 	
 	var orj_isim = veri.get("isim", veri.get("tur", "Bilinmeyen")) 
-	var gosterilecek_isim = orj_isim.to_upper().replace("_", " ")
+	var gosterilecek_isim = tr(orj_isim).to_upper().replace("_", " ")
 	
-	var tanim = veri.get("tanim", "Özel etkili kart.")
+	var tanim = tr(veri.get("tanim", "Özel etkili kart."))
 	var hedef = veri.get("hedef", "")
 	
 	var odun_maliyet = str(veri.get("odun_maliyet", 0))
@@ -266,11 +266,11 @@ func _on_kullan_pressed():
 		# 2) NORMAL OYUN İÇİ KART KULLANMA MANTIĞI
 		if "aksiyon" in ana:
 			if ana.aktif_sira != ana.benim_indexim or not ana.ilk_tur_bitti:
-				ana.arayuz.olay_yaz("[color=light_coral]❌ Sıra senin değil![/color]")
+				ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Sıra senin değil![/color]"))
 				return
 				
 			if ana.aktif_oyuncu_aksiyon_hakki <= 0:
-				ana.arayuz.olay_yaz("[color=light_coral]❌ Aksiyon Puanın (AP) kalmadı![/color]")
+				ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Aksiyon Puanın (AP) kalmadı![/color]"))
 				return
 
 			ana.aksiyon.kart_onayla(kart_index)
@@ -280,13 +280,13 @@ func _on_cope_at_pressed():
 	var ana = find_parent("AnaOyun")
 	if ana and "deste" in ana:
 		if ana.aktif_sira != ana.benim_indexim or not ana.ilk_tur_bitti:
-			ana.arayuz.olay_yaz("[color=light_coral]❌ Sıra senin değil![/color]")
+			ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Sıra senin değil![/color]"))
 			return
 			
 		if kart_index != -1 and kart_index < ana.deste.el.size():
 			ana.deste.karti_elden_at(kart_index)
 			ana.secili_kart_index = -1
-			ana.arayuz.olay_yaz("[color=gray]🗑️ Kart çöpe atıldı.[/color]")
+			ana.arayuz.olay_yaz(tr("[color=gray]🗑️ Kart çöpe atıldı.[/color]"))
 			ana.deste._kart_gorsellerini_guncelle()
 			ana.arayuz.arayuzu_guncelle()
 			secim_yap(false)

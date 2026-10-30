@@ -5,7 +5,6 @@ class_name MacIletisim
 # sunucu göndereni, kaynakları ve sırayı doğrular, sonucu herkese aynı sırayla yayınlar.
 
 const KAYNAKLAR = ["odun", "tas", "yiyecek", "altin"]
-const KAYNAK_ADLARI = {"odun": "Odun", "tas": "Taş", "yiyecek": "Yiyecek", "altin": "Altın"}
 const EN_COK_MIKTAR = 30
 const TEKLIF_SURESI := 30.0
 const SOHBET_ARALIGI := 0.6
@@ -89,30 +88,30 @@ func mac_sohbet_yayin_rpc(isim: String, metin: String):
 func takas_penceresi_ac():
 	var menu = ana.oyun_menusu
 	var ben = _ben()
-	menu._temizle("TAKAS")
+	menu._temizle(tr("TAKAS"))
 	if ana.aktif_sira != ana.benim_indexim or not ana.ilk_tur_bitti or ana.savas.savas_aktif:
-		menu._metin("Takas teklifini yalnızca kendi turunda, savaş yokken yapabilirsin. Teklif AP harcamaz.")
-		menu._buton("Kapat", menu.perde.hide)
+		menu._metin(tr("Takas teklifini yalnızca kendi turunda, savaş yokken yapabilirsin. Teklif AP harcamaz."))
+		menu._buton(tr("Kapat"), menu.perde.hide)
 		menu.perde.show()
 		return
 	var hedefler = ana.oyuncular.filter(func(o): return o != ben and o not in ana.ayrilan_oyuncular)
 	if hedefler.is_empty():
-		menu._metin("Takas yapılacak başka hükümdar yok.")
-		menu._buton("Kapat", menu.perde.hide)
+		menu._metin(tr("Takas yapılacak başka hükümdar yok."))
+		menu._buton(tr("Kapat"), menu.perde.hide)
 		menu.perde.show()
 		return
-	menu._metin("Bir hükümdara kaynak takası öner. Kabul ederse takas hemen gerçekleşir; teklif 30 saniye veya tur sonuna kadar geçerlidir.")
+	menu._metin(tr("Bir hükümdara kaynak takası öner. Kabul ederse takas hemen gerçekleşir; teklif 30 saniye veya tur sonuna kadar geçerlidir."))
 	var hedef = _secici("TakasHedef", hedefler)
 	var ver = _kaynak_satiri("Veriyorum", "TakasVer")
-	var al = _kaynak_satiri("İstiyorum", "TakasAl")
+	var al = _kaynak_satiri(tr("İstiyorum"), "TakasAl")
 	al[0].select(1)
-	menu._buton("Teklif et", func():
+	menu._buton(tr("Teklif et"), func():
 		var h = hedefler[hedef.selected]
 		var vt = KAYNAKLAR[ver[0].selected]
 		var at = KAYNAKLAR[al[0].selected]
 		menu.perde.hide()
 		takas_teklif_et(h, vt, int(ver[1].value), at, int(al[1].value))).theme_type_variation = &"HukumPrimary"
-	menu._buton("Vazgeç", menu.perde.hide)
+	menu._buton(tr("Vazgeç"), menu.perde.hide)
 	menu.perde.show()
 
 func _secici(ad: String, secenekler: Array) -> OptionButton:
@@ -136,7 +135,7 @@ func _kaynak_satiri(etiket: String, ad: String) -> Array:
 	tur.name = "Tur"
 	tur.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	tur.custom_minimum_size.y = 44
-	for k in KAYNAKLAR: tur.add_item(KAYNAK_ADLARI[k])
+	for k in KAYNAKLAR: tur.add_item(Global.kaynak_adi(k))
 	satir.add_child(tur)
 	var miktar = SpinBox.new()
 	miktar.name = "Miktar"
@@ -158,7 +157,7 @@ func takas_teklif_rpc(hedef: String, ver_tur: String, ver_miktar: int, al_tur: S
 	var gonderen = _gonderen_ismi()
 	var hata = _teklif_hatasi(gonderen, hedef, ver_tur, ver_miktar, al_tur, al_miktar)
 	if hata != "":
-		_bildir(gonderen, "❌ " + hata)
+		_bildir(gonderen, "❌ %s", [hata])
 		return
 	_teklif_sayaci += 1
 	_teklif = {"id": _teklif_sayaci, "veren": gonderen, "alan": hedef, "ver_tur": ver_tur, "ver_miktar": ver_miktar,
@@ -167,11 +166,11 @@ func takas_teklif_rpc(hedef: String, ver_tur: String, ver_miktar: int, al_tur: S
 	if ana.bot_mu(hedef):
 		_takasi_sonuclandir(_bot_kabul_eder_mi(hedef))
 		return
-	_bildir(gonderen, "📨 Takas teklifin %s hükümdarına iletildi." % hedef)
+	_bildir(gonderen, "📨 Takas teklifin %s hükümdarına iletildi.", [hedef])
 	var peer = ana.oyuncu_peer_id(hedef)
-	var metin = "%s sana %d %s veriyor,\nkarşılığında %d %s istiyor." % [gonderen, ver_miktar, KAYNAK_ADLARI[ver_tur], al_miktar, KAYNAK_ADLARI[al_tur]]
-	if peer == multiplayer.get_unique_id(): takas_teklifi_goster_rpc(_teklif["id"], metin)
-	else: takas_teklifi_goster_rpc.rpc_id(peer, _teklif["id"], metin)
+	var ayrinti = [gonderen, ver_miktar, ver_tur, al_miktar, al_tur]
+	if peer == multiplayer.get_unique_id(): takas_teklifi_goster_rpc(_teklif["id"], ayrinti)
+	else: takas_teklifi_goster_rpc.rpc_id(peer, _teklif["id"], ayrinti)
 
 func _teklif_hatasi(gonderen: String, hedef: String, ver_tur: String, ver_miktar: int, al_tur: String, al_miktar: int) -> String:
 	if gonderen == "" or ana.oyun_bitti: return "Takas şu an yapılamaz."
@@ -180,8 +179,8 @@ func _teklif_hatasi(gonderen: String, hedef: String, ver_tur: String, ver_miktar
 	if not _teklif.is_empty(): return "Önceki teklifin yanıt bekliyor."
 	if hedef == gonderen or hedef not in ana.oyuncular or hedef in ana.ayrilan_oyuncular: return "Geçersiz takas hedefi."
 	if ver_tur not in KAYNAKLAR or al_tur not in KAYNAKLAR or ver_tur == al_tur: return "Farklı iki kaynak seçmelisin."
-	if ver_miktar < 1 or al_miktar < 1 or ver_miktar > EN_COK_MIKTAR or al_miktar > EN_COK_MIKTAR: return "Miktar 1 ile %d arasında olmalı." % EN_COK_MIKTAR
-	if ana.oyuncu_kaynaklari[gonderen][ver_tur] < ver_miktar: return "Teklif ettiğin kadar %s yok." % KAYNAK_ADLARI[ver_tur]
+	if ver_miktar < 1 or al_miktar < 1 or ver_miktar > EN_COK_MIKTAR or al_miktar > EN_COK_MIKTAR: return "Miktar 1 ile 30 arasında olmalı."
+	if ana.oyuncu_kaynaklari[gonderen][ver_tur] < ver_miktar: return "Teklif ettiğin kadar kaynağın yok."
 	return ""
 
 func _bot_kabul_eder_mi(bot: String) -> bool:
@@ -217,11 +216,11 @@ func _teklifi_kapat(mesaj: String):
 	elif peer > 0 and peer in multiplayer.get_peers(): takas_teklifi_kapat_rpc.rpc_id(peer)
 	_bildir(t["veren"], mesaj)
 
-# Yalnızca ilgili oyuncunun ekranına sistem mesajı.
-func _bildir(isim: String, mesaj: String):
+# Yalnızca ilgili oyuncunun ekranına sistem mesajı; şablon alıcının dilinde çevrilir.
+func _bildir(isim: String, sablon: String, args: Array = []):
 	var peer = ana.oyuncu_peer_id(isim)
-	if peer == multiplayer.get_unique_id(): bildirim_rpc(mesaj)
-	elif peer > 0 and peer in multiplayer.get_peers(): bildirim_rpc.rpc_id(peer, mesaj)
+	if peer == multiplayer.get_unique_id(): bildirim_rpc(sablon, args)
+	elif peer > 0 and peer in multiplayer.get_peers(): bildirim_rpc.rpc_id(peer, sablon, args)
 
 # --- TAKAS: HERKES ---
 @rpc("authority", "call_local", "reliable")
@@ -229,25 +228,27 @@ func takas_sonucu_rpc(veren: String, alan: String, ver_tur: String, ver_miktar: 
 	if veren not in ana.oyuncular or alan not in ana.oyuncular: return
 	takas_teklifi_kapat_rpc()
 	if ver_miktar == 0:
-		ana.arayuz.olay_yaz("[color=light_coral]🤝 %s, %s hükümdarının takas teklifini reddetti.[/color]" % [ana.arayuz.renkli_isim(alan), ana.arayuz.renkli_isim(veren)])
+		ana.arayuz.olay_yaz(tr("[color=light_coral]🤝 %s, %s hükümdarının takas teklifini reddetti.[/color]") % [ana.arayuz.renkli_isim(alan), ana.arayuz.renkli_isim(veren)])
 		return
 	if ver_miktar < 0:
-		ana.arayuz.olay_yaz("[color=light_coral]🤝 Takas gerçekleşmedi: kaynaklar artık yetmiyor.[/color]")
+		ana.arayuz.olay_yaz(tr("[color=light_coral]🤝 Takas gerçekleşmedi: kaynaklar artık yetmiyor.[/color]"))
 		return
 	ana.oyuncu_kaynaklari[veren][ver_tur] -= ver_miktar
 	ana.oyuncu_kaynaklari[alan][ver_tur] += ver_miktar
 	ana.oyuncu_kaynaklari[alan][al_tur] -= al_miktar
 	ana.oyuncu_kaynaklari[veren][al_tur] += al_miktar
 	SesYoneticisi.efekt_cal("kart_cek")
-	ana.arayuz.olay_yaz("🤝 [color=gold]Takas:[/color] %s %d %s verdi, %s %d %s verdi." % [ana.arayuz.renkli_isim(veren), ver_miktar, KAYNAK_ADLARI[ver_tur], ana.arayuz.renkli_isim(alan), al_miktar, KAYNAK_ADLARI[al_tur]])
+	ana.arayuz.olay_yaz(tr("🤝 [color=gold]Takas:[/color] %s %d %s verdi, %s %d %s verdi.") % [ana.arayuz.renkli_isim(veren), ver_miktar, Global.kaynak_adi(ver_tur), ana.arayuz.renkli_isim(alan), al_miktar, Global.kaynak_adi(al_tur)])
 	ana.arayuz.arayuzu_guncelle()
 
 @rpc("authority", "call_remote", "reliable")
-func takas_teklifi_goster_rpc(teklif_id: int, metin: String):
+func takas_teklifi_goster_rpc(teklif_id: int, ayrinti: Array):
+	if ayrinti.size() != 5: return
 	_gelen_teklif = {"id": teklif_id}
 	var panel = ana.get_node_or_null("%TakasPaneli")
 	var yazi = ana.get_node_or_null("%TakasMetni")
-	if yazi: yazi.text = "TAKAS TEKLİFİ\n" + metin.left(200)
+	var metin = tr("%s sana %d %s veriyor,\nkarşılığında %d %s istiyor.") % [str(ayrinti[0]).left(16), int(ayrinti[1]), Global.kaynak_adi(str(ayrinti[2])), int(ayrinti[3]), Global.kaynak_adi(str(ayrinti[4]))]
+	if yazi: yazi.text = tr("TAKAS TEKLİFİ") + "\n" + metin
 	if panel: panel.show()
 	SesYoneticisi.efekt_cal("sira_sende")
 
@@ -258,8 +259,12 @@ func takas_teklifi_kapat_rpc():
 	if panel: panel.hide()
 
 @rpc("authority", "call_remote", "reliable")
-func bildirim_rpc(mesaj: String):
-	ana.arayuz.olay_yaz("[color=orange]%s[/color]" % mesaj.left(200))
+func bildirim_rpc(sablon: String, args: Array = []):
+	var cevrilmis = []
+	for a in args: cevrilmis.append(tr(str(a)))
+	var mesaj = tr(sablon)
+	if mesaj.count("%s") == cevrilmis.size(): mesaj = mesaj % cevrilmis
+	ana.arayuz.olay_yaz("[color=orange]%s[/color]" % mesaj.left(200).replace("[", "[lb]"))
 
 func _teklife_yanit(kabul: bool):
 	if _gelen_teklif.is_empty(): return

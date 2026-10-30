@@ -351,7 +351,7 @@ func _draw():
 			# Bina artık hareketli Öncü piyonu ile karışmaz; çadır görseli kullanılır.
 			draw_circle(m, 27.0, Color(r.r, r.g, r.b, 0.35) * renk_filtresi)
 			draw_texture_rect_region(ONCU_KAMPI_CADIRI, Rect2(m - Vector2(25, 25), Vector2(50, 50)), Rect2(75, 133, 155, 165), renk_filtresi)
-			draw_string(ThemeDB.fallback_font, m + Vector2(-22, 36), "KAMP", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, renk_filtresi)
+			draw_string(ThemeDB.fallback_font, m + Vector2(-22, 36), tr("KAMP"), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, renk_filtresi)
 
 	# 🟢 3. ÖNCÜLER (PİYONLAR) ÇİZİLİYOR
 	var piyon_gruplari = {}

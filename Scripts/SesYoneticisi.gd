@@ -132,7 +132,7 @@ func _oynatici_olustur(
 		oynatici.stream = load(ses_yolu) as AudioStream
 	else:
 		push_warning(
-			"UI ses dosyası bulunamadı: " + ses_yolu
+			tr("UI ses dosyası bulunamadı: ") + ses_yolu
 		)
 
 	add_child(oynatici)

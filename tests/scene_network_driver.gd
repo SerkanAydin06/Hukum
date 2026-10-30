@@ -14,6 +14,7 @@ func check(condition: bool, message: String):
 		push_error(message)
 
 func _ready():
+	TranslationServer.set_locale("tr")   # assertions read Turkish game text
 	role = int(OS.get_cmdline_user_args()[0])
 	Global.oyuncu_ismi = "SceneTest%d" % role
 	get_tree().create_timer(75).timeout.connect(func():

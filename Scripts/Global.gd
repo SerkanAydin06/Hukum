@@ -24,6 +24,9 @@ func _ready():
 		muzik_seviyesi = clampf(float(kayit.get_value("ayarlar", "muzik", 0.5)), 0.0, 1.0)
 		efekt_seviyesi = clampf(float(kayit.get_value("ayarlar", "efekt", 0.8)), 0.0, 1.0)
 		tam_ekran = bool(kayit.get_value("ayarlar", "tam_ekran", true))
+		dil = str(kayit.get_value("ayarlar", "dil", ""))
+		if dil not in DILLER: dil = ""
+	dili_uygula()
 	ayarlari_uygula()
 
 func profili_kaydet():
@@ -34,6 +37,7 @@ func profili_kaydet():
 	kayit.set_value("ayarlar", "muzik", muzik_seviyesi)
 	kayit.set_value("ayarlar", "efekt", efekt_seviyesi)
 	kayit.set_value("ayarlar", "tam_ekran", tam_ekran)
+	kayit.set_value("ayarlar", "dil", dil)
 	var hata = kayit.save("user://profil.cfg")
 	if hata != OK: push_warning("Profil kaydedilemedi: %s" % hata)
 
@@ -67,8 +71,9 @@ func profilimi_guncelle(isim: String, texture: Texture2D):
 
 # Decorative emoji are absent from the bundled fonts; preserve resource meaning in text.
 func okunur_metin(metin: String) -> String:
-	for simge in {"🌲": " odun", "🪨": " taş", "🌾": " yiyecek", "🪙": " altın"}:
-		metin = metin.replace(simge, {"🌲": " odun", "🪨": " taş", "🌾": " yiyecek", "🪙": " altın"}[simge])
+	var kelimeler = {"🌲": "odun", "🪨": "taş", "🌾": "yiyecek", "🪙": "altın"}
+	for simge in kelimeler:
+		metin = metin.replace(simge, " " + tr(kelimeler[simge]))
 	var sonuc = ""
 	for karakter in metin:
 		var kod = karakter.unicode_at(0)
@@ -90,3 +95,22 @@ func _bus(ad: String) -> int:
 func _bus_ayarla(idx: int, seviye: float):
 	AudioServer.set_bus_volume_db(idx, linear_to_db(maxf(seviye, 0.0001)))
 	AudioServer.set_bus_mute(idx, seviye == 0.0)
+
+# Oyun verisindeki kimliklerin (tur adları) oyuncuya görünen, çevrilmiş adları.
+const BINA_ADLARI = {"sehir_merkezi": "Şehir Merkezi", "tarla": "Tarla", "oduncu_kampi": "Oduncu Kampı",
+	"tas_ocagi": "Taş Ocağı", "ticaret_merkezi": "Ticaret Merkezi", "oncu_kampi": "Öncü Kampı", "ev": "Ev", "kisla": "Kışla"}
+const KAYNAK_ADLARI = {"odun": "Odun", "tas": "Taş", "yiyecek": "Yiyecek", "altin": "Altın"}
+
+func bina_adi(tur: String) -> String:
+	return tr(BINA_ADLARI.get(tur, tur.replace("_", " ").capitalize()))
+
+func kaynak_adi(tur: String) -> String:
+	return tr(KAYNAK_ADLARI.get(tur, tur))
+
+# --- DİL ---
+const DILLER = {"tr": "Türkçe", "en": "English"}
+var dil := ""
+
+func dili_uygula():
+	if dil == "": dil = "tr" if OS.get_locale_language() == "tr" else "en"
+	TranslationServer.set_locale(dil)

@@ -373,10 +373,10 @@ func arayuzu_guncelle():
 	var tic_maliyet = ana.tur_ekonomi.ticaret_maliyeti(k_isim)
 	if ticaret_paneli:
 		var pazar_basligi = ticaret_paneli.get_node_or_null("MarginContainer/VBoxContainer/Label")
-		if pazar_basligi: pazar_basligi.text = "⚖️ PAZAR YERİ (%d Kaynak = 1 Altın)" % tic_maliyet
-	if odun_sat_btn: odun_sat_btn.text = "%d Odun ➔ 1 Altın" % tic_maliyet
-	if tas_sat_btn: tas_sat_btn.text = "%d Taş ➔ 1 Altın" % tic_maliyet
-	if yiyecek_sat_btn: yiyecek_sat_btn.text = "%d Yiyecek ➔ 1 Altın" % tic_maliyet
+		if pazar_basligi: pazar_basligi.text = tr("⚖️ PAZAR YERİ (%d Kaynak = 1 Altın)") % tic_maliyet
+	if odun_sat_btn: odun_sat_btn.text = tr("%d Odun ➔ 1 Altın") % tic_maliyet
+	if tas_sat_btn: tas_sat_btn.text = tr("%d Taş ➔ 1 Altın") % tic_maliyet
+	if yiyecek_sat_btn: yiyecek_sat_btn.text = tr("%d Yiyecek ➔ 1 Altın") % tic_maliyet
 	var tic_var = false
 	for koor in ana.binalar_verisi:
 		if ana.binalar_verisi[koor]["sahip"] == k_isim and ana.binalar_verisi[koor]["tur"] == "ticaret_merkezi": 
@@ -429,7 +429,7 @@ func _kaynak_guncelle(miktar_label: Label, uretim_label: RichTextLabel, miktar: 
 			kalan_renk = "red"
 			kalan_metin = "%d" % kalan
 		
-		uretim_label.text = "([color=lightgreen]%d[/color]-[color=red]%d[/color]) [color=%s]%s/Tur[/color]" % [ham, kesinti, kalan_renk, kalan_metin]
+		uretim_label.text = tr("([color=lightgreen]%d[/color]-[color=red]%d[/color]) [color=%s]%s/tur[/color]") % [ham, kesinti, kalan_renk, kalan_metin]
 	else:
 		# 🟢 NORMAL FORMAT: rakam ve /tur aynı renkte
 		var renk = "lightgreen"
@@ -441,7 +441,7 @@ func _kaynak_guncelle(miktar_label: Label, uretim_label: RichTextLabel, miktar: 
 			renk = "red"
 			metin = "%d" % net
 		
-		uretim_label.text = "[color=%s]%s/tur[/color]" % [renk, metin]
+		uretim_label.text = tr("[color=%s]%s/tur[/color]") % [renk, metin]
 
 func _paneli_fade_in_yap(panel):
 	if not panel: return
@@ -472,19 +472,19 @@ func sag_paneli_guncelle(koordinat: Vector2i):
 
 	if not ana.harita.hex_gorunur_mu(koordinat) or not ana.harita.kesfedilen_hexler.has(koordinat):
 		var sisli = not ana.harita.hex_gorunur_mu(koordinat)
-		if arazi_label: arazi_label.text = "Sisli Arazi" if sisli else "Keşfedilmemiş"
+		if arazi_label: arazi_label.text = tr("Sisli Arazi") if sisli else tr("Keşfedilmemiş")
 		if sahip_label: sahip_label.text = "-"
 		if bina_label: bina_label.text = "-"
 		if uretim_bilgi: uretim_bilgi.text = "-"
 		if savunma_bonus: savunma_bonus.text = "-"
-		if secili_isim: secili_isim.text = "Sisli Bölge" if sisli else "Keşfedilmemiş Bölge"
+		if secili_isim: secili_isim.text = tr("Sisli Bölge") if sisli else tr("Keşfedilmemiş Bölge")
 		if hex_resim:
 			var yol = "res://Assets/Resimler/hex/sis.png" if sisli else "res://Assets/Resimler/hex/kapali_hex.png"
 			hex_resim.texture = load(yol) if ResourceLoader.exists(yol) else null
 		return
 
 	var biyom = ana.harita.kesfedilen_hexler[koordinat]
-	var biyom_isim = "Çimenlik Arazi" if biyom == "cim" else "Ormanlık Arazi" if biyom == "orman" else "Dağlık Arazi" if biyom == "dag" else biyom
+	var biyom_isim = tr("Çimenlik Arazi") if biyom == "cim" else tr("Ormanlık Arazi") if biyom == "orman" else tr("Dağlık Arazi") if biyom == "dag" else biyom
 	if arazi_label: arazi_label.text = biyom_isim
 
 	var piyon_sahibi = ""
@@ -505,19 +505,19 @@ func sag_paneli_guncelle(koordinat: Vector2i):
 
 	var medeniyet_adi = ""
 	if sahip_isim != "":
-		medeniyet_adi = ana.medeniyetler_verisi.get(sahip_isim, sahip_isim)
+		medeniyet_adi = tr(ana.medeniyetler_verisi.get(sahip_isim, sahip_isim))
 		if sahip_label: sahip_label.text = medeniyet_adi
 	else:
-		if sahip_label: sahip_label.text = "Sahipsiz"
+		if sahip_label: sahip_label.text = tr("Sahipsiz")
 
 	var bina_metni = "Yok"
-	var uretim_metni = "Üretim Yok"
+	var uretim_metni = tr("Üretim Yok")
 	var bina_var_mi = ana.binalar_verisi.has(koordinat)
 	var isim_metni = ""
 	var resim_yolu = ""
 	
 	if piyon_var_mi:
-		isim_metni = "Öncü Birliği"
+		isim_metni = tr("Öncü Birliği")
 		bina_metni = "-"
 		uretim_metni = "-"
 		var med_dosya = dosya_isimleri.get(medeniyet_adi, "osmanli")
@@ -527,24 +527,24 @@ func sag_paneli_guncelle(koordinat: Vector2i):
 		var b = ana.binalar_verisi[koordinat]
 		var b_tur = b["tur"]
 		var lvl = b.get("seviye", 1)
-		bina_metni = "%s (Seviye %d)" % [b_tur.to_upper().replace("_", " "), lvl]
-		isim_metni = b_tur.to_upper().replace("_", " ")
+		bina_metni = tr("%s (Seviye %d)") % [Global.bina_adi(b_tur).to_upper(), lvl]
+		isim_metni = Global.bina_adi(b_tur).to_upper()
 		
 		match b_tur:
 			"sehir_merkezi":
-				if biyom == "cim": uretim_metni = "+%d Yiyecek Üretimi" % lvl
-				elif biyom == "orman": uretim_metni = "+%d Odun Üretimi" % lvl
-				elif biyom == "dag": uretim_metni = "+%d Taş Üretimi" % lvl
+				if biyom == "cim": uretim_metni = tr("+%d Yiyecek Üretimi") % lvl
+				elif biyom == "orman": uretim_metni = tr("+%d Odun Üretimi") % lvl
+				elif biyom == "dag": uretim_metni = tr("+%d Taş Üretimi") % lvl
 			"tarla":
-				uretim_metni = "+%d Yiyecek Üretimi" % (lvl + (1 if ana.medeniyetler_verisi.get(b["sahip"], "") == "Moğol" else 0))
+				uretim_metni = tr("+%d Yiyecek Üretimi") % (lvl + (1 if ana.medeniyetler_verisi.get(b["sahip"], "") == "Moğol" else 0))
 			"oduncu_kampi":
-				uretim_metni = "+%d Odun Üretimi" % lvl
+				uretim_metni = tr("+%d Odun Üretimi") % lvl
 			"tas_ocagi":
-				uretim_metni = "+%d Taş Üretimi" % (lvl + (1 if ana.medeniyetler_verisi.get(b["sahip"], "") == "Mısır" else 0))
+				uretim_metni = tr("+%d Taş Üretimi") % (lvl + (1 if ana.medeniyetler_verisi.get(b["sahip"], "") == "Mısır" else 0))
 			"ticaret_merkezi":
-				uretim_metni = "Ekonomik Ticaret Merkezi"
+				uretim_metni = tr("Ekonomik Ticaret Merkezi")
 			"oncu_kampi":
-				uretim_metni = "Öncü Üretimi: 5 Yiyecek + 1 AP"
+				uretim_metni = tr("Öncü Üretimi: 5 Yiyecek + 1 AP")
 				
 		if b_tur == "sehir_merkezi":
 			var med_dosya = dosya_isimleri.get(medeniyet_adi, "osmanli")
@@ -584,7 +584,7 @@ func sag_paneli_guncelle(koordinat: Vector2i):
 				def_degeri += 1
 				
 		if savunma_bonus:
-			savunma_bonus.text = "+%d Savunma Bonusu" % def_degeri if def_degeri > 0 else "Savunma Bonusu Yok"
+			savunma_bonus.text = tr("+%d Savunma Bonusu") % def_degeri if def_degeri > 0 else tr("Savunma Bonusu Yok")
 
 	if hex_resim:
 		if resim_yolu != "" and ResourceLoader.exists(resim_yolu):
@@ -671,8 +671,8 @@ func _baslangic_biyom_sec(biyom: String, basildi: bool):
 		ana.secilen_baslangic_biyomu = biyom
 		ana.insa_modu_aktif = true
 		
-		var biyom_adi = "Çimenlik" if biyom == "cim" else "Ormanlık" if biyom == "orman" else "Dağlık"
-		ana.arayuz.olay_yaz("[color=yellow]🏗️ %s seçildi! Haritada sol tıkla kur, sağ tıkla iptal et.[/color]" % biyom_adi)
+		var biyom_adi = tr("Çimenlik") if biyom == "cim" else tr("Ormanlık") if biyom == "orman" else tr("Dağlık")
+		ana.arayuz.olay_yaz(tr("[color=yellow]🏗️ %s seçildi! Haritada sol tıkla kur, sağ tıkla iptal et.[/color]") % biyom_adi)
 		
 		if biyom == "cim":
 			if orman_btn: orman_btn.set_pressed_no_signal(false)
@@ -687,7 +687,7 @@ func _baslangic_biyom_sec(biyom: String, basildi: bool):
 		if ana.secilen_baslangic_biyomu == biyom:
 			ana.secilen_baslangic_biyomu = ""
 			ana.insa_modu_aktif = false
-			ana.arayuz.olay_yaz("[color=gray]Şehir kurma iptal edildi.[/color]")
+			ana.arayuz.olay_yaz(tr("[color=gray]Şehir kurma iptal edildi.[/color]"))
 			
 	arayuzu_guncelle()
 	
@@ -700,7 +700,7 @@ func _hakimiyet_kur_butonuna_basildi():
 func _hakimiyet_vazgec_basildi():
 	if hakimiyet_paneli: hakimiyet_paneli.visible = false
 	ana.secili_piyon_index = -1
-	ana.arayuz.olay_yaz("[color=gray]Hakimiyet kurma işlemi iptal edildi.[/color]")
+	ana.arayuz.olay_yaz(tr("[color=gray]Hakimiyet kurma işlemi iptal edildi.[/color]"))
 	ana.arayuz.arayuzu_guncelle()
 	ana.harita.queue_redraw()
 
@@ -715,9 +715,9 @@ func sure_goster():
 	if oyun_sirasi_label:
 		var aktif_oyuncu_ismi = ana.oyuncular[ana.aktif_sira]
 		var aktif_medeniyet = ana.medeniyetler_verisi.get(aktif_oyuncu_ismi, "Bilinmiyor")
-		oyun_sirasi_label.text = "Sıra: %s (%s)" % [aktif_oyuncu_ismi, aktif_medeniyet]
+		oyun_sirasi_label.text = tr("Sıra: %s (%s)") % [aktif_oyuncu_ismi, tr(aktif_medeniyet)]
 	if not tur_yazisi: return
-	var metin = "TUR %d" % ana.tur_sayaci
+	var metin = tr("TUR %d") % ana.tur_sayaci
 	var renk = Color(0.94509804, 0.8980392, 0.78431374, 1)
 	var saniye = ana.kalan_sure_saniye()
 	if saniye >= 0:

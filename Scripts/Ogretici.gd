@@ -61,7 +61,7 @@ func _ready():
 	satir.add_child(gec_btn)
 	var kapat = Button.new()
 	kapat.name = "OgreticiKapatBtn"
-	kapat.text = "Öğreticiyi kapat"
+	kapat.text = tr("Öğreticiyi kapat")
 	kapat.theme_type_variation = &"HukumCompact"
 	kapat.pressed.connect(queue_free)
 	satir.add_child(kapat)
@@ -98,9 +98,9 @@ func _goster():
 	var ben = _ben()
 	_baslangic = {"insa": _el_sayisi(false), "savas": _el_sayisi(true), "kesif": ana.harita.kesfedilen_hexler.size(),
 		"toprak": _sayi(ana.kontrol_edilen_hexler.values(), ben), "bina": _bina_sayisi(ben), "tur": ana.tur_sayaci}
-	baslik_label.text = "ÖĞRETİCİ · %d/%d · %s" % [adim + 1, ADIMLAR.size(), ADIMLAR[adim]["baslik"]]
-	metin_label.text = ADIMLAR[adim]["metin"]
-	gec_btn.text = "Bitir" if adim == ADIMLAR.size() - 1 else "Bu adımı geç"
+	baslik_label.text = tr("ÖĞRETİCİ · %d/%d · %s") % [adim + 1, ADIMLAR.size(), tr(ADIMLAR[adim]["baslik"])]
+	metin_label.text = tr(ADIMLAR[adim]["metin"])
+	gec_btn.text = tr("Bitir") if adim == ADIMLAR.size() - 1 else tr("Bu adımı geç")
 
 func _el_sayisi(savas: bool) -> int:
 	var sayi = 0

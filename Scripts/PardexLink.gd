@@ -53,10 +53,10 @@ func host_match():
 func join_match(code: String):
 	var clean = code.strip_edges().to_upper()
 	if clean.length() != 5:
-		_status("Masa kodu 5 harf veya rakam olmalı.", true)
+		_status(tr("Masa kodu 5 harf veya rakam olmalı."), true)
 		return
 	if not _code_valid(clean):
-		_status("Masa kodunda yalnız A–Z ve 0–9 kullan.", true)
+		_status(tr("Masa kodunda yalnız A–Z ve 0–9 kullan."), true)
 		return
 	_request({"type": "join_match", "code": clean}, "%s masasına bağlanılıyor…" % clean)
 
@@ -74,7 +74,7 @@ func leave_match():
 
 func _request(message: Dictionary, waiting: String):
 	if not is_available():
-		_status("Masa kurmak veya koda katılmak için HÜKÜM'ü PARDEX üzerinden aç.", true)
+		_status(tr("Masa kurmak veya koda katılmak için HÜKÜM'ü PARDEX üzerinden aç."), true)
 		return
 	if _busy: return
 	_busy = true
@@ -82,7 +82,7 @@ func _request(message: Dictionary, waiting: String):
 	use_official_mode()
 	if linked: _send(message)
 	else: _pending = message
-	_status(waiting if linked else "PARDEX'e bağlanılıyor…")
+	_status(waiting if linked else tr("PARDEX'e bağlanılıyor…"))
 
 func _connect():
 	_socket = WebSocketPeer.new()
@@ -91,7 +91,7 @@ func _connect():
 	if _socket.connect_to_url(PardexBridge.online_server_url) != OK:
 		_socket = null
 		_retry = 5.0
-		_status("PARDEX bağlantısı kurulamadı. Yeniden deneniyor…", true)
+		_status(tr("PARDEX bağlantısı kurulamadı. Yeniden deneniyor…"), true)
 
 func _process(delta: float):
 	if not _enabled: return
@@ -100,7 +100,7 @@ func _process(delta: float):
 		if _elapsed >= 20.0:
 			_busy = false
 			_pending.clear()
-			_status("İstek zaman aşımına uğradı. Tekrar deneyebilirsin.", true)
+			_status(tr("İstek zaman aşımına uğradı. Tekrar deneyebilirsin."), true)
 	if _socket == null:
 		_retry -= delta
 		if _retry <= 0.0: _connect()
@@ -120,7 +120,7 @@ func _process(delta: float):
 		_socket = null
 		_retry = 5.0
 		_set_linked(false)
-		_status("PARDEX bağlantısı kesildi. Yeniden deneniyor…", true)
+		_status(tr("PARDEX bağlantısı kesildi. Yeniden deneniyor…"), true)
 
 func handle_packet(packet: String):
 	var message = JSON.parse_string(packet)
@@ -128,7 +128,7 @@ func handle_packet(packet: String):
 	match str(message.get("type", "")):
 		"game_link_ok":
 			if str(message.get("game_id", "")) != PardexBridge.GAME_ID:
-				_status("PARDEX oturumu HÜKÜM'e ait değil. Oyunu yeniden aç.", true)
+				_status(tr("PARDEX oturumu HÜKÜM'e ait değil. Oyunu yeniden aç."), true)
 				_pending.clear()
 				_busy = false
 				_enabled = false
@@ -137,7 +137,7 @@ func handle_packet(packet: String):
 				return
 			display_name = str(message.get("display_name", "")).left(32)
 			_set_linked(true)
-			_status("PARDEX'e bağlı · %s" % display_name)
+			_status(tr("PARDEX'e bağlı · %s") % display_name)
 			if not _pending.is_empty():
 				_send(_pending)
 				_pending.clear()
@@ -147,11 +147,11 @@ func handle_packet(packet: String):
 				return
 			_busy = false
 			if Network.oturum_asamasi != "game" and not PardexBridge.enter_match(message):
-				_status("Masa bileti eksik veya farklı oyuna ait. Tekrar dene.", true)
+				_status(tr("Masa bileti eksik veya farklı oyuna ait. Tekrar dene."), true)
 		"error":
 			_busy = false
 			_pending.clear()
-			_status(str(message.get("message", "PARDEX isteği reddedildi.")).left(400), true)
+			_status(str(message.get("message", tr("PARDEX isteği reddedildi."))).left(400), true)
 			if str(message.get("code", "")) == "GAME_SESSION_INVALID":
 				_set_linked(false)
 				_enabled = false

@@ -112,13 +112,13 @@ func savas_panelini_guncelle():
 	if benim_onayla_btn:
 		benim_onayla_btn.disabled = false
 		if benim_onayla_btn is Button:
-			benim_onayla_btn.text = "KARTLARI KİLİTLE"
+			benim_onayla_btn.text = tr("KARTLARI KİLİTLE")
 	
 	var atak_guc_lbl = ana.arayuz.get_node_or_null("%SecilenKartGucAtak")
-	if atak_guc_lbl: atak_guc_lbl.text = "Kartlar Seçiliyor..."
+	if atak_guc_lbl: atak_guc_lbl.text = tr("Kartlar Seçiliyor...")
 	
 	var defans_guc_lbl = ana.arayuz.get_node_or_null("%SecilenKartGucDefans")
-	if defans_guc_lbl: defans_guc_lbl.text = "Kartlar Seçiliyor..."
+	if defans_guc_lbl: defans_guc_lbl.text = tr("Kartlar Seçiliyor...")
 	
 	if son_savas_paneli: son_savas_paneli.visible = true
 	
@@ -168,7 +168,7 @@ func _karti_iptal_et(dizi_index: int):
 		kart_ui_node.visible = true   # elimize geri dön
 	
 	_oyuncu_slotlarini_guncelle()
-	ana.arayuz.olay_yaz("↩️ Kart geri alındı.")
+	ana.arayuz.olay_yaz(tr("↩️ Kart geri alındı."))
 
 func savas_taraflari() -> Array:
 	var saldiran = savas_ozel_saldiran
@@ -238,13 +238,13 @@ func savas_kart_sec_ve_yerlestir(kart: Dictionary, idx: int, kart_ui_node: Node)
 	if idx < 0 or idx >= ana.deste.el.size() or idx in secilen_benim_idxler: return
 	if kart != ana.deste.el[idx] or kart.get("hedef") != "savas": return
 	if secilen_benim_kartlar.size() >= 7:
-		ana.arayuz.olay_yaz("En fazla 7 kart seçebilirsin.")
+		ana.arayuz.olay_yaz(tr("En fazla 7 kart seçebilirsin."))
 		return
 	
 	# 🟢 YENİ: Kuşatma birimleri (Koçbaşı, Mancınık) sadece bina/şehir saldırısında kullanılabilir
 	var tur = kart.get("tur", "")
 	if (tur == "kocbasi" or tur == "mancinik") and (savas_hedef_turu != "bina" or not _ben_saldiran_miyim()):
-		ana.arayuz.olay_yaz("⚠️ [color=orange]%s yalnızca şehir veya bina saldırılarında kullanılabilir![/color]" % kart.get("isim", "Bu birim"))
+		ana.arayuz.olay_yaz(tr("⚠️ [color=orange]%s yalnızca şehir veya bina saldırılarında kullanılabilir![/color]") % tr(kart.get("isim", "Bu birim")))
 		return
 	
 	secilen_benim_kartlar.append(kart)
@@ -284,9 +284,9 @@ func _slot_bilgi_etiketi_guncelle(slot: TextureRect, kart: Dictionary):
 		lbl.add_theme_constant_override("outline_size", 3)
 		slot.add_child(lbl)
 	
-	var isim = kart.get("isim", "Birlik")
-	var guc_str = "Komutan" if kart.get("tur") == "komutan" else str(kart.get("guc", 0))
-	lbl.text = "%s (Güç: %s)" % [isim, guc_str]
+	var isim = tr(kart.get("isim", "Birlik"))
+	var guc_str = tr("Komutan") if kart.get("tur") == "komutan" else str(kart.get("guc", 0))
+	lbl.text = tr("%s (Güç: %s)") % [isim, guc_str]
 	lbl.visible = true
 
 func _onayla_basildi():
@@ -295,7 +295,7 @@ func _onayla_basildi():
 	if benim_onayla_btn:
 		benim_onayla_btn.disabled = true
 		if benim_onayla_btn is Button:
-			benim_onayla_btn.text = "RAKİP BEKLENİYOR..."
+			benim_onayla_btn.text = tr("RAKİP BEKLENİYOR...")
 	
 		
 	var ben = ana.oyuncular[ana.benim_indexim]
@@ -307,7 +307,7 @@ func taraf_kilitlendi_rpc(saldiran_mi: bool):
 	if not savas_aktif: return
 	var lbl_ismi = "%SecilenKartGucAtak" if saldiran_mi else "%SecilenKartGucDefans"
 	var lbl = ana.arayuz.get_node_or_null(lbl_ismi)
-	if lbl: lbl.text = "Kartlar Seçildi"
+	if lbl: lbl.text = tr("Kartlar Seçildi")
 
 func rakip_kartlari_goster(kartlar_dict: Dictionary):
 	# Spectators and participants see both canonical hands after reveal.
@@ -325,7 +325,7 @@ func rakip_kartlari_goster(kartlar_dict: Dictionary):
 				slot.texture = null
 				var label = slot.get_node_or_null("BilgiEtiketi")
 				if label: label.visible = false
-	ana.arayuz.olay_yaz("⚔️ Her iki tarafın kartları açıldı!")
+	ana.arayuz.olay_yaz(tr("⚔️ Her iki tarafın kartları açıldı!"))
 
 # ==========================================
 # 🟢 SAVAŞ ÇÖZÜMLEME
@@ -404,7 +404,7 @@ func _bonus_aciklama_olustur(taraf_kartlar: Array, rakip_kartlar: Array, taraf_s
 	# 🟢 YENİ: Medeniyet bonusu EN ÜSTTE, farklı renkte
 	var med = ana.medeniyetler_verisi.get(taraf_isim, "")
 	if medeniyet_savas_bonuslari.has(med):
-		satirlar.append("[color=cyan]%s[/color]" % medeniyet_savas_bonuslari[med])
+		satirlar.append("[color=cyan]%s[/color]" % tr(medeniyet_savas_bonuslari[med]))
 	
 	for k in taraf_kartlar:
 		var b = k.get("bonus", {})
@@ -417,39 +417,39 @@ func _bonus_aciklama_olustur(taraf_kartlar: Array, rakip_kartlar: Array, taraf_s
 			"pozisyon":   # 🟢 GERİ EKLENDİ: Kısa Yaylı
 				var kosul = b.get("kosul", "")
 				if (kosul == "savunma" and not taraf_saldiran_mi) or (kosul == "saldiri" and taraf_saldiran_mi):
-					satirlar.append("🏹 %s: Pozisyon bonusu +%d" % [isim, miktar])
+					satirlar.append(tr("🏹 %s: Pozisyon bonusu +%d") % [isim, miktar])
 			"her_karta_ekle_bina_saldiri":
 				if savas_hedef_turu == "bina" and taraf_saldiran_mi:
-					satirlar.append("👑 %s: Her karta +%d (toplam +%d)" % [isim, miktar, miktar * taraf_kartlar.size()])
+					satirlar.append(tr("👑 %s: Her karta +%d (toplam +%d)") % [isim, miktar, miktar * taraf_kartlar.size()])
 			"her_karta_ekle_savunma":
 				if not taraf_saldiran_mi:
-					satirlar.append("👑 %s: Her karta +%d (toplam +%d)" % [isim, miktar, miktar * taraf_kartlar.size()])
+					satirlar.append(tr("👑 %s: Her karta +%d (toplam +%d)") % [isim, miktar, miktar * taraf_kartlar.size()])
 			"kart_turu_bonus":
 				var hedef_tur = b.get("hedef", "")
 				var sayac = 0
 				for k2 in taraf_kartlar:
 					if k2.get("tur","") == hedef_tur: sayac += 1
 				if sayac > 0:
-					satirlar.append("👑 %s: %s bonusu +%d (toplam +%d)" % [isim, hedef_tur.capitalize(), miktar, miktar*sayac])
+					satirlar.append(tr("👑 %s: %s bonusu +%d (toplam +%d)") % [isim, tr(hedef_tur.capitalize()), miktar, miktar*sayac])
 			"az_kartla":
 				if taraf_kartlar.size() < rakip_kartlar.size():
-					satirlar.append("👑 %s: Az kartla savaşma bonusu +%d" % [isim, miktar])
+					satirlar.append(tr("👑 %s: Az kartla savaşma bonusu +%d") % [isim, miktar])
 			"sart_hedef_turu":
 				if savas_hedef_turu == b.get("deger", ""):
-					satirlar.append("👑 %s: Koşul sağlandı, +%d" % [isim, miktar])
+					satirlar.append(tr("👑 %s: Koşul sağlandı, +%d") % [isim, miktar])
 			"sart_savas_tipi":
 				if savas_tipi == b.get("deger", ""):
-					satirlar.append("👑 %s: Koşul sağlandı, +%d" % [isim, miktar])
+					satirlar.append(tr("👑 %s: Koşul sağlandı, +%d") % [isim, miktar])
 			"carpan_yuzde_saldiri":
 				if taraf_saldiran_mi:
-					satirlar.append("👑 %s: Saldırıda toplam güç %%%d artıyor" % [isim, miktar])
+					satirlar.append(tr("👑 %s: Saldırıda toplam güç %%%d artıyor") % [isim, miktar])
 			"zar_ekle_sartli":
 				var kosul = b.get("kosul", "")
 				var rol_uygun = (kosul == "saldiri" and taraf_saldiran_mi) or (kosul == "savunma" and not taraf_saldiran_mi)
 				var hedef_sart = b.get("hedef_turu_sart", "")
 				var hedef_uygun = hedef_sart == "" or hedef_sart == savas_hedef_turu
 				if rol_uygun and hedef_uygun:
-					satirlar.append("🎲 %s: Zara +%d" % [isim, miktar])
+					satirlar.append(tr("🎲 %s: Zara +%d") % [isim, miktar])
 	
 	for rk in rakip_kartlar:
 		var b = rk.get("bonus", {})
@@ -463,7 +463,7 @@ func _bonus_aciklama_olustur(taraf_kartlar: Array, rakip_kartlar: Array, taraf_s
 				satirlar.append("[color=red]⚠️ %s (rakip): %s birliklerine -%d (toplam -%d)[/color]" % [rk.get("isim",""), hedef_tur.capitalize(), miktar2, miktar2*etkilenen])
 	
 	if satirlar.is_empty():
-		return "Aktif bonus yok"
+		return tr("Aktif bonus yok")
 	return "\n".join(satirlar)
 
 # İki Bizans bonusu da aynı, azaltılmamış toplamlar üzerinden hesaplanır.
@@ -544,7 +544,7 @@ func savas_cozumle(kartlar_dict: Dictionary, zar_saldiran: int, zar_savunan: int
 	var kazanan = saldiran_isim if saldiran_kazandi else savunan_isim
 	if ana.medeniyetler_verisi.get(kazanan, "") == "Viking":
 		ana.oyuncu_kaynaklari[kazanan]["altin"] += 5
-		ana.arayuz.olay_yaz("🪙 %s, Kuzeyin Gazabı ile 5 Altın kazandı." % ana.arayuz.renkli_isim(kazanan))
+		ana.arayuz.olay_yaz(tr("🪙 %s, Kuzeyin Gazabı ile 5 Altın kazandı.") % ana.arayuz.renkli_isim(kazanan))
 	sonuc_gosteriliyor = true
 	ana.arayuz.arayuzu_guncelle()
 	
@@ -579,7 +579,7 @@ func savasi_iptal_et():
 	if son_savas_paneli: son_savas_paneli.visible = false
 	if ana.arayuz.alt_orta_panel: ana.arayuz.alt_orta_panel.visible = true
 	if savas_eli_paneli: savas_eli_paneli.visible = false
-	ana.arayuz.olay_yaz("[color=gray]⚔️ Savaş, taraflardan biri ayrıldığı için iptal edildi.[/color]")
+	ana.arayuz.olay_yaz(tr("[color=gray]⚔️ Savaş, taraflardan biri ayrıldığı için iptal edildi.[/color]"))
 	ana.arayuz.arayuzu_guncelle()
 
 func _zar_bonusu_hesapla(taraf_kartlar: Array, taraf_saldiran_mi: bool) -> int:
@@ -602,16 +602,16 @@ func _zar_bonusu_hesapla(taraf_kartlar: Array, taraf_saldiran_mi: bool) -> int:
 func _hex_sahiplik_guncelle(hedef_koor: Vector2i, saldiran_isim: String) -> bool:   # 🟢 DEĞİŞTİ: artık bool dönüyor
 	if ana.hex_dosta_komsu_mu(hedef_koor, saldiran_isim):
 		ana.kontrol_edilen_hexler[hedef_koor] = saldiran_isim
-		ana.arayuz.olay_yaz("🚩 %s, (%d, %d) bölgesini topraklarına kattı!" % [ana.arayuz.renkli_isim(saldiran_isim), hedef_koor.x, hedef_koor.y])
+		ana.arayuz.olay_yaz(tr("🚩 %s, (%d, %d) bölgesini topraklarına kattı!") % [ana.arayuz.renkli_isim(saldiran_isim), hedef_koor.x, hedef_koor.y])
 		return true
 	else:
 		ana.kontrol_edilen_hexler.erase(hedef_koor)
-		ana.arayuz.olay_yaz("⚪ (%d, %d) bölgesi artık kimsenin hakimiyetinde değil (komşu olmadığı için ele geçirilemedi)." % [hedef_koor.x, hedef_koor.y])
+		ana.arayuz.olay_yaz(tr("⚪ (%d, %d) bölgesi artık kimsenin hakimiyetinde değil (komşu olmadığı için ele geçirilemedi).") % [hedef_koor.x, hedef_koor.y])
 		return false
 
 func _sonucu_uygula_piyon(saldiran_kazandi: bool, saldiran_isim: String, orjinal_savunucu: String):
 	if saldiran_kazandi:
-		ana.arayuz.olay_yaz("⚔️ [color=lime]ZAFER![/color] %s savaşı kazandı!" % ana.arayuz.renkli_isim(saldiran_isim))
+		ana.arayuz.olay_yaz(tr("⚔️ [color=lime]ZAFER![/color] %s savaşı kazandı!") % ana.arayuz.renkli_isim(saldiran_isim))
 		_bolgedeki_dusmanlari_geri_cek(saldiran_isim)
 		
 		var ele_gecirildi = _hex_sahiplik_guncelle(savas_bina_koordinat, saldiran_isim)
@@ -619,9 +619,9 @@ func _sonucu_uygula_piyon(saldiran_kazandi: bool, saldiran_isim: String, orjinal
 		# 🟢 YENİ: Ele geçirildiyse saldıranın öncüsü fethedilen hex'e taşınır
 		if ele_gecirildi and savas_piyon_saldiran != -1 and savas_piyon_saldiran < ana.piyonlar.size():
 			ana.piyonlar[savas_piyon_saldiran]["koordinat"] = savas_bina_koordinat
-			ana.arayuz.olay_yaz("🏴 %s'in öncüsü fethedilen bölgeye yerleşti." % ana.arayuz.renkli_isim(saldiran_isim))
+			ana.arayuz.olay_yaz(tr("🏴 %s'in öncüsü fethedilen bölgeye yerleşti.") % ana.arayuz.renkli_isim(saldiran_isim))
 	else:
-		ana.arayuz.olay_yaz("🛡️ [color=orange]SAVUNMA BAŞARILI![/color] %s saldırıyı püskürttü!" % ana.arayuz.renkli_isim(orjinal_savunucu))
+		ana.arayuz.olay_yaz(tr("🛡️ [color=orange]SAVUNMA BAŞARILI![/color] %s saldırıyı püskürttü!") % ana.arayuz.renkli_isim(orjinal_savunucu))
 		_piyonu_eve_isinla(savas_piyon_saldiran)
 
 func _sonucu_uygula_bina(saldiran_kazandi: bool, saldiran_isim: String, orjinal_savunucu: String):
@@ -629,7 +629,7 @@ func _sonucu_uygula_bina(saldiran_kazandi: bool, saldiran_isim: String, orjinal_
 	var sehir_merkezi_mi = bina_var_mi and ana.binalar_verisi[savas_bina_koordinat]["tur"] == "sehir_merkezi"
 
 	if not saldiran_kazandi:
-		ana.arayuz.olay_yaz("🛡️ [color=orange]SAVUNMA BAŞARILI![/color] %s, %s'in saldırısını püskürttü!" % [ana.arayuz.renkli_isim(orjinal_savunucu), ana.arayuz.renkli_isim(saldiran_isim)])
+		ana.arayuz.olay_yaz(tr("🛡️ [color=orange]SAVUNMA BAŞARILI![/color] %s, %s'in saldırısını püskürttü!") % [ana.arayuz.renkli_isim(orjinal_savunucu), ana.arayuz.renkli_isim(saldiran_isim)])
 		_piyonu_eve_isinla(savas_piyon_saldiran)
 		return
 
@@ -640,7 +640,7 @@ func _sonucu_uygula_bina(saldiran_kazandi: bool, saldiran_isim: String, orjinal_
 		"hukmet":
 			if not ana.vasallik_gecerli_mi(orjinal_savunucu, saldiran_isim): return
 			ana.efendiler[orjinal_savunucu] = saldiran_isim
-			ana.arayuz.olay_yaz("👑 [color=gold]HÜKÜMDARLIK KURULDU![/color] %s, %s'i vasalı yaptı!" % [ana.arayuz.renkli_isim(saldiran_isim), ana.arayuz.renkli_isim(orjinal_savunucu)])
+			ana.arayuz.olay_yaz(tr("👑 [color=gold]HÜKÜMDARLIK KURULDU![/color] %s, %s'i vasalı yaptı!") % [ana.arayuz.renkli_isim(saldiran_isim), ana.arayuz.renkli_isim(orjinal_savunucu)])
 			# 🟢 Şehir merkezi asla el değiştirmez, öncü de saldırdığı yerde kalır — burada hiçbir hex/piyon işlemi YOK (bilerek)
 
 		"yagmala":
@@ -651,8 +651,8 @@ func _sonucu_uygula_bina(saldiran_kazandi: bool, saldiran_isim: String, orjinal_
 				var miktar = int(ceil(mevcut * calinan_oran))
 				ana.oyuncu_kaynaklari[orjinal_savunucu][kaynak] = mevcut - miktar
 				ana.oyuncu_kaynaklari[saldiran_isim][kaynak] += miktar
-				if miktar > 0: calinanlar.append("%d %s" % [miktar, kaynak])
-			ana.arayuz.olay_yaz("💰 [color=yellow]YAĞMALANDI![/color] %s, %s'ten şunları yağmaladı: %s" % [ana.arayuz.renkli_isim(saldiran_isim), ana.arayuz.renkli_isim(orjinal_savunucu), ", ".join(calinanlar)])
+				if miktar > 0: calinanlar.append("%d %s" % [miktar, Global.kaynak_adi(kaynak)])
+			ana.arayuz.olay_yaz(tr("💰 [color=yellow]YAĞMALANDI![/color] %s, %s'ten şunları yağmaladı: %s") % [ana.arayuz.renkli_isim(saldiran_isim), ana.arayuz.renkli_isim(orjinal_savunucu), ", ".join(calinanlar)])
 			
 			# 🟢 GÜVENLİK: Şehir merkezi asla ele geçirilmez, sadece normal binalar için hex/piyon güncellenir
 			if not sehir_merkezi_mi:
@@ -662,11 +662,11 @@ func _sonucu_uygula_bina(saldiran_kazandi: bool, saldiran_isim: String, orjinal_
 
 		"yikim":
 			if sehir_merkezi_mi:
-				ana.arayuz.olay_yaz("[color=light_coral]❌ Şehir Merkezi yıkılamaz![/color]")
+				ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Şehir Merkezi yıkılamaz![/color]"))
 				# 🟢 Şehir merkeziyse burada dur, hex/piyon işlemi YOK
 			else:
 				ana.binalar_verisi.erase(savas_bina_koordinat)
-				ana.arayuz.olay_yaz("🔥 [color=red]YIKILDI![/color] %s, %s'in yapısını yerle bir etti!" % [ana.arayuz.renkli_isim(saldiran_isim), ana.arayuz.renkli_isim(orjinal_savunucu)])
+				ana.arayuz.olay_yaz(tr("🔥 [color=red]YIKILDI![/color] %s, %s'in yapısını yerle bir etti!") % [ana.arayuz.renkli_isim(saldiran_isim), ana.arayuz.renkli_isim(orjinal_savunucu)])
 				
 				var ele_gecirildi2 = _hex_sahiplik_guncelle(savas_bina_koordinat, saldiran_isim)
 				if ele_gecirildi2 and savas_piyon_saldiran != -1 and savas_piyon_saldiran < ana.piyonlar.size():
@@ -675,19 +675,19 @@ func _sonucu_uygula_bina(saldiran_kazandi: bool, saldiran_isim: String, orjinal_
 func _sonucu_uygula_isyan(saldiran_kazandi: bool, saldiran_isim: String, orjinal_savunucu: String):
 	if saldiran_kazandi:
 		ana.efendiler.erase(saldiran_isim)
-		ana.arayuz.olay_yaz("🔥 [color=lime]BAĞIMSIZLIK KAZANILDI![/color] %s artık %s'e bağlı değil!" % [ana.arayuz.renkli_isim(saldiran_isim), ana.arayuz.renkli_isim(orjinal_savunucu)])
+		ana.arayuz.olay_yaz(tr("🔥 [color=lime]BAĞIMSIZLIK KAZANILDI![/color] %s artık %s'e bağlı değil!") % [ana.arayuz.renkli_isim(saldiran_isim), ana.arayuz.renkli_isim(orjinal_savunucu)])
 	else:
 		# İsyan bastırıldı: hazırlanan ordu kaynağı boşa gitti (ceza)
 		for kaynak in ["odun", "tas", "yiyecek"]:
 			ana.oyuncu_kaynaklari[saldiran_isim][kaynak] = max(0, ana.oyuncu_kaynaklari[saldiran_isim][kaynak] - 10)
-		ana.arayuz.olay_yaz("🛡️ [color=orange]İSYAN BASTIRILDI![/color] %s, efendisi %s'e karşı isyanında başarısız oldu." % [ana.arayuz.renkli_isim(saldiran_isim), ana.arayuz.renkli_isim(orjinal_savunucu)])
+		ana.arayuz.olay_yaz(tr("🛡️ [color=orange]İSYAN BASTIRILDI![/color] %s, efendisi %s'e karşı isyanında başarısız oldu.") % [ana.arayuz.renkli_isim(saldiran_isim), ana.arayuz.renkli_isim(orjinal_savunucu)])
 
 func _savas_sonuc_panelini_guncelle(_sal_kart_gucu: int, _sav_kart_gucu: int, _zar_sal: int, _zar_sav: int, sal_toplam: int, sav_toplam: int):
 	var atak_toplam_lbl = ana.arayuz.get_node_or_null("%AtakToplamGucLabel")      # 🟢 DÜZELTİLDİ
-	if atak_toplam_lbl: atak_toplam_lbl.text = "Toplam Güç: %d" % sal_toplam
+	if atak_toplam_lbl: atak_toplam_lbl.text = tr("Toplam Güç: %d") % sal_toplam
 	
 	var defans_toplam_lbl = ana.arayuz.get_node_or_null("%DefansToplamGucLabel")   # 🟢 DÜZELTİLDİ
-	if defans_toplam_lbl: defans_toplam_lbl.text = "Toplam Güç: %d" % sav_toplam
+	if defans_toplam_lbl: defans_toplam_lbl.text = tr("Toplam Güç: %d") % sav_toplam
 
 func _isim_ve_medeniyet_guncelle():
 	if not ana.arayuz: return
@@ -755,7 +755,7 @@ func _piyonu_eve_isinla(piyon_index: int):
 	var ev_konumu = _sehir_merkezi_konumu_bul(isim)
 	if ev_konumu != Vector2i(-1, -1):
 		ana.piyonlar[piyon_index]["koordinat"] = ev_konumu
-		ana.arayuz.olay_yaz("🏃 %s'in öncüsü şehrine geri kaçtı!" % ana.arayuz.renkli_isim(isim))
+		ana.arayuz.olay_yaz(tr("🏃 %s'in öncüsü şehrine geri kaçtı!") % ana.arayuz.renkli_isim(isim))
 	else:
 		# Şehir merkezi bulunamadıysa (çok nadir durum) eski davranışa dön: piyonu sil
 		ana.piyonlar.remove_at(piyon_index)
@@ -783,9 +783,9 @@ func zar_asamasini_baslat(kartlar_dict: Dictionary):
 	savunan_kart_gucu_hesap = _kart_gucu_hesapla(savunan_kartlar_z, saldiran_kartlar_z, false)
 	
 	var atak_guc_lbl = ana.arayuz.get_node_or_null("%SecilenKartGucAtak")
-	if atak_guc_lbl: atak_guc_lbl.text = "Kart Gücü: %d" % saldiran_kart_gucu_hesap
+	if atak_guc_lbl: atak_guc_lbl.text = tr("Kart Gücü: %d") % saldiran_kart_gucu_hesap
 	var defans_guc_lbl = ana.arayuz.get_node_or_null("%SecilenKartGucDefans")
-	if defans_guc_lbl: defans_guc_lbl.text = "Kart Gücü: %d" % savunan_kart_gucu_hesap
+	if defans_guc_lbl: defans_guc_lbl.text = tr("Kart Gücü: %d") % savunan_kart_gucu_hesap
 	
 	var atak_bonus_lbl = ana.arayuz.get_node_or_null("%AtakBonus")
 	if atak_bonus_lbl: atak_bonus_lbl.text = Global.okunur_metin(_bonus_aciklama_olustur(saldiran_kartlar_z, savunan_kartlar_z, true, saldiran_isim))

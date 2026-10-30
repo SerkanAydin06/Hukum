@@ -80,8 +80,8 @@ func _baglanti_ac(ozel: bool):
 	PardexLink.use_private_mode()
 	_ozel_mod = ozel
 	hbox_menu_coklu.show()
-	%BaglantiBaslik.text = "ÖZEL SUNUCU" if ozel else "YEREL AĞ"
-	%BaglantiAciklama.text = "Sunucunun adresini gir. İlk katılan oyuncu odayı yönetir." if ozel else "Aynı ağda bir kişi oda kursun. Diğer oyuncular sunucunun yerel IP adresiyle katılsın."
+	%BaglantiBaslik.text = tr("ÖZEL SUNUCU") if ozel else tr("YEREL AĞ")
+	%BaglantiAciklama.text = tr("Sunucunun adresini gir. İlk katılan oyuncu odayı yönetir.") if ozel else tr("Aynı ağda bir kişi oda kursun. Diğer oyuncular sunucunun yerel IP adresiyle katılsın.")
 	%LANAlanlari.visible = not ozel
 	%OzelAlanlar.visible = ozel
 	kur_btn.visible = not ozel
@@ -105,7 +105,7 @@ func _baglanti_kilit(locked: bool):
 	%SunucuGiris.editable = not locked
 	%PortGiris.editable = not locked
 	%BaglantiIlerleme.visible = locked
-	%GeriBtn.text = "İPTAL" if locked else "GERİ"
+	%GeriBtn.text = tr("İPTAL") if locked else tr("GERİ")
 
 func _on_kur_btn_pressed():
 	if _baglaniyor: return
@@ -114,14 +114,14 @@ func _on_kur_btn_pressed():
 		_lobi_sahnesine_gec()
 	else:
 		_baglanti_kilit(false)
-		baglanti_durumu.text = "Oda kurulamadı. Port kullanımda olabilir; farklı bir port deneyin."
+		baglanti_durumu.text = tr("Oda kurulamadı. Port kullanımda olabilir; farklı bir port deneyin.")
 
 func _on_baglan_btn_pressed():
 	if _baglaniyor: return
 	if _ozel_mod:
 		var url = %SunucuGiris.text.strip_edges()
 		if not PardexBridge.valid_url(url):
-			baglanti_durumu.text = "Geçersiz adres. ws:// veya wss:// ile başlayan bir sunucu adresi gir."
+			baglanti_durumu.text = tr("Geçersiz adres. ws:// veya wss:// ile başlayan bir sunucu adresi gir.")
 			return
 		_baglanti_kilit(true)
 		if not Network.ozel_sunucuya_katil(url): _baglanti_basarisiz()
@@ -129,10 +129,10 @@ func _on_baglan_btn_pressed():
 	var ip = ip_giris.text.strip_edges()
 	if ip.to_lower() == "localhost" or ip.is_empty(): ip = "127.0.0.1"
 	if not ip.is_valid_ip_address():
-		baglanti_durumu.text = "Geçersiz IP adresi. Örnek: 192.168.1.10"
+		baglanti_durumu.text = tr("Geçersiz IP adresi. Örnek: 192.168.1.10")
 		return
 	_baglanti_kilit(true)
-	baglanti_durumu.text = "Sunucuya bağlanılıyor…"
+	baglanti_durumu.text = tr("Sunucuya bağlanılıyor…")
 	if not Network.join_game(ip, int(%PortGiris.value)): _baglanti_basarisiz()
 
 func _sunucuya_baglanildi():
@@ -142,7 +142,7 @@ func _sunucuya_baglanildi():
 
 func _baglanti_basarisiz():
 	_baglanti_kilit(false)
-	baglanti_durumu.text = "Bağlantı kurulamadı. Adresi, portu ve sunucuyu kontrol et."
+	baglanti_durumu.text = tr("Bağlantı kurulamadı. Adresi, portu ve sunucuyu kontrol et.")
 
 func _network_durumu(message: String, error: bool):
 	if error: _baglanti_kilit(false)
@@ -166,8 +166,8 @@ func _pardex_ac():
 	%MasaKurBtn.disabled = not available
 	%KodlaKatilBtn.disabled = not available
 	%KodGiris.editable = available
-	%PardexAciklama.text = "Masa kurup çıkan beş karakterli kodu arkadaşlarınla paylaş. Aynı masada 2–6 kişi oynayabilirsiniz." if available else "Çevrimiçi masa kurmak veya koda katılmak için HÜKÜM'ü PARDEX kütüphanesinden aç. PARDEX hesabınla bağlantı otomatik kurulur."
-	_pardex_durumu(PardexLink.son_durum if available else "PARDEX oturumu bulunamadı.", not available)
+	%PardexAciklama.text = tr("Masa kurup çıkan beş karakterli kodu arkadaşlarınla paylaş. Aynı masada 2–6 kişi oynayabilirsiniz.") if available else tr("Çevrimiçi masa kurmak veya koda katılmak için HÜKÜM'ü PARDEX kütüphanesinden aç. PARDEX hesabınla bağlantı otomatik kurulur.")
+	_pardex_durumu(PardexLink.son_durum if available else tr("PARDEX oturumu bulunamadı."), not available)
 	(%MasaKurBtn if available else %PardexGeriBtn).grab_focus()
 
 func _pardex_durumu(message: String, error: bool):
@@ -182,7 +182,7 @@ func _pardex_kapat():
 	%PardexBtn.grab_focus()
 
 func _baglanti_rozetini_guncelle():
-	%BaglantiRozeti.text = "PARDEX'E BAĞLI" if PardexLink.linked else "YEREL PROFİL"
+	%BaglantiRozeti.text = tr("PARDEX'E BAĞLI") if PardexLink.linked else tr("YEREL PROFİL")
 	%BaglantiRozeti.add_theme_color_override("font_color", Color("9dccae") if PardexLink.linked else Color("bba980"))
 
 func _arayuzu_guncelle():
@@ -209,16 +209,16 @@ func _avatar_sec(number: int):
 
 func _oyuncu_adi_hatasini_bul(value: String) -> String:
 	var clean = value.strip_edges()
-	if clean.length() < 3: return "Oyuncu adı en az 3 karakter olmalı."
-	if clean.length() > 16: return "Oyuncu adı en fazla 16 karakter olabilir."
-	if clean.contains("  "): return "Arka arkaya iki boşluk kullanılamaz."
-	if oyuncu_adi_regex.search(clean) == null: return "Yalnız harf, rakam, boşluk, _ ve - kullan."
+	if clean.length() < 3: return tr("Oyuncu adı en az 3 karakter olmalı.")
+	if clean.length() > 16: return tr("Oyuncu adı en fazla 16 karakter olabilir.")
+	if clean.contains("  "): return tr("Arka arkaya iki boşluk kullanılamaz.")
+	if oyuncu_adi_regex.search(clean) == null: return tr("Yalnız harf, rakam, boşluk, _ ve - kullan.")
 	return ""
 
 func _oyuncu_adi_degisti(value: String):
 	var error = _oyuncu_adi_hatasini_bul(value)
 	kaydet_btn.disabled = not error.is_empty()
-	isim_hata_label.text = "Oyuncu adı uygun" if error.is_empty() else error
+	isim_hata_label.text = tr("Oyuncu adı uygun") if error.is_empty() else error
 	isim_hata_label.add_theme_color_override("font_color", Color("9dccae") if error.is_empty() else Color("ed9b88"))
 
 func _profil_kaydet():
@@ -230,22 +230,22 @@ func _profil_kaydet():
 	_profil_duzenle_kapat()
 
 func _alistirma_ac():
-	oyun_menusu._temizle("TEK OYUNCULU")
-	oyun_menusu._metin("Yapay zekâ hükümdarlara karşı oyna ya da rakipsiz haritada şehir kurmayı, keşfi, üretimi ve kartları öğren. İlk 50 puana ulaşan kazanır. Tek oyunculuda süre sınırı yoktur.")
+	oyun_menusu._temizle(tr("TEK OYUNCULU"))
+	oyun_menusu._metin(tr("Yapay zekâ hükümdarlara karşı oyna ya da rakipsiz haritada şehir kurmayı, keşfi, üretimi ve kartları öğren. İlk 50 puana ulaşan kazanır. Tek oyunculuda süre sınırı yoktur."))
 	var ozet = MacKaydi.ozet()
 	if ozet != "":
-		oyun_menusu._buton("Kayıtlı maça devam et · " + ozet, _kayitli_maci_ac).theme_type_variation = &"HukumPrimary"
-	oyun_menusu._buton("Öğreticiyle başla", _ogretici_baslat).theme_type_variation = &"HukumPrimary" if ozet == "" else &""
-	oyun_menusu._buton("1 rakiple oyna", _alistirma_baslat.bind(1))
-	oyun_menusu._buton("3 rakiple oyna", _alistirma_baslat.bind(3))
-	oyun_menusu._buton("5 rakiple oyna", _alistirma_baslat.bind(5))
-	oyun_menusu._buton("Rakipsiz alıştırma", _alistirma_baslat.bind(0))
-	oyun_menusu._buton("Geri", oyun_menusu.perde.hide)
+		oyun_menusu._buton(tr("Kayıtlı maça devam et · ") + ozet, _kayitli_maci_ac).theme_type_variation = &"HukumPrimary"
+	oyun_menusu._buton(tr("Öğreticiyle başla"), _ogretici_baslat).theme_type_variation = &"HukumPrimary" if ozet == "" else &""
+	oyun_menusu._buton(tr("1 rakiple oyna"), _alistirma_baslat.bind(1))
+	oyun_menusu._buton(tr("3 rakiple oyna"), _alistirma_baslat.bind(3))
+	oyun_menusu._buton(tr("5 rakiple oyna"), _alistirma_baslat.bind(5))
+	oyun_menusu._buton(tr("Rakipsiz alıştırma"), _alistirma_baslat.bind(0))
+	oyun_menusu._buton(tr("Geri"), oyun_menusu.perde.hide)
 
 func _kayitli_maci_ac():
 	var kayit = MacKaydi.yukle()
 	if kayit.is_empty():
-		%MenuDurum.text = "Kayıt okunamadı."
+		%MenuDurum.text = tr("Kayıt okunamadı.")
 		return
 	_alistirma_baslat(0)
 	Network.kayit_yukle = kayit
@@ -271,7 +271,7 @@ func _donus_dugmesini_kur():
 	if not Network.maca_donulebilir_mi(): return
 	_donus_btn = Button.new()
 	_donus_btn.name = "MacaDonBtn"
-	_donus_btn.text = "MAÇA DÖN · %s" % str(Network.donus_kaydi.get("isim", "")).to_upper()
+	_donus_btn.text = tr("MAÇA DÖN · %s") % str(Network.donus_kaydi.get("isim", "")).to_upper()
 	_donus_btn.theme_type_variation = &"HukumPrimary"
 	_donus_btn.custom_minimum_size = Vector2(0, 74)
 	_donus_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -284,7 +284,7 @@ func _donus_dugmesini_kur():
 	_donus_btn.pressed.connect(_maca_don)
 	var vazgec = Button.new()
 	vazgec.name = "DonusVazgecBtn"
-	vazgec.text = "Bu maçtan vazgeç"
+	vazgec.text = tr("Bu maçtan vazgeç")
 	vazgec.theme_type_variation = &"HukumCompact"
 	vazgec.custom_minimum_size = Vector2(0, 36)
 	vazgec.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
@@ -297,7 +297,7 @@ func _donus_dugmesini_kur():
 
 func _maca_don():
 	if not Network.maca_geri_don():
-		%MenuDurum.text = "Sunucuya bağlanılamadı. Adres geçersiz ya da ağ kapalı."
+		%MenuDurum.text = tr("Sunucuya bağlanılamadı. Adres geçersiz ya da ağ kapalı.")
 		return
 	_donus_btn.disabled = true
-	%MenuDurum.text = "Maça dönülüyor…"
+	%MenuDurum.text = tr("Maça dönülüyor…")

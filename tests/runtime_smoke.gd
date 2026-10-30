@@ -19,6 +19,9 @@ func capture(label: String):
 		root.get_texture().get_image().save_png("/tmp/hukum-" + label + ".png")
 
 func run():
+	var dil = OS.get_environment("HUKUM_TEST_LOCALE")
+	TranslationServer.set_locale(dil if dil != "" else "tr")
+	print("HUKUM RUNTIME SMOKE locale: " + TranslationServer.get_locale())
 	var network = root.get_node("Network")
 	var global = root.get_node("Global")
 	global.tam_ekran = false
@@ -51,7 +54,7 @@ func run():
 	menu._ozel_sunucu_ac()
 	menu.get_node("%SunucuGiris").text = "invalid"
 	menu._on_baglan_btn_pressed()
-	check(not menu.baglan_btn.disabled and "Geçersiz" in menu.baglanti_durumu.text, "Private-server URL errors are retryable")
+	check(not menu.baglan_btn.disabled and menu.baglanti_durumu.text == tr("Geçersiz adres. ws:// veya wss:// ile başlayan bir sunucu adresi gir."), "Private-server URL errors are retryable")
 	await capture("private")
 	menu._ana_menuye_don()
 	menu._profil_duzenle_ac()
@@ -69,7 +72,7 @@ func run():
 	menu._cok_oyunculu_menu_ac()
 	menu.ip_giris.text = "invalid"
 	menu._on_baglan_btn_pressed()
-	check(not menu.baglan_btn.disabled and "Geçersiz" in menu.baglanti_durumu.text, "Invalid IP is visible and retryable")
+	check(not menu.baglan_btn.disabled and menu.baglanti_durumu.text == tr("Geçersiz IP adresi. Örnek: 192.168.1.10"), "Invalid IP is visible and retryable")
 	await capture("lan")
 	menu._on_kur_btn_pressed()
 	await create_timer(1.2).timeout
@@ -139,7 +142,7 @@ func run():
 	check(hud_settings.get_parent().get_global_rect().grow(-10).encloses(hud_settings.get_global_rect()), "Menu button stays inside its transparent HUD layout area")
 	check(hud_settings.get_parent() is Control and not hud_settings.get_parent() is NinePatchRect, "Menu button has no surrounding frame/background")
 	hud_settings.pressed.emit()
-	check(game.oyun_menusu.perde.visible and game.oyun_menusu.satirlar.get_child(0).text == "HÜKÜM", "HUD button opens the menu with settings inside")
+	check(game.oyun_menusu.perde.visible and game.oyun_menusu.satirlar.get_child(0).text == tr("HÜKÜM"), "HUD button opens the menu with settings inside")
 	await capture("hud-menu")
 	game.oyun_menusu.perde.hide()
 
@@ -402,7 +405,7 @@ func run_save_load():
 	game.oyun_menusu.menuyu_ac()
 	var kaydet_btn = null
 	for b in game.oyun_menusu.satirlar.get_children():
-		if b is Button and b.text == "Maçı kaydet": kaydet_btn = b
+		if b is Button and b.text == tr("Maçı kaydet"): kaydet_btn = b
 	check(kaydet_btn != null and not kaydet_btn.disabled, "In-game menu offers saving in single-player")
 	if kaydet_btn: kaydet_btn.pressed.emit()
 	game.oyun_menusu.perde.hide()
@@ -412,8 +415,8 @@ func run_save_load():
 	current_scene._alistirma_ac()
 	var devam = null
 	for b in current_scene.oyun_menusu.satirlar.get_children():
-		if b is Button and b.text.begins_with("Kayıtlı maça devam et"): devam = b
-	check(devam != null and "1 rakip" in devam.text, "Single-player menu offers the saved match")
+		if b is Button and b.text.begins_with(tr("Kayıtlı maça devam et · ")): devam = b
+	check(devam != null and tr("%d rakip") % 1 in devam.text, "Single-player menu offers the saved match")
 	if devam == null: return
 	devam.pressed.emit()
 	await create_timer(1.2).timeout

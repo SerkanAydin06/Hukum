@@ -52,7 +52,7 @@ func ticaret_maliyeti(isim: String) -> int:
 func _kaynak_sat(k_turu: String):
 	# 🟢 AP kontrolü kaldırıldı, artık sadece sıra bende mi diye bakıyoruz
 	if ana.aktif_sira != ana.benim_indexim:
-		ana.arayuz.olay_yaz("[color=light_coral]❌ Sadece kendi sıranızda ticaret yapabilirsiniz![/color]")
+		ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Sadece kendi sıranızda ticaret yapabilirsiniz![/color]"))
 		return
 		
 	var k_isim = ana.oyuncular[ana.benim_indexim]
@@ -60,8 +60,8 @@ func _kaynak_sat(k_turu: String):
 	if ana.oyuncu_kaynaklari[k_isim][k_turu] >= maliyet:
 		ana.istek("tur_ekonomi", "ticaret_yap_rpc", [k_isim, k_turu])
 	else:
-		var n = "Odun" if k_turu == "odun" else "Taş" if k_turu == "tas" else "Yiyecek"
-		ana.arayuz.olay_yaz("[color=light_coral]❌ Yetersiz kaynak! Altın alabilmek için en az %d %s gerekli.[/color]" % [maliyet, n])
+		var n = Global.kaynak_adi(k_turu)
+		ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Yetersiz kaynak! Altın alabilmek için en az %d %s gerekli.[/color]") % [maliyet, n])
 
 func ticaret_yap_rpc(oyuncu_ismi, k_turu):
 	if not ana.rpc_sirada_mi(oyuncu_ismi): return
@@ -75,7 +75,7 @@ func ticaret_yap_rpc(oyuncu_ismi, k_turu):
 	ana.oyuncu_kaynaklari[oyuncu_ismi][k_turu] -= maliyet
 	ana.oyuncu_kaynaklari[oyuncu_ismi]["altin"] += 1
 	var emoji = "🌲" if k_turu == "odun" else "🪨" if k_turu == "tas" else "🌾"
-	ana.arayuz.olay_yaz("⚖️ %s, tüccarlara %d %s %s vererek [color=gold]1 🪙 Altın[/color] kazandı." % [ana.arayuz.renkli_isim(oyuncu_ismi), maliyet, emoji, k_turu.to_upper()])
+	ana.arayuz.olay_yaz(tr("⚖️ %s, tüccarlara %d %s %s vererek [color=gold]1 🪙 Altın[/color] kazandı.") % [ana.arayuz.renkli_isim(oyuncu_ismi), maliyet, emoji, k_turu.to_upper()])
 	ana.arayuz.arayuzu_guncelle()
 	ana.islem_kabul = true
 
@@ -94,7 +94,7 @@ func _tur_butonuna_basildi():
 				insa_sayisi += 1
 				
 		if insa_sayisi > 7 or savas_sayisi > 7:
-			ana.arayuz.olay_yaz("[color=light_coral]❌ Elindeki İnşa (%d/7) veya Savaş (%d/7) kartı sınırı aşıldı! Fazlalıkları çöpe atmalısın.[/color]" % [insa_sayisi, savas_sayisi])
+			ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Elindeki İnşa (%d/7) veya Savaş (%d/7) kartı sınırı aşıldı! Fazlalıkları çöpe atmalısın.[/color]") % [insa_sayisi, savas_sayisi])
 			return
 			
 		ana.istek("tur_ekonomi", "sirayi_degistir_rpc", [])
@@ -122,13 +122,13 @@ func turu_bitir():
 					ana.oyuncu_kaynaklari[bitiren_oyuncu][k] += (kazanilan - vergi)
 					ana.oyuncu_kaynaklari[efendisi][k] += vergi
 					if vergi > 0:
-						vergi_logu += "%d %s, " % [vergi, k.to_upper()]
+						vergi_logu += "%d %s, " % [vergi, Global.kaynak_adi(k).to_upper()]
 						ana.odenen_vergiler[bitiren_oyuncu][k] += vergi 
 				else:
 					ana.oyuncu_kaynaklari[bitiren_oyuncu][k] += kazanilan
 					
 		if efendisi != "" and vergi_logu != "":
-			ana.arayuz.olay_yaz("👑 [color=orange]Vasal Vergisi:[/color] %s, efendisine %s ödedi." % [ana.arayuz.renkli_isim(bitiren_oyuncu), vergi_logu])
+			ana.arayuz.olay_yaz(tr("👑 [color=orange]Vasal Vergisi:[/color] %s, efendisine %s ödedi.") % [ana.arayuz.renkli_isim(bitiren_oyuncu), vergi_logu])
 
 	for _adim in range(ana.oyuncular.size()):
 		ana.aktif_sira = (ana.aktif_sira + 1) % ana.oyuncular.size()
@@ -146,9 +146,9 @@ func turu_bitir():
 	ana.aktif_oyuncu_aksiyon_hakki = 3 if ana.ilk_tur_bitti else 0
 	
 	if ana.ilk_tur_bitti:
-		ana.arayuz.olay_yaz("[color=yellow]➔ TUR %d:[/color] Sıra %s oyuncusunda! (⚡3 AP yenilendi)" % [ana.tur_sayaci, ana.arayuz.renkli_isim(aktif_oyuncu_ismi)])
+		ana.arayuz.olay_yaz(tr("[color=yellow]➔ TUR %d:[/color] Sıra %s oyuncusunda! (⚡3 AP yenilendi)") % [ana.tur_sayaci, ana.arayuz.renkli_isim(aktif_oyuncu_ismi)])
 	else:
-		ana.arayuz.olay_yaz("[color=yellow]➔ TUR %d:[/color] Sıra %s oyuncusunda! Şehrini kur." % [ana.tur_sayaci, ana.arayuz.renkli_isim(aktif_oyuncu_ismi)])
+		ana.arayuz.olay_yaz(tr("[color=yellow]➔ TUR %d:[/color] Sıra %s oyuncusunda! Şehrini kur.") % [ana.tur_sayaci, ana.arayuz.renkli_isim(aktif_oyuncu_ismi)])
 		
 	ana.arayuz.arayuzu_guncelle()
 	ana.harita.queue_redraw()

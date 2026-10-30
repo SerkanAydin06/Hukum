@@ -1,6 +1,7 @@
 extends "res://tests/central_network_driver.gd"
 
 func _ready():
+	TranslationServer.set_locale("tr")   # assertions read Turkish game text
 	var args = OS.get_cmdline_user_args()
 	role = int(args[0])
 	Global.oyuncu_ismi = "OfficialTest%d" % role

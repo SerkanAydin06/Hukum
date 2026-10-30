@@ -89,6 +89,14 @@ ellerindeki görülmemiş kartları birlikte görür.
 görebilir (zarı da onun makinesi atar). Oda sahibine güvenilmeyen maçlarda
 Özel Sunucu veya PARDEX kullan; orada sunucu oyuncu koltuğu işgal etmez.
 
+## Dil
+
+Oyun Türkçe ve İngilizce oynanır. İlk açılışta sistem dili Türkçe ise Türkçe,
+değilse İngilizce seçilir; Ayarlar › **Dil · Language** ile değiştirilir ve
+profilde saklanır. Çeviriler `Locale/en.po` dosyasındadır (kaynak metin Türkçe).
+Yeni bir metin eklerken `tr()` ile sarın ve `python tools/ceviri_cikar.py` ile
+eksik çevirileri görün; proje denetimi eksik çeviride hata verir.
+
 ## Ses ve müzik
 
 Menü ve maç için iki döngü müzik (Re hicaz; ud, ney, davul) ve inşa, keşif,
