@@ -56,3 +56,10 @@ After editing `Skins/standard_*.svg`, `Skins/primary_*.svg` or `Skins/window.svg
 run `python UI/build_civilization_templates.py`. Embedded SVG templates ensure
 palette generation works in exported games where imported source SVGs may not
 be directly readable. Crest resources are explicit dependencies for exports.
+
+Portrait images use `PortraitMask.gdshader` through `PortraitBorder.gd`.
+The image is drawn only within the frame's inner lip; frame/hover/selection
+art remains separate. Both the image aperture and square frame stay centered
+when the parent is rectangular or resized. Rectangular source art is cropped
+to cover the aperture without distortion. Battle portrait textures ignore
+their natural image size when calculating the surrounding window's minimum.
