@@ -86,6 +86,11 @@ func _ready():
 		var yz = YapayZeka.new()
 		yz.name = "YapayZeka"
 		add_child(yz)
+	if Network.ogretici_modu:
+		Network.ogretici_modu = false
+		var ogretici = Ogretici.new()
+		ogretici.name = "Ogretici"
+		add_child(ogretici)
 	if Network.merkezi_mod: Network.sahne_hazir_rpc.rpc_id(1)
 	elif not multiplayer.is_server(): Network.oyun_sahnesi_hazir_rpc.rpc_id(1)
 	if multiplayer.is_server(): _donus_anahtarlarini_dagit()

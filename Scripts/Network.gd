@@ -37,6 +37,7 @@ var _baglanti_suresi := 0.0
 var _sonuc_bildiriliyor := false
 var _boot_port := 8766
 var alistirma_rakip_sayisi := 0   # tek oyunculu alıştırmadaki yapay zekâ rakip sayısı
+var ogretici_modu := false        # bir sonraki tek oyunculu maç öğreticiyle açılır
 
 func _ready():
 	_donus_yukle()

@@ -182,6 +182,7 @@ func run():
 	check(current_scene.oyuncular.size() == 1 and current_scene.get_node_or_null("YapayZeka") == null, "Opponent-free practice has no AI")
 	current_scene.oyun_menusu.ana_menuye_don()
 	await create_timer(1.0).timeout
+	await run_tutorial()
 	await run_ai_match()
 	print("HUKUM RUNTIME SMOKE: %d failures" % failures)
 	quit(1 if failures else 0)
@@ -284,3 +285,54 @@ func run_ai_battle(game, ben: String):
 		await process_frame
 	check(basladi, "AI attacks an adjacent enemy pioneer when it has an army")
 	check(game.savas_puanlari[bot] != puan_once and not game.savas.savas_aktif, "AI battle resolves with locked cards and server dice")
+
+# The first-match guide advances only when the player performs each real action.
+func run_tutorial():
+	current_scene._ogretici_baslat()
+	await create_timer(1.2).timeout
+	var game = current_scene
+	var rehber = game.get_node_or_null("Ogretici")
+	check(rehber != null and rehber.adim == 0, "Tutorial opens on the first step")
+	if rehber == null: return
+	var panel = rehber.panel
+	check(game.get_viewport().get_visible_rect().encloses(panel.get_global_rect()), "Tutorial panel stays on screen")
+	var ben = game.oyuncular[0]
+	await process_frame
+	check(rehber.adim == 0, "Tutorial waits for the player")
+	game.istek("aksiyon", "bina_kur_rpc", [Vector2i(5, 5), ben, "sehir_merkezi", "cim"])
+	await process_frame
+	check(rehber.adim == 1, "Founding the city advances the tutorial")
+	game.istek("tur_ekonomi", "sirayi_degistir_rpc", [])
+	await process_frame
+	check(rehber.adim == 2, "Ending the turn advances the tutorial")
+	game.istek("aksiyon", "normal_kart_cek_rpc", [ben])
+	await process_frame
+	check(rehber.adim == 3, "Drawing a card advances the tutorial")
+	var komsu = Vector2i(6, 5)
+	game.istek("aksiyon", "kesif_ve_hareket_rpc", [0, komsu, ben])
+	await process_frame
+	check(rehber.adim == 4, "Exploring advances the tutorial")
+	game.istek("aksiyon", "hakimiyet_kur_rpc", [ben, komsu])
+	await process_frame
+	check(rehber.adim == 5, "Claiming land advances the tutorial")
+	rehber.gec_btn.pressed.emit()
+	await process_frame
+	check(rehber.adim == 6, "A step can be skipped")
+	game.istek("tur_ekonomi", "sirayi_degistir_rpc", [])
+	await process_frame
+	check(rehber.adim == 7, "Collecting production advances the tutorial")
+	game.istek("aksiyon", "savas_karti_cek_rpc", [ben])
+	await process_frame
+	check(rehber.adim == 8, "Drawing a war card advances the tutorial")
+	await capture("tutorial")
+	rehber.gec_btn.pressed.emit()
+	await process_frame
+	await process_frame
+	check(not is_instance_valid(rehber), "Finishing closes the tutorial")
+	game.oyun_menusu.ana_menuye_don()
+	await create_timer(1.0).timeout
+	current_scene._alistirma_baslat(0)
+	await create_timer(1.2).timeout
+	check(current_scene.get_node_or_null("Ogretici") == null, "Plain practice opens without the tutorial")
+	current_scene.oyun_menusu.ana_menuye_don()
+	await create_timer(1.0).timeout
