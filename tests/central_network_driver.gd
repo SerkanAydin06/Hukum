@@ -19,6 +19,16 @@ func _ready():
 		unauthorized_start.rpc_id(other)
 		await get_tree().create_timer(0.3).timeout
 		check(Network.oturum_asamasi == "lobby", "Nonowner cannot start the central match")
+		bot_request.rpc_id(other, true)
+		await get_tree().create_timer(0.3).timeout
+		check(Network.merkezi_lobi.size() == 3, "Nonowner cannot add AI seats")
+		bot_request.rpc_id(Network.oda_sahibi_id, true)
+		await get_tree().create_timer(0.3).timeout
+		var botlar = Network.merkezi_lobi.keys().filter(func(id): return id < 0)
+		check(botlar.size() == 1 and Network.merkezi_lobi[botlar[0]]["zorluk"] == "zor", "Room owner adds an AI seat on the server")
+		bot_request.rpc_id(Network.oda_sahibi_id, false)
+		await get_tree().create_timer(0.3).timeout
+		check(Network.merkezi_lobi.size() == 3, "Room owner removes the AI seat")
 		begin_match.rpc_id(Network.oda_sahibi_id)
 	else:
 		check(Network.ozel_sunucuya_katil("ws://127.0.0.1:%d" % port), "WebSocket client connects")
@@ -47,3 +57,8 @@ func unauthorized_start():
 @rpc("authority", "call_remote", "reliable")
 func begin_match():
 	Network.maci_baslat_rpc.rpc_id(1)
+
+@rpc("authority", "call_remote", "reliable")
+func bot_request(ekle: bool):
+	if ekle: Network.yapay_zeka_ekle_rpc.rpc_id(1, "zor")
+	else: Network.yapay_zeka_cikar_rpc.rpc_id(1)

@@ -36,9 +36,13 @@ func _mac_oyna(no: int, zorluklar: PackedStringArray, en_cok_tur: int):
 	yz.hamle_araligi = 0.0
 	var savas = 0
 	var savas_acik = false
+	var kare = 0
 	while not game.oyun_bitti and game.tur_sayaci <= en_cok_tur:
 		if game.savas.savas_aktif and not savas_acik: savas += 1
 		savas_acik = game.savas.savas_aktif
+		kare += 1
+		if OS.get_environment("HUKUM_SIM_IZ") != "" and kare % 500 == 0:
+			print("IZ tur=%d sira=%d ap=%d savas=%s kartlar=%d secilen=%s zar=%d/%d sonuc=%s altin=%s" % [game.tur_sayaci, game.aktif_sira, game.aktif_oyuncu_aksiyon_hakki, game.savas.savas_aktif, game.savas.son_kartlar_dict.size(), str(game.savas.secilen_savas_kartlari.keys()), game.savas.zar_saldiran_deger, game.savas.zar_savunan_deger, game.savas.sonuc_gosteriliyor, str(game.oyuncu_kaynaklari.values().map(func(k): return k["altin"]))])
 		await process_frame
 	game.puanlari_guncelle()
 	var sonuc = {"mac": no, "tur": game.tur_sayaci, "bitti": game.oyun_bitti, "savas": savas, "oyuncular": []}

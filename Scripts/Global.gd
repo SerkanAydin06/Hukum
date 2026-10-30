@@ -28,6 +28,8 @@ func _ready():
 		if dil not in DILLER: dil = ""
 	dili_uygula()
 	ayarlari_uygula()
+	# Proje adı "Hukum" kalır (kullanıcı verisi klasörü değişmesin); pencere başlığı tam ad.
+	if DisplayServer.get_name() != "headless": DisplayServer.window_set_title("HÜKÜM")
 
 func profili_kaydet():
 	var kayit = ConfigFile.new()
@@ -114,3 +116,6 @@ var dil := ""
 func dili_uygula():
 	if dil == "": dil = "tr" if OS.get_locale_language() == "tr" else "en"
 	TranslationServer.set_locale(dil)
+
+func surum() -> String:
+	return str(ProjectSettings.get_setting("application/config/version", "1.0.0"))

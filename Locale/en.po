@@ -932,8 +932,8 @@ msgstr "SETUP: Choose a terrain, left-click an unexplored hex and confirm. A cit
 msgid "KEŞİF: Öncüyü sol tıkla seç. Komşu hex'e sağ tıkla hareket et (1 AP + 1 yiyecek). Öncünün üstüne sağ tıkla, kendi toprağına komşu bölgeyi sahiplen (1 AP + 3 yiyecek)."
 msgstr "EXPLORING: Left-click a pioneer to select it. Right-click a neighbouring hex to move (1 AP + 1 food). Right-click the pioneer's own hex to claim land next to your territory (1 AP + 3 food)."
 
-msgid "KARTLAR: İnşa kartı çekmek 1 AP; savaş kartı 1 AP + 3 altın. İki elin ayrı ayrı sınırı 7 karttır. Kartı seçerek kullan, dönüştür veya at. Üretim tur sonunda gelir. Ticaret Merkezi kaynakları altına çevirir."
-msgstr "CARDS: Drawing a construction card costs 1 AP; a war card 1 AP + 3 gold. Each of your two hands holds up to 7 cards. Select a card to use, convert or discard it. Production arrives at the end of the turn. A Trade Center turns resources into gold."
+msgid "KARTLAR: İnşa kartı çekmek 1 AP; savaş kartı 1 AP + 3 altın. İki elin ayrı ayrı sınırı 7 karttır. Kartı seçerek kullan, dönüştür veya at. Üretim tur sonunda gelir; şehir merkezi her tur 1 altın verir. Ticaret Merkezi kaynakları altına çevirir."
+msgstr "CARDS: Drawing a construction card costs 1 AP; a war card 1 AP + 3 gold. Each of your two hands holds up to 7 cards. Select a card to use, convert or discard it. Production arrives at the end of the turn; your city center yields 1 gold each turn. A Trade Center turns resources into gold."
 
 msgid "SAVAŞ: Düşmana sağ tıkla; iki taraf kartlarını kilitler ve zar atar. Eşitlikte savunan kazanır. Kuşatma kartları yalnız bina saldırısındadır. Hükmet şehir sahibini vasal yapar; vasal üretiminin yarısını vergi verir."
 msgstr "WAR: Right-click an enemy; both sides lock their cards and roll dice. Ties go to the defender. Siege cards work only against buildings. Subjugate makes a city's owner your vassal; a vassal pays half of its production as tax."
@@ -1621,3 +1621,33 @@ msgstr "Normal"
 
 msgid "Zor"
 msgstr "Hard"
+
+msgid "Yapay zekâ"
+msgstr "AI"
+
+msgid "+ EKLE"
+msgstr "+ ADD"
+
+msgid "− ÇIKAR"
+msgstr "− REMOVE"
+
+msgid "Oyun duraklatıldı."
+msgstr "Game paused."
+
+msgid "Lisanslar ve emeği geçenler"
+msgstr "Licenses and credits"
+
+msgid "LİSANSLAR VE EMEĞİ GEÇENLER"
+msgstr "LICENSES AND CREDITS"
+
+msgid "HÜKÜM %s"
+msgstr "HÜKÜM %s"
+
+msgid "Oyun motoru: Godot Engine — MIT lisansı. Godot'un lisans metni ve üçüncü taraf bileşenleri aşağıdadır."
+msgstr "Game engine: Godot Engine — MIT license. Godot's license text and third-party components follow below."
+
+msgid "Yazı tipleri: Cinzel (The Cinzel Project Authors) ve Noto Sans (The Noto Project Authors) — SIL Open Font License 1.1. Lisans metinleri aşağıdadır."
+msgstr "Fonts: Cinzel (The Cinzel Project Authors) and Noto Sans (The Noto Project Authors) — SIL Open Font License 1.1. The license texts follow below."
+
+msgid "Arayüz tıklama sesleri: Kenney UI Audio — CC0. Oyun efektleri ve müzikler HÜKÜM için özel olarak sentezlenmiştir."
+msgstr "Interface click sounds: Kenney UI Audio — CC0. Game effects and music were synthesized specifically for HÜKÜM."

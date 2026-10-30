@@ -32,6 +32,13 @@ func _ready():
 	satirlar.add_theme_constant_override("separation", 14)
 	panel.add_child(satirlar)
 	perde.hide()
+	perde.visibility_changed.connect(_duraklatmayi_guncelle)
+
+# Tek oyunculuda menü açıkken maç (yapay zekâ dahil) durur; çevrimiçi maç durmaz.
+func _duraklatmayi_guncelle():
+	if not oyun or not is_inside_tree(): return
+	var dur = perde.visible and oyun.tek_oyunculu_mu() and not oyun.oyun_bitti
+	if get_tree().paused != dur: get_tree().paused = dur
 
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_cancel"):
@@ -72,7 +79,7 @@ func _buton(metin: String, islem: Callable):
 func menuyu_ac():
 	if sonuc_acik: return
 	_temizle(tr("HÜKÜM"))
-	if oyun: _metin(tr("Çevrimiçi maç bu menü açıkken devam eder."))
+	if oyun: _metin(tr("Oyun duraklatıldı.") if oyun.tek_oyunculu_mu() else tr("Çevrimiçi maç bu menü açıkken devam eder."))
 	_buton(tr("Devam et"), perde.hide).grab_focus()
 	_buton(tr("Nasıl oynanır?"), yardimi_ac)
 	_buton("Ayarlar", ayarlari_ac)
@@ -90,9 +97,10 @@ func yardimi_ac():
 	_metin(tr("AMAÇ: 50 puana ulaş. Her toprak 1, şehir dışındaki her bina seviyesi 2, her doğrudan vasal 5 puan verir. Savaş kazanmak +2, kaybetmek −2 puandır."))
 	_metin(tr("KURULUM: Bir biyom seç, keşfedilmemiş bir hex'e sol tıkla ve onayla. Şehir 10 odun + 10 taş tutar; bir öncü verir. Herkes şehrini kurduktan sonra tur başına 3 AP kazanılır."))
 	_metin(tr("KEŞİF: Öncüyü sol tıkla seç. Komşu hex'e sağ tıkla hareket et (1 AP + 1 yiyecek). Öncünün üstüne sağ tıkla, kendi toprağına komşu bölgeyi sahiplen (1 AP + 3 yiyecek)."))
-	_metin(tr("KARTLAR: İnşa kartı çekmek 1 AP; savaş kartı 1 AP + 3 altın. İki elin ayrı ayrı sınırı 7 karttır. Kartı seçerek kullan, dönüştür veya at. Üretim tur sonunda gelir. Ticaret Merkezi kaynakları altına çevirir."))
+	_metin(tr("KARTLAR: İnşa kartı çekmek 1 AP; savaş kartı 1 AP + 3 altın. İki elin ayrı ayrı sınırı 7 karttır. Kartı seçerek kullan, dönüştür veya at. Üretim tur sonunda gelir; şehir merkezi her tur 1 altın verir. Ticaret Merkezi kaynakları altına çevirir."))
 	_metin(tr("SAVAŞ: Düşmana sağ tıkla; iki taraf kartlarını kilitler ve zar atar. Eşitlikte savunan kazanır. Kuşatma kartları yalnız bina saldırısındadır. Hükmet şehir sahibini vasal yapar; vasal üretiminin yarısını vergi verir."))
 	_metin(tr("KONTROLLER: WASD / oklar ve sağ tuşla sürükleme: kamera. Fare tekerleği: yakınlaştırma. Sağ tık: inşayı iptal. Esc: menü. Oda bağlantısı: sunucunun IP adresi, UDP 7777."))
+	_buton(tr("Lisanslar ve emeği geçenler"), lisanslari_ac)
 	_buton(tr("Geri"), menuyu_ac)
 
 func ayarlari_ac():
@@ -168,3 +176,26 @@ func sonucu_goster(kazanan: String, puan: int):
 	for isim in siralama:
 		_metin("%s  ·  %s  ·  %d puan" % [isim, oyun.medeniyetler_verisi.get(isim, ""), oyun.puan_hesapla(isim)])
 	_buton(tr("Ana menüye dön"), ana_menuye_don).grab_focus()
+
+func lisanslari_ac():
+	_temizle(tr("LİSANSLAR VE EMEĞİ GEÇENLER"))
+	_metin(tr("HÜKÜM %s") % Global.surum())
+	var kutu = ScrollContainer.new()
+	kutu.custom_minimum_size = Vector2(680, 420)
+	kutu.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	var metin = RichTextLabel.new()
+	metin.fit_content = true
+	metin.custom_minimum_size.x = 660
+	metin.add_theme_font_size_override("normal_font_size", 16)
+	metin.text = "\n\n".join([
+		tr("Oyun motoru: Godot Engine — MIT lisansı. Godot'un lisans metni ve üçüncü taraf bileşenleri aşağıdadır."),
+		tr("Yazı tipleri: Cinzel (The Cinzel Project Authors) ve Noto Sans (The Noto Project Authors) — SIL Open Font License 1.1. Lisans metinleri aşağıdadır."),
+		tr("Arayüz tıklama sesleri: Kenney UI Audio — CC0. Oyun efektleri ve müzikler HÜKÜM için özel olarak sentezlenmiştir."),
+		Engine.get_license_text(),
+		FileAccess.get_file_as_string("res://fonts/OFL-Cinzel.txt"),
+		FileAccess.get_file_as_string("res://fonts/OFL-NotoSans.txt"),
+		FileAccess.get_file_as_string("res://addons/kenney_ui_audio/LICENSE.txt"),
+	]).replace("[", "[lb]")
+	kutu.add_child(metin)
+	satirlar.add_child(kutu)
+	_buton(tr("Geri"), yardimi_ac)

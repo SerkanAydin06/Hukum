@@ -530,7 +530,7 @@ func savas_hamlesi_yap_rpc(oyuncu_ismi: String, kartlar_array: Array, lokal_idx_
 	ana.savas.secilen_savas_idxleri[oyuncu_ismi] = gorulen
 	ana.savas.taraf_kilitlendi_rpc.rpc(oyuncu_ismi == taraflar[0])
 	if ana.savas.secilen_savas_kartlari.size() == 2:
-		kartlari_ac_rpc.rpc(ana.savas.secilen_savas_kartlari, ana.savas.secilen_savas_idxleri)
+		kartlari_ac_rpc.rpc(ana.savas.secilen_savas_kartlari.duplicate(true), ana.savas.secilen_savas_idxleri.duplicate(true))
 
 @rpc("authority", "call_local", "reliable")
 func kartlari_ac_rpc(kartlar_dict: Dictionary, idx_dict: Dictionary):

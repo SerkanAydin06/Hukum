@@ -42,7 +42,8 @@ bir masa çalıştırır; resmî maç sonucu onaylandıktan sonra yeniden lobi a
 ## Oyun döngüsü
 
 - Önce biyom seçip boş, keşfedilmemiş bir hex'e şehir kur: 10 odun + 10 taş.
-- Herkes kurulumunu bitirdiğinde tur başına 3 AP alırsın. Üretim tur sonunda gelir.
+- Herkes kurulumunu bitirdiğinde tur başına 3 AP alırsın. Üretim tur sonunda gelir;
+  şehir merkezi her tur 1 altın üretir (savaş kartı 3 altın).
 - Öncüyle komşu hex'leri keşfet; toprak kazan, kart çek, bina kur/yükselt ve ticaret yap.
 - İnşa ve savaş ellerinin her biri en fazla 7 karttır. Atılan inşa kartları deste
   bittiğinde yeniden karıştırılır; savaş kartlarının ayrı atık destesi vardır.
@@ -53,6 +54,11 @@ bir masa çalıştırır; resmî maç sonucu onaylandıktan sonra yeniden lobi a
 
 WASD/oklar ve sağ tuşla sürükleme kamerayı hareket ettirir. Fare tekerleği
 zoom yapar. **Esc / Menü–Yardım** kuralları, ayarları ve ayrılma seçeneğini açar.
+Yerel ağda oda sahibi, özel sunucuda oda kurucusu lobideki **Yapay zekâ** satırından
+boş koltuklara zorluk seçerek yapay zekâ ekleyip çıkarabilir; yapay zekâ boştaki
+ilk renk ve medeniyeti alır ve hazırdır. Resmî PARDEX maçlarında yapay zekâ koltuğu
+yoktur (sonuçlar gerçek hesaplara yazılır). Tek oyunculuda menü açıkken oyun durur.
+
 Rakip zorluğu tek oyunculu menüsünden seçilir: **Kolay** AP'sini sık sık yarıda bırakır
 ve bina geliştirmez, **Orta** dengelidir, **Zor** yiyecek ekonomisini önce kurar,
 geliştirmelere öncelik verir ve liderin öncülerine saldırır. Hiçbir seviye gizli
@@ -120,6 +126,16 @@ godot --headless --path . --script tests/ai_sim.gd -- 20 zor,orta,kolay,orta 90
 ```
 
 Her maç için bir `HUKUM_SIM {...}` JSON satırı yazar.
+
+## Sürüm paketleri
+
+`v1.0.0` gibi bir etiket gönderildiğinde (veya Actions'tan elle) **Release builds**
+iş akışı doğrulanmış Godot 4.7.2 ve resmî export şablonlarıyla Windows, Linux,
+macOS (imzasız) paketlerini ve Linux dedicated server'ı üretir, Linux paketini ve
+sunucuyu çalıştırarak dener, sonra taslak bir GitHub sürümüne ekler. Sürüm
+numarası `project.godot` içindeki `config/version` alanıdır ve ana menünün sağ
+altında görünür. Oyun içinde Nasıl Oynanır › Lisanslar ve emeği geçenler, Godot,
+yazı tipi ve ses lisanslarını gösterir.
 
 ## Dışa aktarma
 

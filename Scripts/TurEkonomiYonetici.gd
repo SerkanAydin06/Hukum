@@ -4,6 +4,8 @@ class_name TurEkonomiYonetici
 @onready var ana = get_parent() as AnaOyun
 
 # Bir oyuncunun binalarının tur başı ham üretimi (vergi öncesi). Tek kaynak: her yer bunu kullanır.
+const SEHIR_ALTINI := 1
+
 func bina_uretimi(isim: String) -> Dictionary:
 	var u = {"odun": 0, "tas": 0, "yiyecek": 0, "altin": 0}
 	for koor in ana.binalar_verisi:
@@ -13,6 +15,7 @@ func bina_uretimi(isim: String) -> Dictionary:
 		var med = ana.medeniyetler_verisi.get(isim, "")
 		match b["tur"]:
 			"sehir_merkezi":
+				u["altin"] += SEHIR_ALTINI   # vergi geliri: savaş kartlarına erişim için düzenli altın
 				var biyom = ana.harita.kesfedilen_hexler.get(koor, "")
 				if biyom == "cim": u["yiyecek"] += lvl
 				elif biyom == "orman": u["odun"] += lvl

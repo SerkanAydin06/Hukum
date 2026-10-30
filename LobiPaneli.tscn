@@ -311,12 +311,50 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Butonlar" type="HBoxContainer" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer"]
+[node name="ButonSatirlari" type="VBoxContainer" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="YapayZekaSatiri" type="HBoxContainer" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/ButonSatirlari"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="YapayZekaEtiketi" type="Label" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/ButonSatirlari/YapayZekaSatiri"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Yapay zekâ"
+
+[node name="YZZorluk" type="OptionButton" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/ButonSatirlari/YapayZekaSatiri"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 44)
+layout_mode = 2
+
+[node name="YZEkleBtn" type="Button" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/ButonSatirlari/YapayZekaSatiri"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 44)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_type_variation = &"HukumCompact"
+text = "+ EKLE"
+
+[node name="YZCikarBtn" type="Button" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/ButonSatirlari/YapayZekaSatiri"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 44)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_type_variation = &"HukumCompact"
+text = "− ÇIKAR"
+
+[node name="Butonlar" type="HBoxContainer" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/ButonSatirlari"]
 layout_mode = 2
 theme_override_constants/separation = 50
 alignment = 1
 
-[node name="IptalBtn" type="Button" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/Butonlar"]
+[node name="IptalBtn" type="Button" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/ButonSatirlari/Butonlar"]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(250, 60)
@@ -326,7 +364,7 @@ text = "İPTAL"
 mouse_default_cursor_shape = 2
 size_flags_vertical = 4
 
-[node name="HazirBtn" type="Button" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/Butonlar"]
+[node name="HazirBtn" type="Button" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/ButonSatirlari/Butonlar"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(250, 60)
 layout_mode = 2
@@ -336,7 +374,7 @@ theme_type_variation = &"HukumPrimary"
 mouse_default_cursor_shape = 2
 size_flags_vertical = 4
 
-[node name="BaslatBtn" type="Button" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/Butonlar"]
+[node name="BaslatBtn" type="Button" parent="AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/ButonSatirlari/Butonlar"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(250, 60)
 layout_mode = 2

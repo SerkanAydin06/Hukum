@@ -518,3 +518,4 @@ func run_rejoin_regressions():
 	game.oyun_bitti = false
 	game._donus_anahtarlari = {}
 	game._donus_rezervleri = {}
+
