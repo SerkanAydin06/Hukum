@@ -1,7 +1,7 @@
 """Fast filesystem/scene contract checks; no Godot binary or paid service required."""
 from pathlib import Path
 import re
-import xml.etree.ElementTree as ET
+import struct
 
 ROOT = Path(__file__).resolve().parents[1]
 LOBBY = (ROOT / "Scripts/LobiPaneli.gd").read_text(encoding="utf-8")
@@ -26,21 +26,22 @@ for node in ("AtakZarSonucu", "DefansZarSonucu"):
 
 # Pioneer Camp must use a distinct card illustration, not a civilization unit sprite.
 CARD_UI = (ROOT / "Scripts/KartUI.gd").read_text(encoding="utf-8")
-CAMP_ART = ROOT / "Assets/Resimler/kartresimleri/oncukampi_cadir.svg"
+CAMP_ART = ROOT / "Assets/Resimler/kartresimleri/oncukampi.png"
 if not CAMP_ART.is_file():
     MISSING.append("Pioneer Camp card illustration is missing")
 else:
-    try:
-        svg = ET.parse(CAMP_ART).getroot()
-        if not svg.tag.endswith("svg"):
-            MISSING.append("Pioneer Camp illustration is not SVG")
-    except ET.ParseError:
-        MISSING.append("Pioneer Camp illustration has invalid SVG XML")
+    header = CAMP_ART.read_bytes()[:24]
+    if header[:8] != b"\x89PNG\r\n\x1a\n":
+        MISSING.append("Pioneer Camp illustration must be PNG")
+    else:
+        width, height = struct.unpack(">II", header[16:24])
+        if width < 246 or height < 393 or abs(width / height - 246 / 393) > .03:
+            MISSING.append("Pioneer Camp illustration must match the portrait card proportions")
 CARD_SCENE = (ROOT / "KartUI.tscn").read_text(encoding="utf-8")
-if 'OncuKampiDetay' not in CARD_SCENE or 'oncukampi_cadir.svg' not in CARD_SCENE:
-    MISSING.append("Pioneer Camp card art overlay is missing in KartUI.tscn")
-if 'ONCU_KAMPI_KART_ZEMINI' not in CARD_UI or 'oncu_kampi_detay.visible' not in CARD_UI:
-    MISSING.append("Pioneer Camp must retain construction card frame and show tent overlay")
+if 'OncuKampiDetay' in CARD_SCENE or 'oncu_kampi_detay' in CARD_UI:
+    MISSING.append("Pioneer Camp must not overlay drawings on another card")
+if 'const ONCU_KAMPI_KARTI = preload("res://Assets/Resimler/kartresimleri/oncukampi.png")' not in CARD_UI:
+    MISSING.append("Pioneer Camp must use its own complete card artwork")
 if '"Enrico Dandolo": "dandolo"' not in CARD_UI:
     MISSING.append("Enrico Dandolo commander image name must match dandolo.png")
 PANEL = (ROOT / "Scripts/ArayuzYonetici.gd").read_text(encoding="utf-8")
@@ -67,4 +68,5 @@ for scene_path in ROOT.glob("*.tscn"):
 if MISSING:
     raise SystemExit("Project asset/scene checks failed:\n- " + "\n- ".join(MISSING))
 print("HUKUM project checks: PASS")
+
 

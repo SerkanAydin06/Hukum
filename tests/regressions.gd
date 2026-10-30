@@ -139,24 +139,18 @@ func run_tests():
 			var script = load("res://Scripts/" + file)
 			check(script != null and script.can_instantiate(), "Godot compiles " + file)
 	setup()
-	# Verify the actual Godot SVG import and card texture assignment, not only a file path.
+	# Verify actual PNG import and complete card texture assignment.
 	var oncu_kart = load("res://Scripts/KartUI.gd").new()
 	var oncu_kart_resmi = TextureRect.new()
 	oncu_kart_resmi.name = "InsaResim"
 	oncu_kart.add_child(oncu_kart_resmi)
 	oncu_kart_resmi.owner = oncu_kart
 	oncu_kart_resmi.unique_name_in_owner = true
-	var cadir = TextureRect.new()
-	cadir.name = "OncuKampiDetay"
-	oncu_kart.add_child(cadir)
-	cadir.owner = oncu_kart
-	cadir.unique_name_in_owner = true
-	cadir.texture = load("res://Assets/Resimler/kartresimleri/oncukampi_cadir.svg")
 	get_tree().root.add_child(oncu_kart)
 	oncu_kart.karti_doldur({"tur": "oncu_kampi", "hedef": "harita", "isim": "Öncü Kampı"}, 0)
-	check(oncu_kart.insa_resim == oncu_kart_resmi and oncu_kart_resmi.texture != null and cadir.visible and cadir.texture != null and oncu_kart_resmi.texture.resource_path.ends_with("oduncu.png"), "Pioneer camp preserves frame and overlays campsite tent")
+	check(oncu_kart.insa_resim == oncu_kart_resmi and oncu_kart_resmi.texture != null and oncu_kart_resmi.texture.resource_path.ends_with("oncukampi.png"), "Pioneer camp uses its own complete painted card")
 	oncu_kart.karti_doldur({"tur": "tarla", "hedef": "harita", "isim": "Tarla"}, 1)
-	check(not cadir.visible, "Pioneer camp overlay hides on other construction cards")
+	check(oncu_kart_resmi.texture != null and oncu_kart_resmi.texture.resource_path.ends_with("tarla.png"), "Other construction cards retain their own artwork")
 	oncu_kart.free()
 	await run_completion_regressions()
 	await run_new_regressions()
