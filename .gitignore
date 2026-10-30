@@ -25,3 +25,5 @@ mono_crash.*.json
 # Export output
 build/
 dist/
+__pycache__/
+*.pyc
