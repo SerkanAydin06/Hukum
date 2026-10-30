@@ -229,14 +229,18 @@ func _profil_kaydet():
 	_profil_duzenle_kapat()
 
 func _alistirma_ac():
-	oyun_menusu._temizle("TEK OYUNCULU ALIŞTIRMA")
-	oyun_menusu._metin("Rakipsiz bir haritada şehir kurmayı, keşfi, üretimi ve kartları öğren. 50 puana ulaşarak tamamla. Bu modda yapay zekâ rakip yoktur; savaş için çok oyunculu oda kullan.")
-	oyun_menusu._buton("Alıştırmayı başlat", _alistirma_baslat)
+	oyun_menusu._temizle("TEK OYUNCULU")
+	oyun_menusu._metin("Yapay zekâ hükümdarlara karşı oyna ya da rakipsiz haritada şehir kurmayı, keşfi, üretimi ve kartları öğren. İlk 50 puana ulaşan kazanır. Tek oyunculuda süre sınırı yoktur.")
+	oyun_menusu._buton("1 rakiple oyna", _alistirma_baslat.bind(1)).theme_type_variation = &"HukumPrimary"
+	oyun_menusu._buton("3 rakiple oyna", _alistirma_baslat.bind(3))
+	oyun_menusu._buton("5 rakiple oyna", _alistirma_baslat.bind(5))
+	oyun_menusu._buton("Rakipsiz alıştırma", _alistirma_baslat.bind(0))
 	oyun_menusu._buton("Geri", oyun_menusu.perde.hide)
 
-func _alistirma_baslat():
+func _alistirma_baslat(rakip_sayisi: int = 0):
 	PardexLink.use_private_mode()
 	Network.baglantiyi_kapat()
+	Network.alistirma_rakip_sayisi = rakip_sayisi
 	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
 	Network.oyun_tohumu = randi()
 	SceneTransition.go_to("res://AnaOyun.tscn")

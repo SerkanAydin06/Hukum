@@ -80,16 +80,46 @@ func _ready():
 				"profil_no": Global.profil_no 
 			}
 		}
+		_alistirma_rakiplerini_ekle(test_veri, Network.alistirma_rakip_sayisi)
 		lobi_verisiyle_baslat(test_veri)
+	if not yapay_zeka_oyunculari.is_empty() and multiplayer.is_server():
+		var yz = YapayZeka.new()
+		yz.name = "YapayZeka"
+		add_child(yz)
 	if Network.merkezi_mod: Network.sahne_hazir_rpc.rpc_id(1)
 	elif not multiplayer.is_server(): Network.oyun_sahnesi_hazir_rpc.rpc_id(1)
 	if multiplayer.is_server(): _donus_anahtarlarini_dagit()
 
+# --- YAPAY ZEKÂ RAKİPLER ---
+# Rakipler gerçek bağlantısı olmayan koltuklardır (negatif kimlik); hamlelerini
+# sunucudaki YapayZeka düğümü, insanlarla aynı doğrulanmış yoldan yapar.
+var yapay_zeka_oyunculari := []
+const RAKIP_ADLARI = {"Osmanlı": "Orhan Gazi", "Venedik": "Dandolo", "Bizans": "Theodora", "Moğol": "Kubilay", "Viking": "Ragnhild", "Mısır": "Hatşepsut"}
+const RAKIP_RENKLERI = ["Kirmizi", "Mavi", "Yesil", "Sari", "Mor", "CamGobegi"]
+
+func bot_mu(isim: String) -> bool:
+	return isim in yapay_zeka_oyunculari
+
+func _alistirma_rakiplerini_ekle(veri: Dictionary, sayi: int):
+	var insan = veri.values()[0]
+	var medeniyetler = RAKIP_ADLARI.keys().filter(func(m): return m != insan["medeniyet"])
+	medeniyetler.shuffle()
+	for i in range(clampi(sayi, 0, 5)):
+		var med = medeniyetler[i]
+		veri[-(i + 1)] = {"isim": RAKIP_ADLARI[med], "renk": RAKIP_RENKLERI[i], "medeniyet": med,
+			"hazir": true, "profil_no": (i % 8) + 1, "bot": true}
+
 func lobi_verisiyle_baslat(gelen_lobi_verisi: Dictionary):
 	oyuncular.clear()
 	oyuncu_peer_idleri.clear()
+	yapay_zeka_oyunculari.clear()
 	var peer_idleri = gelen_lobi_verisi.keys()
-	peer_idleri.sort()
+	# İnsanlar peer kimliğine göre önce, rakipler sonra oynar (her eşte aynı sıra).
+	peer_idleri.sort_custom(func(a, b):
+		var bot_a = gelen_lobi_verisi[a].get("bot", false)
+		var bot_b = gelen_lobi_verisi[b].get("bot", false)
+		if bot_a != bot_b: return bot_b
+		return a < b if not bot_a else a > b)
 	
 	for id in peer_idleri:
 		var o_veri = gelen_lobi_verisi[id]
@@ -106,6 +136,7 @@ func lobi_verisiyle_baslat(gelen_lobi_verisi: Dictionary):
 		
 		oyuncular.append(gercek_isim)
 		oyuncu_peer_idleri.append(id)
+		if o_veri.get("bot", false): yapay_zeka_oyunculari.append(gercek_isim)
 		oyuncu_elleri[gercek_isim] = []
 		savas_puanlari[gercek_isim] = 0
 		
@@ -150,7 +181,7 @@ func _donus_anahtarlarini_dagit():
 	var kripto = Crypto.new()
 	for i in range(oyuncular.size()):
 		var peer = oyuncu_peer_idleri[i]
-		if peer == multiplayer.get_unique_id(): continue
+		if peer == multiplayer.get_unique_id() or peer < 0: continue
 		var anahtar = kripto.generate_random_bytes(24).hex_encode()
 		_donus_anahtarlari[oyuncular[i]] = anahtar
 		Network.donus_anahtari_rpc.rpc_id(peer, anahtar, oyuncular[i])
@@ -407,12 +438,13 @@ func _oyuncular_hazir_mi() -> bool:
 	if Network.merkezi_mod: return true   # merkezi sunucu zaten bütün sahneleri bekler
 	for i in range(oyuncu_peer_idleri.size()):
 		var peer = oyuncu_peer_idleri[i]
-		if peer == multiplayer.get_unique_id() or oyuncular[i] in ayrilan_oyuncular: continue
+		if peer == multiplayer.get_unique_id() or peer < 0 or oyuncular[i] in ayrilan_oyuncular: continue
 		if not Network.oyun_hazir_peerleri.has(peer): return false
 	return true
 
 func _sure_asamasi() -> Array:
 	if oyun_bitti or oyuncular.size() < 2 or aktif_sira >= oyuncular.size(): return []
+	if oyuncular.size() - yapay_zeka_oyunculari.size() < 2: return []   # tek insan oyuncu: süre yok
 	if not _oyuncular_hazir_mi(): return []
 	if Network.merkezi_mod and Network.oturum_asamasi != "game": return []
 	if savas.sonuc_gosteriliyor: return []

@@ -1,8 +1,8 @@
 # HÜKÜM
 
 Godot 4.7.2 ile geliştirilmiş, altı medeniyetli sıra tabanlı hex strateji oyunu.
-2–6 kişi yerel ağ, özel WebSocket sunucusu veya PARDEX masa koduyla oynar. Tek oyunculu seçenek, rakipsiz bir
-alıştırma haritasıdır. Zafer hedefi 50 puandır.
+2–6 kişi yerel ağ, özel WebSocket sunucusu veya PARDEX masa koduyla oynar. Tek oyunculuda
+1, 3 veya 5 yapay zekâ hükümdara karşı oynanır ya da rakipsiz alıştırma seçilir. Zafer hedefi 50 puandır.
 
 ## Çalıştırma
 
@@ -51,6 +51,12 @@ bir masa çalıştırır; resmî maç sonucu onaylandıktan sonra yeniden lobi a
 
 WASD/oklar ve sağ tuşla sürükleme kamerayı hareket ettirir. Fare tekerleği
 zoom yapar. **Esc / Menü–Yardım** kuralları, ayarları ve ayrılma seçeneğini açar.
+Yapay zekâ rakipler oyun sunucusunda çalışır ve yalnızca senin de görebildiğin
+bilgiyi (keşfedilmiş arazi, binalar, öncüler, kaynaklar) ve kendi elini kullanır;
+keşfedilmemiş araziyi, senin elini veya deste sırasını görmez. Hamlelerini oyuncu
+hamleleriyle aynı kurallardan geçirir: şehir kurar, keşfeder, toprak kazanır, bina
+kurup yükseltir, kart çeker ve ordusu varsa komşu öncülere saldırır.
+
 Çevrimiçi maçta her turun süresi 120 saniyedir; savaşta kart seçmek için 45, zar
 atmak için 20 saniye vardır. Son 15 saniyede uyarı çıkar. Süre dolunca sunucu
 oyuncunun yerine davranır: turu bitirir (kurulumda boş bir hex'e şehir kurar),

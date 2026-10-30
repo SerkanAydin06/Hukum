@@ -179,7 +179,108 @@ func run():
 	current_scene._alistirma_baslat()
 	await create_timer(1.2).timeout
 	check(current_scene.has_method("puan_hesapla") and root.multiplayer.multiplayer_peer is OfflineMultiplayerPeer, "Practice starts without a network port")
+	check(current_scene.oyuncular.size() == 1 and current_scene.get_node_or_null("YapayZeka") == null, "Opponent-free practice has no AI")
 	current_scene.oyun_menusu.ana_menuye_don()
 	await create_timer(1.0).timeout
+	await run_ai_match()
 	print("HUKUM RUNTIME SMOKE: %d failures" % failures)
 	quit(1 if failures else 0)
+
+# Solo match against three AI rulers: they found cities, play the rules and
+# never stall the turn order, including battles against the human.
+func run_ai_match():
+	current_scene._alistirma_baslat(3)
+	await create_timer(1.2).timeout
+	var game = current_scene
+	var yz = game.get_node_or_null("YapayZeka")
+	check(yz != null and game.oyuncular.size() == 4 and game.yapay_zeka_oyunculari.size() == 3, "Solo match seats three AI rulers")
+	check(game.benim_indexim == 0 and game.aktif_sira == 0, "Human plays first")
+	check(game.kalan_sure_saniye() == -1, "Solo match has no turn timer")
+	if yz == null: return
+	yz.hamle_araligi = 0.0
+	var ben = game.oyuncular[0]
+	game.istek("aksiyon", "bina_kur_rpc", [Vector2i(2, 2), ben, "sehir_merkezi", "cim"])
+	var savas_sayisi = 0
+	var son_tur = game.tur_sayaci
+	for adim in range(6000):
+		if game.oyun_bitti: break
+		if game.savas.savas_aktif:
+			var taraflar = game.savas.savas_taraflari()
+			if ben in taraflar:
+				if game.savas.son_kartlar_dict.is_empty() and not game.savas.secilen_savas_kartlari.has(ben):
+					game.istek("aksiyon", "savas_hamlesi_yap_rpc", [ben, [], []])
+					savas_sayisi += 1
+				elif not game.savas.son_kartlar_dict.is_empty():
+					var saldiran = taraflar[0] == ben
+					if (game.savas.zar_saldiran_deger if saldiran else game.savas.zar_savunan_deger) == -1:
+						game.istek("savas", "zar_at_istegi_rpc", [saldiran])
+		elif game.aktif_sira == 0 and not game.savas.sonuc_gosteriliyor:
+			if game.tur_sayaci >= 16: break
+			game.istek("tur_ekonomi", "sirayi_degistir_rpc", [])
+		await process_frame
+	check(game.tur_sayaci >= 16 or game.oyun_bitti, "AI turns never stall the match (reached round %d)" % game.tur_sayaci)
+	var gelisme = 0
+	for bot in game.yapay_zeka_oyunculari:
+		check(game.sehir_merkezleri[bot], "AI founded a city: " + bot)
+		var toprak = 0
+		for sahip in game.kontrol_edilen_hexler.values():
+			if sahip == bot: toprak += 1
+		var bina = 0
+		for b in game.binalar_verisi.values():
+			if b["sahip"] == bot and b["tur"] != "sehir_merkezi": bina += 1
+		if toprak > 1 or bina > 0: gelisme += 1
+	check(gelisme >= 2, "AI rulers expand or build over sixteen rounds")
+	var gizli_dogru = true
+	for bot in game.yapay_zeka_oyunculari:
+		for kart in game.oyuncu_elleri[bot]:
+			if kart.get("gizli", false): gizli_dogru = false
+	check(gizli_dogru, "Server keeps real AI hands")
+	print("AI match: round %d, battles with human %d, scores %s" % [game.tur_sayaci, savas_sayisi, str(game.puanlar)])
+	if not game.oyun_bitti: await run_ai_battle(game, ben)
+	game.oyun_menusu.ana_menuye_don()
+	await create_timer(1.0).timeout
+
+# An AI with an army attacks an adjacent human pioneer and the battle resolves.
+func run_ai_battle(game, ben: String):
+	var bot = game.yapay_zeka_oyunculari[0]
+	var bot_idx = game.oyuncular.find(bot)
+	var saldiran = -1
+	var hedef = Vector2i(-1, -1)
+	for i in range(game.piyonlar.size()):
+		if game.piyonlar[i]["sahip"] != bot: continue
+		for dx in range(-1, 2):
+			for dy in range(-1, 2):
+				var k = game.piyonlar[i]["koordinat"] + Vector2i(dx, dy)
+				if not game.hex_gecerli_mi(k) or not game.harita.hex_komsu_mu(game.piyonlar[i]["koordinat"], k): continue
+				if game.binalar_verisi.has(k) or game.kontrol_edilen_hexler.get(k, "") == bot: continue
+				var bos = true
+				for p in game.piyonlar:
+					if p["koordinat"] == k: bos = false
+				if bos and hedef == Vector2i(-1, -1):
+					saldiran = i
+					hedef = k
+	check(hedef != Vector2i(-1, -1), "Found a hex next to an AI pioneer")
+	if hedef == Vector2i(-1, -1): return
+	game.piyonlar.append({"sahip": ben, "koordinat": hedef})
+	game.harita.kesfedilen_hexler[hedef] = "cim"
+	var asker = {"tur": "piyade", "kategori": "⚔️ PİYADE", "isim": "Piyade", "hedef": "savas", "guc": 1, "tanim": "Standart piyade birliği.", "bonus": ""}
+	var tarla = {"tur": "tarla", "isim": "Tarla", "hedef": "harita", "odun_maliyet": 6, "tas_maliyet": 0}
+	game.oyuncu_elleri[bot] = [asker.duplicate(true), asker.duplicate(true), asker.duplicate(true), tarla.duplicate(true), tarla.duplicate(true)]
+	game.oyuncu_kaynaklari[bot]["yiyecek"] = 1
+	game.oyuncu_kaynaklari[bot]["odun"] = 0
+	var puan_once = game.savas_puanlari[bot]
+	game.aktif_sira = bot_idx
+	game.aktif_oyuncu_aksiyon_hakki = 3
+	var basladi = false
+	for adim in range(600):
+		if game.savas.savas_aktif:
+			basladi = true
+			if game.savas.son_kartlar_dict.is_empty() and not game.savas.secilen_savas_kartlari.has(ben):
+				game.istek("aksiyon", "savas_hamlesi_yap_rpc", [ben, [], []])
+			elif not game.savas.son_kartlar_dict.is_empty() and game.savas.zar_savunan_deger == -1:
+				game.istek("savas", "zar_at_istegi_rpc", [false])
+		elif basladi and not game.savas.sonuc_gosteriliyor:
+			break
+		await process_frame
+	check(basladi, "AI attacks an adjacent enemy pioneer when it has an army")
+	check(game.savas_puanlari[bot] != puan_once and not game.savas.savas_aktif, "AI battle resolves with locked cards and server dice")

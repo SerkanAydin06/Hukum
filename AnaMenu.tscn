@@ -334,7 +334,7 @@ unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(0, 60)
 size_flags_horizontal = 3
-text = "TEK OYUNCULU ALIŞTIRMA"
+text = "TEK OYUNCULU"
 
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 20
