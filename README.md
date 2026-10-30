@@ -53,6 +53,11 @@ bir masa çalıştırır; resmî maç sonucu onaylandıktan sonra yeniden lobi a
 
 WASD/oklar ve sağ tuşla sürükleme kamerayı hareket ettirir. Fare tekerleği
 zoom yapar. **Esc / Menü–Yardım** kuralları, ayarları ve ayrılma seçeneğini açar.
+Rakip zorluğu tek oyunculu menüsünden seçilir: **Kolay** AP'sini sık sık yarıda bırakır
+ve bina geliştirmez, **Orta** dengelidir, **Zor** yiyecek ekonomisini önce kurar,
+geliştirmelere öncelik verir ve liderin öncülerine saldırır. Hiçbir seviye gizli
+bilgiye bakmaz veya ek kaynak almaz.
+
 Yapay zekâ rakipler oyun sunucusunda çalışır ve yalnızca senin de görebildiğin
 bilgiyi (keşfedilmiş arazi, binalar, öncüler, kaynaklar) ve kendi elini kullanır;
 keşfedilmemiş araziyi, senin elini veya deste sırasını görmez. Hamlelerini oyuncu
@@ -104,6 +109,17 @@ toprak, kart, savaş borusu, kılıç, zar, savaş sonucu, sıra sende, zafer ve
 efektleri vardır. Ayarlar'da ana ses, müzik ve efekt seviyesi ayrı ayrı değişir.
 Bütün oyun sesleri `tools/ses_uret.py` ile sıfırdan sentezlenir; örnek veya dış
 kaynak kullanılmaz. Yeniden üretmek için `python tools/ses_uret.py` (ffmpeg gerekir).
+
+## Yapay zekâ simülasyonu
+
+`tests/ai_sim.gd` bütün koltukları yapay zekâya oynatarak maç süresini ve
+kazananları ölçer:
+
+```bash
+godot --headless --path . --script tests/ai_sim.gd -- 20 zor,orta,kolay,orta 90
+```
+
+Her maç için bir `HUKUM_SIM {...}` JSON satırı yazar.
 
 ## Dışa aktarma
 

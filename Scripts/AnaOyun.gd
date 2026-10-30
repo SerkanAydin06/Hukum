@@ -109,6 +109,8 @@ func _ready():
 # Rakipler gerçek bağlantısı olmayan koltuklardır (negatif kimlik); hamlelerini
 # sunucudaki YapayZeka düğümü, insanlarla aynı doğrulanmış yoldan yapar.
 var yapay_zeka_oyunculari := []
+var yapay_zeka_zorluk := {}      # isim -> "kolay" | "orta" | "zor"
+const ZORLUKLAR = ["kolay", "orta", "zor"]
 const RAKIP_ADLARI = {"Osmanlı": "Orhan Gazi", "Venedik": "Dandolo", "Bizans": "Theodora", "Moğol": "Kubilay", "Viking": "Ragnhild", "Mısır": "Hatşepsut"}
 const RAKIP_RENKLERI = ["Kirmizi", "Mavi", "Yesil", "Sari", "Mor", "CamGobegi"]
 
@@ -121,13 +123,15 @@ func _alistirma_rakiplerini_ekle(veri: Dictionary, sayi: int):
 	medeniyetler.shuffle()
 	for i in range(clampi(sayi, 0, 5)):
 		var med = medeniyetler[i]
+		var zorluk = Network.alistirma_zorluklari[i] if i < Network.alistirma_zorluklari.size() else Network.alistirma_zorlugu
 		veri[-(i + 1)] = {"isim": RAKIP_ADLARI[med], "renk": RAKIP_RENKLERI[i], "medeniyet": med,
-			"hazir": true, "profil_no": (i % 8) + 1, "bot": true}
+			"hazir": true, "profil_no": (i % 8) + 1, "bot": true, "zorluk": zorluk if zorluk in ZORLUKLAR else "orta"}
 
 func lobi_verisiyle_baslat(gelen_lobi_verisi: Dictionary):
 	oyuncular.clear()
 	oyuncu_peer_idleri.clear()
 	yapay_zeka_oyunculari.clear()
+	yapay_zeka_zorluk.clear()
 	var peer_idleri = gelen_lobi_verisi.keys()
 	# İnsanlar peer kimliğine göre önce, rakipler sonra oynar (her eşte aynı sıra).
 	peer_idleri.sort_custom(func(a, b):
@@ -151,7 +155,10 @@ func lobi_verisiyle_baslat(gelen_lobi_verisi: Dictionary):
 		
 		oyuncular.append(gercek_isim)
 		oyuncu_peer_idleri.append(id)
-		if o_veri.get("bot", false): yapay_zeka_oyunculari.append(gercek_isim)
+		if o_veri.get("bot", false):
+			yapay_zeka_oyunculari.append(gercek_isim)
+			var zorluk = str(o_veri.get("zorluk", "orta"))
+			yapay_zeka_zorluk[gercek_isim] = zorluk if zorluk in ZORLUKLAR else "orta"
 		oyuncu_elleri[gercek_isim] = []
 		savas_puanlari[gercek_isim] = 0
 		
@@ -199,7 +206,7 @@ func maci_kaydet() -> bool:
 # Sunucunun tam durumu (gizli bilgi dahil): yalnızca tek oyunculu kayıt için.
 func kayit_verisi() -> Dictionary:
 	return {
-		"oyuncular": oyuncular.duplicate(), "yapay_zeka": yapay_zeka_oyunculari.duplicate(),
+		"oyuncular": oyuncular.duplicate(), "yapay_zeka": yapay_zeka_oyunculari.duplicate(), "zorluk": yapay_zeka_zorluk.duplicate(),
 		"eller": oyuncu_elleri.duplicate(true), "renkler": secilen_renkler.duplicate(true),
 		"medeniyetler": medeniyetler_verisi.duplicate(true), "profiller": oyuncu_profil_no.duplicate(true),
 		"sehirler": sehir_merkezleri.duplicate(true), "kaynaklar": oyuncu_kaynaklari.duplicate(true),
@@ -235,6 +242,7 @@ func _kayittan_baslat(k: Dictionary, insan_veri: Dictionary):
 		else: oyuncu_peer_idleri.append(multiplayer.get_unique_id())
 	benim_indexim = oyuncu_peer_idleri.find(multiplayer.get_unique_id())
 	yapay_zeka_oyunculari = k["yapay_zeka"].duplicate()
+	yapay_zeka_zorluk = k.get("zorluk", {}).duplicate()
 	oyuncu_elleri = k["eller"].duplicate(true)
 	sehir_merkezleri = k["sehirler"].duplicate(true)
 	oyuncu_kaynaklari = k["kaynaklar"].duplicate(true)

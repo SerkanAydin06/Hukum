@@ -1609,3 +1609,15 @@ msgstr "([color=lightgreen]%d[/color]-[color=red]%d[/color]) [color=%s]%s/turn[/
 
 msgid "[color=%s]%s/tur[/color]"
 msgstr "[color=%s]%s/turn[/color]"
+
+msgid "Rakip zorluğu"
+msgstr "Rival difficulty"
+
+msgid "Kolay"
+msgstr "Easy"
+
+msgid "Orta"
+msgstr "Normal"
+
+msgid "Zor"
+msgstr "Hard"
