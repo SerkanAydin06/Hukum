@@ -2,7 +2,9 @@
 
 Godot 4.7.2 ile geliştirilmiş, altı medeniyetli sıra tabanlı hex strateji oyunu.
 2–6 kişi yerel ağ, özel WebSocket sunucusu veya PARDEX masa koduyla oynar. Tek oyunculuda
-1, 3 veya 5 yapay zekâ hükümdara karşı oynanır ya da rakipsiz alıştırma seçilir. Zafer hedefi 50 puandır.
+1, 3 veya 5 yapay zekâ hükümdara karşı oynanır ya da rakipsiz alıştırma seçilir. İlk kez
+oynayanlar için **Öğreticiyle başla**, şehir kurmadan savaşa kadar her adımı gerçek
+oyunda yaptırır; adım, oyuncu o hamleyi yapınca kendiliğinden ilerler. Zafer hedefi 50 puandır.
 
 ## Çalıştırma
 

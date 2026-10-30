@@ -231,11 +231,17 @@ func _profil_kaydet():
 func _alistirma_ac():
 	oyun_menusu._temizle("TEK OYUNCULU")
 	oyun_menusu._metin("Yapay zekâ hükümdarlara karşı oyna ya da rakipsiz haritada şehir kurmayı, keşfi, üretimi ve kartları öğren. İlk 50 puana ulaşan kazanır. Tek oyunculuda süre sınırı yoktur.")
-	oyun_menusu._buton("1 rakiple oyna", _alistirma_baslat.bind(1)).theme_type_variation = &"HukumPrimary"
+	oyun_menusu._buton("Öğreticiyle başla", _ogretici_baslat).theme_type_variation = &"HukumPrimary"
+	oyun_menusu._buton("1 rakiple oyna", _alistirma_baslat.bind(1))
 	oyun_menusu._buton("3 rakiple oyna", _alistirma_baslat.bind(3))
 	oyun_menusu._buton("5 rakiple oyna", _alistirma_baslat.bind(5))
 	oyun_menusu._buton("Rakipsiz alıştırma", _alistirma_baslat.bind(0))
 	oyun_menusu._buton("Geri", oyun_menusu.perde.hide)
+
+# Rakipsiz haritada adım adım ilk maç rehberi.
+func _ogretici_baslat():
+	_alistirma_baslat(0)
+	Network.ogretici_modu = true
 
 func _alistirma_baslat(rakip_sayisi: int = 0):
 	PardexLink.use_private_mode()
