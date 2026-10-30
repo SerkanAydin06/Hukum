@@ -74,7 +74,7 @@ func _unhandled_input(event):
 						if ana.arayuz.cim_btn: ana.arayuz.cim_btn.set_pressed_no_signal(false)
 						if ana.arayuz.orman_btn: ana.arayuz.orman_btn.set_pressed_no_signal(false)
 						if ana.arayuz.dag_btn: ana.arayuz.dag_btn.set_pressed_no_signal(false)
-						ana.arayuz.olay_yaz("[color=gray]Şehir kurma işlemi iptal edildi. Yeni bir biyom seçebilirsiniz.[/color]")
+						ana.arayuz.olay_yaz(tr("[color=gray]Şehir kurma işlemi iptal edildi. Yeni bir biyom seçebilirsiniz.[/color]"))
 						ana.arayuz.arayuzu_guncelle()
 						ana.harita.queue_redraw()
 						return
@@ -88,7 +88,7 @@ func _unhandled_input(event):
 								if ana.arayuz.hakimiyet_paneli:
 									ana.arayuz.hakimiyet_paneli.visible = true
 									var biyom = ana.harita.kesfedilen_hexler.get(p_koor, "")
-									var biyom_isim = "Çimenlik Arazi" if biyom == "cim" else "Ormanlık Arazi" if biyom == "orman" else "Dağlık Arazi" if biyom == "dag" else biyom
+									var biyom_isim = tr("Çimenlik Arazi") if biyom == "cim" else tr("Ormanlık Arazi") if biyom == "orman" else tr("Dağlık Arazi") if biyom == "dag" else biyom
 									var arazi_label = ana.arayuz.get_node_or_null("%AraziTurLabel")
 									if arazi_label: arazi_label.text = biyom_isim
 									ana.arayuz.arayuzu_guncelle()
@@ -117,16 +117,16 @@ func _unhandled_input(event):
 						ana.deste._kart_gorsellerini_guncelle()
 						ana.arayuz.arayuzu_guncelle()
 					else:
-						ana.arayuz.olay_yaz("[color=light_coral]❌ Yetersiz Kaynak! Gerekli: %d 🌲, %d 🪨[/color]" % [kart["odun_maliyet"], kart["tas_maliyet"]])
+						ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Yetersiz Kaynak! Gerekli: %d 🌲, %d 🪨[/color]") % [kart["odun_maliyet"], kart["tas_maliyet"]])
 				else:
-					ana.arayuz.olay_yaz("[color=light_coral]❌ Geçersiz Alan! Sadece yanıp sönen topraklara kurabilirsin.[/color]")
+					ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Geçersiz Alan! Sadece yanıp sönen topraklara kurabilirsin.[/color]"))
 				ana.arayuz.arayuzu_guncelle()
 				ana.harita.queue_redraw()
 				return
 			
 			if ana.insa_modu_aktif and not ana.sehir_merkezleri.get(k_isim, false):
 				if ana.binalar_verisi.has(k):
-					ana.arayuz.olay_yaz("[color=light_coral]❌ Burada zaten bir yapı var![/color]")
+					ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Burada zaten bir yapı var![/color]"))
 				else:
 					if ana.oyuncu_kaynaklari[k_isim]["odun"] >= 10 and ana.oyuncu_kaynaklari[k_isim]["tas"] >= 10:
 						ana.bekleyen_onay = "sehir"
@@ -145,7 +145,7 @@ func _unhandled_input(event):
 							kurulum_panel.visible = true
 							if kurulum_panel.has_method("show"): kurulum_panel.show()
 					else:
-						ana.arayuz.olay_yaz("[color=light_coral]❌ Şehir Merkezi için 10 Odun ve 10 Taş gerekli![/color]")
+						ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Şehir Merkezi için 10 Odun ve 10 Taş gerekli![/color]"))
 						ana.insa_modu_aktif = false
 						ana.arayuz.arayuzu_guncelle()
 				return
@@ -240,8 +240,8 @@ func kesif_ve_hareket_rpc(p_idx: int, yeni_koor: Vector2i, k_isim: String):
 	ana.oyuncu_kaynaklari[k_isim]["yiyecek"] = max(0, ana.oyuncu_kaynaklari[k_isim]["yiyecek"] - 1)
 	ana.harita.kesfedilen_hexler[yeni_koor] = biyom
 	ana.piyonlar[p_idx]["koordinat"] = yeni_koor
-	var tur_cevir = "ÇİM" if biyom == "cim" else "ORMAN" if biyom == "orman" else "DAĞ"
-	ana.arayuz.olay_yaz("🧭 %s, bilinmeyen topraklara girerek [color=cyan]%s[/color] bölgesi keşfetti!" % [ana.arayuz.renkli_isim(k_isim), tur_cevir])
+	var tur_cevir = tr("ÇİM") if biyom == "cim" else tr("ORMAN") if biyom == "orman" else tr("DAĞ")
+	ana.arayuz.olay_yaz(tr("🧭 %s, bilinmeyen topraklara girerek [color=cyan]%s[/color] bölgesi keşfetti!") % [ana.arayuz.renkli_isim(k_isim), tur_cevir])
 	ana.harita.gorus_haritasini_guncelle()
 	ana.arayuz.arayuzu_guncelle()
 	ana.harita.queue_redraw()
@@ -268,7 +268,7 @@ func bina_kur_rpc(koordinat: Vector2i, sahip_isim: String, bina_turu: String, ba
 		ana.piyonlar.append({"koordinat": koordinat, "sahip": sahip_isim})
 		ana.kontrol_edilen_hexler[koordinat] = sahip_isim
 	ana.binalar_verisi[koordinat] = {"tur": bina_turu, "sahip": sahip_isim, "seviye": 1}
-	ana.arayuz.olay_yaz("🏰 %s, (%d, %d) konumuna [color=aqua]%s[/color] inşa etti." % [ana.arayuz.renkli_isim(sahip_isim), koordinat.x, koordinat.y, bina_turu.to_upper().replace("_"," ")])
+	ana.arayuz.olay_yaz(tr("🏰 %s, (%d, %d) konumuna [color=aqua]%s[/color] inşa etti.") % [ana.arayuz.renkli_isim(sahip_isim), koordinat.x, koordinat.y, Global.bina_adi(bina_turu).to_upper()])
 	ana.harita.gorus_haritasini_guncelle()
 	ana.arayuz.arayuzu_guncelle()
 	ana.harita.queue_redraw()
@@ -287,7 +287,7 @@ func bina_yukselt_rpc(sahip_isim: String, koordinat: Vector2i, mo: int, mt: int,
 	if kart.get("bina_turu") != "joker" and kart.get("bina_turu") != bina["tur"]: return
 	if not _kart_maliyeti_gecerli(sahip_isim, kart, mo, mt): return
 	if ana.binalar_verisi[koordinat].get("seviye", 1) >= 3:
-		ana.arayuz.olay_yaz("[color=light_coral]❌ Bu bina zaten maksimum (Seviye 3) seviyede![/color]")
+		ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Bu bina zaten maksimum (Seviye 3) seviyede![/color]"))
 		return
 	
 	ana.aktif_oyuncu_aksiyon_hakki -= 1
@@ -296,8 +296,8 @@ func bina_yukselt_rpc(sahip_isim: String, koordinat: Vector2i, mo: int, mt: int,
 	ana.binalar_verisi[koordinat]["seviye"] += 1
 	_kart_tuket(sahip_isim, kart_idx)
 	var yeni_lvl = ana.binalar_verisi[koordinat]["seviye"]
-	var b_tur = ana.binalar_verisi[koordinat]["tur"].to_upper().replace("_"," ")
-	ana.arayuz.olay_yaz("🔺 %s, (%d, %d) konumundaki %s yapısını [color=gold]Seviye %d[/color]'a yükseltti!" % [ana.arayuz.renkli_isim(sahip_isim), koordinat.x, koordinat.y, b_tur, yeni_lvl])
+	var b_tur = Global.bina_adi(ana.binalar_verisi[koordinat]["tur"]).to_upper()
+	ana.arayuz.olay_yaz(tr("🔺 %s, (%d, %d) konumundaki %s yapısını [color=gold]Seviye %d[/color]'a yükseltti!") % [ana.arayuz.renkli_isim(sahip_isim), koordinat.x, koordinat.y, b_tur, yeni_lvl])
 	ana.arayuz.arayuzu_guncelle()
 	ana.harita.queue_redraw()
 	ana.islem_kabul = true
@@ -315,7 +315,7 @@ func piyon_hareket_rpc(p_idx: int, yeni_koor: Vector2i):
 	var eski_koor = ana.piyonlar[p_idx]["koordinat"]
 	ana.oyuncu_kaynaklari[sahip]["yiyecek"] = max(0, ana.oyuncu_kaynaklari[sahip]["yiyecek"] - 1)
 	ana.piyonlar[p_idx]["koordinat"] = yeni_koor
-	ana.arayuz.olay_yaz("🧍 %s, Öncüsünü (%d, %d) ➔ (%d, %d) konumuna yürüttü." % [ana.arayuz.renkli_isim(sahip), eski_koor.x, eski_koor.y, yeni_koor.x, yeni_koor.y])
+	ana.arayuz.olay_yaz(tr("🧍 %s, Öncüsünü (%d, %d) ➔ (%d, %d) konumuna yürüttü.") % [ana.arayuz.renkli_isim(sahip), eski_koor.x, eski_koor.y, yeni_koor.x, yeni_koor.y])
 	ana.harita.gorus_haritasini_guncelle()
 	ana.arayuz.arayuzu_guncelle()
 	ana.harita.queue_redraw()
@@ -340,7 +340,7 @@ func kart_oyna_rpc(sahip_isim: String, kart_turu: String, koordinat: Vector2i, m
 	ana.binalar_verisi[koordinat] = {"tur": kart_turu, "sahip": sahip_isim, "seviye": 1}
 	_kart_tuket(sahip_isim, kart_idx)
 	if kart_turu == "ev": ana.oyuncu_kaynaklari[sahip_isim]["max_nufus"] += 3
-	ana.arayuz.olay_yaz("🏗️ %s, (%d, %d) konumuna [color=aqua]%s[/color] kurdu." % [ana.arayuz.renkli_isim(sahip_isim), koordinat.x, koordinat.y, kart_turu.to_upper().replace("_"," ")])
+	ana.arayuz.olay_yaz(tr("🏗️ %s, (%d, %d) konumuna [color=aqua]%s[/color] kurdu.") % [ana.arayuz.renkli_isim(sahip_isim), koordinat.x, koordinat.y, Global.bina_adi(kart_turu).to_upper()])
 	ana.harita.gorus_haritasini_guncelle()
 	ana.arayuz.arayuzu_guncelle()
 	ana.harita.queue_redraw()
@@ -358,7 +358,7 @@ func hakimiyet_kur_rpc(oyuncu_ismi: String, koordinat: Vector2i):
 	ana.aktif_oyuncu_aksiyon_hakki -= 1
 	ana.oyuncu_kaynaklari[oyuncu_ismi]["yiyecek"] = max(0, ana.oyuncu_kaynaklari[oyuncu_ismi]["yiyecek"] - 3)
 	ana.kontrol_edilen_hexler[koordinat] = oyuncu_ismi
-	ana.arayuz.olay_yaz("🚩 %s, (%d, %d) bölgesinde [color=light_green]Hakimiyet[/color] kurarak topraklarına kattı!" % [ana.arayuz.renkli_isim(oyuncu_ismi), koordinat.x, koordinat.y])
+	ana.arayuz.olay_yaz(tr("🚩 %s, (%d, %d) bölgesinde [color=light_green]Hakimiyet[/color] kurarak topraklarına kattı!") % [ana.arayuz.renkli_isim(oyuncu_ismi), koordinat.x, koordinat.y])
 	ana.arayuz.arayuzu_guncelle()
 	ana.harita.queue_redraw()
 	ana.islem_kabul = true
@@ -376,7 +376,7 @@ func karti_feda_et_rpc(oyuncu_ismi: String, kaynak_turu: String, kart_idx: int =
 	ana.aktif_oyuncu_aksiyon_hakki -= 1
 	ana.oyuncu_kaynaklari[oyuncu_ismi][kaynak_turu] += 1
 	_kart_tuket(oyuncu_ismi, kart_idx, true)
-	ana.arayuz.olay_yaz("♻️ %s, bir kartı 1 %s kaynağına dönüştürdü." % [ana.arayuz.renkli_isim(oyuncu_ismi), kaynak_turu.to_upper()])
+	ana.arayuz.olay_yaz(tr("♻️ %s, bir kartı 1 %s kaynağına dönüştürdü.") % [ana.arayuz.renkli_isim(oyuncu_ismi), Global.kaynak_adi(kaynak_turu).to_upper()])
 	ana.arayuz.arayuzu_guncelle()
 	ana.islem_kabul = true
 
@@ -407,7 +407,7 @@ func oncu_uret_rpc(oyuncu_ismi: String, koordinat: Vector2i):
 	ana.oyuncu_kaynaklari[oyuncu_ismi]["yiyecek"] = max(0, ana.oyuncu_kaynaklari[oyuncu_ismi]["yiyecek"] - 5)
 	ana.oyuncu_kaynaklari[oyuncu_ismi]["koylu"] += 1
 	ana.piyonlar.append({"koordinat": koordinat, "sahip": oyuncu_ismi})
-	ana.arayuz.olay_yaz("🧍 %s, kampında yeni bir [color=orange]Öncü[/color] yetiştirdi." % ana.arayuz.renkli_isim(oyuncu_ismi))
+	ana.arayuz.olay_yaz(tr("🧍 %s, kampında yeni bir [color=orange]Öncü[/color] yetiştirdi.") % ana.arayuz.renkli_isim(oyuncu_ismi))
 	ana.harita.gorus_haritasini_guncelle()
 	ana.arayuz.arayuzu_guncelle()
 	ana.harita.queue_redraw()
@@ -425,11 +425,11 @@ func aksiyon_karti_kullan_rpc(oyuncu_ismi: String, kart_turu: String, kart_idx: 
 		for k in ana.binalar_verisi:
 			if ana.binalar_verisi[k]["tur"] == "sehir_merkezi" and ana.binalar_verisi[k]["sahip"] == oyuncu_ismi:
 				ana.piyonlar.append({"koordinat": k, "sahip": oyuncu_ismi})
-		ana.arayuz.olay_yaz("📜 %s, 'Hızlı Genişleme' kartını kullanarak anında 1 Öncü kazandı!" % ana.arayuz.renkli_isim(oyuncu_ismi))
+		ana.arayuz.olay_yaz(tr("📜 %s, 'Hızlı Genişleme' kartını kullanarak anında 1 Öncü kazandı!") % ana.arayuz.renkli_isim(oyuncu_ismi))
 	elif kart_turu == "usta_isci":
 		ana.oyuncu_kaynaklari[oyuncu_ismi]["altin"] += 1
 		ana.oyuncu_kaynaklari[oyuncu_ismi]["odun"] += 2
-		ana.arayuz.olay_yaz("📜 %s, 'Usta İşçi' kartı ile kasasını doldurdu." % ana.arayuz.renkli_isim(oyuncu_ismi))
+		ana.arayuz.olay_yaz(tr("📜 %s, 'Usta İşçi' kartı ile kasasını doldurdu.") % ana.arayuz.renkli_isim(oyuncu_ismi))
 	ana.arayuz.arayuzu_guncelle()
 	ana.harita.queue_redraw()
 	ana.islem_kabul = true
@@ -499,11 +499,11 @@ func savas_baslat_rpc(saldiran_idx: int, savunan_idx: int, bx: int, by: int, t_t
 	var efendi_korumasi = ana.koruyucu_efendi(orjinal_savunucu)
 	
 	if t_tipi == "isyan_buton":
-		ana.arayuz.olay_yaz("🔥 [color=red]BAĞIMSIZLIK SAVAŞI![/color] %s, efendisi %s'e isyan bayrağı çekti!" % [ana.arayuz.renkli_isim(saldiran_isim), ana.arayuz.renkli_isim(orjinal_savunucu)])
+		ana.arayuz.olay_yaz(tr("🔥 [color=red]BAĞIMSIZLIK SAVAŞI![/color] %s, efendisi %s'e isyan bayrağı çekti!") % [ana.arayuz.renkli_isim(saldiran_isim), ana.arayuz.renkli_isim(orjinal_savunucu)])
 	elif efendi_korumasi != orjinal_savunucu:
-		ana.arayuz.olay_yaz("🛡️ [color=red]EFENDİ KORUMASI![/color] %s, vasalı %s'i korumak için savaşa girdi!" % [ana.arayuz.renkli_isim(efendi_korumasi), ana.arayuz.renkli_isim(orjinal_savunucu)])
+		ana.arayuz.olay_yaz(tr("🛡️ [color=red]EFENDİ KORUMASI![/color] %s, vasalı %s'i korumak için savaşa girdi!") % [ana.arayuz.renkli_isim(efendi_korumasi), ana.arayuz.renkli_isim(orjinal_savunucu)])
 	else:
-		ana.arayuz.olay_yaz("⚔️ [color=red]SAVAŞ BAŞLADI![/color] %s, saldırdı!" % ana.arayuz.renkli_isim(saldiran_isim))
+		ana.arayuz.olay_yaz(tr("⚔️ [color=red]SAVAŞ BAŞLADI![/color] %s, saldırdı!") % ana.arayuz.renkli_isim(saldiran_isim))
 	
 	ana.savas.savas_panelini_guncelle()
 	ana.arayuz.arayuzu_guncelle()
@@ -612,12 +612,12 @@ func _kart_dagitimini_uygula(oyuncu_ismi: String, kart: Dictionary, savas_karti:
 		if not savas_karti: ana.secili_kart_index = -1
 		ana.deste.eldeki_kartlari_ciz()
 	if yeniden_karisti:
-		var deste_adi = "Savaş" if savas_karti else "İnşa"
-		ana.arayuz.olay_yaz("[color=yellow]🔄 %s Destesi bittiği için atılan kartlar yeniden karıştırıldı![/color]" % deste_adi)
+		var deste_adi = tr("Savaş") if savas_karti else tr("İnşa")
+		ana.arayuz.olay_yaz(tr("[color=yellow]🔄 %s Destesi bittiği için atılan kartlar yeniden karıştırıldı![/color]") % deste_adi)
 	if savas_karti:
-		ana.arayuz.olay_yaz("🃏 %s, kışladan bir [color=crimson]Savaş Kartı[/color] çekti." % ana.arayuz.renkli_isim(oyuncu_ismi))
+		ana.arayuz.olay_yaz(tr("🃏 %s, kışladan bir [color=crimson]Savaş Kartı[/color] çekti.") % ana.arayuz.renkli_isim(oyuncu_ismi))
 	else:
-		ana.arayuz.olay_yaz("🃏 %s, destesinden bir İnşa/Gelişim kartı çekti." % ana.arayuz.renkli_isim(oyuncu_ismi))
+		ana.arayuz.olay_yaz(tr("🃏 %s, destesinden bir İnşa/Gelişim kartı çekti.") % ana.arayuz.renkli_isim(oyuncu_ismi))
 	ana.arayuz.arayuzu_guncelle()
 	if benim and not savas_karti: ana.arayuz.panel_yukari_cik()
 
@@ -628,10 +628,10 @@ func kart_onayla(gelen_index = -1):
 		ana.secili_kart_index = gelen_index
 		
 	if ana.aktif_sira != ana.benim_indexim or not ana.ilk_tur_bitti:
-		ana.arayuz.olay_yaz("[color=light_coral]❌ Sıra senin değil![/color]")
+		ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Sıra senin değil![/color]"))
 		return
 	if ana.aktif_oyuncu_aksiyon_hakki <= 0:
-		ana.arayuz.olay_yaz("[color=light_coral]❌ Aksiyon Puanın (AP) kalmadı![/color]")
+		ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Aksiyon Puanın (AP) kalmadı![/color]"))
 		return
 
 	if ana.secili_kart_index == -1: return
@@ -645,10 +645,10 @@ func kart_onayla(gelen_index = -1):
 		
 		if ana.kurulabilir_hexler.size() == 0:
 			ana.kart_insa_modu_aktif = false 
-			ana.arayuz.olay_yaz("[color=light_coral]❌ Bu kartı inşa edebileceğin veya kullanabileceğin uygun bir alan (Biyom) yok![/color]")
+			ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Bu kartı inşa edebileceğin veya kullanabileceğin uygun bir alan (Biyom) yok![/color]"))
 		else:
 			ana.kart_insa_modu_aktif = true
-			ana.arayuz.olay_yaz("[color=yellow]🏗️ İnşa Modu Başladı! Parlayan yeşil alanlardan birini seçin.[/color]")
+			ana.arayuz.olay_yaz(tr("[color=yellow]🏗️ İnşa Modu Başladı! Parlayan yeşil alanlardan birini seçin.[/color]"))
 	
 	ana.arayuz.arayuzu_guncelle()
 
@@ -661,7 +661,7 @@ func oyunu_bitir_rpc(kazanan_isim: String, puan: int):
 	if ana.oyuncular.is_empty(): return   # durum görüntüsünü bekleyen dönüş sahnesi
 	var kazandim = ana.oyuncular[ana.benim_indexim] == kazanan_isim
 	SesYoneticisi.efekt_cal("zafer" if kazandim else "yenilgi")
-	ana.arayuz.olay_yaz("🏆 [color=gold][b]OYUN BİTTİ! %s, %d puanla ZAFERE ULAŞTI![/b][/color]" % [ana.arayuz.renkli_isim(kazanan_isim), puan])
+	ana.arayuz.olay_yaz(tr("🏆 [color=gold][b]OYUN BİTTİ! %s, %d puanla ZAFERE ULAŞTI![/b][/color]") % [ana.arayuz.renkli_isim(kazanan_isim), puan])
 	ana.puanlari_guncelle()
 	ana.secili_kart_index = -1
 	ana.secili_piyon_index = -1

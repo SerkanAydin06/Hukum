@@ -184,7 +184,7 @@ func lobi_verisiyle_baslat(gelen_lobi_verisi: Dictionary):
 		
 		# 🟢 DÜZELTME: "Kirmizi oyuncusunda" yazması yerine "[Gerçek İsim] oyuncusunda" yazar ve kendi rengine boyar
 		var renkli_isim_metni = "[color=#%s][b]%s[/b][/color]" % [ilk_renk_kodu, ilk_oyuncu]
-		arayuz.olay_yaz("[color=gold]⚔️ Oyun Başladı! Sıra %s oyuncusunda (%s).[/color]" % [renkli_isim_metni, medeniyetler_verisi[ilk_oyuncu]])
+		arayuz.olay_yaz(tr("[color=gold]⚔️ Oyun Başladı! Sıra %s oyuncusunda (%s).[/color]") % [renkli_isim_metni, tr(medeniyetler_verisi[ilk_oyuncu])])
 
 # --- TEK OYUNCULU KAYIT ---
 func tek_oyunculu_mu() -> bool:
@@ -264,7 +264,7 @@ func _kayittan_baslat(k: Dictionary, insan_veri: Dictionary):
 	arayuz.arayuzu_guncelle()
 	deste.eldeki_kartlari_ciz()
 	harita.queue_redraw()
-	arayuz.olay_yaz("[color=light_green]💾 Kayıtlı maç yüklendi · Tur %d. Sıra %s oyuncusunda.[/color]" % [tur_sayaci, arayuz.renkli_isim(oyuncular[aktif_sira])])
+	arayuz.olay_yaz(tr("[color=light_green]💾 Kayıtlı maç yüklendi · Tur %d. Sıra %s oyuncusunda.[/color]") % [tur_sayaci, arayuz.renkli_isim(oyuncular[aktif_sira])])
 
 var _son_otomatik_kayit := []
 
@@ -337,7 +337,7 @@ func oyuncu_geri_dondu_rpc(isim: String, peer: int):
 	if idx == -1: return
 	oyuncu_peer_idleri[idx] = peer
 	ayrilan_oyuncular.erase(isim)
-	arayuz.olay_yaz("[color=light_green]↩ %s maça geri döndü.[/color]" % arayuz.renkli_isim(isim))
+	arayuz.olay_yaz(tr("[color=light_green]↩ %s maça geri döndü.[/color]") % arayuz.renkli_isim(isim))
 	arayuz.arayuzu_guncelle()
 
 # Dönen oyuncunun görebileceği durum: kendi eli açık, rakip elleri ve deste sırası gizli.
@@ -411,7 +411,7 @@ func donus_goruntusu_rpc(g: Dictionary):
 	arayuz.arayuzu_guncelle()
 	deste.eldeki_kartlari_ciz()
 	harita.queue_redraw()
-	arayuz.olay_yaz("[color=light_green]↩ Maça geri döndün. Sıra %s oyuncusunda.[/color]" % arayuz.renkli_isim(oyuncular[aktif_sira]))
+	arayuz.olay_yaz(tr("[color=light_green]↩ Maça geri döndün. Sıra %s oyuncusunda.[/color]") % arayuz.renkli_isim(oyuncular[aktif_sira]))
 
 # --- OYUNCU KOPMASI ---
 # Sunucu, kopan oyuncuyu herkese bildirir; sırası ondaysa oyun kilitlenmesin diye tur geçilir
@@ -425,7 +425,7 @@ func _peer_ayrildi(id: int):
 func oyuncu_ayrildi_rpc(isim: String):
 	if isim in ayrilan_oyuncular: return
 	ayrilan_oyuncular.append(isim)
-	arayuz.olay_yaz("[color=gray]🚪 %s oyundan ayrıldı.[/color]" % arayuz.renkli_isim(isim))
+	arayuz.olay_yaz(tr("[color=gray]🚪 %s oyundan ayrıldı.[/color]") % arayuz.renkli_isim(isim))
 	if savas.savas_aktif and isim in savas.savas_taraflari():
 		savas.savasi_iptal_et()
 	if oyuncular[aktif_sira] == isim and ayrilan_oyuncular.size() < oyuncular.size():
@@ -631,12 +631,12 @@ func _sunucu_adina(isim: String, yonetici: String, metod: String, args: Array):
 
 @rpc("authority", "call_local", "reliable")
 func sure_uyarisi_rpc(asama: String, saniye: int):
-	var ne = "Tur" if asama == "tur" else "Kart seçimi" if asama == "savas_secim" else "Zar"
-	arayuz.olay_yaz("[color=orange]⏳ %s için %d saniye kaldı.[/color]" % [ne, saniye])
+	var ne = tr("Tur") if asama == "tur" else tr("Kart seçimi") if asama == "savas_secim" else tr("Zar")
+	arayuz.olay_yaz(tr("[color=orange]⏳ %s için %d saniye kaldı.[/color]") % [ne, saniye])
 
 @rpc("authority", "call_local", "reliable")
 func sure_doldu_rpc(isim: String):
-	arayuz.olay_yaz("[color=orange]⌛ %s için süre doldu; sıra otomatik geçiyor.[/color]" % arayuz.renkli_isim(isim))
+	arayuz.olay_yaz(tr("[color=orange]⌛ %s için süre doldu; sıra otomatik geçiyor.[/color]") % arayuz.renkli_isim(isim))
 
 # Son çare: sıra hâlâ süresi dolan oyuncudaysa herkeste aynı şekilde geçirilir.
 @rpc("authority", "call_local", "reliable")

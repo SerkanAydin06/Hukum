@@ -188,12 +188,12 @@ func _ap_ile_normal_kart_cek():
 					insa_karti_sayisi += 1
 					
 			if insa_karti_sayisi >= MAX_EL_LIMITI:
-				ana.arayuz.olay_yaz("[color=light_coral]❌ Elinde zaten maksimum (7) İnşa/Gelişim Kartı var![/color]")
+				ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Elinde zaten maksimum (7) İnşa/Gelişim Kartı var![/color]"))
 				return
 				
 			ana.istek("aksiyon", "normal_kart_cek_rpc", [ana.oyuncular[ana.benim_indexim]]) 
 		else:
-			ana.arayuz.olay_yaz("[color=light_coral]❌ Normal Deste bitti![/color]")
+			ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Normal Deste bitti![/color]"))
 
 func hex_dosta_komsu_mu(hedef_koor: Vector2i, sahip_isim: String) -> bool:
 	for k in ana.kontrol_edilen_hexler:

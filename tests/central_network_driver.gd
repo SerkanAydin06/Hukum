@@ -1,6 +1,7 @@
 extends "res://tests/scene_network_driver.gd"
 
 func _ready():
+	TranslationServer.set_locale("tr")   # assertions read Turkish game text
 	var args = OS.get_cmdline_user_args()
 	role = int(args[0])
 	var port = int(args[1])

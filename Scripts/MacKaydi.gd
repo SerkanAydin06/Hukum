@@ -31,7 +31,8 @@ static func ozet() -> String:
 	if veri.is_empty(): return ""
 	var rakip = veri.get("yapay_zeka", []).size()
 	var zaman = str(dosya.get_value("kayit", "zaman", "")).replace("T", " ").left(16)
-	return "Tur %d · %s · %s" % [int(veri.get("tur_sayaci", 1)), ("%d rakip" % rakip) if rakip > 0 else "rakipsiz", zaman]
+	var t = func(m): return TranslationServer.translate(m)
+	return t.call("Tur %d · %s · %s") % [int(veri.get("tur_sayaci", 1)), (t.call("%d rakip") % rakip) if rakip > 0 else t.call("rakipsiz"), zaman]
 
 static func sil():
 	if FileAccess.file_exists(DOSYA): DirAccess.remove_absolute(ProjectSettings.globalize_path(DOSYA))

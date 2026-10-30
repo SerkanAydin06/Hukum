@@ -18,7 +18,7 @@ func kart_kullan(idx):
 	# 🟢 DEĞİŞİKLİK: Kullan butonuna basıldığında kartın modunu aktif et
 	if kart.get("hedef") == "harita" or kart.get("hedef") == "kendi_binasi":
 		ana.kart_insa_modu_aktif = true
-		ana.arayuz.olay_yaz("[color=yellow]➔ Hedefi seçmek için haritaya tıklayın.[/color]")
+		ana.arayuz.olay_yaz(tr("[color=yellow]➔ Hedefi seçmek için haritaya tıklayın.[/color]"))
 		
 		# 🟢 BU SATIRI EKLİYORUZ (Yorum satırından çıkardık):
 		aksiyon.insa_modul._kurulabilir_hexleri_hesapla(kart)

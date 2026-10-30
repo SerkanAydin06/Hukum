@@ -1,0 +1,1611 @@
+# HÜKÜM English translation. msgid: Turkish source text, msgstr: English.
+# Check coverage with: python tools/ceviri_cikar.py
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+
+msgid "[color=light_coral]❌ Şehrini kurmadan önce Çim, Orman veya Dağ arasından bir seçim yapmalısın![/color]"
+msgstr "[color=light_coral]❌ Choose Grassland, Forest or Mountain before founding your city![/color]"
+
+msgid "[color=yellow]📍 Haritada şehrini kurmak istediğin SİSLİ BÖLGEYE tıkla.[/color]"
+msgstr "[color=yellow]📍 Click the FOGGY TILE on the map where you want to found your city.[/color]"
+
+msgid "[color=light_coral]❌ Geliştirmek için kendi binanı seçmelisin![/color]"
+msgstr "[color=light_coral]❌ Select one of your own buildings to upgrade![/color]"
+
+msgid "[color=light_coral]❌ Bu bina sana ait değil![/color]"
+msgstr "[color=light_coral]❌ This building is not yours![/color]"
+
+msgid "[color=light_coral]❌ Bu kart sadece '%s' binasını geliştirebilir![/color]"
+msgstr "[color=light_coral]❌ This card can only upgrade a '%s' building![/color]"
+
+msgid "[color=light_coral]❌ Bu bina zaten maksimum (Seviye 3) seviyede![/color]"
+msgstr "[color=light_coral]❌ This building is already at the maximum level (3)![/color]"
+
+msgid "[color=light_coral]❌ Yetersiz Kaynak! Gerekli: %d 🌲, %d 🪨[/color]"
+msgstr "[color=light_coral]❌ Not enough resources! Needed: %d 🌲, %d 🪨[/color]"
+
+msgid "[color=light_coral]❌ Buraya inşa edemezsin! Önce Öncü ile bölgeyi ele geçir (🚩).[/color]"
+msgstr "[color=light_coral]❌ You cannot build here! Claim the land with a Pioneer first (🚩).[/color]"
+
+msgid "[color=light_coral]❌ Bu alanda zaten bir yapı var![/color]"
+msgstr "[color=light_coral]❌ There is already a structure here![/color]"
+
+msgid "[color=light_coral]❌ Bu bina sadece ÇİM araziye kurulabilir![/color]"
+msgstr "[color=light_coral]❌ This building can only be placed on GRASSLAND![/color]"
+
+msgid "[color=light_coral]❌ Oduncu Kampı sadece ORMAN araziye kurulabilir![/color]"
+msgstr "[color=light_coral]❌ A Lumber Camp can only be placed in FOREST![/color]"
+
+msgid "[color=light_coral]❌ Taş Ocağı sadece DAĞLIK araziye kurulabilir![/color]"
+msgstr "[color=light_coral]❌ A Quarry can only be placed on MOUNTAINS![/color]"
+
+msgid "[color=yellow]➔ Hedefi seçmek için haritaya tıklayın.[/color]"
+msgstr "[color=yellow]➔ Click the map to choose a target.[/color]"
+
+msgid "[color=light_coral]❌ Öncüler sadece hemen yanlarındaki (komşu) alanlara girip keşfedebilir![/color]"
+msgstr "[color=light_coral]❌ Pioneers can only enter and explore adjacent tiles![/color]"
+
+msgid "[color=light_coral]❌ Hareket etmek/Keşfetmek için en az 1 Yiyecek gerekli![/color]"
+msgstr "[color=light_coral]❌ Moving or exploring needs at least 1 Food![/color]"
+
+msgid "[color=yellow]🤝 Dost veya Müttefik yapılarına saldıramazsın![/color]"
+msgstr "[color=yellow]🤝 You cannot attack your own or allied buildings![/color]"
+
+msgid "[color=yellow]🤝 Dost veya Müttefik birliklerine/bölgesine saldıramazsın![/color]"
+msgstr "[color=yellow]🤝 You cannot attack your own or allied units or land![/color]"
+
+msgid "[color=light_coral]❌ Elinde zaten maksimum (7) Savaş Kartı var![/color]"
+msgstr "[color=light_coral]❌ You already hold the maximum of 7 War cards![/color]"
+
+msgid "[color=light_coral]❌ Savaş kartı çekmek için 3 Altın gerekli![/color]"
+msgstr "[color=light_coral]❌ Drawing a War card costs 3 Gold![/color]"
+
+msgid "[color=light_coral]❌ Öncü Kampı bulunamadı![/color]"
+msgstr "[color=light_coral]❌ No Pioneer Camp found![/color]"
+
+msgid "[color=light_coral]❌ Öncü üretmek için 5 Yiyecek gerekli![/color]"
+msgstr "[color=light_coral]❌ Training a Pioneer costs 5 Food![/color]"
+
+msgid "[color=light_coral]❌ Bölgede hakimiyet kurmak için en az 3 Yiyecek gerekli![/color]"
+msgstr "[color=light_coral]❌ Claiming land needs at least 3 Food![/color]"
+
+msgid "[color=light_coral]❌ İsyan başlatmak için 1 AP gereklidir ve sıra sizde olmalıdır![/color]"
+msgstr "[color=light_coral]❌ A revolt needs 1 AP and must be started on your turn![/color]"
+
+msgid "[color=light_coral]❌ İsyan hazırlığı yetersiz! Ordu kurabilmek için en az 10 🌲, 10 🪨 ve 10 🌾 stoklamalısın![/color]"
+msgstr "[color=light_coral]❌ Not ready to revolt! Stock at least 10 🌲, 10 🪨 and 10 🌾 to raise an army![/color]"
+
+msgid "[color=gray]Şehir kurma işlemi iptal edildi. Yeni bir biyom seçebilirsiniz.[/color]"
+msgstr "[color=gray]City placement cancelled. You can choose another terrain.[/color]"
+
+msgid "Çimenlik Arazi"
+msgstr "Grassland"
+
+msgid "Ormanlık Arazi"
+msgstr "Forest"
+
+msgid "Dağlık Arazi"
+msgstr "Mountains"
+
+msgid "[color=light_coral]❌ Geçersiz Alan! Sadece yanıp sönen topraklara kurabilirsin.[/color]"
+msgstr "[color=light_coral]❌ Invalid tile! You can only build on the flashing land.[/color]"
+
+msgid "[color=light_coral]❌ Burada zaten bir yapı var![/color]"
+msgstr "[color=light_coral]❌ There is already a structure here![/color]"
+
+msgid "[color=light_coral]❌ Şehir Merkezi için 10 Odun ve 10 Taş gerekli![/color]"
+msgstr "[color=light_coral]❌ A City Center needs 10 Wood and 10 Stone![/color]"
+
+msgid "ÇİM"
+msgstr "GRASSLAND"
+
+msgid "ORMAN"
+msgstr "FOREST"
+
+msgid "DAĞ"
+msgstr "MOUNTAIN"
+
+msgid "🧭 %s, bilinmeyen topraklara girerek [color=cyan]%s[/color] bölgesi keşfetti!"
+msgstr "🧭 %s ventured into the unknown and discovered [color=cyan]%s[/color]!"
+
+msgid "🏰 %s, (%d, %d) konumuna [color=aqua]%s[/color] inşa etti."
+msgstr "🏰 %s, at (%d, %d), built a [color=aqua]%s[/color]."
+
+msgid "🔺 %s, (%d, %d) konumundaki %s yapısını [color=gold]Seviye %d[/color]'a yükseltti!"
+msgstr "🔺 %s upgraded the building at (%d, %d), %s, to [color=gold]Level %d[/color]!"
+
+msgid "🧍 %s, Öncüsünü (%d, %d) ➔ (%d, %d) konumuna yürüttü."
+msgstr "🧍 %s marched a Pioneer from (%d, %d) ➔ (%d, %d)."
+
+msgid "🏗️ %s, (%d, %d) konumuna [color=aqua]%s[/color] kurdu."
+msgstr "🏗️ %s, at (%d, %d), built a [color=aqua]%s[/color]."
+
+msgid "🚩 %s, (%d, %d) bölgesinde [color=light_green]Hakimiyet[/color] kurarak topraklarına kattı!"
+msgstr "🚩 %s [color=light_green]claimed[/color] the land at (%d, %d)!"
+
+msgid "♻️ %s, bir kartı 1 %s kaynağına dönüştürdü."
+msgstr "♻️ %s turned a card into 1 %s."
+
+msgid "🧍 %s, kampında yeni bir [color=orange]Öncü[/color] yetiştirdi."
+msgstr "🧍 %s trained a new [color=orange]Pioneer[/color] at their camp."
+
+msgid "📜 %s, 'Hızlı Genişleme' kartını kullanarak anında 1 Öncü kazandı!"
+msgstr "📜 %s played 'Rapid Expansion' and gained a Pioneer at once!"
+
+msgid "📜 %s, 'Usta İşçi' kartı ile kasasını doldurdu."
+msgstr "📜 %s filled the treasury with 'Master Worker'."
+
+msgid "🔥 [color=red]BAĞIMSIZLIK SAVAŞI![/color] %s, efendisi %s'e isyan bayrağı çekti!"
+msgstr "🔥 [color=red]WAR OF INDEPENDENCE![/color] %s raised the banner of revolt against overlord %s!"
+
+msgid "🛡️ [color=red]EFENDİ KORUMASI![/color] %s, vasalı %s'i korumak için savaşa girdi!"
+msgstr "🛡️ [color=red]OVERLORD'S PROTECTION![/color] %s entered the battle to defend vassal %s!"
+
+msgid "⚔️ [color=red]SAVAŞ BAŞLADI![/color] %s, saldırdı!"
+msgstr "⚔️ [color=red]BATTLE![/color] %s attacked!"
+
+msgid "Savaş"
+msgstr "War"
+
+msgid "İnşa"
+msgstr "Construction"
+
+msgid "[color=yellow]🔄 %s Destesi bittiği için atılan kartlar yeniden karıştırıldı![/color]"
+msgstr "[color=yellow]🔄 The %s deck ran out, so the discards were reshuffled![/color]"
+
+msgid "🃏 %s, kışladan bir [color=crimson]Savaş Kartı[/color] çekti."
+msgstr "🃏 %s drew a [color=crimson]War card[/color] from the barracks."
+
+msgid "🃏 %s, destesinden bir İnşa/Gelişim kartı çekti."
+msgstr "🃏 %s drew a Construction/Upgrade card."
+
+msgid "[color=light_coral]❌ Sıra senin değil![/color]"
+msgstr "[color=light_coral]❌ It is not your turn![/color]"
+
+msgid "[color=light_coral]❌ Aksiyon Puanın (AP) kalmadı![/color]"
+msgstr "[color=light_coral]❌ You have no Action Points (AP) left![/color]"
+
+msgid "[color=light_coral]❌ Bu kartı inşa edebileceğin veya kullanabileceğin uygun bir alan (Biyom) yok![/color]"
+msgstr "[color=light_coral]❌ You have no suitable land (terrain) to build or use this card![/color]"
+
+msgid "[color=yellow]🏗️ İnşa Modu Başladı! Parlayan yeşil alanlardan birini seçin.[/color]"
+msgstr "[color=yellow]🏗️ Build mode! Choose one of the glowing green tiles.[/color]"
+
+msgid "🏆 [color=gold][b]OYUN BİTTİ! %s, %d puanla ZAFERE ULAŞTI![/b][/color]"
+msgstr "🏆 [color=gold][b]GAME OVER! %s WON with %d points![/b][/color]"
+
+msgid "ÖZEL SUNUCU"
+msgstr "CUSTOM SERVER"
+
+msgid "YEREL AĞ"
+msgstr "LOCAL NETWORK"
+
+msgid "Sunucunun adresini gir. İlk katılan oyuncu odayı yönetir."
+msgstr "Enter the server address. The first player to join manages the room."
+
+msgid "Aynı ağda bir kişi oda kursun. Diğer oyuncular sunucunun yerel IP adresiyle katılsın."
+msgstr "One person on the same network hosts a room. The others join with the host's local IP address."
+
+msgid "İPTAL"
+msgstr "CANCEL"
+
+msgid "GERİ"
+msgstr "BACK"
+
+msgid "Oda kurulamadı. Port kullanımda olabilir; farklı bir port deneyin."
+msgstr "Could not host the room. The port may be in use; try another port."
+
+msgid "Geçersiz adres. ws:// veya wss:// ile başlayan bir sunucu adresi gir."
+msgstr "Invalid address. Enter a server address starting with ws:// or wss://."
+
+msgid "Geçersiz IP adresi. Örnek: 192.168.1.10"
+msgstr "Invalid IP address. Example: 192.168.1.10"
+
+msgid "Sunucuya bağlanılıyor…"
+msgstr "Connecting to the server…"
+
+msgid "Bağlantı kurulamadı. Adresi, portu ve sunucuyu kontrol et."
+msgstr "Could not connect. Check the address, the port and the server."
+
+msgid "Masa kurup çıkan beş karakterli kodu arkadaşlarınla paylaş. Aynı masada 2–6 kişi oynayabilirsiniz."
+msgstr "Host a table and share the five-character code with your friends. 2–6 people can play at one table."
+
+msgid "Çevrimiçi masa kurmak veya koda katılmak için HÜKÜM'ü PARDEX kütüphanesinden aç. PARDEX hesabınla bağlantı otomatik kurulur."
+msgstr "To host an online table or join with a code, open HÜKÜM from the PARDEX library. Your PARDEX account connects automatically."
+
+msgid "PARDEX oturumu bulunamadı."
+msgstr "No PARDEX session found."
+
+msgid "PARDEX'E BAĞLI"
+msgstr "CONNECTED TO PARDEX"
+
+msgid "YEREL PROFİL"
+msgstr "LOCAL PROFILE"
+
+msgid "Oyuncu adı en az 3 karakter olmalı."
+msgstr "The player name must be at least 3 characters."
+
+msgid "Oyuncu adı en fazla 16 karakter olabilir."
+msgstr "The player name can be at most 16 characters."
+
+msgid "Arka arkaya iki boşluk kullanılamaz."
+msgstr "Two spaces in a row are not allowed."
+
+msgid "Yalnız harf, rakam, boşluk, _ ve - kullan."
+msgstr "Use only letters, digits, spaces, _ and -."
+
+msgid "Oyuncu adı uygun"
+msgstr "Player name is valid"
+
+msgid "TEK OYUNCULU"
+msgstr "SINGLE PLAYER"
+
+msgid "Yapay zekâ hükümdarlara karşı oyna ya da rakipsiz haritada şehir kurmayı, keşfi, üretimi ve kartları öğren. İlk 50 puana ulaşan kazanır. Tek oyunculuda süre sınırı yoktur."
+msgstr "Play against AI rulers, or learn founding, exploring, production and cards on a map without opponents. The first to reach 50 points wins. Single player has no time limit."
+
+msgid "Kayıtlı maça devam et · "
+msgstr "Continue saved match · "
+
+msgid "Öğreticiyle başla"
+msgstr "Start with the tutorial"
+
+msgid "1 rakiple oyna"
+msgstr "Play against 1 rival"
+
+msgid "3 rakiple oyna"
+msgstr "Play against 3 rivals"
+
+msgid "5 rakiple oyna"
+msgstr "Play against 5 rivals"
+
+msgid "Rakipsiz alıştırma"
+msgstr "Practice without rivals"
+
+msgid "Kayıt okunamadı."
+msgstr "The save could not be read."
+
+msgid "MAÇA DÖN · %s"
+msgstr "RETURN TO MATCH · %s"
+
+msgid "Bu maçtan vazgeç"
+msgstr "Abandon this match"
+
+msgid "Sunucuya bağlanılamadı. Adres geçersiz ya da ağ kapalı."
+msgstr "Could not reach the server. The address is invalid or the network is down."
+
+msgid "Maça dönülüyor…"
+msgstr "Returning to the match…"
+
+msgid "[color=gold]⚔️ Oyun Başladı! Sıra %s oyuncusunda (%s).[/color]"
+msgstr "[color=gold]⚔️ The game begins! %s plays first (%s).[/color]"
+
+msgid "[color=light_green]💾 Kayıtlı maç yüklendi · Tur %d. Sıra %s oyuncusunda.[/color]"
+msgstr "[color=light_green]💾 Saved match loaded · Round %d. It is %s's turn.[/color]"
+
+msgid "[color=light_green]↩ %s maça geri döndü.[/color]"
+msgstr "[color=light_green]↩ %s returned to the match.[/color]"
+
+msgid "[color=light_green]↩ Maça geri döndün. Sıra %s oyuncusunda.[/color]"
+msgstr "[color=light_green]↩ You are back in the match. It is %s's turn.[/color]"
+
+msgid "[color=gray]🚪 %s oyundan ayrıldı.[/color]"
+msgstr "[color=gray]🚪 %s left the game.[/color]"
+
+msgid "Tur"
+msgstr "Turn"
+
+msgid "Kart seçimi"
+msgstr "Card selection"
+
+msgid "Zar"
+msgstr "Dice"
+
+msgid "[color=orange]⏳ %s için %d saniye kaldı.[/color]"
+msgstr "[color=orange]⏳ %s: %d seconds left.[/color]"
+
+msgid "[color=orange]⌛ %s için süre doldu; sıra otomatik geçiyor.[/color]"
+msgstr "[color=orange]⌛ Time is up for %s; the turn passes automatically.[/color]"
+
+msgid "[font_size=11][center][b]👑 DİPLOMASİ BİLGİSİ[/b][/center]\n\n"
+msgstr "[font_size=11][center][b]👑 DIPLOMACY[/b][/center]\n\n"
+
+msgid "[color=gray]Toplam Ödenen Vergi:[/color]\n%d🌲 %d🪨 %d🌾 %d🪙\n"
+msgstr "[color=gray]Total tax paid:[/color]\n%d🌲 %d🪨 %d🌾 %d🪙\n"
+
+msgid "[color=light_coral]Bu Tur Ödenecek Vergi:[/color]\n%d🌲 %d🪨 %d🌾 %d🪙\n\n"
+msgstr "[color=light_coral]Tax due this turn:[/color]\n%d🌲 %d🪨 %d🌾 %d🪙\n\n"
+
+msgid "[color=gold]Vasalların:[/color]\n"
+msgstr "[color=gold]Your vassals:[/color]\n"
+
+msgid "- %s\n  [color=gray](Gelen Toplam: %d🌲 %d🪨 %d🌾 %d🪙)[/color]\n"
+msgstr "- %s\n  [color=gray](Received in total: %d🌲 %d🪨 %d🌾 %d🪙)[/color]\n"
+
+msgid "  [color=light_green](Bu Tur Gelecek: %d🌲 %d🪨 %d🌾 %d🪙)[/color]\n\n"
+msgstr "  [color=light_green](Due this turn: %d🌲 %d🪨 %d🌾 %d🪙)[/color]\n\n"
+
+msgid "⚖️ PAZAR YERİ (%d Kaynak = 1 Altın)"
+msgstr "⚖️ MARKETPLACE (%d resources = 1 Gold)"
+
+msgid "%d Odun ➔ 1 Altın"
+msgstr "%d Wood ➔ 1 Gold"
+
+msgid "%d Taş ➔ 1 Altın"
+msgstr "%d Stone ➔ 1 Gold"
+
+msgid "%d Yiyecek ➔ 1 Altın"
+msgstr "%d Food ➔ 1 Gold"
+
+msgid "Sisli Arazi"
+msgstr "Fogged Land"
+
+msgid "Keşfedilmemiş"
+msgstr "Unexplored"
+
+msgid "Sisli Bölge"
+msgstr "Fogged Region"
+
+msgid "Keşfedilmemiş Bölge"
+msgstr "Unexplored Region"
+
+msgid "Sahipsiz"
+msgstr "Unclaimed"
+
+msgid "Üretim Yok"
+msgstr "No production"
+
+msgid "Öncü Birliği"
+msgstr "Pioneer"
+
+msgid "%s (Seviye %d)"
+msgstr "%s (Level %d)"
+
+msgid "+%d Yiyecek Üretimi"
+msgstr "+%d Food per turn"
+
+msgid "+%d Odun Üretimi"
+msgstr "+%d Wood per turn"
+
+msgid "+%d Taş Üretimi"
+msgstr "+%d Stone per turn"
+
+msgid "Ekonomik Ticaret Merkezi"
+msgstr "Trade hub"
+
+msgid "Öncü Üretimi: 5 Yiyecek + 1 AP"
+msgstr "Trains Pioneers: 5 Food + 1 AP"
+
+msgid "+%d Savunma Bonusu"
+msgstr "+%d Defense bonus"
+
+msgid "Savunma Bonusu Yok"
+msgstr "No defense bonus"
+
+msgid "Çimenlik"
+msgstr "Grassland"
+
+msgid "Ormanlık"
+msgstr "Forest"
+
+msgid "Dağlık"
+msgstr "Mountain"
+
+msgid "[color=yellow]🏗️ %s seçildi! Haritada sol tıkla kur, sağ tıkla iptal et.[/color]"
+msgstr "[color=yellow]🏗️ %s selected! Left-click the map to build, right-click to cancel.[/color]"
+
+msgid "[color=gray]Şehir kurma iptal edildi.[/color]"
+msgstr "[color=gray]City placement cancelled.[/color]"
+
+msgid "[color=gray]Hakimiyet kurma işlemi iptal edildi.[/color]"
+msgstr "[color=gray]Land claim cancelled.[/color]"
+
+msgid "Sıra: %s (%s)"
+msgstr "▶ %s (%s)"
+
+msgid "TUR %d"
+msgstr "ROUND %d"
+
+msgid "[color=light_coral]❌ Elinde zaten maksimum (7) İnşa/Gelişim Kartı var![/color]"
+msgstr "[color=light_coral]❌ You already hold the maximum of 7 Construction/Upgrade cards![/color]"
+
+msgid "[color=light_coral]❌ Normal Deste bitti![/color]"
+msgstr "[color=light_coral]❌ The construction deck is empty![/color]"
+
+msgid "Büyük İskender"
+msgstr "Alexander the Great"
+
+msgid "Saldırı savaşlarında ordusunun toplam gücünü %50 artırır."
+msgstr "Increases the army's total strength by 50% when attacking."
+
+msgid "Fatih Sultan Mehmet"
+msgstr "Mehmed the Conqueror"
+
+msgid "Bina ve şehir saldırılarında her kartın gücüne +2 ekler."
+msgstr "Adds +2 to every card when attacking buildings and cities."
+
+msgid "Hannibal Barca"
+msgstr "Hannibal Barca"
+
+msgid "Saldırı savaşlarında zarına +1 ekler."
+msgstr "Adds +1 to your die when attacking."
+
+msgid "Cengiz Han"
+msgstr "Genghis Khan"
+
+msgid "Elindeki her Süvari kartına +5 bonus verir."
+msgstr "Gives +5 to every Cavalry card you play."
+
+msgid "Ragnar Lodbrok"
+msgstr "Ragnar Lodbrok"
+
+msgid "Elindeki her Piyade kartına +5 bonus verir."
+msgstr "Gives +5 to every Infantry card you play."
+
+msgid "Leonidas"
+msgstr "Leonidas"
+
+msgid "Savunma savaşlarında her karta +2 güç ekler."
+msgstr "Adds +2 strength to every card when defending."
+
+msgid "Belisarius"
+msgstr "Belisarius"
+
+msgid "Rakipten az kartla savaşırken +10 güç kazandırır."
+msgstr "Gives +10 strength when fighting with fewer cards than the enemy."
+
+msgid "Thutmose III"
+msgstr "Thutmose III"
+
+msgid "Açık arazi savaşlarında +10 güç kazandırır."
+msgstr "Gives +10 strength in open-field battles."
+
+msgid "Selahaddin Eyyubi"
+msgstr "Saladin"
+
+msgid "Bina savunma savaşlarında zara +1 ekler."
+msgstr "Adds +1 to your die when defending a building."
+
+msgid "Enrico Dandolo"
+msgstr "Enrico Dandolo"
+
+msgid "Hükmet saldırısında +10 güç kazandırır."
+msgstr "Gives +10 strength in a Subjugate attack."
+
+msgid "⚔️ PİYADE"
+msgstr "⚔️ INFANTRY"
+
+msgid "Piyade"
+msgstr "Infantry"
+
+msgid "Standart piyade birliği."
+msgstr "Standard infantry unit."
+
+msgid "🛡️ AĞIR PİYADE"
+msgstr "🛡️ HEAVY INFANTRY"
+
+msgid "Ağır Zırhlı Piyade"
+msgstr "Heavy Infantry"
+
+msgid "Zırhlı piyade birliği."
+msgstr "Armored infantry unit."
+
+msgid "🔱 MIZRAKLI"
+msgstr "🔱 SPEARMAN"
+
+msgid "Mızraklı Asker"
+msgstr "Spearman"
+
+msgid "Rakibin Süvari gücünü düşürür."
+msgstr "Weakens enemy Cavalry."
+
+msgid "🏹 OKÇU"
+msgstr "🏹 ARCHER"
+
+msgid "Kısa Yaylı"
+msgstr "Shortbowman"
+
+msgid "Savunmada fazladan güç kazanır."
+msgstr "Gains extra strength when defending."
+
+msgid "🎯 ARBALETÇİ"
+msgstr "🎯 CROSSBOWMAN"
+
+msgid "Arbaletçi"
+msgstr "Crossbowman"
+
+msgid "Rakibin Piyade gücünü düşürür."
+msgstr "Weakens enemy Infantry."
+
+msgid "🔥 UZUN YAYLI"
+msgstr "🔥 LONGBOWMAN"
+
+msgid "Uzun Yaylı"
+msgstr "Longbowman"
+
+msgid "Yüksek hasarlı okçu birliği."
+msgstr "High-damage archer unit."
+
+msgid "🐎 HAFİF SÜVARİ"
+msgstr "🐎 LIGHT CAVALRY"
+
+msgid "Hafif Süvari"
+msgstr "Light Cavalry"
+
+msgid "Hızlı hücum birliği."
+msgstr "Fast assault unit."
+
+msgid "🏇 AĞIR SÜVARİ"
+msgstr "🏇 HEAVY CAVALRY"
+
+msgid "Ağır Süvari"
+msgstr "Heavy Cavalry"
+
+msgid "Zırhlı süvari birliği."
+msgstr "Armored cavalry unit."
+
+msgid "⚔️ SİPAHİ"
+msgstr "⚔️ SIPAHI"
+
+msgid "Zırhlı Sipahi"
+msgstr "Armored Sipahi"
+
+msgid "Rakibin Okçu gücünü düşürür."
+msgstr "Weakens enemy Archers."
+
+msgid "🪵 KUŞATMA"
+msgstr "🪵 SIEGE"
+
+msgid "Koçbaşı"
+msgstr "Battering Ram"
+
+msgid "Yalnızca şehirlere ve binalara saldırırken kullanılır."
+msgstr "Only usable when attacking cities and buildings."
+
+msgid "💣 KUŞATMA"
+msgstr "💣 SIEGE"
+
+msgid "Mancınık"
+msgstr "Catapult"
+
+msgid "🏗️ İNŞA"
+msgstr "🏗️ CONSTRUCTION"
+
+msgid "Oduncu Kampı"
+msgstr "Lumber Camp"
+
+msgid "Ormana kurulur. Her tur odun üretir."
+msgstr "Built in forest. Produces wood every turn."
+
+msgid "Taş Ocağı"
+msgstr "Quarry"
+
+msgid "Dağa kurulur. Her tur taş üretir."
+msgstr "Built on mountains. Produces stone every turn."
+
+msgid "Tarla"
+msgstr "Farm"
+
+msgid "Çimene kurulur. Her tur yiyecek üretir."
+msgstr "Built on grassland. Produces food every turn."
+
+msgid "Ticaret Merkezi"
+msgstr "Trade Center"
+
+msgid "Pazar menüsünü açar. (Nadir)"
+msgstr "Opens the marketplace. (Rare)"
+
+msgid "Öncü Kampı"
+msgstr "Pioneer Camp"
+
+msgid "Çimene kurulur. 5 yiyecek ve 1 AP ile Öncü yetiştirir."
+msgstr "Built on grassland. Trains a Pioneer for 5 food and 1 AP."
+
+msgid "🏗️ GELİŞİM"
+msgstr "🏗️ UPGRADE"
+
+msgid "Baltaları Bileme"
+msgstr "Sharpened Axes"
+
+msgid "Sadece bir Oduncu Kampını yükseltir."
+msgstr "Upgrades a Lumber Camp only."
+
+msgid "Derin Damarlar"
+msgstr "Deep Veins"
+
+msgid "Sadece bir Taş Ocağını yükseltir."
+msgstr "Upgrades a Quarry only."
+
+msgid "Gelişmiş Sulama"
+msgstr "Advanced Irrigation"
+
+msgid "Sadece bir Tarlayı yükseltir."
+msgstr "Upgrades a Farm only."
+
+msgid "Gizli Kart"
+msgstr "Hidden Card"
+
+msgid "Şehir Merkezi"
+msgstr "City Center"
+
+msgid "Ev"
+msgstr "House"
+
+msgid "Kışla"
+msgstr "Barracks"
+
+msgid "Odun"
+msgstr "Wood"
+
+msgid "Taş"
+msgstr "Stone"
+
+msgid "Yiyecek"
+msgstr "Food"
+
+msgid "Altın"
+msgstr "Gold"
+
+msgid "KAMP"
+msgstr "CAMP"
+
+msgid "[color=gray]🗑️ Kart çöpe atıldı.[/color]"
+msgstr "[color=gray]🗑️ Card discarded.[/color]"
+
+msgid "Medeniyet Seçilmedi"
+msgstr "No Civilization Selected"
+
+msgid "Lütfen bir flama seçerek ilerleyin"
+msgstr "Choose a banner to continue"
+
+msgid "❌ HATA: Seçtiğiniz medeniyet başka bir oyuncu tarafından alınmış!"
+msgstr "❌ ERROR: Another player has already taken that civilization!"
+
+msgid " lobiye katıldı."
+msgstr " joined the lobby."
+
+msgid "Bağlanıyor..."
+msgstr "Connecting..."
+
+msgid "Lobiye katıldın."
+msgstr "You joined the lobby."
+
+msgid "Bir oyuncu ayrıldı."
+msgstr "A player left."
+
+msgid "Açık"
+msgstr "Open"
+
+msgid "❌ Herkes renk ve medeniyet seçip hazır olmalı!"
+msgstr "❌ Everyone must choose a color and a civilization and be ready!"
+
+msgid "❌ İki oyuncu aynı rengi veya medeniyeti seçmiş! Biri değiştirmeli."
+msgstr "❌ Two players chose the same color or civilization! One of them must change."
+
+msgid "PARDEX ONLINE · ODA "
+msgstr "PARDEX ONLINE · ROOM "
+
+msgid "YEREL AĞ · "
+msgstr "LOCAL NETWORK · "
+
+msgid "Asya ile Avrupa'nın kucaklaştığı topraklarda doğan, devasa Şahi toplarıyla aşılmaz denilen surları yerle bir eden yenilmez bir imparatorluk. Yeniçerilerin ayak sesleri ve mehterin ritmi, savaş meydanlarında düşmanların kalbine korku salar. Sadece kılıçla değil, kurdukları muazzam ticaret ağları ve adalet sistemiyle de kıtalara hükmederler. Onlar için fetih, sadece toprak almak değil, nizam-ı alemi sağlamaktır."
+msgstr "Born where Asia embraces Europe, an unbeaten empire whose giant Şahi cannons levelled walls once thought impregnable. The march of the Janissaries and the beat of the mehter band strike fear into enemy hearts. They rule continents not only by the sword but through vast trade networks and a system of justice. For them, conquest is not merely taking land but bringing order to the world."
+
+msgid "🟢 [color=green][b]Topçu Bataryaları:[/b][/color] Savaşlarda atılan zarlar asla 1 gelmez (Her zaman 2, 3, 4, 5 veya 6 atarlar)."
+msgstr "🟢 [color=green][b]Artillery Batteries:[/b][/color] Their battle dice never roll a 1 (always 2, 3, 4, 5 or 6)."
+
+msgid "Kavurucu çöllerin ortasında, Nil Nehri'nin can verdiği topraklarda yükselen altın çağın mimarları. Tanrı-kralların (Firavunların) emriyle sonsuzluğa uzanan devasa piramitler ve anıtlar, onların zamana ve kum fırtınalarına nasıl meydan okuduğunun en büyük kanıtıdır. Ölümün sadece bir başlangıç olduğuna inanan bu kadim halk, binalarını taşla değil, ebediyet arzusuyla inşa eder."
+msgstr "Architects of a golden age that rose amid scorching deserts on lands given life by the Nile. The vast pyramids and monuments raised for eternity at the command of god-kings, the Pharaohs, are the greatest proof of how they defied time and sandstorms. Believing death is only a beginning, this ancient people builds not with stone but with a longing for eternity."
+
+msgid "🟢 [color=green][b]Antik Mimari:[/b][/color] Tüm taş ocakları tur sonlarında +1 fazladan Taş üretir."
+msgstr "🟢 [color=green][b]Ancient Architecture:[/b][/color] Every quarry produces +1 extra Stone at the end of each turn."
+
+msgid "Akdeniz'in hırçın dalgalarına hükmeden tüccar prensler ve denizlerin mutlak hakimleri. Kılıçtan ziyade altının, entrikanın ve donanmanın gücüne inanan bu tüccar cumhuriyeti, paranın kokusunu ufukların ötesinden bile alır. Paralı askerleri ve muazzam kalyonlarıyla, tek bir damla kan dökmeden bile krallıkları dize getirebilecek devasa bir ekonomik güce sahiptirler."
+msgstr "Merchant princes who command the restless waves of the Mediterranean and rule the seas. Trusting gold, intrigue and the fleet more than the sword, this merchant republic can smell money beyond the horizon. With mercenaries and mighty galleons, its economic power can bring kingdoms to their knees without spilling a drop of blood."
+
+msgid "🟢 [color=green][b]Tüccar Krallar:[/b][/color] Ticaret Merkezinde 1 Altın almak için 5 yerine sadece 4 kaynak öderler."
+msgstr "🟢 [color=green][b]Merchant Kings:[/b][/color] They pay only 4 resources instead of 5 for 1 Gold at a Trade Center."
+
+msgid "Bin yıllık Roma İmparatorluğu'nun kadim mirasını omuzlarında taşıyan, diplomasi ve entrikanın efsanevi başkenti. Yıkılmaz denilen Theodosius surlarının ardında, düşmanlarına dost görünürken en ölümcül zehri altın kadehlerde sunarlar. Askeri kaba kuvvetten ziyade, zekice kurgulanmış ittifaklar, kışkırtmalar ve siyasi manevralarla hayatta kalıp, rakiplerini birbirine kırdırırlar."
+msgstr "Bearers of the thousand-year legacy of Rome, the legendary capital of diplomacy and intrigue. Behind the unbreachable Theodosian Walls they smile at their enemies while serving the deadliest poison in golden cups. They survive not by brute force but by clever alliances, provocations and political manoeuvres that turn rivals against each other."
+
+msgid "🟢 [color=green][b]Saray Entrikaları:[/b][/color] Savaşlarda attıkları 1 ve 2 zarları rakibin gücünü %50 düşürür."
+msgstr "🟢 [color=green][b]Palace Intrigue:[/b][/color] When they roll a 1 or 2 in battle, the enemy's strength drops by 50%."
+
+msgid "Bozkırların sert ve dondurucu rüzgarıyla at süren, girdikleri her toprağı şimşek hızıyla fetheden durdurulamaz göçebe orduları. Şehir surlarının arkasına saklanmayı reddeden, uçsuz bucaksız çim arazilerde özgürce yaşayan bu savaşçılar; at üstündeki üstün okçuluk yetenekleri ve korkunç hızlarıyla tüm dünyaya boyun eğdirmiştir. Onlar için durmak, ölmek demektir."
+msgstr "Unstoppable nomad armies who ride the harsh, freezing wind of the steppe and conquer every land with lightning speed. Refusing to hide behind city walls and living freely on endless grasslands, these warriors brought the world to its knees with their mounted archery and terrifying speed. For them, to stop is to die."
+
+msgid "🟢 [color=green][b]Göçebe Sürüleri:[/b][/color] Tüm tarlalar tur sonlarında +1 fazladan Yiyecek üretir."
+msgstr "🟢 [color=green][b]Nomad Herds:[/b][/color] Every farm produces +1 extra Food at the end of each turn."
+
+msgid "Kuzeyin dondurucu soğuğundan, karanlık fiyortlardan kopup gelen; dalgaların, fırtınaların ve ganimetin korkusuz efendileri. Onlar için savaşmak sadece bir mecburiyet değil, aynı zamanda Valhalla'ya ulaşmak için girilen onurlu bir yoldur. Ejderha başlı uzun gemileriyle sislerin içinden aniden belirir, acımasızca yağmalar ve arkalarında sadece yanan kaleler bırakırlar."
+msgstr "Fearless masters of waves, storms and plunder, come from the freezing cold of the North and its dark fjords. For them war is not only a duty but an honourable road to Valhalla. Their dragon-headed longships appear suddenly from the mist; they raid without mercy and leave only burning fortresses behind."
+
+msgid "🟢 [color=green][b]Kuzeyin Gazabı:[/b][/color] Her başarılı savaşın ardından 5 altın kazanırlar."
+msgstr "🟢 [color=green][b]Fury of the North:[/b][/color] They gain 5 gold after every victorious battle."
+
+msgid "Osmanlı İmparatorluğu"
+msgstr "Ottoman Empire"
+
+msgid "Topların ve Fetihlerin Efendileri"
+msgstr "Masters of Cannon and Conquest"
+
+msgid "Antik Mısır Krallığı"
+msgstr "Kingdom of Ancient Egypt"
+
+msgid "Nil'in Ebedi Mirasçıları"
+msgstr "Eternal Heirs of the Nile"
+
+msgid "Venedik Cumhuriyeti"
+msgstr "Republic of Venice"
+
+msgid "Deniz Ticareti Ustaları"
+msgstr "Masters of Maritime Trade"
+
+msgid "Doğu Roma İmparatorluğu"
+msgstr "Eastern Roman Empire"
+
+msgid "Entrika ve İhtişamın Varisleri"
+msgstr "Heirs of Intrigue and Splendour"
+
+msgid "Moğol İmparatorluğu"
+msgstr "Mongol Empire"
+
+msgid "Bozkırın Durdurulamaz Süvarileri"
+msgstr "Unstoppable Riders of the Steppe"
+
+msgid "Viking Klanları"
+msgstr "Viking Clans"
+
+msgid "Kuzey Denizlerinin Yağmacıları"
+msgstr "Raiders of the Northern Seas"
+
+msgid "TAKAS"
+msgstr "TRADE"
+
+msgid "Takas teklifini yalnızca kendi turunda, savaş yokken yapabilirsin. Teklif AP harcamaz."
+msgstr "You can offer a trade only on your own turn and outside battle. Offers cost no AP."
+
+msgid "Takas yapılacak başka hükümdar yok."
+msgstr "There is no other ruler to trade with."
+
+msgid "Bir hükümdara kaynak takası öner. Kabul ederse takas hemen gerçekleşir; teklif 30 saniye veya tur sonuna kadar geçerlidir."
+msgstr "Offer a ruler a resource trade. If they accept, it happens at once; the offer lasts 30 seconds or until the turn ends."
+
+msgid "İstiyorum"
+msgstr "I want"
+
+msgid "Teklif et"
+msgstr "Make offer"
+
+msgid "Vazgeç"
+msgstr "Cancel"
+
+msgid "[color=light_coral]🤝 %s, %s hükümdarının takas teklifini reddetti.[/color]"
+msgstr "[color=light_coral]🤝 %s declined %s's trade offer.[/color]"
+
+msgid "[color=light_coral]🤝 Takas gerçekleşmedi: kaynaklar artık yetmiyor.[/color]"
+msgstr "[color=light_coral]🤝 The trade failed: the resources are no longer available.[/color]"
+
+msgid "🤝 [color=gold]Takas:[/color] %s %d %s verdi, %s %d %s verdi."
+msgstr "🤝 [color=gold]Trade:[/color] %s gave %d %s, %s gave %d %s."
+
+msgid "%s sana %d %s veriyor,\nkarşılığında %d %s istiyor."
+msgstr "%s offers you %d %s\nand asks for %d %s in return."
+
+msgid "TAKAS TEKLİFİ"
+msgstr "TRADE OFFER"
+
+msgid "Oyun sunucusuna bağlanılıyor…"
+msgstr "Connecting to the game server…"
+
+msgid "Sunucu yanıt vermedi. Adresi kontrol edip tekrar dene."
+msgstr "The server did not respond. Check the address and try again."
+
+msgid "Sunucuya bağlanıldı · maça dönülüyor…"
+msgstr "Connected · returning to the match…"
+
+msgid "Sunucuya bağlanıldı · giriş doğrulanıyor…"
+msgstr "Connected · verifying your entry…"
+
+msgid "Bağlantı kurulamadı. Sunucu adresini ve bağlantını kontrol et."
+msgstr "Could not connect. Check the server address and your connection."
+
+msgid "Sunucu bağlantısı kesildi. Yeni bir oda kurabilir veya tekrar bağlanabilirsiniz."
+msgstr "The connection to the server was lost. You can host a new room or connect again."
+
+msgid "Maç bağlantısı koptu. Sunucu açıksa ana menüden \"Maça Dön\" ile kaldığın yere dönebilirsin."
+msgstr "You lost the match connection. If the server is still up, use \"Return to match\" in the main menu to continue where you left off."
+
+msgid "Giriş doğrulandı · lobi hazır."
+msgstr "Entry verified · the lobby is ready."
+
+msgid "Tüm oyuncular hazır · maç başladı."
+msgstr "All players are ready · the match has begun."
+
+msgid "Öğreticiyi kapat"
+msgstr "Close tutorial"
+
+msgid "ÖĞRETİCİ · %d/%d · %s"
+msgstr "TUTORIAL · %d/%d · %s"
+
+msgid "Bitir"
+msgstr "Finish"
+
+msgid "Bu adımı geç"
+msgstr "Skip this step"
+
+msgid "Şehrini kur"
+msgstr "Found your city"
+
+msgid "\"Başlangıç Arazini Seç\" bölümünden bir arazi seç: Çim yiyecek, Orman odun, Dağ taş üretir. Sonra haritada sisli bir hex'e tıklayıp ONAYLA'ya bas. Şehir 10 odun + 10 taş tutar."
+msgstr "Pick a terrain under \"Choose Your Starting Land\": Grassland gives food, Forest wood, Mountain stone. Then click a fogged hex on the map and press CONFIRM. A city costs 10 wood + 10 stone."
+
+msgid "Turu bitir"
+msgstr "End your turn"
+
+msgid "Sağ alttaki TURU BİTİR ile sırayı devret. Herkes şehrini kurduğunda her turda 3 aksiyon puanı (AP) alırsın; üretimin tur sonunda gelir."
+msgstr "Pass the turn with END TURN at the bottom right. Once everyone has a city you get 3 action points (AP) each turn; your production arrives at the end of the turn."
+
+msgid "Kart çek"
+msgstr "Draw a card"
+
+msgid "Sol alttaki İNŞA DESTESİ'ne tıkla. 1 AP karşılığında bir inşa veya gelişim kartı çekersin. Elinde en fazla 7 inşa kartı olabilir."
+msgstr "Click the CONSTRUCTION DECK at the bottom left. For 1 AP you draw a construction or upgrade card. You can hold up to 7 construction cards."
+
+msgid "Keşfet"
+msgstr "Explore"
+
+msgid "Şehrindeki öncünü sol tıkla seç, ardından komşu sisli bir hex'e sağ tıkla. Keşif 1 AP ve 1 yiyecek harcar; arazinin türü ortaya çıkar."
+msgstr "Left-click the pioneer in your city to select it, then right-click a neighbouring fogged hex. Exploring costs 1 AP and 1 food and reveals the terrain."
+
+msgid "Toprak kazan"
+msgstr "Claim land"
+
+msgid "Öncün seçiliyken durduğu hex'e sağ tıkla ve \"Bölgeyi Ele Geçir\" de: 1 AP + 3 yiyecek. Her toprak 1 puandır ve üzerine bina kurabilirsin."
+msgstr "With your pioneer selected, right-click the hex it stands on and choose \"Claim the Region\": 1 AP + 3 food. Each piece of land is worth 1 point and can hold a building."
+
+msgid "Bina kur"
+msgstr "Build"
+
+msgid "Elindeki bir inşa kartına tıkla; uygun topraklar parlar. Oduncu Kampı ormana, Taş Ocağı dağa, diğerleri çimene kurulur. Kaynağın yetmezse kartı bir kaynağa çevirebilirsin."
+msgstr "Click a construction card in your hand; suitable land lights up. A Lumber Camp goes in forest, a Quarry on mountains, everything else on grassland. If you lack resources, you can convert the card into one."
+
+msgid "Üretimi topla"
+msgstr "Collect production"
+
+msgid "Turu bitir. Şehrin ve binaların tur sonunda kaynak üretir; üst çubuktaki +/tur değerlerinden takip et. Gelişim kartları binaları 3. seviyeye kadar yükseltir."
+msgstr "End your turn. Your city and buildings produce resources at the end of the turn; follow the +/turn values in the top bar. Upgrade cards raise buildings up to level 3."
+
+msgid "Savaşa hazırlan"
+msgstr "Prepare for war"
+
+msgid "SAVAŞ sekmesinden 3 altınla bir savaş kartı çek. Öncün seçiliyken komşu bir düşmana sağ tıklayarak saldırırsın: iki taraf kartlarını KİLİTLE ile gizlice seçer, kartlar açılır ve herkes zarını atar. Eşitlikte savunan kazanır."
+msgstr "Draw a war card from the WAR tab for 3 gold. With a pioneer selected, right-click a neighbouring enemy to attack: both sides secretly choose cards with LOCK, the cards are revealed and each side rolls a die. Ties go to the defender."
+
+msgid "Hazırsın"
+msgstr "You are ready"
+
+msgid "Her toprak 1, şehir dışındaki her bina seviyesi 2, her vasal 5 puan; kazanılan savaş +2, kaybedilen −2. İlk 50 puana ulaşan kazanır. Kurallar her zaman MENÜ › Nasıl Oynanır? içinde."
+msgstr "Each land is 1 point, each building level outside the city 2, each vassal 5; a won battle +2, a lost one −2. The first to 50 points wins. The rules are always under MENU › How to play?"
+
+msgid "HÜKÜM"
+msgstr "HÜKÜM"
+
+msgid "Çevrimiçi maç bu menü açıkken devam eder."
+msgstr "Online matches keep running while this menu is open."
+
+msgid "Devam et"
+msgstr "Resume"
+
+msgid "Nasıl oynanır?"
+msgstr "How to play?"
+
+msgid "Maçı kaydet"
+msgstr "Save match"
+
+msgid "MAÇ KAYDI"
+msgstr "SAVED MATCH"
+
+msgid "Maç kaydedildi. Ana menüden Tek Oyunculu › Kayıtlı maça devam et ile sürdürebilirsin."
+msgstr "Match saved. Continue it from the main menu with Single Player › Continue saved match."
+
+msgid "Şu an kaydedilemiyor: savaş sürerken veya şehir kurulmadan kayıt alınmaz."
+msgstr "Cannot save right now: saving is not possible during a battle or before your city is founded."
+
+msgid "Maçtan ayrıl"
+msgstr "Leave match"
+
+msgid "Oyundan çık"
+msgstr "Quit game"
+
+msgid "NASIL OYNANIR?"
+msgstr "HOW TO PLAY"
+
+msgid "AMAÇ: 50 puana ulaş. Her toprak 1, şehir dışındaki her bina seviyesi 2, her doğrudan vasal 5 puan verir. Savaş kazanmak +2, kaybetmek −2 puandır."
+msgstr "GOAL: Reach 50 points. Each land is worth 1, each building level outside the city 2 and each direct vassal 5. Winning a battle is +2, losing one −2."
+
+msgid "KURULUM: Bir biyom seç, keşfedilmemiş bir hex'e sol tıkla ve onayla. Şehir 10 odun + 10 taş tutar; bir öncü verir. Herkes şehrini kurduktan sonra tur başına 3 AP kazanılır."
+msgstr "SETUP: Choose a terrain, left-click an unexplored hex and confirm. A city costs 10 wood + 10 stone and gives you a pioneer. Once everyone has a city, each turn gives 3 AP."
+
+msgid "KEŞİF: Öncüyü sol tıkla seç. Komşu hex'e sağ tıkla hareket et (1 AP + 1 yiyecek). Öncünün üstüne sağ tıkla, kendi toprağına komşu bölgeyi sahiplen (1 AP + 3 yiyecek)."
+msgstr "EXPLORING: Left-click a pioneer to select it. Right-click a neighbouring hex to move (1 AP + 1 food). Right-click the pioneer's own hex to claim land next to your territory (1 AP + 3 food)."
+
+msgid "KARTLAR: İnşa kartı çekmek 1 AP; savaş kartı 1 AP + 3 altın. İki elin ayrı ayrı sınırı 7 karttır. Kartı seçerek kullan, dönüştür veya at. Üretim tur sonunda gelir. Ticaret Merkezi kaynakları altına çevirir."
+msgstr "CARDS: Drawing a construction card costs 1 AP; a war card 1 AP + 3 gold. Each of your two hands holds up to 7 cards. Select a card to use, convert or discard it. Production arrives at the end of the turn. A Trade Center turns resources into gold."
+
+msgid "SAVAŞ: Düşmana sağ tıkla; iki taraf kartlarını kilitler ve zar atar. Eşitlikte savunan kazanır. Kuşatma kartları yalnız bina saldırısındadır. Hükmet şehir sahibini vasal yapar; vasal üretiminin yarısını vergi verir."
+msgstr "WAR: Right-click an enemy; both sides lock their cards and roll dice. Ties go to the defender. Siege cards work only against buildings. Subjugate makes a city's owner your vassal; a vassal pays half of its production as tax."
+
+msgid "KONTROLLER: WASD / oklar ve sağ tuşla sürükleme: kamera. Fare tekerleği: yakınlaştırma. Sağ tık: inşayı iptal. Esc: menü. Oda bağlantısı: sunucunun IP adresi, UDP 7777."
+msgstr "CONTROLS: WASD / arrows and right-drag: camera. Mouse wheel: zoom. Right-click: cancel building. Esc: menu. Room connection: the host's IP address, UDP 7777."
+
+msgid "AYARLAR"
+msgstr "SETTINGS"
+
+msgid "Ana ses seviyesi"
+msgstr "Master volume"
+
+msgid "Tam ekran"
+msgstr "Fullscreen"
+
+msgid "MAÇTAN AYRIL"
+msgstr "LEAVE MATCH"
+
+msgid "Maç her turunun başında kendiliğinden kaydedilir. Ana menüden Tek Oyunculu › Kayıtlı maça devam et ile sürdürebilirsin."
+msgstr "The match saves automatically at the start of each of your turns. Continue it from the main menu with Single Player › Continue saved match."
+
+msgid "Sunucuysanız tüm oyuncuların bağlantısı kapanır. Bu maç kaydedilmez.\nKendi isteğinle ayrılırsan bu maça geri dönemezsin."
+msgstr "If you are the host, every player is disconnected. This match is not saved.\nIf you leave on purpose, you cannot return to this match."
+
+msgid "Maça dön"
+msgstr "Back to the match"
+
+msgid "Ayrıl ve ana menüye dön"
+msgstr "Leave and return to the main menu"
+
+msgid "ZAFER"
+msgstr "VICTORY"
+
+msgid "MAÇ TAMAMLANDI"
+msgstr "MATCH OVER"
+
+msgid "%s, %d puanla hüküm sürdü.\nToplam tur: %d"
+msgstr "%s reigns with %d points.\nRounds played: %d"
+
+msgid "Ana menüye dön"
+msgstr "Return to the main menu"
+
+msgid "Masa kodu 5 harf veya rakam olmalı."
+msgstr "The table code must be 5 letters or digits."
+
+msgid "Masa kodunda yalnız A–Z ve 0–9 kullan."
+msgstr "Use only A–Z and 0–9 in the table code."
+
+msgid "Masa kurmak veya koda katılmak için HÜKÜM'ü PARDEX üzerinden aç."
+msgstr "Open HÜKÜM through PARDEX to host a table or join with a code."
+
+msgid "PARDEX'e bağlanılıyor…"
+msgstr "Connecting to PARDEX…"
+
+msgid "PARDEX bağlantısı kurulamadı. Yeniden deneniyor…"
+msgstr "Could not connect to PARDEX. Retrying…"
+
+msgid "İstek zaman aşımına uğradı. Tekrar deneyebilirsin."
+msgstr "The request timed out. You can try again."
+
+msgid "PARDEX bağlantısı kesildi. Yeniden deneniyor…"
+msgstr "The PARDEX connection was lost. Retrying…"
+
+msgid "PARDEX oturumu HÜKÜM'e ait değil. Oyunu yeniden aç."
+msgstr "This PARDEX session is not for HÜKÜM. Reopen the game."
+
+msgid "PARDEX'e bağlı · %s"
+msgstr "Connected to PARDEX · %s"
+
+msgid "Masa bileti eksik veya farklı oyuna ait. Tekrar dene."
+msgstr "The table ticket is missing or belongs to another game. Try again."
+
+msgid "PARDEX isteği reddedildi."
+msgstr "PARDEX refused the request."
+
+msgid "KARTLARI KİLİTLE"
+msgstr "LOCK CARDS"
+
+msgid "Kartlar Seçiliyor..."
+msgstr "Choosing cards..."
+
+msgid "↩️ Kart geri alındı."
+msgstr "↩️ Card taken back."
+
+msgid "En fazla 7 kart seçebilirsin."
+msgstr "You can choose at most 7 cards."
+
+msgid "⚠️ [color=orange]%s yalnızca şehir veya bina saldırılarında kullanılabilir![/color]"
+msgstr "⚠️ [color=orange]%s can only be used when attacking cities or buildings![/color]"
+
+msgid "Komutan"
+msgstr "Commander"
+
+msgid "%s (Güç: %s)"
+msgstr "%s (Strength: %s)"
+
+msgid "RAKİP BEKLENİYOR..."
+msgstr "WAITING FOR OPPONENT..."
+
+msgid "Kartlar Seçildi"
+msgstr "Cards chosen"
+
+msgid "⚔️ Her iki tarafın kartları açıldı!"
+msgstr "⚔️ Both sides' cards are revealed!"
+
+msgid "🏹 %s: Pozisyon bonusu +%d"
+msgstr "🏹 %s: Position bonus +%d"
+
+msgid "👑 %s: Her karta +%d (toplam +%d)"
+msgstr "👑 %s: +%d to each card (total +%d)"
+
+msgid "👑 %s: %s bonusu +%d (toplam +%d)"
+msgstr "👑 %s: %s bonus +%d (total +%d)"
+
+msgid "👑 %s: Az kartla savaşma bonusu +%d"
+msgstr "👑 %s: Outnumbered bonus +%d"
+
+msgid "👑 %s: Koşul sağlandı, +%d"
+msgstr "👑 %s: Condition met, +%d"
+
+msgid "👑 %s: Saldırıda toplam güç %%%d artıyor"
+msgstr "👑 %s: Total attack strength +%d%%"
+
+msgid "🎲 %s: Zara +%d"
+msgstr "🎲 %s: +%d to the die"
+
+msgid "Aktif bonus yok"
+msgstr "No active bonus"
+
+msgid "🪙 %s, Kuzeyin Gazabı ile 5 Altın kazandı."
+msgstr "🪙 %s gained 5 Gold through Fury of the North."
+
+msgid "[color=gray]⚔️ Savaş, taraflardan biri ayrıldığı için iptal edildi.[/color]"
+msgstr "[color=gray]⚔️ The battle was cancelled because one side left.[/color]"
+
+msgid "🚩 %s, (%d, %d) bölgesini topraklarına kattı!"
+msgstr "🚩 %s took the land at (%d, %d)!"
+
+msgid "⚪ (%d, %d) bölgesi artık kimsenin hakimiyetinde değil (komşu olmadığı için ele geçirilemedi)."
+msgstr "⚪ The land at (%d, %d) now belongs to no one (it could not be taken because it is not adjacent)."
+
+msgid "⚔️ [color=lime]ZAFER![/color] %s savaşı kazandı!"
+msgstr "⚔️ [color=lime]VICTORY![/color] %s won the battle!"
+
+msgid "🏴 %s'in öncüsü fethedilen bölgeye yerleşti."
+msgstr "🏴 %s's pioneer settled in the conquered land."
+
+msgid "🛡️ [color=orange]SAVUNMA BAŞARILI![/color] %s saldırıyı püskürttü!"
+msgstr "🛡️ [color=orange]DEFENSE HELD![/color] %s repelled the attack!"
+
+msgid "🛡️ [color=orange]SAVUNMA BAŞARILI![/color] %s, %s'in saldırısını püskürttü!"
+msgstr "🛡️ [color=orange]DEFENSE HELD![/color] %s repelled %s's attack!"
+
+msgid "👑 [color=gold]HÜKÜMDARLIK KURULDU![/color] %s, %s'i vasalı yaptı!"
+msgstr "👑 [color=gold]DOMINION ESTABLISHED![/color] %s made %s a vassal!"
+
+msgid "💰 [color=yellow]YAĞMALANDI![/color] %s, %s'ten şunları yağmaladı: %s"
+msgstr "💰 [color=yellow]PLUNDERED![/color] %s plundered from %s: %s"
+
+msgid "[color=light_coral]❌ Şehir Merkezi yıkılamaz![/color]"
+msgstr "[color=light_coral]❌ A City Center cannot be destroyed![/color]"
+
+msgid "🔥 [color=red]YIKILDI![/color] %s, %s'in yapısını yerle bir etti!"
+msgstr "🔥 [color=red]DESTROYED![/color] %s razed %s's building!"
+
+msgid "🔥 [color=lime]BAĞIMSIZLIK KAZANILDI![/color] %s artık %s'e bağlı değil!"
+msgstr "🔥 [color=lime]INDEPENDENCE WON![/color] %s is no longer bound to %s!"
+
+msgid "🛡️ [color=orange]İSYAN BASTIRILDI![/color] %s, efendisi %s'e karşı isyanında başarısız oldu."
+msgstr "🛡️ [color=orange]REVOLT CRUSHED![/color] %s failed in the revolt against overlord %s."
+
+msgid "Toplam Güç: %d"
+msgstr "Total strength: %d"
+
+msgid "🏃 %s'in öncüsü şehrine geri kaçtı!"
+msgstr "🏃 %s's pioneer fled back to the city!"
+
+msgid "Kart Gücü: %d"
+msgstr "Card strength: %d"
+
+msgid "🔥 Topçu Bataryaları: Zarlar asla 1 gelmez!"
+msgstr "🔥 Artillery Batteries: dice never roll a 1!"
+
+msgid "🏛️ Saray Entrikaları: 1 veya 2 zarında rakibin toplam gücü %50 azalır."
+msgstr "🏛️ Palace Intrigue: on a roll of 1 or 2, the enemy's total strength falls by 50%."
+
+msgid "🪙 Kuzeyin Gazabı: Kazanılan savaş başına +5 Altın."
+msgstr "🪙 Fury of the North: +5 Gold for every battle won."
+
+msgid "UI ses dosyası bulunamadı: "
+msgstr "UI sound file not found: "
+
+msgid "[color=light_coral]❌ Sadece kendi sıranızda ticaret yapabilirsiniz![/color]"
+msgstr "[color=light_coral]❌ You can only trade on your own turn![/color]"
+
+msgid "[color=light_coral]❌ Yetersiz kaynak! Altın alabilmek için en az %d %s gerekli.[/color]"
+msgstr "[color=light_coral]❌ Not enough resources! You need at least %d %s for Gold.[/color]"
+
+msgid "⚖️ %s, tüccarlara %d %s %s vererek [color=gold]1 🪙 Altın[/color] kazandı."
+msgstr "⚖️ %s gave the merchants %d %s %s and received [color=gold]1 🪙 Gold[/color]."
+
+msgid "[color=light_coral]❌ Elindeki İnşa (%d/7) veya Savaş (%d/7) kartı sınırı aşıldı! Fazlalıkları çöpe atmalısın.[/color]"
+msgstr "[color=light_coral]❌ Too many Construction (%d/7) or War (%d/7) cards! Discard the extras.[/color]"
+
+msgid "👑 [color=orange]Vasal Vergisi:[/color] %s, efendisine %s ödedi."
+msgstr "👑 [color=orange]Vassal tax:[/color] %s paid the overlord %s."
+
+msgid "[color=yellow]➔ TUR %d:[/color] Sıra %s oyuncusunda! (⚡3 AP yenilendi)"
+msgstr "[color=yellow]➔ ROUND %d:[/color] %s's turn! (⚡3 AP restored)"
+
+msgid "[color=yellow]➔ TUR %d:[/color] Sıra %s oyuncusunda! Şehrini kur."
+msgstr "[color=yellow]➔ ROUND %d:[/color] %s's turn! Found your city."
+
+msgid " · Turu bitir"
+msgstr " · End turn"
+
+msgid "BİR MEDENİYETİN KADERİNİ YAZ"
+msgstr "WRITE THE FATE OF A CIVILIZATION"
+
+msgid "PARDEX ONLINE"
+msgstr "PARDEX ONLINE"
+
+msgid "Masa kur · Kodla katıl · Arkadaşlarınla oyna"
+msgstr "Host a table · Join with a code · Play with friends"
+
+msgid "ÇIKIŞ"
+msgstr "QUIT"
+
+msgid "2–6 oyuncu   ·   6 medeniyet   ·   50 puan"
+msgstr "2–6 players   ·   6 civilizations   ·   50 points"
+
+msgid "HÜKÜMDAR"
+msgstr "RULER"
+
+msgid "Oyuncu"
+msgstr "Player"
+
+msgid "PROFİLİ DÜZENLE"
+msgstr "EDIT PROFILE"
+
+msgid "TOPRAK. TİCARET. HÜKÜM."
+msgstr "LAND. TRADE. DOMINION."
+
+msgid "Şehrini kur. Sınırlarını genişlet. İttifaklarını seç. 50 puana ulaş ve tarihe adını yaz."
+msgstr "Found your city. Expand your borders. Choose your alliances. Reach 50 points and write your name into history."
+
+msgid "Sunucuya bağlan."
+msgstr "Connect to a server."
+
+msgid "SUNUCUNUN YEREL IP ADRESİ"
+msgstr "HOST'S LOCAL IP ADDRESS"
+
+msgid "PORT"
+msgstr "PORT"
+
+msgid "Oda kurarken aynı portu kullanın. Güvenlik duvarında UDP bağlantısına izin verin."
+msgstr "Use the same port as the host. Allow UDP through the firewall."
+
+msgid "SUNUCU ADRESİ"
+msgstr "SERVER ADDRESS"
+
+msgid "wss://sunucu-adresi"
+msgstr "wss://server-address"
+
+msgid "Güvenilir bir HÜKÜM sunucusunun adresini kullan."
+msgstr "Use the address of a trusted HÜKÜM server."
+
+msgid "ODA KUR"
+msgstr "HOST ROOM"
+
+msgid "KATIL"
+msgstr "JOIN"
+
+msgid "Masa kurup kodu arkadaşlarınla paylaş."
+msgstr "Host a table and share the code with your friends."
+
+msgid "MASA KUR"
+msgstr "HOST TABLE"
+
+msgid "ARKADAŞININ MASASINA KATIL"
+msgstr "JOIN A FRIEND'S TABLE"
+
+msgid "MASA KODU"
+msgstr "TABLE CODE"
+
+msgid "KODLA KATIL"
+msgstr "JOIN WITH CODE"
+
+msgid "PROFİLİNİ DÜZENLE"
+msgstr "EDIT YOUR PROFILE"
+
+msgid "Oyuncu adı"
+msgstr "Player name"
+
+msgid "KAYDET"
+msgstr "SAVE"
+
+msgid "TUR 1"
+msgstr "ROUND 1"
+
+msgid "Oyun sırası: Osmanli"
+msgstr "Turn order: Ottoman"
+
+msgid "+12/tur"
+msgstr "+12/turn"
+
+msgid "AP"
+msgstr "AP"
+
+msgid "MENÜ"
+msgstr "MENU"
+
+msgid "Zafer Sıralaması"
+msgstr "Victory Standings"
+
+msgid "Medeniyet İsmi"
+msgstr "Civilization"
+
+msgid "Seçim Paneli"
+msgstr "Selection"
+
+msgid "Sahip"
+msgstr "Owner"
+
+msgid "Medeniyet"
+msgstr "Civilization"
+
+msgid "Arazi"
+msgstr "Terrain"
+
+msgid "Arazi Türü"
+msgstr "Terrain type"
+
+msgid "Bina"
+msgstr "Building"
+
+msgid "Bina İsmi"
+msgstr "Building name"
+
+msgid "Üretim"
+msgstr "Production"
+
+msgid "+1 Altın"
+msgstr "+1 Gold"
+
+msgid "Savunma"
+msgstr "Defense"
+
+msgid "Oyun Günlüğü"
+msgstr "Game Log"
+
+msgid "Mesaj yaz · Enter"
+msgstr "Type a message · Enter"
+
+msgid "SAVAŞ"
+msgstr "WAR"
+
+msgid "İNŞA"
+msgstr "BUILD"
+
+msgid "TİCARET"
+msgstr "MARKET"
+
+msgid "ÖNCÜ\nÜRET"
+msgstr "TRAIN\nPIONEER"
+
+msgid "SAVAŞ DESTESİ"
+msgstr "WAR DECK"
+
+msgid "Kalan: 15"
+msgstr "Left: 15"
+
+msgid "İNŞA DESTESİ"
+msgstr "CONSTRUCTION DECK"
+
+msgid "TURU BİTİR"
+msgstr "END TURN"
+
+msgid "İSYAN"
+msgstr "REVOLT"
+
+msgid "AP HAKKIN BİTTİ!"
+msgstr "OUT OF AP!"
+
+msgid "Bu tur için tüm AP hakkını kullandın"
+msgstr "You have used all your AP for this turn"
+
+msgid "⚖️ PAZAR YERİ (5 Kaynak = 1 Altın)"
+msgstr "⚖️ MARKETPLACE (5 resources = 1 Gold)"
+
+msgid "Odun Sat"
+msgstr "Sell Wood"
+
+msgid "Taş Sat"
+msgstr "Sell Stone"
+
+msgid "Yiyecek Sat"
+msgstr "Sell Food"
+
+msgid "Kapat"
+msgstr "Close"
+
+msgid "Takas Teklifi Geldi"
+msgstr "Trade offer received"
+
+msgid "Kabul Et"
+msgstr "Accept"
+
+msgid "Reddet"
+msgstr "Decline"
+
+msgid "Efendine karşı bağımsızlık savaşı başlatmak istediğine emin misin?"
+msgstr "Are you sure you want to start a war of independence against your overlord?"
+
+msgid "Evet"
+msgstr "Yes"
+
+msgid "Hayır"
+msgstr "No"
+
+msgid "Şehir Merkezi Buraya Kurulsun Mu?"
+msgstr "Found the City Center here?"
+
+msgid "Seçilen Araziye Şehir Merkezinizi Kuracaksınız..."
+msgstr "You will found your City Center on the selected land..."
+
+msgid "ONAYLA"
+msgstr "CONFIRM"
+
+msgid "VAZGEÇ"
+msgstr "CANCEL"
+
+msgid "Başlangıç Arazini Seç"
+msgstr "Choose Your Starting Land"
+
+msgid "Şehir Merkezi Uygarlığınızın Kalbidir. Konumunu Dikkatli Seçin."
+msgstr "The City Center is the heart of your civilization. Choose its location carefully."
+
+msgid "Bölgeyi Ele Geçir"
+msgstr "Claim the Region"
+
+msgid "Çim Arazisi"
+msgstr "Grassland"
+
+msgid "3 Yiyecek"
+msgstr "3 Food"
+
+msgid "SAHİPLEN"
+msgstr "CLAIM"
+
+msgid "Kalan İnşa Kartları"
+msgstr "Construction cards left"
+
+msgid "Kalan Askerler"
+msgstr "Soldiers left"
+
+msgid "Okçu"
+msgstr "Archer"
+
+msgid "Süvari"
+msgstr "Cavalry"
+
+msgid "Savaş İlanı"
+msgstr "Declaration of War"
+
+msgid "Saldıran "
+msgstr "Attacker "
+
+msgid "Serkan"
+msgstr "Serkan"
+
+msgid "Osmanlı"
+msgstr "Ottoman"
+
+msgid "Savunan"
+msgstr "Defender"
+
+msgid "Furkan"
+msgstr "Furkan"
+
+msgid "Venedik"
+msgstr "Venice"
+
+msgid "SALDIR"
+msgstr "ATTACK"
+
+msgid "Rakibin Binasına Saldır"
+msgstr "Attack the Enemy Building"
+
+msgid "Hedef Bina"
+msgstr "Target building"
+
+msgid "Savunma Gücü"
+msgstr "Defense strength"
+
+msgid "YAĞMALA"
+msgstr "PLUNDER"
+
+msgid "HÜKMET"
+msgstr "SUBJUGATE"
+
+msgid "YIK"
+msgstr "RAZE"
+
+msgid "Saldıran"
+msgstr "Attacker"
+
+msgid "SEÇİLEN KARTLAR"
+msgstr "CHOSEN CARDS"
+
+msgid "KİLİTLE"
+msgstr "LOCK"
+
+msgid "GÜÇ VE BONUSLAR"
+msgstr "STRENGTH AND BONUSES"
+
+msgid "Bonuslar"
+msgstr "Bonuses"
+
+msgid "ZAR SONUCU"
+msgstr "DICE RESULT"
+
+msgid "ZAR AT"
+msgstr "ROLL DIE"
+
+msgid "Toplam Güç: 50"
+msgstr "Total strength: 50"
+
+msgid "KOMUTAN"
+msgstr "COMMANDER"
+
+msgid "GELİŞİM"
+msgstr "UPGRADE"
+
+msgid "KULLAN"
+msgstr "USE"
+
+msgid "DÖNÜŞTÜR"
+msgstr "CONVERT"
+
+msgid "ÇÖPE AT"
+msgstr "DISCARD"
+
+msgid "LOBİDEN ÇIK"
+msgstr "LEAVE LOBBY"
+
+msgid "MEDENİYET SEÇİMİ"
+msgstr "CHOOSE CIVILIZATION"
+
+msgid "MEDENİYET"
+msgstr "CIVILIZATION"
+
+msgid "Alt Başlık"
+msgstr "Subtitle"
+
+msgid "HAZIR"
+msgstr "READY"
+
+msgid "OYUNU BAŞLAT"
+msgstr "START GAME"
+
+msgid "ODA KODUNU KOPYALA"
+msgstr "COPY ROOM CODE"
+
+msgid "KİLİTLİ"
+msgstr "LOCKED"
+
+msgid "Medeniyet Yok"
+msgstr "No civilization"
+
+msgid "Bizans"
+msgstr "Byzantium"
+
+msgid "Mısır"
+msgstr "Egypt"
+
+msgid "Moğol"
+msgstr "Mongol"
+
+msgid "Viking"
+msgstr "Viking"
+
+msgid "Müzik"
+msgstr "Music"
+
+msgid "Efektler"
+msgstr "Effects"
+
+msgid "Birlik"
+msgstr "Unit"
+
+msgid "Bu birim"
+msgstr "This unit"
+
+msgid "Özel etkili kart."
+msgstr "Card with a special effect."
+
+msgid "Bilinmeyen"
+msgstr "Unknown"
+
+msgid "odun"
+msgstr "wood"
+
+msgid "taş"
+msgstr "stone"
+
+msgid "yiyecek"
+msgstr "food"
+
+msgid "altın"
+msgstr "gold"
+
+msgid "📨 Takas teklifin %s hükümdarına iletildi."
+msgstr "📨 Your trade offer was sent to %s."
+
+msgid "⌛ Takas teklifi zaman aşımına uğradı."
+msgstr "⌛ The trade offer expired."
+
+msgid "Takas şu an yapılamaz."
+msgstr "Trading is not possible right now."
+
+msgid "Takas teklifini yalnızca kendi turunda, savaş yokken yapabilirsin."
+msgstr "You can offer a trade only on your own turn and outside battle."
+
+msgid "Önceki teklifin yanıt bekliyor."
+msgstr "Your previous offer is still waiting for an answer."
+
+msgid "Geçersiz takas hedefi."
+msgstr "Invalid trade partner."
+
+msgid "Farklı iki kaynak seçmelisin."
+msgstr "Choose two different resources."
+
+msgid "Miktar 1 ile 30 arasında olmalı."
+msgstr "The amount must be between 1 and 30."
+
+msgid "Teklif ettiğin kadar kaynağın yok."
+msgstr "You do not have the resources you offered."
+
+msgid "Suvari"
+msgstr "Cavalry"
+
+msgid "Okcu"
+msgstr "Archer"
+
+msgid "Bu renk veya medeniyet başka bir oyuncu tarafından seçildi."
+msgstr "Another player has already chosen this color or civilization."
+
+msgid "Maç için en az iki oyuncu gerekli."
+msgstr "A match needs at least two players."
+
+msgid "Bu maça dönülemiyor: maç bitmiş, koltuk dolu veya sunucu yeniden başlamış."
+msgstr "You cannot return to this match: it has ended, the seat is taken or the server restarted."
+
+msgid "Tur %d · %s · %s"
+msgstr "Round %d · %s · %s"
+
+msgid "%d rakip"
+msgstr "%d rivals"
+
+msgid "rakipsiz"
+msgstr "no rivals"
+
+msgid "Dil · Language"
+msgstr "Dil · Language"
+
+msgid "Geri"
+msgstr "Back"
+
+msgid "([color=lightgreen]%d[/color]-[color=red]%d[/color]) [color=%s]%s/tur[/color]"
+msgstr "([color=lightgreen]%d[/color]-[color=red]%d[/color]) [color=%s]%s/turn[/color]"
+
+msgid "[color=%s]%s/tur[/color]"
+msgstr "[color=%s]%s/turn[/color]"

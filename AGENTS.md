@@ -31,6 +31,7 @@
 - Do not introduce nonexistent `res://` asset paths. Preserve existing visuals and mobile/desktop layout.
 - New or renewed windows use `UI/HukumTheme.tres` + `UI/HukumWindow.gd`: the scalable gold frame and opaque black fill from `UI/Skins/window.svg`. Command buttons use the shared theme's 20px nine-patch skins (`Button`, `HukumPrimary`, `HukumDanger`, `HukumCompact`); never stretch complete artwork or bake text into it. See `UI/README.md`. Preserve the animated menu atmosphere and intro unless the user asks to remove them.
 - Civilization cosmetics use `UI/CivilizationStyle.gd`; keep match state untouched and preserve per-civilization crests, palettes and motifs. Portraits use `UI/PortraitBorder.gd`. After changing base skin SVGs, regenerate `UI/CivilizationTemplates.gd` with `python UI/build_civilization_templates.py`.
+- Languages: Turkish source text with an English translation in `Locale/en.po` (msgid = Turkish). Wrap every player-facing string literal in `tr()` (format templates before `%`), translate data shown to players (card, civilization, building and resource names) with `tr()` at display time, and send server-side messages as untranslated templates so each client translates them. Add every new string to `Locale/en.po`; `python tests/check_project.py` fails on missing translations or mismatched placeholders/BBCode. Tests that assert on visible text set their locale explicitly.
 - Never commit secrets, tokens, personal data, `.godot/` cache or generated binaries.
 
 ## Execution and verification

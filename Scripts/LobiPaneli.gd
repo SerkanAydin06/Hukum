@@ -264,14 +264,14 @@ func bilgi_panelini_guncelle(med: String):
 			add_child(medeniyet_gorunumu)
 		if is_instance_valid(medeniyet_gorunumu): medeniyet_gorunumu.apply_to(self, med)
 
-		baslik_hikaye.text = medeniyet_basliklari[med]["isim"]
-		alt_baslik_hikaye.text = medeniyet_basliklari[med]["lakap"]
-		hikaye_yazisi.text = "[i]" + medeniyet_bilgileri[med]["hikaye"] + "[/i]"
-		bonus_yazisi.text = Global.okunur_metin(medeniyet_bilgileri[med]["bonus"])
+		baslik_hikaye.text = tr(medeniyet_basliklari[med]["isim"])
+		alt_baslik_hikaye.text = tr(medeniyet_basliklari[med]["lakap"])
+		hikaye_yazisi.text = "[i]" + tr(medeniyet_bilgileri[med]["hikaye"]) + "[/i]"
+		bonus_yazisi.text = Global.okunur_metin(tr(medeniyet_bilgileri[med]["bonus"]))
 
 	else:
-		baslik_hikaye.text = "Medeniyet Seçilmedi"
-		alt_baslik_hikaye.text = "Lütfen bir flama seçerek ilerleyin"
+		baslik_hikaye.text = tr("Medeniyet Seçilmedi")
+		alt_baslik_hikaye.text = tr("Lütfen bir flama seçerek ilerleyin")
 		hikaye_yazisi.text = ""
 		bonus_yazisi.text = ""
 
@@ -283,7 +283,7 @@ func _hazir_butonuna_basildi():
 		for id in lobi_verisi:
 			if id != my_id:
 				if lobi_verisi[id]["medeniyet"] == benim_secilen_medeniyetim:
-					_sistem_mesaji("❌ HATA: Seçtiğiniz medeniyet başka bir oyuncu tarafından alınmış!")
+					_sistem_mesaji(tr("❌ HATA: Seçtiğiniz medeniyet başka bir oyuncu tarafından alınmış!"))
 					hazir_btn.modulate = Color.RED
 					await get_tree().create_timer(1.5).timeout
 					if is_instance_valid(hazir_btn): hazir_btn.modulate = Color.WHITE
@@ -315,7 +315,7 @@ func lobi_bilgisi_gonder_rpc(peer_id: int, isim: String, renk: String, medeniyet
 	lobi_verisi[peer_id]["profil_no"] = profil_no   # 🟢 YENİ
 	
 	if not lobi_verisi[peer_id].get("ilk_mesaj_gosterildi", false) and peer_id != multiplayer.get_unique_id():
-		_sistem_mesaji(isim + " lobiye katıldı.")
+		_sistem_mesaji(isim + tr(" lobiye katıldı."))
 		lobi_verisi[peer_id]["ilk_mesaj_gosterildi"] = true
 		
 	lobi_arayuzunu_ciz()
@@ -334,7 +334,7 @@ func _oyuncu_baglandi(id: int):
 		var bs_med = ""
 		var bs_renk = ""
 		# Başkasıysa "Bağlanıyor..." diyoruz, çünkü henüz ismini bilmiyoruz
-		var bs_isim = Global.oyuncu_ismi if id == multiplayer.get_unique_id() else "Bağlanıyor..."
+		var bs_isim = Global.oyuncu_ismi if id == multiplayer.get_unique_id() else tr("Bağlanıyor...")
 			
 		lobi_verisi[id] = {"isim": bs_isim, "renk": bs_renk, "medeniyet": bs_med, "hazir_mi": false, "ilk_mesaj_gosterildi": false, "profil_no": (Global.profil_no if id == multiplayer.get_unique_id() else 1)}
 		lobi_arayuzunu_ciz()
@@ -342,7 +342,7 @@ func _oyuncu_baglandi(id: int):
 		# Kendi ismimizi anında ağa bildiriyoruz
 		if id == multiplayer.get_unique_id():
 			# Kendi ekranımızda "Lobiye katıldın" yazsın ve bayrağı kapatsın
-			_sistem_mesaji("Lobiye katıldın.")
+			_sistem_mesaji(tr("Lobiye katıldın."))
 			lobi_verisi[id]["ilk_mesaj_gosterildi"] = true
 			
 			if multiplayer.multiplayer_peer != null and multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
@@ -357,7 +357,7 @@ func _oyuncu_ayrildi(id: int):
 	if Network.merkezi_mod: return
 	lobi_verisi.erase(id)
 	lobi_arayuzunu_ciz()
-	_sistem_mesaji("Bir oyuncu ayrıldı.")
+	_sistem_mesaji(tr("Bir oyuncu ayrıldı."))
 
 func lobi_arayuzunu_ciz():
 	if multiplayer.multiplayer_peer == null: return
@@ -395,7 +395,7 @@ func lobi_arayuzunu_ciz():
 				isim_lbl.add_theme_color_override("font_color", ismin_rengi)
 				
 			if med_lbl: 
-				med_lbl.text = med.to_upper() if med != "" else "-"
+				med_lbl.text = tr(med).to_upper() if med != "" else "-"
 				med_lbl.add_theme_color_override("font_color", ismin_rengi)
 			
 			if profil_resmi:
@@ -449,7 +449,7 @@ func lobi_arayuzunu_ciz():
 		else:
 			slot.modulate = Color.WHITE
 			if isim_lbl: 
-				isim_lbl.text = "Açık"
+				isim_lbl.text = tr("Açık")
 				isim_lbl.add_theme_color_override("font_color", Color.WHITE) 
 			if med_lbl: 
 				med_lbl.text = "-"
@@ -511,10 +511,10 @@ func _oyunu_baslat_istegi():
 		for id in lobi_verisi:
 			var v = lobi_verisi[id]
 			if not lobi_istegi_gecerli_mi(1, id, v.get("isim", ""), v.get("renk", ""), v.get("medeniyet", ""), true, v.get("profil_no", 1)) or not v.get("hazir_mi", false):
-				_sistem_mesaji("❌ Herkes renk ve medeniyet seçip hazır olmalı!")
+				_sistem_mesaji(tr("❌ Herkes renk ve medeniyet seçip hazır olmalı!"))
 				return
 			if v["renk"] in renkler or v["medeniyet"] in medeniyetler:
-				_sistem_mesaji("❌ İki oyuncu aynı rengi veya medeniyeti seçmiş! Biri değiştirmeli.")
+				_sistem_mesaji(tr("❌ İki oyuncu aynı rengi veya medeniyeti seçmiş! Biri değiştirmeli."))
 				return
 			renkler.append(v["renk"])
 			medeniyetler.append(v["medeniyet"])
@@ -551,7 +551,7 @@ func _merkezi_lobiyi_ciz():
 
 func _oda_bilgisini_guncelle():
 	if has_node("%OdaBilgisi"):
-		var mode = "PARDEX ONLINE · ODA " + Network.oda_kodu if Network.resmi_mod else "ÖZEL SUNUCU" if Network.merkezi_mod else "YEREL AĞ · " + Network.sunucu_adresi
+		var mode = tr("PARDEX ONLINE · ODA ") + Network.oda_kodu if Network.resmi_mod else tr("ÖZEL SUNUCU") if Network.merkezi_mod else tr("YEREL AĞ · ") + Network.sunucu_adresi
 		%OdaBilgisi.text = mode
 	if has_node("%KodKopyala"): %KodKopyala.visible = Network.resmi_mod and not Network.dedicated_mode
 

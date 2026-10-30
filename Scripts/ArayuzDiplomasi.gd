@@ -21,26 +21,26 @@ func guncelle(k_isim: String, savas_var_mi: bool):
 		arayuz.vasal_paneli.visible = false
 	elif efendim != "" or vasallarim.size() > 0:
 		arayuz.vasal_paneli.visible = true
-		var v_metin = "[font_size=11][center][b]👑 DİPLOMASİ BİLGİSİ[/b][/center]\n\n"
+		var v_metin = tr("[font_size=11][center][b]👑 DİPLOMASİ BİLGİSİ[/b][/center]\n\n")
 		
 		if efendim != "":
 			v_metin += "[color=orange]Efendin:[/color] " + arayuz.renkli_isim(efendim) + "\n"
 			var od_v = ana.odenen_vergiler[k_isim]
-			v_metin += "[color=gray]Toplam Ödenen Vergi:[/color]\n%d🌲 %d🪨 %d🌾 %d🪙\n" % [od_v["odun"], od_v["tas"], od_v["yiyecek"], od_v["altin"]]
+			v_metin += tr("[color=gray]Toplam Ödenen Vergi:[/color]\n%d🌲 %d🪨 %d🌾 %d🪙\n") % [od_v["odun"], od_v["tas"], od_v["yiyecek"], od_v["altin"]]
 			
 			var benim_ham = _kaynak_hesapla(k_isim)
-			v_metin += "[color=light_coral]Bu Tur Ödenecek Vergi:[/color]\n%d🌲 %d🪨 %d🌾 %d🪙\n\n" % [int(benim_ham["odun"]/2), int(benim_ham["tas"]/2), int(benim_ham["yiyecek"]/2), int(benim_ham["altin"]/2)]
+			v_metin += tr("[color=light_coral]Bu Tur Ödenecek Vergi:[/color]\n%d🌲 %d🪨 %d🌾 %d🪙\n\n") % [int(benim_ham["odun"]/2), int(benim_ham["tas"]/2), int(benim_ham["yiyecek"]/2), int(benim_ham["altin"]/2)]
 			if arayuz.isyan_btn: arayuz.isyan_btn.visible = true
 		else:
 			if arayuz.isyan_btn: arayuz.isyan_btn.visible = false
 			
 		if vasallarim.size() > 0:
-			v_metin += "[color=gold]Vasalların:[/color]\n"
+			v_metin += tr("[color=gold]Vasalların:[/color]\n")
 			for v in vasallarim:
 				var od_v = ana.odenen_vergiler[v]
-				v_metin += "- %s\n  [color=gray](Gelen Toplam: %d🌲 %d🪨 %d🌾 %d🪙)[/color]\n" % [arayuz.renkli_isim(v), od_v["odun"], od_v["tas"], od_v["yiyecek"], od_v["altin"]]
+				v_metin += tr("- %s\n  [color=gray](Gelen Toplam: %d🌲 %d🪨 %d🌾 %d🪙)[/color]\n") % [arayuz.renkli_isim(v), od_v["odun"], od_v["tas"], od_v["yiyecek"], od_v["altin"]]
 				var vasal_ham = _kaynak_hesapla(v)
-				v_metin += "  [color=light_green](Bu Tur Gelecek: %d🌲 %d🪨 %d🌾 %d🪙)[/color]\n\n" % [int(vasal_ham["odun"]/2), int(vasal_ham["tas"]/2), int(vasal_ham["yiyecek"]/2), int(vasal_ham["altin"]/2)]
+				v_metin += tr("  [color=light_green](Bu Tur Gelecek: %d🌲 %d🪨 %d🌾 %d🪙)[/color]\n\n") % [int(vasal_ham["odun"]/2), int(vasal_ham["tas"]/2), int(vasal_ham["yiyecek"]/2), int(vasal_ham["altin"]/2)]
 		v_metin += "[/font_size]"
 		if arayuz.vasal_bilgi_label: arayuz.vasal_bilgi_label.text = Global.okunur_metin(v_metin)
 	else:

@@ -47,7 +47,7 @@ func kullanilan_renkleri_guncelle(liste:Array):
 
 func oyuncu_verisini_guncelle(veri:Dictionary):
 	oyuncu_ismi.text = veri["isim"]
-	medeniyet.text = veri["medeniyet"]
+	medeniyet.text = tr(veri["medeniyet"])
 	
 	var ismin_rengi = renkler.get(veri["renk"], Color.WHITE)
 	oyuncu_ismi.add_theme_color_override("font_color", ismin_rengi)
@@ -71,7 +71,7 @@ func oyuncu_verisini_guncelle(veri:Dictionary):
 		hazir_ikon.texture = load("res://Assets/Resimler/hazirdegil.png")
 
 func bos_slot():
-	oyuncu_ismi.text = "Açık"
+	oyuncu_ismi.text = tr("Açık")
 	oyuncu_ismi.add_theme_color_override("font_color", Color.WHITE)
 	medeniyet.text = "-"
 	medeniyet.add_theme_color_override("font_color", Color.WHITE)

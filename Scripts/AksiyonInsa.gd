@@ -11,11 +11,11 @@ func baslat(_aksiyon):
 func _sehir_kur_basildi():
 	if ana.oyuncular.size() == 0 or ana.aktif_sira != ana.benim_indexim or ana.sehir_merkezleri[ana.oyuncular[ana.benim_indexim]]: return
 	if ana.secilen_baslangic_biyomu == "":
-		ana.arayuz.olay_yaz("[color=light_coral]❌ Şehrini kurmadan önce Çim, Orman veya Dağ arasından bir seçim yapmalısın![/color]")
+		ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Şehrini kurmadan önce Çim, Orman veya Dağ arasından bir seçim yapmalısın![/color]"))
 		return
 	ana.insa_modu_aktif = true
 	ana.arayuz.arayuzu_guncelle()
-	ana.arayuz.olay_yaz("[color=yellow]📍 Haritada şehrini kurmak istediğin SİSLİ BÖLGEYE tıkla.[/color]")
+	ana.arayuz.olay_yaz(tr("[color=yellow]📍 Haritada şehrini kurmak istediğin SİSLİ BÖLGEYE tıkla.[/color]"))
 
 func _kurulabilir_hexleri_hesapla(kart):
 	ana.kurulabilir_hexler.clear()
@@ -50,19 +50,19 @@ func _kart_ve_harita_etkilesimi(k, k_isim):
 	var kart = ana.deste.el[ana.secili_kart_index]
 	if kart["hedef"] == "kendi_binasi":
 		if not ana.binalar_verisi.has(k):
-			ana.arayuz.olay_yaz("[color=light_coral]❌ Geliştirmek için kendi binanı seçmelisin![/color]")
+			ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Geliştirmek için kendi binanı seçmelisin![/color]"))
 			return
 		if ana.binalar_verisi[k]["sahip"] != k_isim:
-			ana.arayuz.olay_yaz("[color=light_coral]❌ Bu bina sana ait değil![/color]")
+			ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Bu bina sana ait değil![/color]"))
 			return
 		if kart["bina_turu"] != "joker" and kart["bina_turu"] != ana.binalar_verisi[k]["tur"]:
-			ana.arayuz.olay_yaz("[color=light_coral]❌ Bu kart sadece '%s' binasını geliştirebilir![/color]" % kart["bina_turu"])
+			ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Bu kart sadece '%s' binasını geliştirebilir![/color]") % kart["bina_turu"])
 			return
 		if ana.binalar_verisi[k].get("seviye", 1) >= 3:
-			ana.arayuz.olay_yaz("[color=light_coral]❌ Bu bina zaten maksimum (Seviye 3) seviyede![/color]")
+			ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Bu bina zaten maksimum (Seviye 3) seviyede![/color]"))
 			return
 		if ana.oyuncu_kaynaklari[k_isim]["odun"] < kart["odun_maliyet"] or ana.oyuncu_kaynaklari[k_isim]["tas"] < kart["tas_maliyet"]:
-			ana.arayuz.olay_yaz("[color=light_coral]❌ Yetersiz Kaynak! Gerekli: %d 🌲, %d 🪨[/color]" % [kart["odun_maliyet"], kart["tas_maliyet"]])
+			ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Yetersiz Kaynak! Gerekli: %d 🌲, %d 🪨[/color]") % [kart["odun_maliyet"], kart["tas_maliyet"]])
 			return
 
 		ana.istek("aksiyon", "bina_yukselt_rpc", [k_isim, k, kart["odun_maliyet"], kart["tas_maliyet"], ana.secili_kart_index])
@@ -70,25 +70,25 @@ func _kart_ve_harita_etkilesimi(k, k_isim):
 		
 	elif kart["hedef"] == "harita":
 		if ana.kontrol_edilen_hexler.get(k) != k_isim:
-			ana.arayuz.olay_yaz("[color=light_coral]❌ Buraya inşa edemezsin! Önce Öncü ile bölgeyi ele geçir (🚩).[/color]")
+			ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Buraya inşa edemezsin! Önce Öncü ile bölgeyi ele geçir (🚩).[/color]"))
 			return
 		if ana.binalar_verisi.has(k):
-			ana.arayuz.olay_yaz("[color=light_coral]❌ Bu alanda zaten bir yapı var![/color]")
+			ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Bu alanda zaten bir yapı var![/color]"))
 			return
 			
 		var biyom = ana.harita.kesfedilen_hexler.get(k, "")
 		if kart["tur"] in ["kisla", "oncu_kampi", "ev", "ticaret_merkezi", "tarla"] and biyom != "cim":
-			ana.arayuz.olay_yaz("[color=light_coral]❌ Bu bina sadece ÇİM araziye kurulabilir![/color]")
+			ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Bu bina sadece ÇİM araziye kurulabilir![/color]"))
 			return
 		if kart["tur"] == "oduncu_kampi" and biyom != "orman":
-			ana.arayuz.olay_yaz("[color=light_coral]❌ Oduncu Kampı sadece ORMAN araziye kurulabilir![/color]")
+			ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Oduncu Kampı sadece ORMAN araziye kurulabilir![/color]"))
 			return
 		if kart["tur"] == "tas_ocagi" and biyom != "dag":
-			ana.arayuz.olay_yaz("[color=light_coral]❌ Taş Ocağı sadece DAĞLIK araziye kurulabilir![/color]")
+			ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Taş Ocağı sadece DAĞLIK araziye kurulabilir![/color]"))
 			return
 
 		if ana.oyuncu_kaynaklari[k_isim]["odun"] < kart["odun_maliyet"] or ana.oyuncu_kaynaklari[k_isim]["tas"] < kart["tas_maliyet"]:
-			ana.arayuz.olay_yaz("[color=light_coral]❌ Yetersiz Kaynak! Gerekli: %d 🌲, %d 🪨[/color]" % [kart["odun_maliyet"], kart["tas_maliyet"]])
+			ana.arayuz.olay_yaz(tr("[color=light_coral]❌ Yetersiz Kaynak! Gerekli: %d 🌲, %d 🪨[/color]") % [kart["odun_maliyet"], kart["tas_maliyet"]])
 			return
 			
 		ana.istek("aksiyon", "kart_oyna_rpc", [k_isim, kart["tur"], k, kart["odun_maliyet"], kart["tas_maliyet"], ana.secili_kart_index])

@@ -71,33 +71,33 @@ func _buton(metin: String, islem: Callable):
 
 func menuyu_ac():
 	if sonuc_acik: return
-	_temizle("HÜKÜM")
-	if oyun: _metin("Çevrimiçi maç bu menü açıkken devam eder.")
-	_buton("Devam et", perde.hide).grab_focus()
-	_buton("Nasıl oynanır?", yardimi_ac)
+	_temizle(tr("HÜKÜM"))
+	if oyun: _metin(tr("Çevrimiçi maç bu menü açıkken devam eder."))
+	_buton(tr("Devam et"), perde.hide).grab_focus()
+	_buton(tr("Nasıl oynanır?"), yardimi_ac)
 	_buton("Ayarlar", ayarlari_ac)
 	if oyun and oyun.tek_oyunculu_mu():
-		var kaydet = _buton("Maçı kaydet", func():
-			_temizle("MAÇ KAYDI")
-			_metin("Maç kaydedildi. Ana menüden Tek Oyunculu › Kayıtlı maça devam et ile sürdürebilirsin." if oyun.maci_kaydet() else "Şu an kaydedilemiyor: savaş sürerken veya şehir kurulmadan kayıt alınmaz.")
-			_buton("Geri", menuyu_ac))
+		var kaydet = _buton(tr("Maçı kaydet"), func():
+			_temizle(tr("MAÇ KAYDI"))
+			_metin(tr("Maç kaydedildi. Ana menüden Tek Oyunculu › Kayıtlı maça devam et ile sürdürebilirsin.") if oyun.maci_kaydet() else tr("Şu an kaydedilemiyor: savaş sürerken veya şehir kurulmadan kayıt alınmaz."))
+			_buton(tr("Geri"), menuyu_ac))
 		kaydet.disabled = not oyun.kaydedilebilir_mi()
-	if oyun: _buton("Maçtan ayrıl", ayrilma_onayi).theme_type_variation = &"HukumDanger"
-	else: _buton("Oyundan çık", SceneTransition.quit_game).theme_type_variation = &"HukumDanger"
+	if oyun: _buton(tr("Maçtan ayrıl"), ayrilma_onayi).theme_type_variation = &"HukumDanger"
+	else: _buton(tr("Oyundan çık"), SceneTransition.quit_game).theme_type_variation = &"HukumDanger"
 
 func yardimi_ac():
-	_temizle("NASIL OYNANIR?")
-	_metin("AMAÇ: 50 puana ulaş. Her toprak 1, şehir dışındaki her bina seviyesi 2, her doğrudan vasal 5 puan verir. Savaş kazanmak +2, kaybetmek −2 puandır.")
-	_metin("KURULUM: Bir biyom seç, keşfedilmemiş bir hex'e sol tıkla ve onayla. Şehir 10 odun + 10 taş tutar; bir öncü verir. Herkes şehrini kurduktan sonra tur başına 3 AP kazanılır.")
-	_metin("KEŞİF: Öncüyü sol tıkla seç. Komşu hex'e sağ tıkla hareket et (1 AP + 1 yiyecek). Öncünün üstüne sağ tıkla, kendi toprağına komşu bölgeyi sahiplen (1 AP + 3 yiyecek).")
-	_metin("KARTLAR: İnşa kartı çekmek 1 AP; savaş kartı 1 AP + 3 altın. İki elin ayrı ayrı sınırı 7 karttır. Kartı seçerek kullan, dönüştür veya at. Üretim tur sonunda gelir. Ticaret Merkezi kaynakları altına çevirir.")
-	_metin("SAVAŞ: Düşmana sağ tıkla; iki taraf kartlarını kilitler ve zar atar. Eşitlikte savunan kazanır. Kuşatma kartları yalnız bina saldırısındadır. Hükmet şehir sahibini vasal yapar; vasal üretiminin yarısını vergi verir.")
-	_metin("KONTROLLER: WASD / oklar ve sağ tuşla sürükleme: kamera. Fare tekerleği: yakınlaştırma. Sağ tık: inşayı iptal. Esc: menü. Oda bağlantısı: sunucunun IP adresi, UDP 7777.")
-	_buton("Geri", menuyu_ac)
+	_temizle(tr("NASIL OYNANIR?"))
+	_metin(tr("AMAÇ: 50 puana ulaş. Her toprak 1, şehir dışındaki her bina seviyesi 2, her doğrudan vasal 5 puan verir. Savaş kazanmak +2, kaybetmek −2 puandır."))
+	_metin(tr("KURULUM: Bir biyom seç, keşfedilmemiş bir hex'e sol tıkla ve onayla. Şehir 10 odun + 10 taş tutar; bir öncü verir. Herkes şehrini kurduktan sonra tur başına 3 AP kazanılır."))
+	_metin(tr("KEŞİF: Öncüyü sol tıkla seç. Komşu hex'e sağ tıkla hareket et (1 AP + 1 yiyecek). Öncünün üstüne sağ tıkla, kendi toprağına komşu bölgeyi sahiplen (1 AP + 3 yiyecek)."))
+	_metin(tr("KARTLAR: İnşa kartı çekmek 1 AP; savaş kartı 1 AP + 3 altın. İki elin ayrı ayrı sınırı 7 karttır. Kartı seçerek kullan, dönüştür veya at. Üretim tur sonunda gelir. Ticaret Merkezi kaynakları altına çevirir."))
+	_metin(tr("SAVAŞ: Düşmana sağ tıkla; iki taraf kartlarını kilitler ve zar atar. Eşitlikte savunan kazanır. Kuşatma kartları yalnız bina saldırısındadır. Hükmet şehir sahibini vasal yapar; vasal üretiminin yarısını vergi verir."))
+	_metin(tr("KONTROLLER: WASD / oklar ve sağ tuşla sürükleme: kamera. Fare tekerleği: yakınlaştırma. Sağ tık: inşayı iptal. Esc: menü. Oda bağlantısı: sunucunun IP adresi, UDP 7777."))
+	_buton(tr("Geri"), menuyu_ac)
 
 func ayarlari_ac():
-	_temizle("AYARLAR")
-	_metin("Ana ses seviyesi")
+	_temizle(tr("AYARLAR"))
+	_metin(tr("Ana ses seviyesi"))
 	var ses = HSlider.new()
 	ses.min_value = 0
 	ses.max_value = 100
@@ -109,7 +109,7 @@ func ayarlari_ac():
 		Global.ayarlari_uygula()
 		Global.profili_kaydet())
 	for ayar in [["Müzik", "muzik_seviyesi"], ["Efektler", "efekt_seviyesi"]]:
-		_metin(ayar[0])
+		_metin(tr(ayar[0]))
 		var kaydirici = HSlider.new()
 		kaydirici.name = ayar[1]
 		kaydirici.min_value = 0
@@ -121,24 +121,37 @@ func ayarlari_ac():
 			Global.set(ayar[1], deger / 100.0)
 			Global.ayarlari_uygula()
 			Global.profili_kaydet())
+	_metin(tr("Dil · Language"))
+	var dil = OptionButton.new()
+	dil.name = "DilSecimi"
+	dil.custom_minimum_size.y = 44
+	var diller = Global.DILLER.keys()
+	for kod in diller: dil.add_item(Global.DILLER[kod])
+	dil.select(diller.find(TranslationServer.get_locale().left(2)) if diller.has(TranslationServer.get_locale().left(2)) else 0)
+	satirlar.add_child(dil)
+	dil.item_selected.connect(func(i):
+		Global.dil = diller[i]
+		Global.dili_uygula()
+		Global.profili_kaydet()
+		ayarlari_ac())
 	var ekran = CheckButton.new()
-	ekran.text = "Tam ekran"
+	ekran.text = tr("Tam ekran")
 	ekran.button_pressed = Global.tam_ekran
 	satirlar.add_child(ekran)
 	ekran.toggled.connect(func(deger):
 		Global.tam_ekran = deger
 		Global.ayarlari_uygula()
 		Global.profili_kaydet())
-	_buton("Geri", menuyu_ac)
+	_buton(tr("Geri"), menuyu_ac)
 
 func ayrilma_onayi():
-	_temizle("MAÇTAN AYRIL")
+	_temizle(tr("MAÇTAN AYRIL"))
 	if oyun and oyun.tek_oyunculu_mu():
-		_metin("Maç her turunun başında kendiliğinden kaydedilir. Ana menüden Tek Oyunculu › Kayıtlı maça devam et ile sürdürebilirsin.")
+		_metin(tr("Maç her turunun başında kendiliğinden kaydedilir. Ana menüden Tek Oyunculu › Kayıtlı maça devam et ile sürdürebilirsin."))
 	else:
-		_metin("Sunucuysanız tüm oyuncuların bağlantısı kapanır. Bu maç kaydedilmez.\nKendi isteğinle ayrılırsan bu maça geri dönemezsin.")
-	_buton("Maça dön", perde.hide)
-	_buton("Ayrıl ve ana menüye dön", ana_menuye_don).theme_type_variation = &"HukumDanger"
+		_metin(tr("Sunucuysanız tüm oyuncuların bağlantısı kapanır. Bu maç kaydedilmez.\nKendi isteğinle ayrılırsan bu maça geri dönemezsin."))
+	_buton(tr("Maça dön"), perde.hide)
+	_buton(tr("Ayrıl ve ana menüye dön"), ana_menuye_don).theme_type_variation = &"HukumDanger"
 
 func ana_menuye_don():
 	get_tree().paused = false
@@ -148,10 +161,10 @@ func ana_menuye_don():
 
 func sonucu_goster(kazanan: String, puan: int):
 	sonuc_acik = true
-	_temizle("ZAFER" if oyun.oyuncular[oyun.benim_indexim] == kazanan else "MAÇ TAMAMLANDI")
-	_metin("%s, %d puanla hüküm sürdü.\nToplam tur: %d" % [kazanan, puan, oyun.tur_sayaci])
+	_temizle(tr("ZAFER") if oyun.oyuncular[oyun.benim_indexim] == kazanan else tr("MAÇ TAMAMLANDI"))
+	_metin(tr("%s, %d puanla hüküm sürdü.\nToplam tur: %d") % [kazanan, puan, oyun.tur_sayaci])
 	var siralama = oyun.oyuncular.duplicate()
 	siralama.sort_custom(func(a, b): return oyun.puan_hesapla(a) > oyun.puan_hesapla(b))
 	for isim in siralama:
 		_metin("%s  ·  %s  ·  %d puan" % [isim, oyun.medeniyetler_verisi.get(isim, ""), oyun.puan_hesapla(isim)])
-	_buton("Ana menüye dön", ana_menuye_don).grab_focus()
+	_buton(tr("Ana menüye dön"), ana_menuye_don).grab_focus()
