@@ -37,6 +37,8 @@ var _baglanti_suresi := 0.0
 var _sonuc_bildiriliyor := false
 var _boot_port := 8766
 var alistirma_rakip_sayisi := 0   # tek oyunculu alıştırmadaki yapay zekâ rakip sayısı
+var alistirma_zorlugu := "orta"     # tek oyunculu rakiplerin zorluğu
+var alistirma_zorluklari := []      # (simülasyon) rakip başına zorluk
 var ogretici_modu := false        # bir sonraki tek oyunculu maç öğreticiyle açılır
 var kayit_yukle := {}             # bir sonraki tek oyunculu maç bu kayıttan açılır
 

@@ -32,7 +32,7 @@ EK = [
     "Takas şu an yapılamaz.", "Takas teklifini yalnızca kendi turunda, savaş yokken yapabilirsin.",
     "Önceki teklifin yanıt bekliyor.", "Geçersiz takas hedefi.", "Farklı iki kaynak seçmelisin.",
     "Miktar 1 ile 30 arasında olmalı.", "Teklif ettiğin kadar kaynağın yok.", "Suvari", "Okcu",
-    "Tur %d · %s · %s", "%d rakip", "rakipsiz", "Dil · Language",
+    "Tur %d · %s · %s", "%d rakip", "rakipsiz", "Dil · Language", "Kolay", "Orta", "Zor",
     "Bu renk veya medeniyet başka bir oyuncu tarafından seçildi.", "Maç için en az iki oyuncu gerekli.",
     "Bu maça dönülemiyor: maç bitmiş, koltuk dolu veya sunucu yeniden başlamış.",
 ]

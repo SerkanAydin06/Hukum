@@ -212,6 +212,13 @@ func run():
 # Solo match against three AI rulers: they found cities, play the rules and
 # never stall the turn order, including battles against the human.
 func run_ai_match():
+	current_scene._alistirma_ac()
+	var zorluk = current_scene.oyun_menusu.satirlar.find_child("ZorlukSecimi", true, false)
+	check(zorluk != null and zorluk.selected == 1, "Single-player menu offers AI difficulty, Normal by default")
+	if zorluk:
+		zorluk.select(2)
+		zorluk.item_selected.emit(2)
+	current_scene.oyun_menusu.perde.hide()
 	current_scene._alistirma_baslat(3)
 	await create_timer(1.2).timeout
 	var game = current_scene
@@ -219,6 +226,7 @@ func run_ai_match():
 	check(yz != null and game.oyuncular.size() == 4 and game.yapay_zeka_oyunculari.size() == 3, "Solo match seats three AI rulers")
 	check(game.benim_indexim == 0 and game.aktif_sira == 0, "Human plays first")
 	check(game.kalan_sure_saniye() == -1, "Solo match has no turn timer")
+	check(game.yapay_zeka_zorluk.values() == ["zor", "zor", "zor"], "Chosen difficulty applies to every AI ruler")
 	if yz == null: return
 	yz.hamle_araligi = 0.0
 	var ben = game.oyuncular[0]
@@ -261,6 +269,7 @@ func run_ai_match():
 	print("AI match: round %d, battles with human %d, scores %s" % [game.tur_sayaci, savas_sayisi, str(game.puanlar)])
 	if not game.oyun_bitti: await run_ai_trade(game, ben)
 	if not game.oyun_bitti: await run_ai_battle(game, ben)
+	root.get_node("Network").alistirma_zorlugu = "orta"
 	game.oyun_menusu.ana_menuye_don()
 	await create_timer(1.0).timeout
 
@@ -442,6 +451,7 @@ func run_save_load():
 	var yuklenen = game.kayit_verisi()
 	for anahtar in beklenen:
 		check(yuklenen.get(anahtar) == beklenen[anahtar], "Loaded match restores " + anahtar)
+	check(game.yapay_zeka_zorluk == beklenen["zorluk"], "Loaded match keeps AI difficulty")
 	check(game.deste.el == beklenen["eller"][ben] and game.yapay_zeka_oyunculari.size() == 1 and game.get_node_or_null("YapayZeka") != null, "Loaded match restores own hand and the AI ruler")
 	check(game.harita.kesfedilen_hexler.has(Vector2i(4, 3)), "Loaded map shows explored land")
 	game.savas_puanlari[ben] = 25

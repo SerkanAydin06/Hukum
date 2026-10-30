@@ -236,6 +236,21 @@ func _alistirma_ac():
 	if ozet != "":
 		oyun_menusu._buton(tr("Kayıtlı maça devam et · ") + ozet, _kayitli_maci_ac).theme_type_variation = &"HukumPrimary"
 	oyun_menusu._buton(tr("Öğreticiyle başla"), _ogretici_baslat).theme_type_variation = &"HukumPrimary" if ozet == "" else &""
+	var zorluk_satiri = HBoxContainer.new()
+	zorluk_satiri.add_theme_constant_override("separation", 12)
+	var zorluk_yazi = Label.new()
+	zorluk_yazi.text = tr("Rakip zorluğu")
+	zorluk_yazi.add_theme_font_size_override("font_size", 20)
+	zorluk_satiri.add_child(zorluk_yazi)
+	var zorluk = OptionButton.new()
+	zorluk.name = "ZorlukSecimi"
+	zorluk.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	zorluk.custom_minimum_size.y = 44
+	for ad in ["Kolay", "Orta", "Zor"]: zorluk.add_item(tr(ad))
+	zorluk.select(["kolay", "orta", "zor"].find(Network.alistirma_zorlugu))
+	zorluk.item_selected.connect(func(i): Network.alistirma_zorlugu = ["kolay", "orta", "zor"][i])
+	zorluk_satiri.add_child(zorluk)
+	oyun_menusu.satirlar.add_child(zorluk_satiri)
 	oyun_menusu._buton(tr("1 rakiple oyna"), _alistirma_baslat.bind(1))
 	oyun_menusu._buton(tr("3 rakiple oyna"), _alistirma_baslat.bind(3))
 	oyun_menusu._buton(tr("5 rakiple oyna"), _alistirma_baslat.bind(5))
@@ -259,6 +274,7 @@ func _alistirma_baslat(rakip_sayisi: int = 0):
 	PardexLink.use_private_mode()
 	Network.baglantiyi_kapat()
 	Network.alistirma_rakip_sayisi = rakip_sayisi
+	Network.alistirma_zorluklari = []
 	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
 	Network.oyun_tohumu = randi()
 	SceneTransition.go_to("res://AnaOyun.tscn")

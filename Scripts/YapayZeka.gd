@@ -37,13 +37,31 @@ func _process(delta: float):
 		_yap(isim, "tur_ekonomi", "sirayi_degistir_rpc", [])
 	_bekleme = hamle_araligi
 
+# --- ZORLUK ---
+# Zorluk yalnızca karar kalitesini değiştirir; hiçbir seviye gizli bilgiye bakmaz
+# veya ek kaynak almaz.
+#   kolay: rastgele şehir arazisi, AP'yi sık sık yarıda bırakır, geliştirme ve
+#          kart dönüştürme yapmaz, yalnız büyük orduyla saldırır.
+#   orta : dengeli öncelikler.
+#   zor  : yiyecek ekonomisini önce kurar, geliştirmelere (2 puan) öncelik verir,
+#          daha çok kart çeker, liderin öncülerine saldırır.
+func _zorluk(isim: String) -> String:
+	return ana.yapay_zeka_zorluk.get(isim, "orta")
+
+func _sehir_biyomu(isim: String) -> String:
+	match _zorluk(isim):
+		"kolay": return BIYOMLAR.pick_random()
+		"zor": return "cim"
+	return "cim" if randf() < 0.8 else BIYOMLAR.pick_random()
+
 # --- TUR ---
 func _hamle_yap(isim: String) -> bool:
 	if not ana.sehir_merkezleri.get(isim, false):
 		var hex = _sehir_hexi()
-		return hex != Vector2i(-1, -1) and _yap(isim, "aksiyon", "bina_kur_rpc", [hex, isim, "sehir_merkezi", BIYOMLAR.pick_random()])
+		return hex != Vector2i(-1, -1) and _yap(isim, "aksiyon", "bina_kur_rpc", [hex, isim, "sehir_merkezi", _sehir_biyomu(isim)])
 	_ticaret_yap(isim)
 	if not ana.ilk_tur_bitti or ana.aktif_oyuncu_aksiyon_hakki <= 0: return false
+	if _zorluk(isim) == "kolay" and randf() < 0.3: return false
 	for aday in _adaylar(isim):
 		if _yap(isim, aday[0], aday[1], aday[2]): return true
 	return false
@@ -52,6 +70,10 @@ func _adaylar(isim: String) -> Array:
 	var liste = []
 	var k = ana.oyuncu_kaynaklari[isim]
 	var el = ana.oyuncu_elleri.get(isim, [])
+	var zorluk = _zorluk(isim)
+	var yedek = {"kolay": 1, "orta": 4, "zor": 3}[zorluk]           # keşif/toprak için bırakılan yiyecek
+	var ordu = {"kolay": 4, "orta": 2, "zor": 2}[zorluk]            # saldırı için gereken savaş kartı
+	var kart_hedefi = {"kolay": 3, "orta": 5, "zor": 6}[zorluk]     # elde tutulmak istenen inşa kartı
 	# 1) Elindeki inşa, gelişim ve aksiyon kartları
 	for i in range(el.size()):
 		var kart = el[i]
@@ -64,7 +86,7 @@ func _adaylar(isim: String) -> Array:
 					liste.append(["aksiyon", "kart_oyna_rpc", [isim, kart["tur"], hex, mo, mt, i]])
 					break
 			"kendi_binasi":
-				if k["odun"] < mo or k["tas"] < mt: continue
+				if zorluk == "kolay" or k["odun"] < mo or k["tas"] < mt: continue
 				for hex in ana.binalar_verisi:
 					var b = ana.binalar_verisi[hex]
 					if b["sahip"] == isim and b.get("seviye", 1) < 3 and (kart.get("bina_turu") == "joker" or b["tur"] == kart.get("bina_turu")):
@@ -72,10 +94,11 @@ func _adaylar(isim: String) -> Array:
 						break
 			"direkt":
 				liste.append(["aksiyon", "aksiyon_karti_kullan_rpc", [isim, kart["tur"], i]])
+	if zorluk == "zor": liste.sort_custom(_zor_kart_onceligi.bind(isim))
 	var savas_eli = _savas_karti_sayisi(isim)
 	var insa_eli = el.size() - savas_eli
 	# 2) Öncünün durduğu toprağı topraklarına kat (1 puan), yiyecek yedeği bırakarak
-	if k["yiyecek"] >= 4:
+	if k["yiyecek"] >= max(3, yedek):
 		for p in ana.piyonlar:
 			var hex = p["koordinat"]
 			var sahip = ana.kontrol_edilen_hexler.get(hex, "")
@@ -85,28 +108,31 @@ func _adaylar(isim: String) -> Array:
 	if insa_eli < 2:
 		liste.append(["aksiyon", "normal_kart_cek_rpc", [isim]])
 	# 4) Yeterli orduyla komşu düşman öncüsüne veya toprağına saldır
-	if savas_eli >= 2:
-		for saldiri in _saldiri_hedefleri(isim):
+	if savas_eli >= ordu:
+		var hedefler = _saldiri_hedefleri(isim)
+		if zorluk == "zor": hedefler.sort_custom(_lider_onceligi)
+		for saldiri in hedefler:
 			liste.append(["aksiyon", "savas_baslat_rpc", saldiri])
 	# 5) Sınırdaki bilinmeyen araziyi keşfet
-	if k["yiyecek"] >= 4:
+	if k["yiyecek"] >= yedek:
 		for kesif in _kesif_hedefleri(isim):
 			liste.append(["aksiyon", "kesif_ve_hareket_rpc", [kesif[0], kesif[1], isim]])
 	# 6) Öncü yetiştir
-	if k["yiyecek"] >= 7 and _oncu_sayisi(isim) < 4:
+	if k["yiyecek"] >= 7 and _oncu_sayisi(isim) < (5 if zorluk == "zor" else 4):
 		for hex in ana.binalar_verisi:
 			var b = ana.binalar_verisi[hex]
 			if b["tur"] == "oncu_kampi" and b["sahip"] == isim:
 				liste.append(["aksiyon", "oncu_uret_rpc", [isim, hex]])
 				break
 	# 7) Kart çek
-	if insa_eli < 5:
+	if insa_eli < kart_hedefi:
 		liste.append(["aksiyon", "normal_kart_cek_rpc", [isim]])
 	if k["altin"] >= 3 and savas_eli < 4:
 		liste.append(["aksiyon", "savas_karti_cek_rpc", [isim]])
 	# 8) Kullanılamayan kartı eksik kaynağa çevir
-	for feda in _feda_adaylari(isim):
-		liste.append(["aksiyon", "karti_feda_et_rpc", feda])
+	if zorluk != "kolay":
+		for feda in _feda_adaylari(isim):
+			liste.append(["aksiyon", "karti_feda_et_rpc", feda])
 	# 9) Keşfedecek yeri kalmayan öncüyü sınıra yürüt
 	if k["yiyecek"] >= 2:
 		for hareket in _yuruyus_hedefleri(isim):
@@ -119,8 +145,9 @@ func _ticaret_yap(isim: String):
 		if b["sahip"] == isim and b["tur"] == "ticaret_merkezi": pazar = true
 	if not pazar: return
 	var maliyet = ana.tur_ekonomi.ticaret_maliyeti(isim)
+	var fazla = 8 if _zorluk(isim) == "zor" else 15
 	for tur in ["odun", "tas", "yiyecek"]:
-		if ana.oyuncu_kaynaklari[isim][tur] >= maliyet + 15:
+		if ana.oyuncu_kaynaklari[isim][tur] >= maliyet + fazla:
 			_yap(isim, "tur_ekonomi", "ticaret_yap_rpc", [isim, tur])
 
 # --- SAVAŞ ---
@@ -275,6 +302,27 @@ func _kart_oynanabilir(isim: String, kart: Dictionary) -> bool:
 				if b["sahip"] == isim and b.get("seviye", 1) < 3 and (kart.get("bina_turu") == "joker" or b["tur"] == kart.get("bina_turu")): return true
 			return false
 	return true
+
+# Zor: geliştirme (2 puan) önce; yiyecek üretimi zayıfsa tarla öne alınır.
+func _zor_kart_onceligi(a: Array, b: Array, isim: String) -> bool:
+	return _kart_puani(a, isim) > _kart_puani(b, isim)
+
+func _kart_puani(aday: Array, isim: String) -> int:
+	if aday[1] == "bina_yukselt_rpc": return 3
+	if aday[1] == "kart_oyna_rpc":
+		if aday[2][1] == "tarla" and ana.tur_ekonomi.bina_uretimi(isim)["yiyecek"] < 2: return 4
+		return 2
+	return 1
+
+# Zor: puanı en yüksek rakibin öncüsüne/toprağına saldırmayı yeğler.
+func _lider_onceligi(a: Array, b: Array) -> bool:
+	return _hedef_puani(a) > _hedef_puani(b)
+
+func _hedef_puani(saldiri: Array) -> int:
+	var hex = Vector2i(saldiri[2], saldiri[3])
+	var sahip = ana.kontrol_edilen_hexler.get(hex, "")
+	if saldiri[1] >= 0 and saldiri[1] < ana.piyonlar.size(): sahip = ana.piyonlar[saldiri[1]]["sahip"]
+	return ana.puanlar.get(sahip, 0)
 
 func _savas_karti_sayisi(isim: String) -> int:
 	var sayi = 0
