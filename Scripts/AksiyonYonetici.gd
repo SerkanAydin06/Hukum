@@ -653,6 +653,8 @@ func kart_onayla(gelen_index = -1):
 func oyunu_bitir_rpc(kazanan_isim: String, puan: int):
 	if ana.oyun_bitti: return
 	ana.oyun_bitti = true
+	if not multiplayer.is_server(): Network.donus_kaydini_sil()   # biten maça dönülmez
+	if ana.oyuncular.is_empty(): return   # durum görüntüsünü bekleyen dönüş sahnesi
 	ana.arayuz.olay_yaz("🏆 [color=gold][b]OYUN BİTTİ! %s, %d puanla ZAFERE ULAŞTI![/b][/color]" % [ana.arayuz.renkli_isim(kazanan_isim), puan])
 	ana.puanlari_guncelle()
 	ana.secili_kart_index = -1

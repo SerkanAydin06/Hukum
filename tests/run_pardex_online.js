@@ -73,7 +73,7 @@ async function main() {
   let deadline;
   let exits;
   try {
-    exits=await Promise.race([Promise.all(gameLogs.map(p=>p.completed)),new Promise((_,reject)=>{deadline=setTimeout(()=>reject(Error('Official integration timeout')),65000);})]);
+    exits=await Promise.race([Promise.all(gameLogs.map(p=>p.completed)),new Promise((_,reject)=>{deadline=setTimeout(()=>reject(Error('Official integration timeout')),100000);})]);
   } finally {clearTimeout(deadline);}
   for(let i=0;i<gameLogs.length;i++){
     const log=gameLogs[i].log;
@@ -81,11 +81,12 @@ async function main() {
     assert(!log.includes('ERROR:'),`Godot process ${i} engine error: ${log}`);
     assert(log.includes('PASS'),`Godot process ${i} did not finish assertions: ${log}`);
   }
+  assert(gameLogs[0].log.includes('HUKUM_REJOIN_OK'),'Dropped official client did not return to the match');
   assert(officialResult,'PARDEX did not acknowledge authoritative victory');
   assert.strictEqual(officialResult.players.length,3);
   assert(officialResult.winner_user_id);
   assert(officialResult.players.every(player=>player.user_id),'Disconnected players keep their verified result identity');
-  console.log('HUKUM PARDEX ONLINE: PASS (launcher session, host/code join, two-phase admission, owner authority, three-player battle, result and recycling)');
+  console.log('HUKUM PARDEX ONLINE: PASS (launcher session, host/code join, two-phase admission, owner authority, three-player battle, mid-match rejoin, result and recycling)');
 }
 main().catch(error=>{
   console.error(error.message);

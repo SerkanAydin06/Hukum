@@ -114,12 +114,13 @@ func ayarlari_ac():
 
 func ayrilma_onayi():
 	_temizle("MAÇTAN AYRIL")
-	_metin("Sunucuysanız tüm oyuncuların bağlantısı kapanır. Bu maç kaydedilmez.")
+	_metin("Sunucuysanız tüm oyuncuların bağlantısı kapanır. Bu maç kaydedilmez.\nKendi isteğinle ayrılırsan bu maça geri dönemezsin.")
 	_buton("Maça dön", perde.hide)
 	_buton("Ayrıl ve ana menüye dön", ana_menuye_don).theme_type_variation = &"HukumDanger"
 
 func ana_menuye_don():
 	get_tree().paused = false
+	Network.donus_kaydini_sil()
 	Network.baglantiyi_kapat()
 	SceneTransition.go_to("res://AnaMenu.tscn")
 

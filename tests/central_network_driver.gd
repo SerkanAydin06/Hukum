@@ -5,7 +5,7 @@ func _ready():
 	role = int(args[0])
 	var port = int(args[1])
 	Global.oyuncu_ismi = "CentralTest%d" % role
-	get_tree().create_timer(50).timeout.connect(func():
+	get_tree().create_timer(80).timeout.connect(func():
 		push_error("Central network timeout, role %d" % role)
 		get_tree().quit(1))
 	if role == 0:

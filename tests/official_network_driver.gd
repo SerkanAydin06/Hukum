@@ -4,7 +4,7 @@ func _ready():
 	var args = OS.get_cmdline_user_args()
 	role = int(args[0])
 	Global.oyuncu_ismi = "OfficialTest%d" % role
-	get_tree().create_timer(55).timeout.connect(func():
+	get_tree().create_timer(85).timeout.connect(func():
 		push_error("Official network timeout, role %d" % role)
 		get_tree().quit(1))
 	if role == 0:

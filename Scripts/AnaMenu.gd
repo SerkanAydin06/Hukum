@@ -55,6 +55,7 @@ func _ready():
 	Network.durum_degisti.connect(_network_durumu)
 	PardexLink.status_changed.connect(_pardex_durumu)
 	PardexLink.linked_changed.connect(func(_value): _baglanti_rozetini_guncelle())
+	_donus_dugmesini_kur()
 	_arayuzu_guncelle()
 	%MenuDurum.text = Network.son_baglanti_mesaji
 	Network.son_baglanti_mesaji = ""
@@ -135,7 +136,8 @@ func _on_baglan_btn_pressed():
 
 func _sunucuya_baglanildi():
 	# Merkezi sunucuda ham bağlantı yeterli değildir: kabul RPC'si beklenir.
-	if not Network.merkezi_mod: _lobi_sahnesine_gec()
+	# Maça dönüşte de lobiye değil, sunucunun dönüş onayına gidilir.
+	if not Network.merkezi_mod and not Network.geri_donuyor: _lobi_sahnesine_gec()
 
 func _baglanti_basarisiz():
 	_baglanti_kilit(false)
@@ -143,6 +145,12 @@ func _baglanti_basarisiz():
 
 func _network_durumu(message: String, error: bool):
 	if error: _baglanti_kilit(false)
+	if error and is_instance_valid(_donus_btn):
+		if Network.maca_donulebilir_mi(): _donus_btn.disabled = false
+		else:
+			for ad in ["MacaDonBtn", "DonusVazgecBtn"]:
+				var b = hbox_menu_ana.get_node_or_null(ad)
+				if b: b.queue_free()
 	baglanti_durumu.text = message
 	%MenuDurum.text = message if error else ""
 	if %PardexKatmani.visible: _pardex_durumu(message, error)
@@ -232,3 +240,42 @@ func _alistirma_baslat():
 	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
 	Network.oyun_tohumu = randi()
 	SceneTransition.go_to("res://AnaOyun.tscn")
+
+# --- MAÇA DÖN ---
+# Bağlantısı beklenmedik şekilde kopan oyuncu, sunucu açıksa koltuğuna döner.
+var _donus_btn: Button
+
+func _donus_dugmesini_kur():
+	if not Network.maca_donulebilir_mi(): return
+	_donus_btn = Button.new()
+	_donus_btn.name = "MacaDonBtn"
+	_donus_btn.text = "MAÇA DÖN · %s" % str(Network.donus_kaydi.get("isim", "")).to_upper()
+	_donus_btn.theme_type_variation = &"HukumPrimary"
+	_donus_btn.custom_minimum_size = Vector2(0, 74)
+	_donus_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_donus_btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	var baslik_fontu = %PardexBtn.get_theme_font("font")
+	if baslik_fontu: _donus_btn.add_theme_font_override("font", baslik_fontu)
+	_donus_btn.add_theme_font_size_override("font_size", 20)
+	hbox_menu_ana.add_child(_donus_btn)
+	hbox_menu_ana.move_child(_donus_btn, %PardexBtn.get_index())
+	_donus_btn.pressed.connect(_maca_don)
+	var vazgec = Button.new()
+	vazgec.name = "DonusVazgecBtn"
+	vazgec.text = "Bu maçtan vazgeç"
+	vazgec.theme_type_variation = &"HukumCompact"
+	vazgec.custom_minimum_size = Vector2(0, 36)
+	vazgec.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	hbox_menu_ana.add_child(vazgec)
+	hbox_menu_ana.move_child(vazgec, _donus_btn.get_index() + 1)
+	vazgec.pressed.connect(func():
+		Network.donus_kaydini_sil()
+		_donus_btn.queue_free()
+		vazgec.queue_free())
+
+func _maca_don():
+	if not Network.maca_geri_don():
+		%MenuDurum.text = "Sunucuya bağlanılamadı. Adres geçersiz ya da ağ kapalı."
+		return
+	_donus_btn.disabled = true
+	%MenuDurum.text = "Maça dönülüyor…"
