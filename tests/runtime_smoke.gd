@@ -261,7 +261,8 @@ func run_ai_match():
 	game.istek("aksiyon", "bina_kur_rpc", [Vector2i(2, 2), ben, "sehir_merkezi", "cim"])
 	var savas_sayisi = 0
 	var son_tur = game.tur_sayaci
-	for adim in range(6000):
+	var bitis = Time.get_ticks_msec() + 180000
+	while Time.get_ticks_msec() < bitis:
 		if game.oyun_bitti: break
 		if game.savas.savas_aktif:
 			var taraflar = game.savas.savas_taraflari()
@@ -305,25 +306,32 @@ func run_ai_match():
 
 # An AI with an army attacks an adjacent human pioneer and the battle resolves.
 func run_ai_battle(game, ben: String):
+	var hazir = Time.get_ticks_msec() + 15000
+	while (game.savas.savas_aktif or game.savas.sonuc_gosteriliyor) and Time.get_ticks_msec() < hazir:
+		await process_frame
 	var bot = game.yapay_zeka_oyunculari[0]
 	var bot_idx = game.oyuncular.find(bot)
-	var saldiran = -1
+	# Arrange the fight explicitly: an AI pioneer and a human pioneer on two free,
+	# unclaimed neighbouring hexes (earlier AI wars may have removed pioneers).
+	var dolu = {}
+	for p in game.piyonlar: dolu[p["koordinat"]] = true
+	var kaynak = Vector2i(-1, -1)
 	var hedef = Vector2i(-1, -1)
-	for i in range(game.piyonlar.size()):
-		if game.piyonlar[i]["sahip"] != bot: continue
-		for dx in range(-1, 2):
-			for dy in range(-1, 2):
-				var k = game.piyonlar[i]["koordinat"] + Vector2i(dx, dy)
-				if not game.hex_gecerli_mi(k) or not game.harita.hex_komsu_mu(game.piyonlar[i]["koordinat"], k): continue
-				if game.binalar_verisi.has(k) or game.kontrol_edilen_hexler.get(k, "") == bot: continue
-				var bos = true
-				for p in game.piyonlar:
-					if p["koordinat"] == k: bos = false
-				if bos and hedef == Vector2i(-1, -1):
-					saldiran = i
-					hedef = k
-	check(hedef != Vector2i(-1, -1), "Found a hex next to an AI pioneer")
+	for x in range(1, 15):
+		for y in range(1, 11):
+			var k = Vector2i(x, y)
+			var n = Vector2i(x + 1, y)
+			if kaynak != Vector2i(-1, -1): break
+			for h in [k, n]:
+				if dolu.has(h) or game.binalar_verisi.has(h) or game.kontrol_edilen_hexler.has(h): k = Vector2i(-1, -1)
+			if k != Vector2i(-1, -1) and game.harita.hex_komsu_mu(k, n):
+				kaynak = k
+				hedef = n
+	check(hedef != Vector2i(-1, -1), "Found two free neighbouring hexes for an AI battle")
 	if hedef == Vector2i(-1, -1): return
+	game.piyonlar = game.piyonlar.filter(func(p): return p["sahip"] != bot)   # only this pioneer can attack
+	game.piyonlar.append({"sahip": bot, "koordinat": kaynak})
+	game.harita.kesfedilen_hexler[kaynak] = "cim"
 	game.piyonlar.append({"sahip": ben, "koordinat": hedef})
 	game.harita.kesfedilen_hexler[hedef] = "cim"
 	var asker = {"tur": "piyade", "kategori": "⚔️ PİYADE", "isim": "Piyade", "hedef": "savas", "guc": 1, "tanim": "Standart piyade birliği.", "bonus": ""}
@@ -335,7 +343,8 @@ func run_ai_battle(game, ben: String):
 	game.aktif_sira = bot_idx
 	game.aktif_oyuncu_aksiyon_hakki = 3
 	var basladi = false
-	for adim in range(600):
+	var bitis = Time.get_ticks_msec() + 30000
+	while Time.get_ticks_msec() < bitis:
 		if game.savas.savas_aktif:
 			basladi = true
 			if game.savas.son_kartlar_dict.is_empty() and not game.savas.secilen_savas_kartlari.has(ben):
@@ -452,7 +461,8 @@ func run_save_load():
 	check(not game.kaydedilebilir_mi(), "No save before the city is founded")
 	game.istek("aksiyon", "bina_kur_rpc", [Vector2i(3, 3), ben, "sehir_merkezi", "cim"])
 	game.istek("tur_ekonomi", "sirayi_degistir_rpc", [])
-	for i in range(300):
+	var bitis = Time.get_ticks_msec() + 30000
+	while Time.get_ticks_msec() < bitis:
 		if game.aktif_sira == 0 and game.ilk_tur_bitti: break
 		await process_frame
 	await process_frame
@@ -511,7 +521,8 @@ func run_lan_ai_lobby():
 	game.get_node("YapayZeka").hamle_araligi = 0.0
 	game.istek("aksiyon", "bina_kur_rpc", [Vector2i(2, 2), game.oyuncular[0], "sehir_merkezi", "cim"])
 	game.istek("tur_ekonomi", "sirayi_degistir_rpc", [])
-	for i in range(240):
+	var bitis = Time.get_ticks_msec() + 30000
+	while Time.get_ticks_msec() < bitis:
 		if game.aktif_sira == 0 and game.ilk_tur_bitti: break
 		await process_frame
 	check(game.sehir_merkezleri[bot] and game.aktif_sira == 0, "AI seat founds its city and passes the turn back")
