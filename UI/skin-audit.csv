@@ -132,3 +132,5 @@ OyuncuSlotu.tscn,MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu/Yesil,Text
 OyuncuSlotu.tscn,MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu/Sari,TextureButton,art selector: keep aspect
 OyuncuSlotu.tscn,MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu/Mor,TextureButton,art selector: keep aspect
 OyuncuSlotu.tscn,MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu/CamGobegi,TextureButton,art selector: keep aspect
+AnaOyun.tscn,OyunArayuzu/AnaArayuz/TicaretOncuVBox/TakasBtn,Button,HukumCompact
+AnaOyun.tscn,OyunArayuzu/AnaArayuz/OlayPaneli/AnaMargin/AnaVBox/MacSohbetGirdisi,LineEdit,theme default

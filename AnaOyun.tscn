@@ -1162,6 +1162,13 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = SubResource("Theme_4jtwe")
 
+[node name="MacSohbetGirdisi" type="LineEdit" parent="OyunArayuzu/AnaArayuz/OlayPaneli/AnaMargin/AnaVBox" unique_id=1746210934]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+placeholder_text = "Mesaj yaz · Enter"
+max_length = 200
+
 [node name="AltOrtaPanel" type="NinePatchRect" parent="OyunArayuzu/AnaArayuz" unique_id=926038518]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(1300, 285)
@@ -1276,10 +1283,19 @@ theme_override_constants/h_separation = 8
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 200)
 layout_mode = 0
-offset_top = 591.0
+offset_top = 491.0
 offset_right = 100.0
 offset_bottom = 795.0
 alignment = 1
+
+[node name="TakasBtn" type="Button" parent="OyunArayuzu/AnaArayuz/TicaretOncuVBox" unique_id=1746210933]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(90, 90)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_type_variation = &"HukumCompact"
+text = "TAKAS"
 
 [node name="TicaretBtn" type="Button" parent="OyunArayuzu/AnaArayuz/TicaretOncuVBox" unique_id=965799187]
 unique_name_in_owner = true

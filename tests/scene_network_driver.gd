@@ -5,6 +5,7 @@ var failed := false
 var ready_peers := []
 var reports := {}
 var rejoin_state := []
+var trade_reports := {}
 var game
 
 func check(condition: bool, message: String):
@@ -76,6 +77,26 @@ func exercise():
 	check(reports.size() == game.oyuncular.size() + (1 if Network.dedicated_mode else 0), "All participants and spectator reported state")
 	for state in reports.values():
 		check(state == reports.get(1), "Battle, resources, deck counts and public hand sizes agree on all peers")
+	# In-match chat and a player-to-player trade through the server.
+	var veren = game.oyuncular[game.aktif_sira]
+	var alan = game.oyuncular[(game.aktif_sira + 1) % 3]
+	var once = game.oyuncu_kaynaklari.duplicate(true)
+	impostor_trade.rpc_id(game.oyuncu_peer_idleri[(game.aktif_sira + 2) % 3], alan)
+	await get_tree().create_timer(0.4).timeout
+	check(game.oyuncu_kaynaklari == once, "Only the active player can offer a trade")
+	chat_send.rpc_id(game.oyuncu_peer_idleri[(game.aktif_sira + 1) % 3])
+	trade_offer.rpc_id(game.oyuncu_peer_idleri[game.aktif_sira], alan)
+	await get_tree().create_timer(0.6).timeout
+	trade_accept.rpc_id(game.oyuncu_peer_idleri[(game.aktif_sira + 1) % 3])
+	await get_tree().create_timer(0.6).timeout
+	check(game.oyuncu_kaynaklari[veren]["odun"] == once[veren]["odun"] - 2 and game.oyuncu_kaynaklari[alan]["odun"] == once[alan]["odun"] + 2, "Accepted trade moves wood")
+	check(game.oyuncu_kaynaklari[veren]["tas"] == once[veren]["tas"] + 1 and game.oyuncu_kaynaklari[alan]["tas"] == once[alan]["tas"] - 1, "Accepted trade moves stone")
+	trade_report.rpc()
+	await get_tree().create_timer(0.5).timeout
+	check(trade_reports.size() == game.oyuncular.size() + (1 if Network.dedicated_mode else 0), "Every peer reported the trade")
+	for rapor in trade_reports.values():
+		check(rapor[0] == game.oyuncu_kaynaklari, "Trade result is identical on every peer")
+		check(rapor[1] or rapor[2], "Chat line reached every peer")
 	# A client's connection drops mid-match; it returns from the main menu with its rejoin key.
 	var donen = game.oyuncular[2]
 	drop_and_return.rpc_id(game.oyuncu_peer_idleri[2])
@@ -237,3 +258,38 @@ func drop_and_return():
 @rpc("any_peer", "call_remote", "reliable")
 func rejoined(state: Array):
 	if multiplayer.is_server(): rejoin_state = state
+
+@rpc("authority", "call_remote", "reliable")
+func impostor_trade(hedef: String):
+	game.iletisim.takas_teklif_et(hedef, "odun", 2, "tas", 1)
+
+@rpc("authority", "call_remote", "reliable")
+func chat_send():
+	game.iletisim._sohbet_gonder("Selam hükümdarlar")
+
+@rpc("authority", "call_local", "reliable")
+func trade_offer(hedef: String):
+	game.iletisim.takas_teklif_et(hedef, "odun", 2, "tas", 1)
+
+@rpc("authority", "call_remote", "reliable")
+func trade_accept():
+	var panel = game.get_node("%TakasPaneli")
+	check(panel.visible and "2 Odun" in game.get_node("%TakasMetni").text, "Trade offer shows on the target's screen")
+	game.get_node("%TakasKabulBtn").pressed.emit()
+
+@rpc("authority", "call_local", "reliable")
+func trade_report():
+	var sohbet = false
+	var takas = false
+	for satir in game.arayuz.olay_logu.get_children():
+		if satir is RichTextLabel:
+			var metin = satir.get_parsed_text()
+			if "Selam hükümdarlar" in metin: sohbet = true
+			if "Takas:" in metin: takas = true
+	trade_reported.rpc_id(1, [game.oyuncu_kaynaklari, sohbet and takas, Network.dedicated_mode and multiplayer.is_server()])
+
+@rpc("any_peer", "call_local", "reliable")
+func trade_reported(rapor: Array):
+	if not multiplayer.is_server(): return
+	var id = multiplayer.get_remote_sender_id()
+	trade_reports[id if id != 0 else 1] = rapor

@@ -59,6 +59,12 @@ keşfedilmemiş araziyi, senin elini veya deste sırasını görmez. Hamlelerini
 hamleleriyle aynı kurallardan geçirir: şehir kurar, keşfeder, toprak kazanır, bina
 kurup yükseltir, kart çeker ve ordusu varsa komşu öncülere saldırır.
 
+Maç içinde Oyun Günlüğü'nün altındaki kutudan herkese mesaj yazılır (birden çok
+insan oyuncu varken). Sol taraftaki **TAKAS** ile kendi turunda başka bir hükümdara
+kaynak takası önerirsin; karşı taraf Kabul/Reddet ile yanıtlar, teklif 30 saniye
+veya tur sonuna kadar geçerlidir. Yapay zekâ adil (aldığından az vermeyen) takası
+kabul eder. Takas AP harcamaz; kaynaklar sunucuda kabul anında yeniden doğrulanır.
+
 Çevrimiçi maçta her turun süresi 120 saniyedir; savaşta kart seçmek için 45, zar
 atmak için 20 saniye vardır. Son 15 saniyede uyarı çıkar. Süre dolunca sunucu
 oyuncunun yerine davranır: turu bitirir (kurulumda boş bir hex'e şehir kurar),
