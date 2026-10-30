@@ -76,6 +76,12 @@ func menuyu_ac():
 	_buton("Devam et", perde.hide).grab_focus()
 	_buton("Nasıl oynanır?", yardimi_ac)
 	_buton("Ayarlar", ayarlari_ac)
+	if oyun and oyun.tek_oyunculu_mu():
+		var kaydet = _buton("Maçı kaydet", func():
+			_temizle("MAÇ KAYDI")
+			_metin("Maç kaydedildi. Ana menüden Tek Oyunculu › Kayıtlı maça devam et ile sürdürebilirsin." if oyun.maci_kaydet() else "Şu an kaydedilemiyor: savaş sürerken veya şehir kurulmadan kayıt alınmaz.")
+			_buton("Geri", menuyu_ac))
+		kaydet.disabled = not oyun.kaydedilebilir_mi()
 	if oyun: _buton("Maçtan ayrıl", ayrilma_onayi).theme_type_variation = &"HukumDanger"
 	else: _buton("Oyundan çık", SceneTransition.quit_game).theme_type_variation = &"HukumDanger"
 
@@ -127,7 +133,10 @@ func ayarlari_ac():
 
 func ayrilma_onayi():
 	_temizle("MAÇTAN AYRIL")
-	_metin("Sunucuysanız tüm oyuncuların bağlantısı kapanır. Bu maç kaydedilmez.\nKendi isteğinle ayrılırsan bu maça geri dönemezsin.")
+	if oyun and oyun.tek_oyunculu_mu():
+		_metin("Maç her turunun başında kendiliğinden kaydedilir. Ana menüden Tek Oyunculu › Kayıtlı maça devam et ile sürdürebilirsin.")
+	else:
+		_metin("Sunucuysanız tüm oyuncuların bağlantısı kapanır. Bu maç kaydedilmez.\nKendi isteğinle ayrılırsan bu maça geri dönemezsin.")
 	_buton("Maça dön", perde.hide)
 	_buton("Ayrıl ve ana menüye dön", ana_menuye_don).theme_type_variation = &"HukumDanger"
 

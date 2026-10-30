@@ -657,6 +657,7 @@ func oyunu_bitir_rpc(kazanan_isim: String, puan: int):
 	if ana.oyun_bitti: return
 	ana.oyun_bitti = true
 	if not multiplayer.is_server(): Network.donus_kaydini_sil()   # biten maça dönülmez
+	elif ana.tek_oyunculu_mu(): MacKaydi.sil()   # biten maç kaydı tutulmaz
 	if ana.oyuncular.is_empty(): return   # durum görüntüsünü bekleyen dönüş sahnesi
 	var kazandim = ana.oyuncular[ana.benim_indexim] == kazanan_isim
 	SesYoneticisi.efekt_cal("zafer" if kazandim else "yenilgi")

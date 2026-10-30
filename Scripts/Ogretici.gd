@@ -11,11 +11,11 @@ const ADIMLAR = [
 	{"baslik": "Şehrini kur", "metin": "\"Başlangıç Arazini Seç\" bölümünden bir arazi seç: Çim yiyecek, Orman odun, Dağ taş üretir. Sonra haritada sisli bir hex'e tıklayıp ONAYLA'ya bas. Şehir 10 odun + 10 taş tutar."},
 	{"baslik": "Turu bitir", "metin": "Sağ alttaki TURU BİTİR ile sırayı devret. Herkes şehrini kurduğunda her turda 3 aksiyon puanı (AP) alırsın; üretimin tur sonunda gelir."},
 	{"baslik": "Kart çek", "metin": "Sol alttaki İNŞA DESTESİ'ne tıkla. 1 AP karşılığında bir inşa veya gelişim kartı çekersin. Elinde en fazla 7 inşa kartı olabilir."},
-	{"baslik": "Keşfet", "metin": "Şehrindeki öncüne tıkla, ardından komşu sisli bir hex'e tıkla. Keşif 1 AP ve 1 yiyecek harcar; arazinin türü ortaya çıkar."},
-	{"baslik": "Toprak kazan", "metin": "Öncünün durduğu keşfedilmiş hex'e tıkla ve \"Bölgeyi Ele Geçir\" de: 1 AP + 3 yiyecek. Her toprak 1 puandır ve üzerine bina kurabilirsin."},
+	{"baslik": "Keşfet", "metin": "Şehrindeki öncünü sol tıkla seç, ardından komşu sisli bir hex'e sağ tıkla. Keşif 1 AP ve 1 yiyecek harcar; arazinin türü ortaya çıkar."},
+	{"baslik": "Toprak kazan", "metin": "Öncün seçiliyken durduğu hex'e sağ tıkla ve \"Bölgeyi Ele Geçir\" de: 1 AP + 3 yiyecek. Her toprak 1 puandır ve üzerine bina kurabilirsin."},
 	{"baslik": "Bina kur", "metin": "Elindeki bir inşa kartına tıkla; uygun topraklar parlar. Oduncu Kampı ormana, Taş Ocağı dağa, diğerleri çimene kurulur. Kaynağın yetmezse kartı bir kaynağa çevirebilirsin."},
 	{"baslik": "Üretimi topla", "metin": "Turu bitir. Şehrin ve binaların tur sonunda kaynak üretir; üst çubuktaki +/tur değerlerinden takip et. Gelişim kartları binaları 3. seviyeye kadar yükseltir."},
-	{"baslik": "Savaşa hazırlan", "metin": "SAVAŞ sekmesinden 3 altınla bir savaş kartı çek. Komşu bir düşman öncüsüne tıklayarak saldırırsın: iki taraf kartlarını KİLİTLE ile gizlice seçer, kartlar açılır ve herkes zarını atar. Eşitlikte savunan kazanır."},
+	{"baslik": "Savaşa hazırlan", "metin": "SAVAŞ sekmesinden 3 altınla bir savaş kartı çek. Öncün seçiliyken komşu bir düşmana sağ tıklayarak saldırırsın: iki taraf kartlarını KİLİTLE ile gizlice seçer, kartlar açılır ve herkes zarını atar. Eşitlikte savunan kazanır."},
 	{"baslik": "Hazırsın", "metin": "Her toprak 1, şehir dışındaki her bina seviyesi 2, her vasal 5 puan; kazanılan savaş +2, kaybedilen −2. İlk 50 puana ulaşan kazanır. Kurallar her zaman MENÜ › Nasıl Oynanır? içinde."},
 ]
 

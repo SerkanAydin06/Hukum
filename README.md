@@ -75,7 +75,10 @@ Maç başında her oyuncuya gizli bir dönüş anahtarı verilir; sunucu bu anah
 koltuğu açar ve oyuncuya yalnızca görmesine izin verilen durumu gönderir. Savaş
 sürüyorsa dönüş savaş bitince tamamlanır. Kopukken oyuncunun sırası atlanır.
 Menüden kendi isteğiyle ayrılan oyuncu geri dönemez; sunucu ayrılırsa istemciler
-açıklamayla ana menüye döner. Maç kaydı yoktur.
+açıklamayla ana menüye döner. Tek oyunculu maç her turunun başında kendiliğinden
+kaydedilir; menüden **Maçı kaydet** de seçilebilir. Ana menüde Tek Oyunculu ›
+**Kayıtlı maça devam et** maçı kaldığı yerden sürdürür (yapay zekâ, desteler ve
+harita dahil). Biten maçın kaydı silinir. Çok oyunculu maçlar kaydedilmez.
 Bütün hamleler sunucu üzerinden işlenir: sunucu hamleyi elindeki tam bilgiyle
 doğrular, sonra herkese aynı sırayla uygulatır. Deste sırası, rakip elleri ve
 keşfedilmemiş arazi yalnızca sunucuda bulunur. Rakip kartı oynanana kadar

@@ -85,8 +85,13 @@ func _ready():
 				"profil_no": Global.profil_no 
 			}
 		}
-		_alistirma_rakiplerini_ekle(test_veri, Network.alistirma_rakip_sayisi)
-		lobi_verisiyle_baslat(test_veri)
+		var kayit = Network.kayit_yukle
+		Network.kayit_yukle = {}
+		if kayit.is_empty():
+			_alistirma_rakiplerini_ekle(test_veri, Network.alistirma_rakip_sayisi)
+			lobi_verisiyle_baslat(test_veri)
+		else:
+			_kayittan_baslat(kayit, test_veri)
 	if not yapay_zeka_oyunculari.is_empty() and multiplayer.is_server():
 		var yz = YapayZeka.new()
 		yz.name = "YapayZeka"
@@ -180,6 +185,96 @@ func lobi_verisiyle_baslat(gelen_lobi_verisi: Dictionary):
 		# 🟢 DÜZELTME: "Kirmizi oyuncusunda" yazması yerine "[Gerçek İsim] oyuncusunda" yazar ve kendi rengine boyar
 		var renkli_isim_metni = "[color=#%s][b]%s[/b][/color]" % [ilk_renk_kodu, ilk_oyuncu]
 		arayuz.olay_yaz("[color=gold]⚔️ Oyun Başladı! Sıra %s oyuncusunda (%s).[/color]" % [renkli_isim_metni, medeniyetler_verisi[ilk_oyuncu]])
+
+# --- TEK OYUNCULU KAYIT ---
+func tek_oyunculu_mu() -> bool:
+	return multiplayer.multiplayer_peer is OfflineMultiplayerPeer and oyuncular.size() - yapay_zeka_oyunculari.size() == 1
+
+func kaydedilebilir_mi() -> bool:
+	return tek_oyunculu_mu() and not oyun_bitti and not savas.savas_aktif and not savas.sonuc_gosteriliyor and sehir_merkezleri.get(oyuncular[benim_indexim], false)
+
+func maci_kaydet() -> bool:
+	return kaydedilebilir_mi() and MacKaydi.kaydet(kayit_verisi())
+
+# Sunucunun tam durumu (gizli bilgi dahil): yalnızca tek oyunculu kayıt için.
+func kayit_verisi() -> Dictionary:
+	return {
+		"oyuncular": oyuncular.duplicate(), "yapay_zeka": yapay_zeka_oyunculari.duplicate(),
+		"eller": oyuncu_elleri.duplicate(true), "renkler": secilen_renkler.duplicate(true),
+		"medeniyetler": medeniyetler_verisi.duplicate(true), "profiller": oyuncu_profil_no.duplicate(true),
+		"sehirler": sehir_merkezleri.duplicate(true), "kaynaklar": oyuncu_kaynaklari.duplicate(true),
+		"vergiler": odenen_vergiler.duplicate(true), "kontrol": kontrol_edilen_hexler.duplicate(true),
+		"efendiler": efendiler.duplicate(true), "binalar": binalar_verisi.duplicate(true),
+		"piyonlar": piyonlar.duplicate(true), "savas_puanlari": savas_puanlari.duplicate(true),
+		"aktif_sira": aktif_sira, "ap": aktif_oyuncu_aksiyon_hakki, "ilk_tur_bitti": ilk_tur_bitti,
+		"tur_sayaci": tur_sayaci, "kesfedilen": harita.kesfedilen_hexler.duplicate(true),
+		"harita_tohumu": harita.gizli_harita_tohumu, "oyun_tohumu": Network.oyun_tohumu,
+		"normal_deste": deste.normal_deste.duplicate(true), "savas_destesi": deste.savas_destesi.duplicate(true),
+		"atilan_insa": deste.atilan_insa_kartlari.duplicate(true), "atilan_savas": deste.atilan_savas_kartlari.duplicate(true),
+		"rng_tohum": deste.rng.seed, "rng_durum": deste.rng.state,
+	}
+
+func _kayittan_baslat(k: Dictionary, insan_veri: Dictionary):
+	# Koltuklar kayıttaki sırayla yeniden kurulur; insan bu cihazın kimliğini alır.
+	var veri = {}
+	var bot_no = 0
+	for isim in k["oyuncular"]:
+		var bot = isim in k["yapay_zeka"]
+		var id = -(bot_no + 1) if bot else multiplayer.get_unique_id()
+		if bot: bot_no += 1
+		veri[id] = {"isim": isim, "renk": k["renkler"].get(isim, "Beyaz"), "medeniyet": k["medeniyetler"].get(isim, ""),
+			"hazir": true, "profil_no": k["profiller"].get(isim, 1), "bot": bot}
+	lobi_verisiyle_baslat(veri)
+	oyuncular = k["oyuncular"].duplicate()
+	oyuncu_peer_idleri.clear()
+	bot_no = 0
+	for isim in oyuncular:
+		if isim in k["yapay_zeka"]:
+			bot_no += 1
+			oyuncu_peer_idleri.append(-bot_no)
+		else: oyuncu_peer_idleri.append(multiplayer.get_unique_id())
+	benim_indexim = oyuncu_peer_idleri.find(multiplayer.get_unique_id())
+	yapay_zeka_oyunculari = k["yapay_zeka"].duplicate()
+	oyuncu_elleri = k["eller"].duplicate(true)
+	sehir_merkezleri = k["sehirler"].duplicate(true)
+	oyuncu_kaynaklari = k["kaynaklar"].duplicate(true)
+	odenen_vergiler = k["vergiler"].duplicate(true)
+	kontrol_edilen_hexler = k["kontrol"].duplicate(true)
+	efendiler = k["efendiler"].duplicate(true)
+	binalar_verisi = k["binalar"].duplicate(true)
+	piyonlar = k["piyonlar"].duplicate(true)
+	savas_puanlari = k["savas_puanlari"].duplicate(true)
+	aktif_sira = int(k["aktif_sira"])
+	aktif_oyuncu_aksiyon_hakki = int(k["ap"])
+	ilk_tur_bitti = bool(k["ilk_tur_bitti"])
+	tur_sayaci = int(k["tur_sayaci"])
+	harita.kesfedilen_hexler = k["kesfedilen"].duplicate(true)
+	harita.gizli_harita_tohumu = int(k["harita_tohumu"])
+	Network.oyun_tohumu = int(k.get("oyun_tohumu", 0))
+	deste.normal_deste = k["normal_deste"].duplicate(true)
+	deste.savas_destesi = k["savas_destesi"].duplicate(true)
+	deste.atilan_insa_kartlari = k["atilan_insa"].duplicate(true)
+	deste.atilan_savas_kartlari = k["atilan_savas"].duplicate(true)
+	deste.rng.seed = int(k["rng_tohum"])
+	deste.rng.state = int(k["rng_durum"])
+	deste.sunucu_kalanlari_guncelle()
+	deste.el = oyuncu_elleri.get(oyuncular[benim_indexim], []).duplicate(true)
+	puanlari_guncelle()
+	harita.gorus_haritasini_guncelle()
+	arayuz.arayuzu_guncelle()
+	deste.eldeki_kartlari_ciz()
+	harita.queue_redraw()
+	arayuz.olay_yaz("[color=light_green]💾 Kayıtlı maç yüklendi · Tur %d. Sıra %s oyuncusunda.[/color]" % [tur_sayaci, arayuz.renkli_isim(oyuncular[aktif_sira])])
+
+var _son_otomatik_kayit := []
+
+# Tek oyunculuda insanın her turu başında maç kendiliğinden kaydedilir.
+func _otomatik_kaydet():
+	if aktif_sira != benim_indexim or not ilk_tur_bitti: return
+	var anahtar = [tur_sayaci, aktif_sira]
+	if anahtar == _son_otomatik_kayit or not kaydedilebilir_mi(): return
+	_son_otomatik_kayit = anahtar
+	maci_kaydet()
 
 # --- MAÇA GERİ DÖNÜŞ (sunucu) ---
 var _donus_anahtarlari := {}      # isim -> gizli anahtar
@@ -426,6 +521,7 @@ func _process(delta: float):
 	if multiplayer.multiplayer_peer != null and multiplayer.is_server():
 		sure_sinirlarini_isle(delta)
 		_donus_kuyrugunu_isle()
+		if tek_oyunculu_mu(): _otomatik_kaydet()
 	var saniye = kalan_sure_saniye()
 	if saniye != _son_gosterilen_saniye:
 		_son_gosterilen_saniye = saniye

@@ -183,6 +183,7 @@ func run():
 	current_scene.oyun_menusu.ana_menuye_don()
 	await create_timer(1.0).timeout
 	await run_tutorial()
+	await run_save_load()
 	await run_ai_match()
 	print("HUKUM RUNTIME SMOKE: %d failures" % failures)
 	quit(1 if failures else 0)
@@ -379,3 +380,51 @@ func run_ai_trade(game, ben: String):
 	game.iletisim.takas_teklif_et(bot, "odun", 99, "tas", 1)
 	await process_frame
 	check(game.oyuncu_kaynaklari == once, "Trade beyond own resources is rejected")
+
+# Single-player autosaves at the start of the human turn and resumes exactly.
+func run_save_load():
+	MacKaydi.sil()
+	current_scene._alistirma_baslat(1)
+	await create_timer(1.2).timeout
+	var game = current_scene
+	game.get_node("YapayZeka").hamle_araligi = 0.0
+	var ben = game.oyuncular[0]
+	check(not game.kaydedilebilir_mi(), "No save before the city is founded")
+	game.istek("aksiyon", "bina_kur_rpc", [Vector2i(3, 3), ben, "sehir_merkezi", "cim"])
+	game.istek("tur_ekonomi", "sirayi_degistir_rpc", [])
+	for i in range(300):
+		if game.aktif_sira == 0 and game.ilk_tur_bitti: break
+		await process_frame
+	await process_frame
+	check(MacKaydi.var_mi(), "Human turn start autosaves the match")
+	game.istek("aksiyon", "normal_kart_cek_rpc", [ben])
+	game.istek("aksiyon", "kesif_ve_hareket_rpc", [0, Vector2i(4, 3), ben])
+	game.oyun_menusu.menuyu_ac()
+	var kaydet_btn = null
+	for b in game.oyun_menusu.satirlar.get_children():
+		if b is Button and b.text == "Maçı kaydet": kaydet_btn = b
+	check(kaydet_btn != null and not kaydet_btn.disabled, "In-game menu offers saving in single-player")
+	if kaydet_btn: kaydet_btn.pressed.emit()
+	game.oyun_menusu.perde.hide()
+	var beklenen = game.kayit_verisi()
+	game.oyun_menusu.ana_menuye_don()
+	await create_timer(1.0).timeout
+	current_scene._alistirma_ac()
+	var devam = null
+	for b in current_scene.oyun_menusu.satirlar.get_children():
+		if b is Button and b.text.begins_with("Kayıtlı maça devam et"): devam = b
+	check(devam != null and "1 rakip" in devam.text, "Single-player menu offers the saved match")
+	if devam == null: return
+	devam.pressed.emit()
+	await create_timer(1.2).timeout
+	game = current_scene
+	var yuklenen = game.kayit_verisi()
+	for anahtar in beklenen:
+		check(yuklenen.get(anahtar) == beklenen[anahtar], "Loaded match restores " + anahtar)
+	check(game.deste.el == beklenen["eller"][ben] and game.yapay_zeka_oyunculari.size() == 1 and game.get_node_or_null("YapayZeka") != null, "Loaded match restores own hand and the AI ruler")
+	check(game.harita.kesfedilen_hexler.has(Vector2i(4, 3)), "Loaded map shows explored land")
+	game.savas_puanlari[ben] = 25
+	game.arayuz.arayuzu_guncelle()
+	check(game.oyun_bitti and not MacKaydi.var_mi(), "A finished match deletes its save")
+	game.oyun_menusu.ana_menuye_don()
+	await create_timer(1.0).timeout

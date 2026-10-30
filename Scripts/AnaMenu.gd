@@ -232,12 +232,23 @@ func _profil_kaydet():
 func _alistirma_ac():
 	oyun_menusu._temizle("TEK OYUNCULU")
 	oyun_menusu._metin("Yapay zekâ hükümdarlara karşı oyna ya da rakipsiz haritada şehir kurmayı, keşfi, üretimi ve kartları öğren. İlk 50 puana ulaşan kazanır. Tek oyunculuda süre sınırı yoktur.")
-	oyun_menusu._buton("Öğreticiyle başla", _ogretici_baslat).theme_type_variation = &"HukumPrimary"
+	var ozet = MacKaydi.ozet()
+	if ozet != "":
+		oyun_menusu._buton("Kayıtlı maça devam et · " + ozet, _kayitli_maci_ac).theme_type_variation = &"HukumPrimary"
+	oyun_menusu._buton("Öğreticiyle başla", _ogretici_baslat).theme_type_variation = &"HukumPrimary" if ozet == "" else &""
 	oyun_menusu._buton("1 rakiple oyna", _alistirma_baslat.bind(1))
 	oyun_menusu._buton("3 rakiple oyna", _alistirma_baslat.bind(3))
 	oyun_menusu._buton("5 rakiple oyna", _alistirma_baslat.bind(5))
 	oyun_menusu._buton("Rakipsiz alıştırma", _alistirma_baslat.bind(0))
 	oyun_menusu._buton("Geri", oyun_menusu.perde.hide)
+
+func _kayitli_maci_ac():
+	var kayit = MacKaydi.yukle()
+	if kayit.is_empty():
+		%MenuDurum.text = "Kayıt okunamadı."
+		return
+	_alistirma_baslat(0)
+	Network.kayit_yukle = kayit
 
 # Rakipsiz haritada adım adım ilk maç rehberi.
 func _ogretici_baslat():
