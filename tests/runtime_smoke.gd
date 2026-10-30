@@ -64,9 +64,11 @@ func run():
 	menu.isim_giris_kutusu.text = global.oyuncu_ismi
 	menu.isim_giris_kutusu.text_changed.emit(global.oyuncu_ismi)
 	check(menu.get_node("%ProfilResmi/PortraitBorder").texture != null, "Main profile portrait has a gold frame")
+	check(menu.get_node("%ProfilResmi").material is ShaderMaterial, "Main profile clips its image inside the frame")
 	check(menu.get_node("%DuzenleProfilResmi/PortraitBorder").texture != null, "Large profile preview has a gold frame")
 	for number in range(1, 9):
 		check(menu.get_node("%%Profil%d/PortraitBorder" % number).texture != null, "Avatar picker is framed: " + str(number))
+		check(menu.get_node("%%Profil%d" % number).material is ShaderMaterial, "Avatar picker clips its image: " + str(number))
 	await capture("profile")
 	menu._profil_duzenle_kapat()
 	menu._cok_oyunculu_menu_ac()
@@ -159,6 +161,18 @@ func run():
 	game.harita.queue_redraw()
 	game.arayuz.sag_paneli_guncelle(Vector2i(6, 4))
 	await capture("market")
+	for portrait_name in ["SaldiranResim", "SavunanResim", "AtakResim", "DefansResim"]:
+		var portrait = game.get_node("%" + portrait_name)
+		portrait.texture = load("res://Assets/Resimler/Profil3.png")
+		check(portrait.material is ShaderMaterial and portrait.expand_mode == TextureRect.EXPAND_IGNORE_SIZE, "Battle portrait stays clipped without inflating the window: " + portrait_name)
+	for panel_name in ["SavasOnayPaneli", "SonSavasPaneli"]:
+		var panel = game.get_node("%" + panel_name)
+		panel.show()
+		await capture(panel_name)
+		for portrait in panel.find_children("*", "TextureRect", true, false):
+			if portrait.has_node("PortraitBorder"):
+				check(panel.get_global_rect().encloses(portrait.get_global_rect()), "Battle portrait fits window: " + str(portrait.name))
+		panel.hide()
 	for panel_name in ["TicaretPaneli", "TakasPaneli", "IsyanOnayPaneli", "BinaSaldiriPaneli"]:
 		var modal = game.get_node("%" + panel_name)
 		modal.show()

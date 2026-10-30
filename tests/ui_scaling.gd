@@ -35,6 +35,7 @@ func run():
 		instance.free()
 	if DisplayServer.get_name() != "headless":
 		await rendered_scaling()
+	await portrait_clipping()
 	print("HUKUM UI SCALING: %d failures" % failures)
 	quit(1 if failures else 0)
 
@@ -89,3 +90,53 @@ func rendered_scaling():
 					if shot.get_pixelv(Vector2i(reference) + Vector2i(x, y)) != shot.get_pixelv(Vector2i(candidate) + Vector2i(x, y)):
 						equal = false
 		check(equal, "Rendered corners stay identical at " + str(swatch.size))
+
+
+func portrait_clipping():
+	# A bright solid portrait makes even a one-pixel leak outside the frame visible.
+	var board = ColorRect.new()
+	board.color = Color("183a2a")
+	board.size = Vector2(1920, 1080)
+	root.add_child(board)
+	var image = Image.create(64, 96, false, Image.FORMAT_RGBA8)
+	image.fill(Color.MAGENTA)
+	var portrait_texture = ImageTexture.create_from_image(image)
+	var portraits = []
+	var sizes = [Vector2(80, 80), Vector2(128, 128), Vector2(200, 200), Vector2(240, 120)]
+	for kind in range(2):
+		for i in range(sizes.size()):
+			var portrait = TextureRect.new() if kind == 0 else TextureButton.new()
+			if portrait is TextureRect:
+				portrait.texture = portrait_texture
+			else:
+				portrait.texture_normal = portrait_texture
+				portrait.ignore_texture_size = true
+			portrait.position = Vector2(80 + i * 400, 80 + kind * 400)
+			portrait.size = Vector2(80, 80)
+			var border = TextureRect.new()
+			border.set_script(load("res://UI/PortraitBorder.gd"))
+			border.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			portrait.add_child(border)
+			board.add_child(portrait)
+			border.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+			portrait.size = sizes[i] # Exercise resizing after the shader was installed.
+			portraits.append(portrait)
+			check(portrait.material is ShaderMaterial and portrait.material.shader.resource_path.ends_with("PortraitMask.gdshader"), "Portrait clips its own image")
+			check(border.mouse_filter == Control.MOUSE_FILTER_IGNORE and border.material == null, "Frame remains visible and lets clicks through")
+	await process_frame
+	for portrait in portraits:
+		var side = minf(portrait.size.x, portrait.size.y)
+		check(portrait.material.get_shader_parameter("box_ratio").is_equal_approx(portrait.size / side), "Portrait mask follows container aspect and resize")
+	if DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		var shot = root.get_texture().get_image()
+		shot.save_png("/tmp/hukum-portrait-clipping.png")
+		for portrait in portraits:
+			var side = minf(portrait.size.x, portrait.size.y)
+			var origin = portrait.position + (portrait.size - Vector2(side, side)) / 2.0
+			for uv in [Vector2(.02, .02), Vector2(.5, .02), Vector2(.98, .98), Vector2(.02, .98), Vector2(.98, .02)]:
+				var pixel = shot.get_pixelv(Vector2i(origin + uv * side))
+				check(pixel.is_equal_approx(board.color), "No portrait pixels outside the frame at " + str(portrait.size))
+			var center = shot.get_pixelv(Vector2i(origin + Vector2(side, side) / 2.0))
+			check(center.r > .95 and center.b > .95 and center.g < .05, "Portrait stays visible through the frame opening")
+	board.free()
