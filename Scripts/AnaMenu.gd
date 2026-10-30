@@ -25,6 +25,7 @@ func _ready():
 	if PardexBridge.dedicated or "--hukum-server" in OS.get_cmdline_user_args(): return
 	oyun_menusu = load("res://Scripts/OyunMenu.gd").new()
 	add_child(oyun_menusu)
+	SesYoneticisi.muzik_cal("menu")
 	oyuncu_adi_regex.compile("^[A-Za-zÇĞİÖŞÜçğıöşü0-9 _-]+$")
 	%CokOyunculuBtn.pressed.connect(_cok_oyunculu_menu_ac)
 	%OzelSunucuBtn.pressed.connect(_ozel_sunucu_ac)

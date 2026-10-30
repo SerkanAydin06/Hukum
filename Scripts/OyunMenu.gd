@@ -102,6 +102,19 @@ func ayarlari_ac():
 		Global.ses_seviyesi = deger / 100.0
 		Global.ayarlari_uygula()
 		Global.profili_kaydet())
+	for ayar in [["Müzik", "muzik_seviyesi"], ["Efektler", "efekt_seviyesi"]]:
+		_metin(ayar[0])
+		var kaydirici = HSlider.new()
+		kaydirici.name = ayar[1]
+		kaydirici.min_value = 0
+		kaydirici.max_value = 100
+		kaydirici.value = Global.get(ayar[1]) * 100.0
+		kaydirici.custom_minimum_size.y = 40
+		satirlar.add_child(kaydirici)
+		kaydirici.value_changed.connect(func(deger):
+			Global.set(ayar[1], deger / 100.0)
+			Global.ayarlari_uygula()
+			Global.profili_kaydet())
 	var ekran = CheckButton.new()
 	ekran.text = "Tam ekran"
 	ekran.button_pressed = Global.tam_ekran
