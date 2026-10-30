@@ -80,6 +80,14 @@ ellerindeki görülmemiş kartları birlikte görür.
 görebilir (zarı da onun makinesi atar). Oda sahibine güvenilmeyen maçlarda
 Özel Sunucu veya PARDEX kullan; orada sunucu oyuncu koltuğu işgal etmez.
 
+## Ses ve müzik
+
+Menü ve maç için iki döngü müzik (Re hicaz; ud, ney, davul) ve inşa, keşif,
+toprak, kart, savaş borusu, kılıç, zar, savaş sonucu, sıra sende, zafer ve yenilgi
+efektleri vardır. Ayarlar'da ana ses, müzik ve efekt seviyesi ayrı ayrı değişir.
+Bütün oyun sesleri `tools/ses_uret.py` ile sıfırdan sentezlenir; örnek veya dış
+kaynak kullanılmaz. Yeniden üretmek için `python tools/ses_uret.py` (ffmpeg gerekir).
+
 ## Dışa aktarma
 
 `export_presets.cfg` Windows, Linux, macOS ve Linux dedicated server ön ayarlarını

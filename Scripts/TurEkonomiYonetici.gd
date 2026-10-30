@@ -138,6 +138,7 @@ func turu_bitir():
 		if not ana.oyuncular[ana.aktif_sira] in ana.ayrilan_oyuncular: break
 		
 	var aktif_oyuncu_ismi = ana.oyuncular[ana.aktif_sira]
+	if ana.aktif_sira == ana.benim_indexim and ana.oyuncular.size() > 1: SesYoneticisi.efekt_cal("sira_sende")
 	ana.secili_kart_index = -1
 	ana.kart_insa_modu_aktif = false
 	ana.kurulabilir_hexler.clear()

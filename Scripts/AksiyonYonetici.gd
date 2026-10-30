@@ -560,12 +560,14 @@ func kartlari_ac_rpc(kartlar_dict: Dictionary, idx_dict: Dictionary):
 	for isim in taraflar:
 		for cift in siralar[isim]:
 			_kart_tuket(isim, cift[0], true, cift[1])
+	SesYoneticisi.efekt_cal("kilic")
 	ana.savas.rakip_kartlari_goster(kartlar_dict)
 	ana.savas.zar_asamasini_baslat(kartlar_dict)
 
 @rpc("authority", "call_local", "reliable")
 func savas_cozumle_rpc(kd, zar_sal, zar_sav):
 	if not ana.savas.savas_aktif: return
+	SesYoneticisi.efekt_cal("savas_sonu")
 	ana.savas.savas_cozumle(kd, zar_sal, zar_sav)
 	ana.secili_piyon_index = -1
 	ana.arayuz.arayuzu_guncelle()
@@ -604,6 +606,7 @@ func _kart_dagitimini_uygula(oyuncu_ismi: String, kart: Dictionary, savas_karti:
 		ana.oyuncu_kaynaklari[oyuncu_ismi]["altin"] -= 3
 	ana.oyuncu_elleri[oyuncu_ismi].append(kart.duplicate(true))
 	var benim = oyuncu_ismi == ana.oyuncular[ana.benim_indexim]
+	SesYoneticisi.efekt_cal("kart_cek")
 	if benim:
 		ana.deste.el.append(kart.duplicate(true))
 		if not savas_karti: ana.secili_kart_index = -1
@@ -655,6 +658,8 @@ func oyunu_bitir_rpc(kazanan_isim: String, puan: int):
 	ana.oyun_bitti = true
 	if not multiplayer.is_server(): Network.donus_kaydini_sil()   # biten maça dönülmez
 	if ana.oyuncular.is_empty(): return   # durum görüntüsünü bekleyen dönüş sahnesi
+	var kazandim = ana.oyuncular[ana.benim_indexim] == kazanan_isim
+	SesYoneticisi.efekt_cal("zafer" if kazandim else "yenilgi")
 	ana.arayuz.olay_yaz("🏆 [color=gold][b]OYUN BİTTİ! %s, %d puanla ZAFERE ULAŞTI![/b][/color]" % [ana.arayuz.renkli_isim(kazanan_isim), puan])
 	ana.puanlari_guncelle()
 	ana.secili_kart_index = -1

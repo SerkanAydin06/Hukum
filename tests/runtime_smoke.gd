@@ -299,9 +299,12 @@ func run_tutorial():
 	var ben = game.oyuncular[0]
 	await process_frame
 	check(rehber.adim == 0, "Tutorial waits for the player")
+	var ses = root.get_node("SesYoneticisi")
+	check(ses._aktif_muzik == "oyun", "Match plays the game music")
 	game.istek("aksiyon", "bina_kur_rpc", [Vector2i(5, 5), ben, "sehir_merkezi", "cim"])
 	await process_frame
 	check(rehber.adim == 1, "Founding the city advances the tutorial")
+	check(ses.son_efekt == "insa", "Founding plays the construction sound")
 	game.istek("tur_ekonomi", "sirayi_degistir_rpc", [])
 	await process_frame
 	check(rehber.adim == 2, "Ending the turn advances the tutorial")
@@ -312,6 +315,7 @@ func run_tutorial():
 	game.istek("aksiyon", "kesif_ve_hareket_rpc", [0, komsu, ben])
 	await process_frame
 	check(rehber.adim == 4, "Exploring advances the tutorial")
+	check(ses.son_efekt == "kesif", "Exploring plays the exploration sound")
 	game.istek("aksiyon", "hakimiyet_kur_rpc", [ben, komsu])
 	await process_frame
 	check(rehber.adim == 5, "Claiming land advances the tutorial")
@@ -324,6 +328,18 @@ func run_tutorial():
 	game.istek("aksiyon", "savas_karti_cek_rpc", [ben])
 	await process_frame
 	check(rehber.adim == 8, "Drawing a war card advances the tutorial")
+	check(ses.son_efekt == "kart_cek", "Drawing plays the card sound")
+	game.oyun_menusu.ayarlari_ac()
+	var muzik = game.oyun_menusu.satirlar.get_node_or_null("muzik_seviyesi")
+	var efekt = game.oyun_menusu.satirlar.get_node_or_null("efekt_seviyesi")
+	check(muzik != null and efekt != null, "Settings offer music and effect volume")
+	if muzik:
+		var global = root.get_node("Global")
+		var eski = global.muzik_seviyesi
+		muzik.value = 20
+		check(is_equal_approx(global.muzik_seviyesi, 0.2) and AudioServer.get_bus_index("Muzik") != -1 and is_equal_approx(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Muzik")), linear_to_db(0.2)), "Music slider sets the music bus")
+		muzik.value = eski * 100.0
+	game.oyun_menusu.perde.hide()
 	await capture("tutorial")
 	rehber.gec_btn.pressed.emit()
 	await process_frame
@@ -331,6 +347,7 @@ func run_tutorial():
 	check(not is_instance_valid(rehber), "Finishing closes the tutorial")
 	game.oyun_menusu.ana_menuye_don()
 	await create_timer(1.0).timeout
+	check(ses._aktif_muzik == "menu", "Main menu switches back to menu music")
 	current_scene._alistirma_baslat(0)
 	await create_timer(1.2).timeout
 	check(current_scene.get_node_or_null("Ogretici") == null, "Plain practice opens without the tutorial")

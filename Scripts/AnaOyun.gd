@@ -58,6 +58,7 @@ func _ready():
 	if not Network.merkezi_mod: Network.oturum_asamasi = "game"
 	oyun_menusu = load("res://Scripts/OyunMenu.gd").new()
 	add_child(oyun_menusu)
+	SesYoneticisi.muzik_cal("oyun")
 	if multiplayer.is_server():
 		multiplayer.peer_disconnected.connect(_peer_ayrildi)
 		multiplayer.peer_connected.connect(_maca_baglanan_peer)
@@ -399,6 +400,7 @@ func _hamleyi_calistir(peer: int, hedef: Node, metod: String, args: Array, ek: D
 	islem_kabul = false
 	hedef.callv(metod, args)
 	_relay_gonderen = 0
+	if islem_kabul: SesYoneticisi.hamle_sesi(metod)
 
 # --- SÜRE SINIRLARI (yalnızca sunucu) ---
 # Bağlı kalıp hamle yapmayan bir oyuncu maçı kilitleyemesin diye süre dolunca

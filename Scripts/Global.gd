@@ -9,6 +9,8 @@ var profil_no: int = 1
 var tum_oyuncu_profilleri = {}
 
 var ses_seviyesi := 0.75
+var muzik_seviyesi := 0.5
+var efekt_seviyesi := 0.8
 var tam_ekran := true
 
 func _ready():
@@ -19,6 +21,8 @@ func _ready():
 		oyuncu_ismi = str(kayit.get_value("profil", "isim", oyuncu_ismi)).left(16)
 		profil_no_ata(clampi(int(kayit.get_value("profil", "avatar", 1)), 1, 8))
 		ses_seviyesi = clampf(float(kayit.get_value("ayarlar", "ses", 0.75)), 0.0, 1.0)
+		muzik_seviyesi = clampf(float(kayit.get_value("ayarlar", "muzik", 0.5)), 0.0, 1.0)
+		efekt_seviyesi = clampf(float(kayit.get_value("ayarlar", "efekt", 0.8)), 0.0, 1.0)
 		tam_ekran = bool(kayit.get_value("ayarlar", "tam_ekran", true))
 	ayarlari_uygula()
 
@@ -27,13 +31,16 @@ func profili_kaydet():
 	kayit.set_value("profil", "isim", oyuncu_ismi)
 	kayit.set_value("profil", "avatar", profil_no)
 	kayit.set_value("ayarlar", "ses", ses_seviyesi)
+	kayit.set_value("ayarlar", "muzik", muzik_seviyesi)
+	kayit.set_value("ayarlar", "efekt", efekt_seviyesi)
 	kayit.set_value("ayarlar", "tam_ekran", tam_ekran)
 	var hata = kayit.save("user://profil.cfg")
 	if hata != OK: push_warning("Profil kaydedilemedi: %s" % hata)
 
 func ayarlari_uygula():
-	AudioServer.set_bus_volume_db(0, linear_to_db(maxf(ses_seviyesi, 0.0001)))
-	AudioServer.set_bus_mute(0, ses_seviyesi == 0.0)
+	_bus_ayarla(0, ses_seviyesi)
+	_bus_ayarla(_bus("Muzik"), muzik_seviyesi)
+	_bus_ayarla(_bus("Efekt"), efekt_seviyesi)
 	if DisplayServer.get_name() != "headless":
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if tam_ekran else DisplayServer.WINDOW_MODE_WINDOWED)
 
@@ -69,3 +76,17 @@ func okunur_metin(metin: String) -> String:
 		if kod >= 0x1f000 or (kod >= 0x2600 and kod <= 0x27bf): continue
 		sonuc += karakter
 	return sonuc.strip_edges()
+
+# Müzik ve efekt seviyeleri ana sesten bağımsız ayarlanır; bus'lar ilk kullanımda oluşur.
+func _bus(ad: String) -> int:
+	var idx = AudioServer.get_bus_index(ad)
+	if idx == -1:
+		AudioServer.add_bus()
+		idx = AudioServer.bus_count - 1
+		AudioServer.set_bus_name(idx, ad)
+		AudioServer.set_bus_send(idx, "Master")
+	return idx
+
+func _bus_ayarla(idx: int, seviye: float):
+	AudioServer.set_bus_volume_db(idx, linear_to_db(maxf(seviye, 0.0001)))
+	AudioServer.set_bus_mute(idx, seviye == 0.0)

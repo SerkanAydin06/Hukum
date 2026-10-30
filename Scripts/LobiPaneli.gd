@@ -74,6 +74,7 @@ var secilebilir_renkler = [
 @onready var alt_baslik_hikaye = %AltBaslikHikaye
 
 func _ready():
+	SesYoneticisi.muzik_cal("menu")
 	Network.lobi_degisti.connect(_merkezi_lobiyi_ciz)
 	Network.durum_degisti.connect(_baglanti_durumu)
 	Network.gecikme_degisti.connect(_gecikme_guncelle)

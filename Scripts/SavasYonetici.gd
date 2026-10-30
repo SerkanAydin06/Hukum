@@ -839,6 +839,7 @@ func zar_at_istegi_rpc(saldiran_mi: bool):
 
 @rpc("authority", "call_local", "reliable")
 func zar_sonucu_yayinla_rpc(saldiran_mi: bool, deger: int):
+	SesYoneticisi.efekt_cal("zar")
 	if saldiran_mi:
 		zar_saldiran_deger = deger
 		var lbl = ana.arayuz.get_node_or_null("%AtakZarSonucu")
