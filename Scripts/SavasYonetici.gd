@@ -761,7 +761,9 @@ func _piyonu_eve_isinla(piyon_index: int):
 		ana.piyonlar.remove_at(piyon_index)
 
 func zar_asamasini_baslat(kartlar_dict: Dictionary):
-	son_kartlar_dict = kartlar_dict
+	# Kopya şart: sunucuda yerel RPC çağrısı seçim sözlüğünün kendisini verir;
+	# paylaşılırsa sonraki savaşın seçimleri bu sözlüğü doldurup açılışı kilitler.
+	son_kartlar_dict = kartlar_dict.duplicate(true)
 	
 	var saldiran_isim = savas_ozel_saldiran if savas_piyon_saldiran == -1 else ana.piyonlar[savas_piyon_saldiran]["sahip"]
 	

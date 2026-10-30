@@ -195,7 +195,7 @@ func kayit_istegi_rpc(protocol: int, isim: String, avatar: int, code := "", user
 	if not dedicated_mode or not multiplayer.is_server(): return
 	var id = multiplayer.get_remote_sender_id()
 	if id <= 1 or _onayli.has(id) or _bekleyen.has(id): return
-	if protocol != PardexBridge.NET_PROTOCOL or oturum_asamasi != "lobby" or _onayli.size() + _bekleyen.size() >= MAX_PLAYERS or not _profil_gecerli(isim, avatar):
+	if protocol != PardexBridge.NET_PROTOCOL or oturum_asamasi != "lobby" or merkezi_lobi.size() + _bekleyen.size() >= MAX_PLAYERS or not _profil_gecerli(isim, avatar):
 		_reddet(id)
 		return
 	if not resmi_mod:
@@ -352,6 +352,51 @@ func mac_hazir_rpc():
 	oturum_asamasi = "game"
 	durum_degisti.emit(tr("Tüm oyuncular hazır · maç başladı."), false)
 
+# --- YAPAY ZEKÂ KOLTUKLARI (lobi) ---
+const YZ_ADLARI = {"Osmanlı": "Orhan Gazi", "Venedik": "Dandolo", "Bizans": "Theodora", "Moğol": "Kubilay", "Viking": "Ragnhild", "Mısır": "Hatşepsut"}
+const YZ_RENKLERI = ["Kirmizi", "Mavi", "Yesil", "Sari", "Mor", "CamGobegi"]
+
+# Lobide boşta kalan renk ve medeniyetle hazır bir yapay zekâ koltuğu üretir.
+func bos_yapay_zeka_koltugu(lobi: Dictionary, zorluk: String) -> Dictionary:
+	if zorluk not in ["kolay", "orta", "zor"] or lobi.size() >= MAX_PLAYERS: return {}
+	var renkler = []
+	var medeniyetler = []
+	var en_kucuk = 0
+	for id in lobi:
+		renkler.append(lobi[id].get("renk", ""))
+		medeniyetler.append(lobi[id].get("medeniyet", ""))
+		en_kucuk = min(en_kucuk, int(id))
+	var med = ""
+	for m in YZ_ADLARI:
+		if m not in medeniyetler:
+			med = m
+			break
+	var renk = ""
+	for r in YZ_RENKLERI:
+		if r not in renkler:
+			renk = r
+			break
+	if med == "" or renk == "": return {}
+	return {"id": en_kucuk - 1, "veri": {"isim": YZ_ADLARI[med], "renk": renk, "medeniyet": med, "hazir_mi": true,
+		"profil_no": (-en_kucuk % 8) + 1, "bot": true, "zorluk": zorluk}}
+
+@rpc("any_peer", "call_remote", "reliable")
+func yapay_zeka_ekle_rpc(zorluk: String):
+	if not dedicated_mode or resmi_mod or oturum_asamasi != "lobby" or multiplayer.get_remote_sender_id() != oda_sahibi_id: return
+	var koltuk = bos_yapay_zeka_koltugu(merkezi_lobi, zorluk)
+	if koltuk.is_empty(): return
+	merkezi_lobi[koltuk["id"]] = koltuk["veri"]
+	_lobiyi_yayinla()
+
+@rpc("any_peer", "call_remote", "reliable")
+func yapay_zeka_cikar_rpc():
+	if not dedicated_mode or oturum_asamasi != "lobby" or multiplayer.get_remote_sender_id() != oda_sahibi_id: return
+	var botlar = merkezi_lobi.keys().filter(func(id): return id < 0)
+	if botlar.is_empty(): return
+	botlar.sort()
+	merkezi_lobi.erase(botlar[0])
+	_lobiyi_yayinla()
+
 @rpc("any_peer", "call_remote", "reliable")
 func merkezi_sohbet_rpc(metin: String):
 	if not dedicated_mode or oturum_asamasi != "lobby": return
@@ -402,6 +447,7 @@ func _on_player_disconnected(id: int):
 	if _onayli.is_empty() and _bekleyen.is_empty() and oturum_asamasi == "lobby":
 		_match_id = ""
 		oda_kodu = ""
+		merkezi_lobi.clear()   # insan kalmayan odada yapay zekâ koltukları da kalkar
 
 func maci_sonuclandir(kazanan: String):
 	if not dedicated_mode or oturum_asamasi == "finished": return

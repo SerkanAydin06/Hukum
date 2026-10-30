@@ -104,6 +104,12 @@ func _ready():
 	if not multiplayer.peer_disconnected.is_connected(_oyuncu_ayrildi):
 		multiplayer.peer_disconnected.connect(_oyuncu_ayrildi)
 
+	if has_node("%YZZorluk"):
+		for ad in ["Kolay", "Orta", "Zor"]: %YZZorluk.add_item(tr(ad))
+		%YZZorluk.select(1)
+		%YZEkleBtn.pressed.connect(_yapay_zeka_ekle_basildi)
+		%YZCikarBtn.pressed.connect(_yapay_zeka_cikar_basildi)
+
 	# Ayrı sahne açıldığı için lobiyi doğrudan başlat
 	call_deferred("_lobiyi_baslat")
 	
@@ -227,7 +233,9 @@ func sunucudan_veri_iste_rpc():
 	if Network.merkezi_mod: return
 	if multiplayer.is_server():
 		var isteyen_id = multiplayer.get_remote_sender_id()
+		yapay_zeka_listesi_rpc.rpc_id(isteyen_id, _botlar())
 		for peer in lobi_verisi:
+			if peer < 0: continue
 			lobi_bilgisi_gonder_rpc.rpc_id(
 				isteyen_id, 
 				peer, 
@@ -330,6 +338,10 @@ func lobi_istegi_gecerli_mi(gonderen: int, peer_id: int, isim: String, renk: Str
 
 func _oyuncu_baglandi(id: int):
 	if Network.merkezi_mod: return
+	if multiplayer.is_server() and id != multiplayer.get_unique_id() and not lobi_verisi.has(id) and lobi_verisi.size() >= EN_COK_KOLTUK:
+		# Koltuklar (yapay zekâ dahil) dolu: yeni bağlantı kabul edilmez.
+		if id in multiplayer.get_peers(): multiplayer.multiplayer_peer.disconnect_peer(id)
+		return
 	if not lobi_verisi.has(id):
 		var bs_med = ""
 		var bs_renk = ""
@@ -349,7 +361,10 @@ func _oyuncu_baglandi(id: int):
 				lobi_bilgisi_gonder_rpc.rpc(id, Global.oyuncu_ismi, bs_renk, bs_med, false, Global.profil_no)
 		
 		if multiplayer.is_server():
+			if multiplayer.multiplayer_peer != null and multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
+				yapay_zeka_listesi_rpc.rpc(_botlar())
 			for peer in lobi_verisi:
+				if peer < 0: continue
 				if multiplayer.multiplayer_peer != null and multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
 					lobi_bilgisi_gonder_rpc.rpc(peer, lobi_verisi[peer].get("isim", "Oyuncu"), lobi_verisi[peer]["renk"], lobi_verisi[peer]["medeniyet"], lobi_verisi[peer]["hazir_mi"], lobi_verisi[peer].get("profil_no", 1))
 
@@ -366,10 +381,10 @@ func lobi_arayuzunu_ciz():
 	var herkes_hazir_mi = true
 	var slotlar = oyuncu_vbox.get_children()
 	
-	var peer_idleri = lobi_verisi.keys()
-	peer_idleri.sort()
+	var peer_idleri = _sirali_koltuklar()
 	
 	var my_id = multiplayer.get_unique_id()
+	_yapay_zeka_satirini_guncelle()
 	
 	for i in range(slotlar.size()):
 		var slot = slotlar[i]
@@ -392,6 +407,7 @@ func lobi_arayuzunu_ciz():
 			
 			if isim_lbl: 
 				isim_lbl.text = veri.get("isim", "Oyuncu " + str(id).left(4))
+				if veri.get("bot", false): isim_lbl.text += " · " + tr(str(veri.get("zorluk", "orta")).capitalize())
 				isim_lbl.add_theme_color_override("font_color", ismin_rengi)
 				
 			if med_lbl: 
@@ -510,7 +526,8 @@ func _oyunu_baslat_istegi():
 		var medeniyetler = []
 		for id in lobi_verisi:
 			var v = lobi_verisi[id]
-			if not lobi_istegi_gecerli_mi(1, id, v.get("isim", ""), v.get("renk", ""), v.get("medeniyet", ""), true, v.get("profil_no", 1)) or not v.get("hazir_mi", false):
+			var gecerli = v.get("bot", false) or lobi_istegi_gecerli_mi(1, id, v.get("isim", ""), v.get("renk", ""), v.get("medeniyet", ""), true, v.get("profil_no", 1))
+			if not gecerli or not v.get("hazir_mi", false):
 				_sistem_mesaji(tr("❌ Herkes renk ve medeniyet seçip hazır olmalı!"))
 				return
 			if v["renk"] in renkler or v["medeniyet"] in medeniyetler:
@@ -561,3 +578,71 @@ func _baglanti_durumu(message: String, error: bool):
 func _gecikme_guncelle(ms: int):
 	_oda_bilgisini_guncelle()
 	if has_node("%OdaBilgisi"): %OdaBilgisi.text += " · %d ms" % ms
+
+# --- YAPAY ZEKÂ KOLTUKLARI ---
+# Yerel ağda oda sahibi, özel sunucuda oda kurucusu boş koltuklara yapay zekâ
+# ekler. Resmî PARDEX maçlarında kapalıdır (sonuçlar gerçek hesaplara yazılır).
+const EN_COK_KOLTUK := 6
+const YZ_ADLARI = {"Osmanlı": "Orhan Gazi", "Venedik": "Dandolo", "Bizans": "Theodora", "Moğol": "Kubilay", "Viking": "Ragnhild", "Mısır": "Hatşepsut"}
+
+func _sirali_koltuklar() -> Array:
+	var idler = lobi_verisi.keys()
+	idler.sort_custom(func(a, b):
+		var bot_a = lobi_verisi[a].get("bot", false)
+		var bot_b = lobi_verisi[b].get("bot", false)
+		if bot_a != bot_b: return bot_b
+		return a < b if not bot_a else a > b)
+	return idler
+
+func _botlar() -> Dictionary:
+	var botlar = {}
+	for id in lobi_verisi:
+		if lobi_verisi[id].get("bot", false): botlar[id] = lobi_verisi[id].duplicate()
+	return botlar
+
+func yapay_zeka_yonetebilir_mi() -> bool:
+	if Network.resmi_mod or multiplayer.multiplayer_peer == null: return false
+	return Network.lobi_kurucusu_mu() if Network.merkezi_mod else multiplayer.is_server()
+
+func _yapay_zeka_satirini_guncelle():
+	if not has_node("%YapayZekaSatiri"): return
+	%YapayZekaSatiri.visible = yapay_zeka_yonetebilir_mi()
+	%YZEkleBtn.disabled = lobi_verisi.size() >= EN_COK_KOLTUK
+	%YZCikarBtn.disabled = _botlar().is_empty()
+
+func _yapay_zeka_ekle_basildi():
+	var zorluk = ["kolay", "orta", "zor"][%YZZorluk.selected]
+	if Network.merkezi_mod: Network.yapay_zeka_ekle_rpc.rpc_id(1, zorluk)
+	elif multiplayer.is_server(): yapay_zeka_ekle(zorluk)
+
+func _yapay_zeka_cikar_basildi():
+	if Network.merkezi_mod: Network.yapay_zeka_cikar_rpc.rpc_id(1)
+	elif multiplayer.is_server(): yapay_zeka_cikar()
+
+# Yerel ağ sunucusu: boştaki ilk renk ve medeniyetle hazır bir yapay zekâ ekler.
+func yapay_zeka_ekle(zorluk: String) -> bool:
+	if not multiplayer.is_server() or Network.merkezi_mod or lobi_verisi.size() >= EN_COK_KOLTUK: return false
+	var koltuk = Network.bos_yapay_zeka_koltugu(lobi_verisi, zorluk)
+	if koltuk.is_empty(): return false
+	lobi_verisi[koltuk["id"]] = koltuk["veri"]
+	yapay_zeka_listesi_rpc.rpc(_botlar())
+	return true
+
+func yapay_zeka_cikar() -> bool:
+	if not multiplayer.is_server() or Network.merkezi_mod: return false
+	var botlar = _botlar().keys()
+	if botlar.is_empty(): return false
+	botlar.sort()
+	lobi_verisi.erase(botlar[0])   # en son eklenen (en küçük negatif kimlik)
+	yapay_zeka_listesi_rpc.rpc(_botlar())
+	return true
+
+@rpc("authority", "call_local", "reliable")
+func yapay_zeka_listesi_rpc(botlar: Dictionary):
+	if Network.merkezi_mod: return
+	for id in lobi_verisi.keys():
+		if id < 0: lobi_verisi.erase(id)
+	for id in botlar:
+		if typeof(id) == TYPE_INT and id < 0 and lobi_verisi.size() < EN_COK_KOLTUK:
+			lobi_verisi[id] = botlar[id]
+	lobi_arayuzunu_ciz()

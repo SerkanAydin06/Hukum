@@ -87,6 +87,24 @@ func run():
 	for control_name in ["LobidenCikBtn", "BaslatBtn", "SohbetGirdisi"]:
 		var control = current_scene.get_node("%" + control_name)
 		check(viewport_rect.encloses(control.get_global_rect()), "Lobby control stays on screen: " + control_name)
+	# LAN host can seat AI rulers on free colors/civilizations and remove them again.
+	check(lobby.get_node("%YapayZekaSatiri").visible, "LAN host sees the AI seat controls")
+	lobby.get_node("%YZZorluk").select(2)
+	lobby.get_node("%YZEkleBtn").pressed.emit()
+	lobby.get_node("%YZEkleBtn").pressed.emit()
+	var botlar = lobby._botlar()
+	check(botlar.size() == 2, "Host added two AI seats")
+	var kullanilan = []
+	for id in lobby.lobi_verisi:
+		var v = lobby.lobi_verisi[id]
+		check(not v["renk"] in kullanilan and not v["medeniyet"] in kullanilan, "AI seat takes a free color and civilization")
+		kullanilan += [v["renk"], v["medeniyet"]]
+	check(botlar.values().all(func(v): return v["zorluk"] == "zor" and v["hazir_mi"]), "AI seats use the chosen difficulty and are ready")
+	await capture("lobby-ai")
+	lobby.get_node("%YZCikarBtn").pressed.emit()
+	check(lobby._botlar().size() == 1, "Host removed an AI seat")
+	lobby.get_node("%YZCikarBtn").pressed.emit()
+	check(lobby._botlar().is_empty(), "Host removed every AI seat")
 	await capture("lobby")
 	lobby._oyunu_baslat_istegi()
 	await create_timer(1.0).timeout
@@ -185,6 +203,10 @@ func run():
 
 	game.oyun_menusu.yardimi_ac()
 	await capture("help")
+	game.oyun_menusu.lisanslari_ac()
+	var lisans = game.oyun_menusu.satirlar.find_children("*", "RichTextLabel", true, false)
+	check(not lisans.is_empty() and "Godot Engine" in lisans[0].get_parsed_text() and "SIL OPEN FONT LICENSE" in lisans[0].get_parsed_text().to_upper(), "Licenses screen shows Godot and font licenses")
+	await capture("licenses")
 	game.oyun_menusu.ayarlari_ac()
 	await capture("settings")
 	game.oyun_menusu.perde.hide()
@@ -195,6 +217,7 @@ func run():
 	game.oyun_menusu.ana_menuye_don()
 	await create_timer(1.0).timeout
 	check(current_scene.has_method("_cok_oyunculu_menu_ac") and network.son_lobi_verisi.is_empty(), "Result returns to clean main menu")
+	check(current_scene.get_node("SurumEtiketi").text == "v" + ProjectSettings.get_setting("application/config/version"), "Main menu shows the game version")
 	current_scene.get_node("%TekOyuncuBtn").pressed.emit()
 	check(current_scene.oyun_menusu.perde.visible, "Practice button explains offline mode")
 	current_scene._alistirma_baslat()
@@ -203,6 +226,7 @@ func run():
 	check(current_scene.oyuncular.size() == 1 and current_scene.get_node_or_null("YapayZeka") == null, "Opponent-free practice has no AI")
 	current_scene.oyun_menusu.ana_menuye_don()
 	await create_timer(1.0).timeout
+	await run_lan_ai_lobby()
 	await run_tutorial()
 	await run_save_load()
 	await run_ai_match()
@@ -227,13 +251,18 @@ func run_ai_match():
 	check(game.benim_indexim == 0 and game.aktif_sira == 0, "Human plays first")
 	check(game.kalan_sure_saniye() == -1, "Solo match has no turn timer")
 	check(game.yapay_zeka_zorluk.values() == ["zor", "zor", "zor"], "Chosen difficulty applies to every AI ruler")
+	game.oyun_menusu.menuyu_ac()
+	check(paused, "Opening the menu pauses a single-player match")
+	game.oyun_menusu.perde.hide()
+	check(not paused, "Closing the menu resumes the match")
 	if yz == null: return
 	yz.hamle_araligi = 0.0
 	var ben = game.oyuncular[0]
 	game.istek("aksiyon", "bina_kur_rpc", [Vector2i(2, 2), ben, "sehir_merkezi", "cim"])
 	var savas_sayisi = 0
 	var son_tur = game.tur_sayaci
-	for adim in range(6000):
+	var bitis = Time.get_ticks_msec() + 180000
+	while Time.get_ticks_msec() < bitis:
 		if game.oyun_bitti: break
 		if game.savas.savas_aktif:
 			var taraflar = game.savas.savas_taraflari()
@@ -269,31 +298,40 @@ func run_ai_match():
 	print("AI match: round %d, battles with human %d, scores %s" % [game.tur_sayaci, savas_sayisi, str(game.puanlar)])
 	if not game.oyun_bitti: await run_ai_trade(game, ben)
 	if not game.oyun_bitti: await run_ai_battle(game, ben)
+	# A second battle in the same match must also reveal and resolve (server dictionary aliasing).
+	if not game.oyun_bitti: await run_ai_battle(game, ben)
 	root.get_node("Network").alistirma_zorlugu = "orta"
 	game.oyun_menusu.ana_menuye_don()
 	await create_timer(1.0).timeout
 
 # An AI with an army attacks an adjacent human pioneer and the battle resolves.
 func run_ai_battle(game, ben: String):
+	var hazir = Time.get_ticks_msec() + 15000
+	while (game.savas.savas_aktif or game.savas.sonuc_gosteriliyor) and Time.get_ticks_msec() < hazir:
+		await process_frame
 	var bot = game.yapay_zeka_oyunculari[0]
 	var bot_idx = game.oyuncular.find(bot)
-	var saldiran = -1
+	# Arrange the fight explicitly: an AI pioneer and a human pioneer on two free,
+	# unclaimed neighbouring hexes (earlier AI wars may have removed pioneers).
+	var dolu = {}
+	for p in game.piyonlar: dolu[p["koordinat"]] = true
+	var kaynak = Vector2i(-1, -1)
 	var hedef = Vector2i(-1, -1)
-	for i in range(game.piyonlar.size()):
-		if game.piyonlar[i]["sahip"] != bot: continue
-		for dx in range(-1, 2):
-			for dy in range(-1, 2):
-				var k = game.piyonlar[i]["koordinat"] + Vector2i(dx, dy)
-				if not game.hex_gecerli_mi(k) or not game.harita.hex_komsu_mu(game.piyonlar[i]["koordinat"], k): continue
-				if game.binalar_verisi.has(k) or game.kontrol_edilen_hexler.get(k, "") == bot: continue
-				var bos = true
-				for p in game.piyonlar:
-					if p["koordinat"] == k: bos = false
-				if bos and hedef == Vector2i(-1, -1):
-					saldiran = i
-					hedef = k
-	check(hedef != Vector2i(-1, -1), "Found a hex next to an AI pioneer")
+	for x in range(1, 15):
+		for y in range(1, 11):
+			var k = Vector2i(x, y)
+			var n = Vector2i(x + 1, y)
+			if kaynak != Vector2i(-1, -1): break
+			for h in [k, n]:
+				if dolu.has(h) or game.binalar_verisi.has(h) or game.kontrol_edilen_hexler.has(h): k = Vector2i(-1, -1)
+			if k != Vector2i(-1, -1) and game.harita.hex_komsu_mu(k, n):
+				kaynak = k
+				hedef = n
+	check(hedef != Vector2i(-1, -1), "Found two free neighbouring hexes for an AI battle")
 	if hedef == Vector2i(-1, -1): return
+	game.piyonlar = game.piyonlar.filter(func(p): return p["sahip"] != bot)   # only this pioneer can attack
+	game.piyonlar.append({"sahip": bot, "koordinat": kaynak})
+	game.harita.kesfedilen_hexler[kaynak] = "cim"
 	game.piyonlar.append({"sahip": ben, "koordinat": hedef})
 	game.harita.kesfedilen_hexler[hedef] = "cim"
 	var asker = {"tur": "piyade", "kategori": "⚔️ PİYADE", "isim": "Piyade", "hedef": "savas", "guc": 1, "tanim": "Standart piyade birliği.", "bonus": ""}
@@ -305,7 +343,8 @@ func run_ai_battle(game, ben: String):
 	game.aktif_sira = bot_idx
 	game.aktif_oyuncu_aksiyon_hakki = 3
 	var basladi = false
-	for adim in range(600):
+	var bitis = Time.get_ticks_msec() + 30000
+	while Time.get_ticks_msec() < bitis:
 		if game.savas.savas_aktif:
 			basladi = true
 			if game.savas.son_kartlar_dict.is_empty() and not game.savas.secilen_savas_kartlari.has(ben):
@@ -422,7 +461,8 @@ func run_save_load():
 	check(not game.kaydedilebilir_mi(), "No save before the city is founded")
 	game.istek("aksiyon", "bina_kur_rpc", [Vector2i(3, 3), ben, "sehir_merkezi", "cim"])
 	game.istek("tur_ekonomi", "sirayi_degistir_rpc", [])
-	for i in range(300):
+	var bitis = Time.get_ticks_msec() + 30000
+	while Time.get_ticks_msec() < bitis:
 		if game.aktif_sira == 0 and game.ilk_tur_bitti: break
 		await process_frame
 	await process_frame
@@ -457,5 +497,34 @@ func run_save_load():
 	game.savas_puanlari[ben] = 25
 	game.arayuz.arayuzu_guncelle()
 	check(game.oyun_bitti and not MacKaydi.var_mi(), "A finished match deletes its save")
+	game.oyun_menusu.ana_menuye_don()
+	await create_timer(1.0).timeout
+
+# A LAN host starts a match with an AI seat; the AI founds its city on its turn.
+func run_lan_ai_lobby():
+	var network = root.get_node("Network")
+	check(network.host_game(7791), "LAN host opens for the AI lobby test")
+	change_scene_to_file("res://LobiPaneli.tscn")
+	await create_timer(1.2).timeout
+	var lobby = current_scene
+	lobby._renk_sec("Mavi")
+	lobby._medeniyet_bayragina_tiklandi("Venedik")
+	lobby._hazir_butonuna_basildi()
+	lobby.get_node("%YZEkleBtn").pressed.emit()
+	await process_frame
+	lobby._oyunu_baslat_istegi()
+	await create_timer(1.0).timeout
+	var game = current_scene
+	check(game.has_method("puan_hesapla") and game.oyuncular.size() == 2 and game.yapay_zeka_oyunculari.size() == 1, "LAN match starts with the AI seat")
+	check(game.oyuncular[0] == root.get_node("Global").oyuncu_ismi and game.get_node_or_null("YapayZeka") != null, "Human plays first and the host runs the AI")
+	var bot = game.yapay_zeka_oyunculari[0]
+	game.get_node("YapayZeka").hamle_araligi = 0.0
+	game.istek("aksiyon", "bina_kur_rpc", [Vector2i(2, 2), game.oyuncular[0], "sehir_merkezi", "cim"])
+	game.istek("tur_ekonomi", "sirayi_degistir_rpc", [])
+	var bitis = Time.get_ticks_msec() + 30000
+	while Time.get_ticks_msec() < bitis:
+		if game.aktif_sira == 0 and game.ilk_tur_bitti: break
+		await process_frame
+	check(game.sehir_merkezleri[bot] and game.aktif_sira == 0, "AI seat founds its city and passes the turn back")
 	game.oyun_menusu.ana_menuye_don()
 	await create_timer(1.0).timeout

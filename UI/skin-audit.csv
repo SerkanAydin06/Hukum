@@ -57,9 +57,9 @@ LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SolVBox/VBoxSohbet/HBoxContainer
 LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetSecimPaneli,PanelContainer,HukumPanel
 LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SagVBox/MedeniyetPanel,PanelContainer,HukumPanel
 LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli,PanelContainer,HukumPanel
-LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/Butonlar/IptalBtn,Button,shared gold / black + civilization layer
-LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/Butonlar/HazirBtn,Button,HukumPrimary
-LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/Butonlar/BaslatBtn,Button,HukumPrimary
+LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/ButonSatirlari/Butonlar/IptalBtn,Button,shared gold / black + civilization layer
+LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/ButonSatirlari/Butonlar/HazirBtn,Button,HukumPrimary
+LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/ButonSatirlari/Butonlar/BaslatBtn,Button,HukumPrimary
 LobiPaneli.tscn,./KodKopyala,Button,shared gold / black + civilization layer
 AnaOyun.tscn,OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/TurPaneli,NinePatchRect,shared gold / black + civilization layer
 AnaOyun.tscn,OyunArayuzu/AnaArayuz/UstPanel/UstVBox/UstHBox/KaynakPaneli,NinePatchRect,shared gold / black + civilization layer
@@ -134,3 +134,6 @@ OyuncuSlotu.tscn,MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu/Mor,Textur
 OyuncuSlotu.tscn,MarginContainer/HBoxContainer/OyuncuBilgi/RenkKutusu/CamGobegi,TextureButton,art selector: keep aspect
 AnaOyun.tscn,OyunArayuzu/AnaArayuz/TicaretOncuVBox/TakasBtn,Button,HukumCompact
 AnaOyun.tscn,OyunArayuzu/AnaArayuz/OlayPaneli/AnaMargin/AnaVBox/MacSohbetGirdisi,LineEdit,theme default
+LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/ButonSatirlari/YapayZekaSatiri/YZZorluk,OptionButton,theme default
+LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/ButonSatirlari/YapayZekaSatiri/YZEkleBtn,Button,HukumCompact
+LobiPaneli.tscn,AnaMargin/VBoxContainer/AnaHBox/SagVBox/ButonlarPaneli/MarginContainer/ButonSatirlari/YapayZekaSatiri/YZCikarBtn,Button,HukumCompact

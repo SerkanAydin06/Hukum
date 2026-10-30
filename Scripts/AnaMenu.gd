@@ -56,6 +56,19 @@ func _ready():
 	Network.durum_degisti.connect(_network_durumu)
 	PardexLink.status_changed.connect(_pardex_durumu)
 	PardexLink.linked_changed.connect(func(_value): _baglanti_rozetini_guncelle())
+	var surum = Label.new()
+	surum.name = "SurumEtiketi"
+	surum.text = "v" + Global.surum()
+	surum.add_theme_font_size_override("font_size", 14)
+	surum.modulate = Color(1, 1, 1, 0.55)
+	surum.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
+	surum.offset_left = -120
+	surum.offset_top = -34
+	surum.offset_right = -18
+	surum.offset_bottom = -10
+	surum.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	surum.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(surum)
 	_donus_dugmesini_kur()
 	_arayuzu_guncelle()
 	%MenuDurum.text = Network.son_baglanti_mesaji
