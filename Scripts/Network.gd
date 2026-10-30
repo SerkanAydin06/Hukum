@@ -36,6 +36,7 @@ var _ping_sayaci := 0.0
 var _baglanti_suresi := 0.0
 var _sonuc_bildiriliyor := false
 var _boot_port := 8766
+var alistirma_rakip_sayisi := 0   # tek oyunculu alıştırmadaki yapay zekâ rakip sayısı
 
 func _ready():
 	_donus_yukle()
