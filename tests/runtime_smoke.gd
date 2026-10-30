@@ -146,11 +146,15 @@ func run():
 	await capture("hud-menu")
 	game.oyun_menusu.perde.hide()
 
-	# Visual fixture: inspect the new trading sprite and existing camp SVG at game scale.
+	# Visual fixture: inspect both painted building sprites at game scale.
 	for pair in [[Vector2i(6, 4), "ticaret_merkezi"], [Vector2i(4, 4), "oncu_kampi"]]:
 		game.binalar_verisi[pair[0]] = {"tur": pair[1], "sahip": isim, "seviye": 1}
 		game.kontrol_edilen_hexler[pair[0]] = isim
 		game.harita.kesfedilen_hexler[pair[0]] = "cim"
+	var camp_texture = game.harita.ONCU_KAMPI_RESIM
+	check(camp_texture.resource_path.ends_with("binalar/oncukampi.png"), "Map camp uses the painted PNG building sprite")
+	check(camp_texture.get_image().detect_alpha() != Image.ALPHA_NONE, "Map camp sprite retains transparency")
+	camp_texture = null
 	game.harita.gorus_haritasini_guncelle()
 	game.harita.queue_redraw()
 	game.arayuz.sag_paneli_guncelle(Vector2i(6, 4))
