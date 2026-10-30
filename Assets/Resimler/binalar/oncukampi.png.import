@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwt7k0mxamek6"
-path="res://.godot/imported/oncukampi_cadir.svg-0de3ceed4edff64194937d8a919a4ba3.ctex"
+uid="uid://tsys3qxpcolu"
+path="res://.godot/imported/oncukampi.png-f70293adc77120aeb1df9552e439e510.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Resimler/kartresimleri/oncukampi_cadir.svg"
-dest_files=["res://.godot/imported/oncukampi_cadir.svg-0de3ceed4edff64194937d8a919a4ba3.ctex"]
+source_file="res://Assets/Resimler/binalar/oncukampi.png"
+dest_files=["res://.godot/imported/oncukampi.png-f70293adc77120aeb1df9552e439e510.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

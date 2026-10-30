@@ -192,7 +192,6 @@ Assets/Resimler/kartresimleri/baltalaribileme.png,246,392,RGBA,69478f9f5d63c9e0f
 Assets/Resimler/kartresimleri/derindamarlar.png,246,392,RGBA,e1756d2be5fb1d96e4a3a26752cb7803016ee82debd5bd2d404e6c28f4905572,Contact-sheet visual review; original retained
 Assets/Resimler/kartresimleri/gelismissulama.png,246,392,RGBA,43a862aa8d397fdf51824ad36b9bec7d4d28aa3c26b7257cf23fd26b5c4850a7,Contact-sheet visual review; original retained
 Assets/Resimler/kartresimleri/oduncu.png,246,393,RGBA,c9bc526f2ca280679e3f59af62c03cc486f176eb72ae66394a29f2b981d5867a,Contact-sheet visual review; original retained
-Assets/Resimler/kartresimleri/oncukampi_cadir.svg,246,393,SVG,ee2122f479cbc8e51b30a3ee369b7edb34f31a6258f1d7cf0c6479a0d7717940,Existing camp SVG; XML/import/regression and map review
 Assets/Resimler/kartresimleri/tarla.png,246,393,RGBA,28496b181bddaef06ce80d116cbd63c014683c38de88a3e05f378d6005ea4336,Contact-sheet visual review; original retained
 Assets/Resimler/kartresimleri/tasocagi.png,246,393,RGBA,f7b5945cdb913ef9ad4446bb9ac8e20191bd63dc984d30a1a76962ce497022cf,Contact-sheet visual review; original retained
 Assets/Resimler/kartresimleri/ticaretmerkezi.png,246,393,RGBA,341056458aca1400e33817ae09b6dfdc900e981e334baa8710ed41115ef9a559,Contact-sheet visual review; original retained
@@ -251,3 +250,4 @@ Assets/UI/AvatarCerceveleri/Normal.png,512,512,RGBA,eabb15efff5a17d4481eb42a47aa
 Assets/UI/AvatarCerceveleri/Selected.png,512,512,RGBA,b8cf4ac7fd3fc39765eb1ad2967f974b25deaff7f602c2befffba136371fc6c7,Contact-sheet visual review; original retained
 
 Assets/Resimler/kartresimleri/oncukampi.png,993,1584,RGB,7a30a274522f546b6709e2f72bfbb1171bd95255e903b1c6a22578bbc4012914,New painted pioneer camp; matched construction-card references; real KartUI scene render and texture regressions
+Assets/Resimler/binalar/oncukampi.png,1536,1024,RGBA,772f5f5cee3d428bda01d006e3a0dbf1e90cfbbca4175984e50784a3591a10fc,Painted transparent pioneer camp; replaces old SVG; actual map render
