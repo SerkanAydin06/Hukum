@@ -53,6 +53,7 @@ const HEDEF_PUAN = 50
 @onready var aksiyon = $AksiyonYonetici
 
 var oyun_menusu
+var iletisim
 
 func _ready():
 	if not Network.merkezi_mod: Network.oturum_asamasi = "game"
@@ -63,6 +64,9 @@ func _ready():
 		multiplayer.peer_disconnected.connect(_peer_ayrildi)
 		multiplayer.peer_connected.connect(_maca_baglanan_peer)
 	deste.desteleri_hazirla()
+	iletisim = MacIletisim.new()
+	iletisim.name = "MacIletisim"
+	add_child(iletisim)
 	arayuz.ui_sinyallerini_bagla()
 	arayuz.sag_paneli_guncelle(Vector2i(-1, -1))
 	if Network.donus_bekliyor:

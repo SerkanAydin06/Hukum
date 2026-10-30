@@ -237,6 +237,7 @@ func run_ai_match():
 			if kart.get("gizli", false): gizli_dogru = false
 	check(gizli_dogru, "Server keeps real AI hands")
 	print("AI match: round %d, battles with human %d, scores %s" % [game.tur_sayaci, savas_sayisi, str(game.puanlar)])
+	if not game.oyun_bitti: await run_ai_trade(game, ben)
 	if not game.oyun_bitti: await run_ai_battle(game, ben)
 	game.oyun_menusu.ana_menuye_don()
 	await create_timer(1.0).timeout
@@ -353,3 +354,28 @@ func run_tutorial():
 	check(current_scene.get_node_or_null("Ogretici") == null, "Plain practice opens without the tutorial")
 	current_scene.oyun_menusu.ana_menuye_don()
 	await create_timer(1.0).timeout
+
+# Trade dialog and resource trades with an AI ruler; chat is hidden with one human.
+func run_ai_trade(game, ben: String):
+	check(not game.get_node("%MacSohbetGirdisi").visible, "Chat input is hidden in single-player")
+	var bot = game.yapay_zeka_oyunculari[0]
+	game.aktif_sira = 0
+	game.aktif_oyuncu_aksiyon_hakki = 3
+	game.oyuncu_kaynaklari[ben]["odun"] = 10
+	game.oyuncu_kaynaklari[bot]["tas"] = 10
+	game.iletisim.takas_penceresi_ac()
+	var menu = game.oyun_menusu
+	check(menu.perde.visible and menu.satirlar.get_node_or_null("TakasHedef") != null and menu.satirlar.get_node_or_null("TakasVer") != null, "Trade dialog lists rulers and resources")
+	await capture("trade-dialog")
+	menu.perde.hide()
+	var once = game.oyuncu_kaynaklari.duplicate(true)
+	game.iletisim.takas_teklif_et(bot, "odun", 3, "tas", 2)
+	await process_frame
+	check(game.oyuncu_kaynaklari[ben]["odun"] == once[ben]["odun"] - 3 and game.oyuncu_kaynaklari[ben]["tas"] == once[ben]["tas"] + 2 and game.oyuncu_kaynaklari[bot]["tas"] == once[bot]["tas"] - 2, "AI accepts a fair trade")
+	once = game.oyuncu_kaynaklari.duplicate(true)
+	game.iletisim.takas_teklif_et(bot, "odun", 1, "tas", 5)
+	await process_frame
+	check(game.oyuncu_kaynaklari == once, "AI rejects an unfair trade")
+	game.iletisim.takas_teklif_et(bot, "odun", 99, "tas", 1)
+	await process_frame
+	check(game.oyuncu_kaynaklari == once, "Trade beyond own resources is rejected")

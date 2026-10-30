@@ -9,6 +9,7 @@ var surukleniyor = false
 func _process(delta):
 	var ana = get_parent()
 	if ana is AnaOyun and (ana.oyun_bitti or (ana.oyun_menusu and ana.oyun_menusu.perde.visible)): return
+	if get_viewport().gui_get_focus_owner() is LineEdit: return   # sohbete yazarken WASD kamerayı oynatmaz
 	var hareket_yonu = Vector2.ZERO
 	
 	if Input.is_action_pressed("ui_right") or Input.is_physical_key_pressed(KEY_D):
